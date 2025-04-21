@@ -50,9 +50,8 @@ contact: 'team@carpentries.org' # FIXME
 #
 # Example -------------
 #
-# episodes:
-# - introduction.md
-# - first-steps.md
+episodes:
+- food-deserts.md
 #
 # learners:
 # - setup.md
