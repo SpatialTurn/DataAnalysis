@@ -50,8 +50,8 @@ contact: 'team@carpentries.org' # FIXME
 #
 # Example -------------
 #
-episodes:
-- food-deserts.md
+# episodes:
+# - food-deserts.md
 #
 # learners:
 # - setup.md
@@ -65,7 +65,7 @@ episodes:
 
 # Order of episodes in your lesson
 episodes: 
-- introduction.md
+- food-deserts.md
 
 # Information for Learners
 learners: 
