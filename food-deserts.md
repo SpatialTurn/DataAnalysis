@@ -21,8 +21,8 @@ exercises: 5
 
 ::::::::::::::::::::::::::::::::::::: prereq
 
-- You should have learnt how to carry out geocoding using the OSM APIs [here] (https://spatialturn.github.io/DataCollection/geocoding.html)
-- You should be familiar with the USDA Food Access Research Atlas data [here] (https://spatialturn.github.io/DataCollection/food-deserts.html)
+- You should have learnt how to carry out geocoding using the OSM APIs [here](https://spatialturn.github.io/DataCollection/geocoding.html)
+- You should be familiar with the USDA Food Access Research Atlas data [here](https://spatialturn.github.io/DataCollection/food-deserts.html)
 
 ::::::::::::::::::::::::::::::::::::::::::::::::
 
