@@ -1,7 +1,7 @@
 ---
-title: "Using Markdown"
-teaching: 10
-exercises: 2
+title: "Python Spatial Analysis"
+teaching: 100
+exercises: 1
 ---
 
 :::::::::::::::::::::::::::::::::::::: questions 
