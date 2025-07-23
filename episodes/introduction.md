@@ -1,114 +1,57 @@
 ---
-title: "Using Markdown"
-teaching: 10 # teaching time in minutes
-exercises: 2 # exercise time in minutes
+title: "Geocoding"
+teaching: 100
+exercises: 5
 ---
 
 :::::::::::::::::::::::::::::::::::::: questions 
 
-- How do you write a lesson using Markdown and `{sandpaper}`?
+- What are the various geocoding services that can be used?
+- What are some limitations of the geocoding API?
+- What are some categories of places that can be geocoded using the Open Street Map (OSM) API?
 
 ::::::::::::::::::::::::::::::::::::::::::::::::
 
 ::::::::::::::::::::::::::::::::::::: objectives
 
-- Explain how to use markdown with The Carpentries Workbench
-- Demonstrate how to include pieces of code, figures, and nested challenge blocks
+- Learn how to use the Census geocoding API
+- Learn how to use the Nominatim and Overpass APIs to access Open Street Map (OSM) data
 
 ::::::::::::::::::::::::::::::::::::::::::::::::
 
 ## Introduction
 
-This is a lesson created via The Carpentries Workbench. It is written in
-[Pandoc-flavored Markdown](https://pandoc.org/MANUAL.html) for static files and
-[R Markdown][r-markdown] for dynamic files that can render code into output. 
-Please refer to the [Introduction to The Carpentries 
-Workbench](https://carpentries.github.io/sandpaper-docs/) for full documentation.
+The geocoding API is a service that converts street addresses into geographic coordinates. This can be done either way, which is converting geographic coordinates back to street addresses.
+Features of geocoding APIs include:
 
-What you need to know is that there are three sections required for a valid
-Carpentries lesson:
+1. Geocoding – addresses to geographic coordinates.
+2. Reverse geocoding - geographic coordinates to address.
+3. Region Biasing – constrain results to specific region, county, or postal code.
+4. Place IDs – place ID to address and vice versa.
 
- 1. `questions` are displayed at the beginning of the episode to prime the
-    learner for the content.
- 2. `objectives` are the learning objectives for an episode displayed with
-    the questions.
- 3. `keypoints` are displayed at the end of the episode to reinforce the
-    objectives.
+There are several practical applications of geocoding such as:
 
-:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::: instructor
+1. Location Based Services: Delivery Companies like uber, doordash convert user addresses into GPS
+coordinates for efficient dispatching.
+2. Mapping and GIS: Real estate platforms use geocode to display properties of interest on maps.
+3. Emergency Services: Police, fire, and medical services use geocoding for precise identification
+and to reduce response times by finding the fastest route.
 
-Inline instructor notes can help inform instructors of timing challenges
-associated with the lessons. They appear in the "Instructor View"
+Geocoding APIs also have certain limitations that need to be taken into account when using them. They are designed to convert predefined, static addresses and can result in an error if the 
+address is incorrect. Several APIs may also impose daily usage limits for free access. Finally, geographic data involving geocoding needs to be constantly updated to avoid inaccuracies over time.
 
-::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+### Open Street Map
 
-::::::::::::::::::::::::::::::::::::: challenge 
-
-## Challenge 1: Can you do it?
-
-What is the output of this command?
-
-```r
-paste("This", "new", "lesson", "looks", "good")
-```
-
-:::::::::::::::::::::::: solution 
-
-## Output
- 
-```output
-[1] "This new lesson looks good"
-```
-
-:::::::::::::::::::::::::::::::::
-
-
-## Challenge 2: how do you nest solutions within challenge blocks?
-
-:::::::::::::::::::::::: solution 
-
-You can add a line with at least three colons and a `solution` tag.
-
-:::::::::::::::::::::::::::::::::
-::::::::::::::::::::::::::::::::::::::::::::::::
-
-## Figures
-
-You can use standard markdown for static figures with the following syntax:
-
-`![optional caption that appears below the figure](figure url){alt='alt text for
-accessibility purposes'}`
-
-![You belong in The Carpentries!](https://raw.githubusercontent.com/carpentries/logo/master/Badge_Carpentries.svg){alt='Blue Carpentries hex person logo with no text.'}
-
-::::::::::::::::::::::::::::::::::::: callout
-
-Callout sections can highlight information.
-
-They are sometimes used to emphasise particularly important points
-but are also used in some lessons to present "asides": 
-content that is not central to the narrative of the lesson,
-e.g. by providing the answer to a commonly-asked question.
-
-::::::::::::::::::::::::::::::::::::::::::::::::
-
-
-## Math
-
-One of our episodes contains $\LaTeX$ equations when describing how to create
-dynamic reports with {knitr}, so we now use mathjax to describe this:
-
-`$\alpha = \dfrac{1}{(1 - \beta)^2}$` becomes: $\alpha = \dfrac{1}{(1 - \beta)^2}$
-
-Cool, right?
 
 ::::::::::::::::::::::::::::::::::::: keypoints 
 
-- Use `.md` files for episodes when you want static content
-- Use `.Rmd` files for episodes when you need to generate output
-- Run `sandpaper::check_lesson()` to identify any issues with your lesson
-- Run `sandpaper::build_lesson()` to preview your lesson locally
+- Geocoding APIs can be used to identify locations of specific categories such as grocery stores or restaurants
 
 ::::::::::::::::::::::::::::::::::::::::::::::::
 
-[r-markdown]: https://rmarkdown.rstudio.com/
+## Hands-on Exercises
+
+| Lesson | Overview                                                                                                                                                         | 
+| ---------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------ |
+| [Beginner](https://jupyter.iguide.illinois.edu/hub/user-redirect/git-pull?repo=https%3A%2F%2Fgithub.com%2FSpatialTurn%2FDataCollection-Notebooks&urlpath=lab%2Ftree%2FDataCollection-Notebooks%2FCensus%2FBeginner.ipynb+&branch=main)       | Learn how to query and visualize locations of points of interest (e.g., museums) or specific grocery stores. |
+
