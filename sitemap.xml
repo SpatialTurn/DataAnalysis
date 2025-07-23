@@ -52,7 +52,13 @@
     <loc>https://carpentries.github.io/workbench-template-md/instructor/key-points.html</loc>
   </url>
   <url>
+    <loc>https://carpentries.github.io/workbench-template-md/instructor/networkanalysis.html</loc>
+  </url>
+  <url>
     <loc>https://carpentries.github.io/workbench-template-md/instructor/profiles.html</loc>
+  </url>
+  <url>
+    <loc>https://carpentries.github.io/workbench-template-md/instructor/pysal.html</loc>
   </url>
   <url>
     <loc>https://carpentries.github.io/workbench-template-md/instructor/reference.html</loc>
@@ -67,7 +73,13 @@
     <loc>https://carpentries.github.io/workbench-template-md/key-points.html</loc>
   </url>
   <url>
+    <loc>https://carpentries.github.io/workbench-template-md/networkanalysis.html</loc>
+  </url>
+  <url>
     <loc>https://carpentries.github.io/workbench-template-md/profiles.html</loc>
+  </url>
+  <url>
+    <loc>https://carpentries.github.io/workbench-template-md/pysal.html</loc>
   </url>
   <url>
     <loc>https://carpentries.github.io/workbench-template-md/reference.html</loc>

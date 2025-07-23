@@ -67,6 +67,8 @@ contact: 'team@carpentries.org' # FIXME
 # Order of episodes in your lesson
 episodes: 
 - introduction.md
+- networkanalysis.md
+- pysal.md
 
 # Information for Learners
 learners: 
