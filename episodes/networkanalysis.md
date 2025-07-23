@@ -1,6 +1,6 @@
 ---
-title: "Using Markdown"
-teaching: 10
+title: "Network Analysis"
+teaching: 100
 exercises: 2
 ---
 
