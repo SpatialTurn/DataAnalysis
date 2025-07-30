@@ -56,11 +56,8 @@ A folium map example shows a blue star indicating the centroid of West Lafayette
 - **Data Dependency**: Relies on OpenStreetMap data, which may vary in quality or availability by region.
 - **Performance**: Large networks may require significant computational resources for fetching and processing.
 
-:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::: instructor
+::::::::::::::::::::::::::::::::::::: keypoints
 
+- OSM is a great alternative to map real time locations using Folium feature of Python. 
 
-::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
-
-::::::::::::::::::::::::::::::::::::: challenge 
-
-::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+::::::::::::::::::::::::::::::::::::::::::::::::
