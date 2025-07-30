@@ -217,7 +217,7 @@
     <div id="flush-collapsecurrent" class="accordion-collapse collapse show" aria-labelledby="flush-headingcurrent" data-bs-parent="#accordionFlushcurrent">
       <div class="accordion-body">
         <ul><li><a href="#introduction">Introduction</a></li>
-<li><a href="#hands-on-exercises">Hands-on Exercises</a></li>
+<li><a href="#module-overview">Module Overview</a></li>
         </ul></div><!--/div.accordion-body-->
     </div><!--/div.accordion-collapse-->
 
@@ -300,7 +300,7 @@
       </div>
       <hr></nav><main id="main-content" class="main-content"><div class="container lesson-content">
         <h1>Geocoding</h1>
-        <p>Last updated on 2025-07-23 |
+        <p>Last updated on 2025-07-30 |
 
         <a href="https://github.com/carpentries/workbench-template-md/edit/main/episodes/introduction.md" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
 
@@ -340,19 +340,20 @@ Street Map (OSM) data</li>
 </div>
 <section><h2 class="section-heading" id="introduction">Introduction<a class="anchor" aria-label="anchor" href="#introduction"></a></h2>
 <hr class="half-width"><p>The geocoding API is a service that converts street addresses into
-geographic coordinates. This can be done either way, which is converting
+geographic coordinates (e.g., 610 Purdue Mall, West Lafayette, IN 47907,
+into latitudes and longitudes). This can be done either way, converting
 geographic coordinates back to street addresses. Features of geocoding
 APIs include:</p>
 <ol style="list-style-type: decimal"><li>Geocoding – addresses to geographic coordinates.</li>
-<li>Reverse geocoding - geographic coordinates to address.</li>
+<li>Reverse geocoding – geographic coordinates to address.</li>
 <li>Region Biasing – constrain results to specific region, county, or
 postal code.</li>
 <li>Place IDs – place ID to address and vice versa.</li>
 </ol><p>There are several practical applications of geocoding such as:</p>
-<ol style="list-style-type: decimal"><li>Location Based Services: Delivery Companies like uber, doordash
+<ol style="list-style-type: decimal"><li>Location Based Services: Delivery companies like Uber and DoorDash
 convert user addresses into GPS coordinates for efficient
 dispatching.</li>
-<li>Mapping and GIS: Real estate platforms use geocode to display
+<li>Mapping and GIS: Real estate platforms use geocoding to display
 properties of interest on maps.</li>
 <li>Emergency Services: Police, fire, and medical services use geocoding
 for precise identification and to reduce response times by finding the
@@ -360,11 +361,74 @@ fastest route.</li>
 </ol><p>Geocoding APIs also have certain limitations that need to be taken
 into account when using them. They are designed to convert predefined,
 static addresses and can result in an error if the address is incorrect.
-Several APIs may also impose daily usage limits for free access.
-Finally, geographic data involving geocoding needs to be constantly
-updated to avoid inaccuracies over time.</p>
+Several APIs may also impose daily usage limits for free access,
+potentially leading to additional charges if exceeded. Finally,
+geographic data involving geocoding needs to be constantly updated to
+avoid inaccuracies over time.</p>
 <div class="section level3">
 <h3 id="open-street-map">Open Street Map<a class="anchor" aria-label="anchor" href="#open-street-map"></a></h3>
+<p>This tutorial demonstrates how to use the U.S. Census Geocoding API
+and OpenStreetMap (OSM) via the <code>geopy</code> library to convert
+addresses into geographic coordinates (latitude and longitude) and plot
+them using the <code>folium</code> library.</p>
+<div class="section level4">
+<h4 id="part-1-census-geocoding-api">Part 1: Census Geocoding API<a class="anchor" aria-label="anchor" href="#part-1-census-geocoding-api"></a></h4>
+<p>This part explores a simple walkthrough of geocoding street addresses
+using the Census API. The initial setup includes importing essential
+libraries: - <code>geopy.geocoders</code>: Interfaces with OSM’s
+Nominatim or Census API to geocode. - <code>geopandas</code>: Manages
+geospatial data for spatial operations. - <code>pandas</code>: Handles
+tabular data manipulation. - <code>folium</code>: Creates interactive
+maps to visualize geocoded locations. - <code>requests</code>:
+Facilitates HTTP requests to the U.S. Census Geocoding API. -
+<code>time.sleep</code>: Introduces delays to avoid overwhelming APIs
+with rapid requests, especially for batch processing.</p>
+<p>A function <code>get_coordinates</code> is defined to geocode a
+single address: - Constructs an API request URL with parameters such as
+address, benchmark (e.g., Public_AR_Current for up-to-date public
+addresses), and JSON format. - Sends a request and checks for a
+successful response (200). - Parses the JSON response to extract
+coordinates if the address matches. - Returns latitude (y) and longitude
+(x) if successful, or <code>None</code> if not.</p>
+<p>The function is applied to a pandas DataFrame (e.g., reading a
+<code>museums.txt</code> file with museum names and addresses) to fetch
+coordinates, which are then added as new columns (Latitude and
+Longitude) for plotting with <code>folium</code>. Note that inaccurate
+addresses in the input file may result in <code>None</code> values.</p>
+</div>
+<div class="section level4">
+<h4 id="part-2-open-street-map-user-input-query">Part 2: Open Street Map User Input Query<a class="anchor" aria-label="anchor" href="#part-2-open-street-map-user-input-query"></a></h4>
+<p>This part explores querying OSM for specific location types (e.g.,
+supermarkets like Walmart) in a given area using the Overpass API. The
+notebook includes the following functions:</p>
+<ul><li>
+<strong><code>get_locations</code></strong>: Queries the Overpass
+API<a href="http://overpass-api.de/api/interpreter" class="external-link"></a> for locations
+matching specific categories, queries, and cities, with an optional
+“Brand” filter (e.g., “Walmart”).
+<ul><li>Creates an empty list <code>all_locations</code> to append
+addresses.</li>
+<li>Checks for valid input and stops if invalid.</li>
+<li>Sends requests and stores results in
+<code>all_locations</code>.</li>
+</ul></li>
+<li>
+<strong><code>plot_locations</code> and
+<code>display_locations</code></strong>: Import results (latitude,
+longitude, and name) from <code>all_locations</code>, displaying them
+using <code>folium</code> and saving them in a pandas DataFrame for
+further analysis.</li>
+</ul><p>The final part of the code accepts user input queries, which are
+passed through these functions to get results. Refer to the OSM query
+keywords webpage for desired outcomes (e.g., supermarkets in
+Indianapolis). An example use case is fetching coordinates of fast-food
+chains in West Lafayette by inputting relevant query words. This is
+reverse geocoding, as it passes a query to grab locations.</p>
+<p>Regular geocoding was demonstrated by fetching coordinates based on
+addresses (e.g., random U.S. museums with their street addresses),
+passed to the Census Geocoder, which requires precise U.S. addresses to
+avoid null returns and unplotted locations. Locations of Supermarkets in
+Indianapolis were plotted using this OSM query approach.</p>
 <div id="keypoints1" class="callout keypoints">
 <div class="callout-square">
 <i class="callout-icon" data-feather="key"></i>
@@ -378,13 +442,9 @@ categories such as grocery stores or restaurants</li>
 </div>
 </div>
 </div>
-</section><section><h2 class="section-heading" id="hands-on-exercises">Hands-on Exercises<a class="anchor" aria-label="anchor" href="#hands-on-exercises"></a></h2>
-<hr class="half-width"><table class="table"><colgroup><col width="49%"><col width="50%"></colgroup><thead><tr class="header"><th>Lesson</th>
-<th>Overview</th>
-</tr></thead><tbody><tr class="odd"><td><a href="https://jupyter.iguide.illinois.edu/hub/user-redirect/git-pull?repo=https%3A%2F%2Fgithub.com%2FSpatialTurn%2FDataCollection-Notebooks&amp;urlpath=lab%2Ftree%2FDataCollection-Notebooks%2FCensus%2FBeginner.ipynb+&amp;branch=main" class="external-link">Beginner</a></td>
-<td>Learn how to query and visualize locations of points of interest
-(e.g., museums) or specific grocery stores.</td>
-</tr></tbody></table><!--
+</div>
+</section><section><h2 class="section-heading" id="module-overview">Module Overview<a class="anchor" aria-label="anchor" href="#module-overview"></a></h2>
+<hr class="half-width"><!--
 Place links that you need to refer to multiple times across pages here. Delete
 any links that you are not going to use.
  --></section></div> <!-- / div.lesson-content -->
@@ -444,9 +504,9 @@ any links that you are not going to use.
   "creativeWorkStatus": "active",
   "url": "https://carpentries.github.io/workbench-template-md/introduction.html",
   "identifier": "https://carpentries.github.io/workbench-template-md/introduction.html",
-  "dateCreated": "2025-07-23",
-  "dateModified": "2025-07-23",
-  "datePublished": "2025-07-29"
+  "dateCreated": "2025-07-30",
+  "dateModified": "2025-07-30",
+  "datePublished": "2025-07-30"
 }
 
   </script><script>
