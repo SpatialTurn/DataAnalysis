@@ -1,5 +1,5 @@
 ---
-title: "Geocoding"
+title: "Geocoding and OSM"
 teaching: 100
 exercises: 5
 ---
