@@ -6,109 +6,61 @@ exercises: 2
 
 :::::::::::::::::::::::::::::::::::::: questions 
 
-- How do you write a lesson using Markdown and `{sandpaper}`?
+- How can network analysis be used to assess food desert accessibility in different regions?
+- What factors should be considered when calculating the shortest path between grocery stores and census tracts?
+- How does the quality of OpenStreetMap data impact the accuracy of network analysis for urban planning?
 
 ::::::::::::::::::::::::::::::::::::::::::::::::
 
 ::::::::::::::::::::::::::::::::::::: objectives
 
-- Explain how to use markdown with The Carpentries Workbench
-- Demonstrate how to include pieces of code, figures, and nested challenge blocks
+- Demonstrate how to use Python libraries like osmnx and networkx to perform road network analysis for food desert studies.
+- Analyze the relationship between distance, transportation networks, and food accessibility using geospatial data.
+- Evaluate the limitations of network analysis tools and suggest improvements for real-world applications.
 
 ::::::::::::::::::::::::::::::::::::::::::::::::
 
-## Introduction
+## Overview
+This tutorial provides a practical introduction to performing road network analysis using Python, focusing on analyzing road networks in a specified area (e.g., West Lafayette, Indiana) to study food deserts. It uses libraries such as `networkx`, `osmnx`, `folium`, `pandas`, `geopandas`, and `matplotlib` to fetch, visualize, and analyze road networks, compute centroid nodes, and calculate the shortest path based on travel time. The tutorial also applies this analysis to food accessibility data in Indiana.
 
-This is a lesson created via The Carpentries Workbench. It is written in
-[Pandoc-flavored Markdown](https://pandoc.org/MANUAL.html) for static files and
-[R Markdown][r-markdown] for dynamic files that can render code into output. 
-Please refer to the [Introduction to The Carpentries 
-Workbench](https://carpentries.github.io/sandpaper-docs/) for full documentation.
+The coordinates of grocery stores in Indiana were fetched using OpenStreetMap (OSM). Network analysis is used to calculate distances and times from grocery store locations to the center of areas of interest, considering factors such as the number of supermarkets, income, and vehicle accessibility. Distances are classified as good (around 1 mile) or low-accessible (over 5 miles), depending on rural or urban settings. Low Income and Low Access maps were created for each census tract in Indiana and compared to the USDA food desert dataset.
 
-What you need to know is that there are three sections required for a valid
-Carpentries lesson:
+#### Why Network Analysis for Food Deserts?
+1. **Mapping Accessibility**: Models connections between grocery stores and transportation systems to identify areas with limited healthy food access due to distance or lack of transportation.
+2. **Area Development**: Helps improve accessibility and quality of life in underserved regions.
+3. **Promotes Equity**: Highlights disparities to create solutions for equitable access to nutritious food.
+4. **Optimization of Resources**: Ensures equal distribution of resources for all individuals.
 
- 1. `questions` are displayed at the beginning of the episode to prime the
-    learner for the content.
- 2. `objectives` are the learning objectives for an episode displayed with
-    the questions.
- 3. `keypoints` are displayed at the end of the episode to reinforce the
-    objectives.
+#### Environment Setup
+Libraries imported for this tutorial:
+- `osmnx`: Fetches and processes OpenStreetMap road network data.
+- `networkx`: Performs graph-based computations, such as shortest path calculations.
+- `folium`: Enables interactive map visualizations.
+- `geopandas` and `shapely`: Handle geospatial data and geometry operations.
+- `matplotlib`: Generates static plots, including network visualization.
+- `geopy`: Calculates geodesic distances for spatial analysis.
+
+#### Data Acquisition
+The road network for West Lafayette, Indiana, is fetched using `ox.graph.from_place("West Lafayette, Indiana", network_type="drive")`, retrieving the drivable road network from OpenStreetMap as a graph (nodes as intersections, edges as road segments). The graph can be saved as a GraphML file (e.g., `westlafayette_indiana_network.graphml`) using `ox.save_graphml` to avoid redundant downloads. This can be adapted for any U.S. area with a single line of code.
+
+#### Applications
+- **Urban Planning**: Analyzing road connectivity and accessibility in cities.
+- **Transportation Studies**: Optimizing routes based on travel time or distance.
+- **Geospatial Analysis**: Studying spatial relationships in infrastructure networks.
+- **Emergency Response**: Identifying the fastest routes for first responders.
+
+#### Visualization
+A folium map example shows a blue star indicating the centroid of West Lafayette to a random point (green flag), with the shortest path marked by a red line/polygon.
+
+#### Limitations
+- **Data Dependency**: Relies on OpenStreetMap data, which may vary in quality or availability by region.
+- **Performance**: Large networks may require significant computational resources for fetching and processing.
 
 :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::: instructor
 
-Inline instructor notes can help inform instructors of timing challenges
-associated with the lessons. They appear in the "Instructor View"
 
 ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 
 ::::::::::::::::::::::::::::::::::::: challenge 
 
-## Challenge 1: Can you do it?
-
-What is the output of this command?
-
-```r
-paste("This", "new", "lesson", "looks", "good")
-```
-
-:::::::::::::::::::::::: solution 
-
-## Output
- 
-```output
-[1] "This new lesson looks good"
-```
-
-:::::::::::::::::::::::::::::::::
-
-
-## Challenge 2: how do you nest solutions within challenge blocks?
-
-:::::::::::::::::::::::: solution 
-
-You can add a line with at least three colons and a `solution` tag.
-
-:::::::::::::::::::::::::::::::::
-::::::::::::::::::::::::::::::::::::::::::::::::
-
-## Figures
-
-You can use standard markdown for static figures with the following syntax:
-
-`![optional caption that appears below the figure](figure url){alt='alt text for
-accessibility purposes'}`
-
-![You belong in The Carpentries!](https://raw.githubusercontent.com/carpentries/logo/master/Badge_Carpentries.svg){alt='Blue Carpentries hex person logo with no text.'}
-
-::::::::::::::::::::::::::::::::::::: callout
-
-Callout sections can highlight information.
-
-They are sometimes used to emphasise particularly important points
-but are also used in some lessons to present "asides": 
-content that is not central to the narrative of the lesson,
-e.g. by providing the answer to a commonly-asked question.
-
-::::::::::::::::::::::::::::::::::::::::::::::::
-
-
-## Math
-
-One of our episodes contains $\LaTeX$ equations when describing how to create
-dynamic reports with {knitr}, so we now use mathjax to describe this:
-
-`$\alpha = \dfrac{1}{(1 - \beta)^2}$` becomes: $\alpha = \dfrac{1}{(1 - \beta)^2}$
-
-Cool, right?
-
-::::::::::::::::::::::::::::::::::::: keypoints 
-
-- Use `.md` files for episodes when you want static content
-- Use `.Rmd` files for episodes when you need to generate output
-- Run `sandpaper::check_lesson()` to identify any issues with your lesson
-- Run `sandpaper::build_lesson()` to preview your lesson locally
-
-::::::::::::::::::::::::::::::::::::::::::::::::
-
-[r-markdown]: https://rmarkdown.rstudio.com/
+::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
