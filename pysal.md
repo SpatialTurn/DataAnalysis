@@ -1,5 +1,5 @@
 ---
-title: "Python Spatial Analysis"
+title: "Spatial Analysis"
 teaching: 100
 exercises: 1
 ---
