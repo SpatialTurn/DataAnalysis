@@ -77,9 +77,9 @@ Regular geocoding was demonstrated by fetching coordinates based on addresses (e
 
 ::::::::::::::::::::::::::::::::::::::::::::::::
 
-## Module Overview
+# Module Overview
 
 | Lesson            | Overview                                                                                                   |
 |-------------------|------------------------------------------------------------------------------------------------------------|
-| [Basic](https://colab.research.google.com/github/SpatialTurn/DataCollection-Notebooks/blob/main/Census/Census_Geocoding_OSM-Query.ipynb) | Introduction to Geocoding using .txt files and Open Street Map. |
+| <a href="https://colab.research.google.com/github/SpatialTurn/DataCollection-Notebooks/blob/main/Census/Census_Geocoding_OSM-Query.ipynb" target="_blank">Beginner</a> | Introduction to Geocoding using .txt files and Open Street Map. |
 | [Advanced]()  |  (to be added) |
