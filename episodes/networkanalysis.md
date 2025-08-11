@@ -66,5 +66,5 @@ A folium map example shows a blue star indicating the centroid of West Lafayette
 
 | Lesson            | Overview                                                                                                   |
 |-------------------|------------------------------------------------------------------------------------------------------------|
-| [Basic](https://colab.research.google.com/github/SpatialTurn/DataCollection-Notebooks/blob/main/Census/Network_Analysis_Tutorial.ipynb) | Introduction to Network Analysis and color coding distances. |
-| [Advanced](https://colab.research.google.com/github/SpatialTurn/DataCollection-Notebooks/blob/main/Census/OSM_Network_Tutorial.ipynb)  |  Obtains coordinates from OSM and uses centroid analysis to calculate distances and travel times for multiple points of interests. |
+| <a href="https://colab.research.google.com/github/SpatialTurn/DataCollection-Notebooks/blob/main/Census/Network_Analysis_Tutorial.ipynb" target="_blank">Beginner</a> | Introduction to Network Analysis and color coding distances. |
+| <a href="https://colab.research.google.com/github/SpatialTurn/DataCollection-Notebooks/blob/main/Census/OSM_Network_Tutorial.ipynb" target="_blank">Advanced</a>  |  Obtains coordinates from OSM and uses centroid analysis to calculate distances and travel times for multiple points of interests. |
