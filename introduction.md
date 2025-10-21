@@ -16,6 +16,7 @@ exercises: 5
 
 - Learn how to use the Census geocoding API
 - Learn how to use the Nominatim and Overpass APIs to access Open Street Map (OSM) data
+- Learn Geocoding services
 
 ::::::::::::::::::::::::::::::::::::::::::::::::
 
