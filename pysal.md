@@ -1,5 +1,5 @@
 ---
-title: "Introduction to Spatial Analysis with PySAL"
+title: "Spatial Analysis"
 teaching: 100
 exercises: 1
 ---
@@ -180,11 +180,11 @@ Challenge 2: Compute Moran’s I on a New Variable
 
 Choose any numeric variable in your dataset:
 
-Extract the variable
+- Extract the variable
 
-Compute Moran’s I
+- Compute Moran’s I
 
-Interpret whether clustering exists
+- Interpret whether clustering exists
 
 :::::::::::::::::::::::: solution
 
