@@ -69,6 +69,7 @@ episodes:
 - introduction.md
 - networkanalysis.md
 - pysal.md
+- cluster.md
 
 # Information for Learners
 learners: 
