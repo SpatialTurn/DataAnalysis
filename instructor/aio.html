@@ -277,6 +277,18 @@
 </div>
 <!--/div.accordion-flush-->
 
+<div class="accordion accordion-flush" id="accordionFlush5">
+  <div class="accordion-item">
+    <div class="accordion-header" id="flush-heading5">
+        <a href="cluster.html">4. Introduction to Spatial Clustering in Python</a>
+    </div>
+<!--/div.accordion-header-->
+
+  </div>
+<!--/div.accordion-item-->
+</div>
+<!--/div.accordion-flush-->
+
                 </div>
               </div>
             </div>
@@ -892,6 +904,102 @@ locally</li>
 Place links that you need to refer to multiple times across pages here. Delete
 any links that you are not going to use.
  -->
+</section></section><section id="aio-cluster"><p>Content from <a href="cluster.html">Introduction to Spatial Clustering in Python</a></p>
+<hr>
+<p>Last updated on 2025-11-21 |
+
+        <a href="https://github.com/carpentries/workbench-template-md/edit/main/episodes/cluster.md" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
+<p>Estimated time: <i aria-hidden="true" data-feather="clock"></i> 101 minutes</p>
+<div class="text-end">
+          <button role="button" aria-pressed="false" tabindex="0" id="expand-code" class="pull-right" data-expand="Expand All Solutions " data-collapse="Collapse All Solutions "> Expand All Solutions <i aria-hidden="true" data-feather="plus"></i></button>
+        </div>
+<div class="overview card">
+<h2 class="card-header">Overview</h2>
+<div class="row g-0">
+<div class="col-md-4">
+<div class="card-body">
+<div class="inner">
+<h3 class="card-title">Questions</h3>
+<ul>
+<li>What is spatial clustering and why do we use it?</li>
+<li>How can we perform basic clustering on geographic point data?</li>
+<li>How do algorithms like K-Means, Hierarchical Clustering, and DBSCAN
+differ?</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="col-md-8">
+<div class="card-body">
+<div class="inner bordered">
+<h3 class="card-title">Objectives</h3>
+<ul>
+<li>Understand the concept of spatial clustering</li>
+<li>Learn how to prepare point data for clustering</li>
+<li>Apply K-Means, Hierarchical Clustering, and DBSCAN in Python</li>
+<li>Visualize clustering results on simple scatterplots and maps</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+</div>
+<section><h2 class="section-heading" id="introduction">Introduction<a class="anchor" aria-label="anchor" href="#introduction"></a>
+</h2>
+<hr class="half-width">
+<p>Spatial clustering is a core method used in geography, archaeology,
+ecology, and urban studies. It helps identify <em>patterns</em> in the
+spatial distribution of points—such as hotspots of crime, clusters of
+archaeological artifacts, or regions with similar environmental
+characteristics.</p>
+<p>This beginner tutorial walks you through the fundamentals of spatial
+clustering using a simple dataset of geographic coordinates. The
+workflow is entirely in Python, following the structure used in your
+uploaded notebook.</p>
+<p>We will cover:</p>
+<ul>
+<li>Loading and exploring point data<br>
+</li>
+<li>Preparing coordinates for clustering<br>
+</li>
+<li>Running three clustering algorithms<br>
+</li>
+<li>Visualizing the results</li>
+</ul>
+<p>All examples use standard Python libraries:<br><code>pandas</code>, <code>geopandas</code>, <code>matplotlib</code>,
+<code>sklearn</code>, and <code>scipy</code>.</p>
+<div id="accordionInstructor1" class="accordion instructor-note accordion-flush">
+<div class="accordion-item">
+<button class="accordion-button instructor-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseInstructor1" aria-expanded="false" aria-controls="collapseInstructor1">
+  <h3 class="accordion-header" id="headingInstructor1">  <div class="note-square"><i aria-hidden="true" class="callout-icon" data-feather="edit-2"></i></div> Instructor Note </h3>
+</button>
+<div id="collapseInstructor1" class="accordion-collapse collapse" aria-labelledby="headingInstructor1" data-bs-parent="#accordionInstructor1">
+<div class="accordion-body">
+<p>Learners may need extra time understanding the differences between
+clustering algorithms. Consider pausing after each method and showing
+multiple visualizations.</p>
+</div>
+</div>
+</div>
+</div>
+</section><section><h2 class="section-heading" id="loading-spatial-point-data">1. Loading Spatial Point Data<a class="anchor" aria-label="anchor" href="#loading-spatial-point-data"></a>
+</h2>
+<hr class="half-width">
+<p>Spatial clustering typically starts with a set of point locations. A
+minimal example:</p>
+<p>```python import pandas as pd</p>
+<p>df = pd.read_csv(“points.csv”) # contains columns: lon, lat
+df.head()</p>
+<p>Visualize the raw points:</p>
+<p>import matplotlib.pyplot as plt</p>
+<p>plt.scatter(df.lon, df.lat, s=10) plt.title(“Raw Spatial Points”)
+plt.xlabel(“Longitude”); plt.ylabel(“Latitude”) plt.show()</p>
+<p>This simple scatterplot helps identify whether your data already
+looks clustered.</p>
+<!--
+Place links that you need to refer to multiple times across pages here. Delete
+any links that you are not going to use.
+ -->
 </section></section>
 </div>
     </main>
@@ -939,9 +1047,9 @@ any links that you are not going to use.
   "creativeWorkStatus": "active",
   "url": "https://carpentries.github.io/workbench-template-md/instructor/aio.html",
   "identifier": "https://carpentries.github.io/workbench-template-md/instructor/aio.html",
-  "dateCreated": "2025-10-21",
-  "dateModified": "2025-11-18",
-  "datePublished": "2025-11-18"
+  "dateCreated": "2025-11-21",
+  "dateModified": "2025-11-21",
+  "datePublished": "2025-11-21"
 }
 
   </script><script>
