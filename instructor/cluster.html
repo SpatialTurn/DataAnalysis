@@ -245,6 +245,10 @@
       <div class="accordion-body">
         <ul><li><a href="#introduction">Introduction</a></li>
 <li><a href="#loading-spatial-point-data">1. Loading Spatial Point Data</a></li>
+<li><a href="#k-means-clustering">2. K-Means Clustering</a></li>
+<li><a href="#hierarchical-clustering">3. Hierarchical Clustering</a></li>
+<li><a href="#dbscan-density-based-clustering">4. DBSCAN: Density-Based Clustering</a></li>
+<li><a href="#math">Math</a></li>
         </ul></div><!--/div.accordion-body-->
     </div><!--/div.accordion-collapse-->
 
@@ -384,20 +388,206 @@ multiple visualizations.</p>
 </section><section><h2 class="section-heading" id="loading-spatial-point-data">1. Loading Spatial Point Data<a class="anchor" aria-label="anchor" href="#loading-spatial-point-data"></a></h2>
 <hr class="half-width"><p>Spatial clustering typically starts with a set of point locations. A
 minimal example:</p>
-<p>```python import pandas as pd</p>
-<p>df = pd.read_csv(“points.csv”) # contains columns: lon, lat
-df.head()</p>
+<div class="codewrapper sourceCode" id="cb1">
+<h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a></span>
+<span id="cb1-3"><a href="#cb1-3" tabindex="-1"></a>df <span class="op">=</span> pd.read_csv(<span class="st">"points.csv"</span>)   <span class="co"># contains lon, lat</span></span>
+<span id="cb1-4"><a href="#cb1-4" tabindex="-1"></a>df.head()</span></code></pre>
+</div>
 <p>Visualize the raw points:</p>
-<p>import matplotlib.pyplot as plt</p>
-<p>plt.scatter(df.lon, df.lat, s=10) plt.title(“Raw Spatial Points”)
-plt.xlabel(“Longitude”); plt.ylabel(“Latitude”) plt.show()</p>
+<div class="codewrapper sourceCode" id="cb2">
+<h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a></span>
+<span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a>plt.scatter(df.lon, df.lat, s<span class="op">=</span><span class="dv">10</span>)</span>
+<span id="cb2-4"><a href="#cb2-4" tabindex="-1"></a>plt.title(<span class="st">"Raw Spatial Points"</span>)</span>
+<span id="cb2-5"><a href="#cb2-5" tabindex="-1"></a>plt.xlabel(<span class="st">"Longitude"</span>)</span>
+<span id="cb2-6"><a href="#cb2-6" tabindex="-1"></a>plt.ylabel(<span class="st">"Latitude"</span>)</span>
+<span id="cb2-7"><a href="#cb2-7" tabindex="-1"></a>plt.show()</span></code></pre>
+</div>
 <p>This simple scatterplot helps identify whether your data already
 looks clustered.</p>
-<!--
+</section><section><h2 class="section-heading" id="k-means-clustering">2. K-Means Clustering<a class="anchor" aria-label="anchor" href="#k-means-clustering"></a></h2>
+<hr class="half-width"><p>K-Means is the simplest clustering algorithm. It works best when:</p>
+<ul><li><p>You know the number of clusters you want</p></li>
+<li><p>Clusters are roughly circular</p></li>
+<li><p>Points are evenly distributed</p></li>
+</ul><div class="codewrapper sourceCode" id="cb3">
+<h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="im">from</span> sklearn.cluster <span class="im">import</span> KMeans</span>
+<span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a></span>
+<span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a>coords <span class="op">=</span> df[[<span class="st">'lon'</span>, <span class="st">'lat'</span>]]</span>
+<span id="cb3-4"><a href="#cb3-4" tabindex="-1"></a>kmeans <span class="op">=</span> KMeans(n_clusters<span class="op">=</span><span class="dv">4</span>, random_state<span class="op">=</span><span class="dv">42</span>)</span>
+<span id="cb3-5"><a href="#cb3-5" tabindex="-1"></a>df[<span class="st">'kmeans_label'</span>] <span class="op">=</span> kmeans.fit_predict(coords)</span></code></pre>
+</div>
+<p>Visualize results:</p>
+<div class="codewrapper sourceCode" id="cb4">
+<h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a>plt.scatter(df.lon, df.lat, c<span class="op">=</span>df.kmeans_label, cmap<span class="op">=</span><span class="st">'tab10'</span>)</span>
+<span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a>plt.title(<span class="st">"K-Means Clustering"</span>)</span>
+<span id="cb4-3"><a href="#cb4-3" tabindex="-1"></a>plt.show()</span></code></pre>
+</div>
+</section><section><h2 class="section-heading" id="hierarchical-clustering">3. Hierarchical Clustering<a class="anchor" aria-label="anchor" href="#hierarchical-clustering"></a></h2>
+<hr class="half-width"><p>Hierarchical clustering builds clusters step-by-step. It is useful
+when:</p>
+<ul><li><p>You want a dendrogram</p></li>
+<li><p>You don’t know the number of clusters beforehand</p></li>
+<li><p>Clusters may have irregular shapes</p></li>
+</ul><p>Example:</p>
+<div class="codewrapper sourceCode" id="cb5">
+<h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a><span class="im">from</span> sklearn.cluster <span class="im">import</span> AgglomerativeClustering</span>
+<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a></span>
+<span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a>agg <span class="op">=</span> AgglomerativeClustering(n_clusters<span class="op">=</span><span class="dv">4</span>)</span>
+<span id="cb5-4"><a href="#cb5-4" tabindex="-1"></a>df[<span class="st">'hier_label'</span>] <span class="op">=</span> agg.fit_predict(coords)</span></code></pre>
+</div>
+<p>Plot:</p>
+<div class="codewrapper sourceCode" id="cb6">
+<h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a>plt.scatter(df.lon, df.lat, c<span class="op">=</span>df.hier_label, cmap<span class="op">=</span><span class="st">'viridis'</span>)</span>
+<span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a>plt.title(<span class="st">"Hierarchical Clustering"</span>)</span>
+<span id="cb6-3"><a href="#cb6-3" tabindex="-1"></a>plt.show()</span></code></pre>
+</div>
+</section><section><h2 class="section-heading" id="dbscan-density-based-clustering">4. DBSCAN: Density-Based Clustering<a class="anchor" aria-label="anchor" href="#dbscan-density-based-clustering"></a></h2>
+<hr class="half-width"><p>DBSCAN is ideal for spatial datasets because:</p>
+<ul><li><p>It finds clusters of any shape</p></li>
+<li><p>It identifies noise points</p></li>
+<li><p>It does not require the number of clusters in advance</p></li>
+</ul><p>Example:</p>
+<div class="codewrapper sourceCode" id="cb7">
+<h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a><span class="im">from</span> sklearn.cluster <span class="im">import</span> DBSCAN</span>
+<span id="cb7-2"><a href="#cb7-2" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb7-3"><a href="#cb7-3" tabindex="-1"></a></span>
+<span id="cb7-4"><a href="#cb7-4" tabindex="-1"></a>epsilon <span class="op">=</span> <span class="fl">0.01</span>   <span class="co"># distance threshold</span></span>
+<span id="cb7-5"><a href="#cb7-5" tabindex="-1"></a>db <span class="op">=</span> DBSCAN(eps<span class="op">=</span>epsilon, min_samples<span class="op">=</span><span class="dv">5</span>).fit(coords)</span>
+<span id="cb7-6"><a href="#cb7-6" tabindex="-1"></a></span>
+<span id="cb7-7"><a href="#cb7-7" tabindex="-1"></a>df[<span class="st">'dbscan_label'</span>] <span class="op">=</span> db.labels_</span></code></pre>
+</div>
+<p>Points labeled <code>-1</code> are noise (outliers).</p>
+<p>Plot:</p>
+<div class="codewrapper sourceCode" id="cb8">
+<h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a>plt.scatter(df.lon, df.lat, c<span class="op">=</span>df.dbscan_label, cmap<span class="op">=</span><span class="st">'Accent'</span>)</span>
+<span id="cb8-2"><a href="#cb8-2" tabindex="-1"></a>plt.title(<span class="st">"DBSCAN Spatial Clusters"</span>)</span>
+<span id="cb8-3"><a href="#cb8-3" tabindex="-1"></a>plt.show()</span></code></pre>
+</div>
+<div id="challenge1" class="callout challenge">
+<div class="callout-square">
+<i class="callout-icon" data-feather="zap"></i>
+</div>
+<span class="callout-header">Challenge</span>
+<div class="callout-inner">
+<h3 class="callout-title">Challenge</h3>
+<div class="callout-content">
+<p>Challenge 1: Exploring Your Own Dataset</p>
+<p>Using the examples above:</p>
+<ol style="list-style-type: decimal"><li><p>Load your own set of spatial coordinates</p></li>
+<li><p>Apply K-Means and DBSCAN</p></li>
+<li><p>Compare the results</p></li>
+</ol><p>Which method performs better, and why?</p>
+</div>
+</div>
+</div>
+<div id="accordionSolution1" class="accordion challenge-accordion accordion-flush">
+<div class="accordion-item">
+<button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution1" aria-expanded="false" aria-controls="collapseSolution1">
+  <h4 class="accordion-header" id="headingSolution1"> Show me the solution </h4>
+</button>
+<div id="collapseSolution1" class="accordion-collapse collapse" aria-labelledby="headingSolution1" data-bs-parent="#accordionSolution1">
+<div class="accordion-body">
+<p>Example Interpretation</p>
+<ul><li><p>K-Means finds evenly divided clusters</p></li>
+<li><p>DBSCAN finds natural geographic groups and labels
+outliers</p></li>
+<li><p>For irregular spatial patterns, DBSCAN usually performs
+better</p></li>
+</ul></div>
+</div>
+</div>
+</div>
+<div id="challenge2" class="callout challenge">
+<div class="callout-square">
+<i class="callout-icon" data-feather="zap"></i>
+</div>
+<span class="callout-header">Challenge</span>
+<div class="callout-inner">
+<h3 class="callout-title">Challenge<em> (continued)</em>
+</h3>
+<div class="callout-content">
+<p>Challenge 2: Adjusting DBSCAN Sensitivity</p>
+<p>Try changing the <code>eps</code> parameter:</p>
+<div class="codewrapper sourceCode" id="cb9">
+<h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a>DBSCAN(eps<span class="op">=</span><span class="dv">500</span>, min_samples<span class="op">=</span><span class="dv">5</span>) <span class="co"># eps is in meters</span></span>
+<span id="cb9-2"><a href="#cb9-2" tabindex="-1"></a>DBSCAN(eps<span class="op">=</span><span class="dv">1000</span>,  min_samples<span class="op">=</span><span class="dv">5</span>)</span></code></pre>
+</div>
+</div>
+</div>
+</div>
+<div id="accordionSolution2" class="accordion challenge-accordion accordion-flush">
+<div class="accordion-item">
+<button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution2" aria-expanded="false" aria-controls="collapseSolution2">
+  <h4 class="accordion-header" id="headingSolution2"> Show me the solution </h4>
+</button>
+<div id="collapseSolution2" class="accordion-collapse collapse" aria-labelledby="headingSolution2" data-bs-parent="#accordionSolution2">
+<div class="accordion-body">
+<p>Larger <code>eps</code> creates larger clusters. Smaller
+<code>eps</code> creates more clusters and more noise points.</p>
+</div>
+</div>
+</div>
+</div>
+</section><section><h2 class="section-heading" id="math">Math<a class="anchor" aria-label="anchor" href="#math"></a></h2>
+<hr class="half-width"><p>DBSCAN uses density to define clusters. Its key idea:</p>
+<p>A point belongs to a cluster if it has at least
+<code>min_samples</code> neighbors within a distance <code>ε</code>:</p>
+<p><code>$\text{density} = \frac{\text{neighbors}}{\pi \varepsilon^2}$</code></p>
+<p>Higher density regions form clusters; low density points become
+noise.</p>
+<div id="keypoints1" class="callout keypoints">
+<div class="callout-square">
+<i class="callout-icon" data-feather="key"></i>
+</div>
+<span class="callout-header">Key Points</span>
+<div class="callout-inner">
+<div class="callout-content">
+<ul><li><p>Spatial clustering groups geographic points into meaningful
+patterns</p></li>
+<li><p>K-Means is simple but assumes circular clusters</p></li>
+<li><p>Hierarchical clustering builds clusters step-wise</p></li>
+<li><p>DBSCAN is best for irregular shapes and detecting noise</p></li>
+<li><p>Always visualize your clusters to interpret them
+correctly</p></li>
+</ul></div>
+</div>
+</div>
+</section><div class="section level1">
+<h1 id="module-overview">Module Overview<a class="anchor" aria-label="anchor" href="#module-overview"></a></h1>
+<table class="table"><colgroup><col width="14%"><col width="85%"></colgroup><thead><tr class="header"><th>Lesson</th>
+<th>Overview</th>
+</tr></thead><tbody><tr class="odd"><td><a href="https://colab.research.google.com/github/SpatialTurn/DataCollection-Notebooks/blob/main/Census/spatialclustering.ipynb" target="_blank" class="external-link">Beginner</a></td>
+<td>Introduction to Spatial Clustering using Crime Datasets.</td>
+</tr><tr class="even"><td><a href="">Advanced</a></td>
+<td>(to be added)</td>
+</tr></tbody></table><!--
 Place links that you need to refer to multiple times across pages here. Delete
 any links that you are not going to use.
- -->
-</section></div> <!-- / div.lesson-content -->
+ --></div>
+
+
+
+      </div> <!-- / div.lesson-content -->
     </main><!-- / main#main-content.main-content --><nav class="bottom-pagination mx-md-4" aria-label="Previous and Next Chapter"><div class="d-block d-sm-block d-md-none">
         <a class="chapter-link" href="../instructor/pysal.html"><i aria-hidden="true" class="small-arrow" data-feather="arrow-left"></i>Previous</a>
         <a class="chapter-link float-end" href="../instructor/index.html">Next<i aria-hidden="true" class="small-arrow" data-feather="arrow-right"></i></a>
