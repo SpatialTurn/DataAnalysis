@@ -267,7 +267,7 @@
 <div class="accordion accordion-flush" id="accordionFlush4">
   <div class="accordion-item">
     <div class="accordion-header" id="flush-heading4">
-        <a href="pysal.html">3. Spatial Analysis</a>
+        <a href="pysal.html">3. Introduction to Spatial Analysis with PySAL</a>
     </div>
 <!--/div.accordion-header-->
 
@@ -279,7 +279,7 @@
 <div class="accordion accordion-flush" id="accordionFlush5">
   <div class="accordion-item">
     <div class="accordion-header" id="flush-heading5">
-        <a href="cluster.html">4. Introduction to Spatial Clustering in Python</a>
+        <a href="cluster.html">4. Spatial Clustering</a>
     </div>
 <!--/div.accordion-header-->
 
@@ -713,9 +713,9 @@ distances and travel times for multiple points of interests.</td>
 Place links that you need to refer to multiple times across pages here. Delete
 any links that you are not going to use.
  -->
-</div></section><section id="aio-pysal"><p>Content from <a href="pysal.html">Spatial Analysis</a></p>
+</div></section><section id="aio-pysal"><p>Content from <a href="pysal.html">Introduction to Spatial Analysis with PySAL</a></p>
 <hr>
-<p>Last updated on 2025-08-11 |
+<p>Last updated on 2025-11-21 |
 
         <a href="https://github.com/carpentries/workbench-template-md/edit/main/episodes/pysal.md" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
 <div class="text-end">
@@ -729,8 +729,10 @@ any links that you are not going to use.
 <div class="inner">
 <h3 class="card-title">Questions</h3>
 <ul>
-<li>How do you write a lesson using Markdown and
-<a href="https://carpentries.github.io/sandpaper/" class="external-link">sandpaper</a>?</li>
+<li>What is PySAL and what can it do for spatial analysis?</li>
+<li>How do we compute spatial weights and perform spatial
+autocorrelation?</li>
+<li>How do we interpret results like Moran’s I?</li>
 </ul>
 </div>
 </div>
@@ -740,9 +742,11 @@ any links that you are not going to use.
 <div class="inner bordered">
 <h3 class="card-title">Objectives</h3>
 <ul>
-<li>Explain how to use markdown with The Carpentries Workbench</li>
-<li>Demonstrate how to include pieces of code, figures, and nested
-challenge blocks</li>
+<li>Understand the purpose of PySAL in spatial data science</li>
+<li>Learn how to load spatial data using GeoPandas</li>
+<li>Construct spatial weight matrices</li>
+<li>Compute Global Moran’s I using PySAL</li>
+<li>Visualize spatial clustering and spatial autocorrelation</li>
 </ul>
 </div>
 </div>
@@ -752,39 +756,167 @@ challenge blocks</li>
 <section><h2 class="section-heading" id="introduction">Introduction<a class="anchor" aria-label="anchor" href="#introduction"></a>
 </h2>
 <hr class="half-width">
-<p>This is a lesson created via The Carpentries Workbench. It is written
-in <a href="https://pandoc.org/MANUAL.html" class="external-link">Pandoc-flavored Markdown</a>
-for static files and <a href="https://rmarkdown.rstudio.com/" class="external-link">R
-Markdown</a> for dynamic files that can render code into output. Please
-refer to the <a href="https://carpentries.github.io/sandpaper-docs/" class="external-link">Introduction to The
-Carpentries Workbench</a> for full documentation.</p>
-<p>What you need to know is that there are three sections required for a
-valid Carpentries lesson:</p>
+<p><a href="https://pysal.org/" class="external-link">PySAL</a> is the Python Spatial Analysis
+Library — a powerful, open-source toolkit for working with spatial data.
+It provides tools for:</p>
+<ul>
+<li>spatial weights<br>
+</li>
+<li>spatial autocorrelation<br>
+</li>
+<li>clustering<br>
+</li>
+<li>spatial regression<br>
+</li>
+<li>neighborhood analysis</li>
+</ul>
+<p>This tutorial introduces the <strong>core PySAL workflow</strong>,
+closely following the structure used in your uploaded notebook.</p>
+<p>We will cover:</p>
+<ol style="list-style-type: decimal">
+<li>Loading polygon or point data<br>
+</li>
+<li>Building spatial weights<br>
+</li>
+<li>Running Global Moran’s I<br>
+</li>
+<li>Visualizing results</li>
+</ol>
+<p>This tutorial assumes basic familiarity with <code>pandas</code>,
+<code>geopandas</code>, and Python.</p>
+<p>What you need to know for Carpentries lessons:</p>
 <ol style="list-style-type: decimal">
 <li>
-<code>questions</code> are displayed at the beginning of the episode
-to prime the learner for the content.</li>
+<code>questions</code> prime the learner for the lesson.</li>
 <li>
-<code>objectives</code> are the learning objectives for an episode
-displayed with the questions.</li>
+<code>objectives</code> state what skills will be gained.</li>
 <li>
-<code>keypoints</code> are displayed at the end of the episode to
-reinforce the objectives.</li>
-</ol>
-<div id="challenge-1-can-you-do-it" class="callout challenge">
+<code>keypoints</code> summarize what was learned.</li>
+</ol></section><section><h2 class="section-heading" id="loading-spatial-data">1. Loading Spatial Data<a class="anchor" aria-label="anchor" href="#loading-spatial-data"></a>
+</h2>
+<hr class="half-width">
+<p>PySAL works seamlessly with <strong>GeoPandas</strong>.<br>
+Here’s a simple example using a polygon shapefile:</p>
+<div class="codewrapper sourceCode" id="cb1">
+<h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="im">import</span> geopandas <span class="im">as</span> gpd</span>
+<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a></span>
+<span id="cb1-3"><a href="#cb1-3" tabindex="-1"></a>gdf <span class="op">=</span> gpd.read_file(<span class="st">"data/shapes.shp"</span>)</span>
+<span id="cb1-4"><a href="#cb1-4" tabindex="-1"></a>gdf.head()</span></code></pre>
+</div>
+<p>Plot the boundaries:</p>
+<div class="codewrapper sourceCode" id="cb2">
+<h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a>gdf.plot(edgecolor<span class="op">=</span><span class="st">"black"</span>, figsize<span class="op">=</span>(<span class="dv">6</span>,<span class="dv">6</span>))</span></code></pre>
+</div>
+<p>This ensures the geometry is valid and loads correctly.</p>
+</section><section><h2 class="section-heading" id="building-spatial-weights">2. Building Spatial Weights<a class="anchor" aria-label="anchor" href="#building-spatial-weights"></a>
+</h2>
+<hr class="half-width">
+<p>Spatial weights define who is a neighbor of whom.</p>
+<p>PySAL includes:</p>
+<ul>
+<li><p>Rook contiguity</p></li>
+<li><p>Queen contiguity</p></li>
+<li><p>K-nearest neighbors</p></li>
+<li><p>Distance-based neighbors</p></li>
+</ul>
+<div class="section level3">
+<h3 id="example-queen-contiguity">Example: Queen Contiguity<a class="anchor" aria-label="anchor" href="#example-queen-contiguity"></a>
+</h3>
+<div class="codewrapper sourceCode" id="cb3">
+<h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="im">from</span> libpysal.weights <span class="im">import</span> Queen</span>
+<span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a></span>
+<span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a>w <span class="op">=</span> Queen.from_dataframe(gdf)</span>
+<span id="cb3-4"><a href="#cb3-4" tabindex="-1"></a>w.transform <span class="op">=</span> <span class="st">"R"</span>  <span class="co"># row-standardization</span></span></code></pre>
+</div>
+<p>Check neighbors of the first polygon:</p>
+<div class="codewrapper sourceCode" id="cb4">
+<h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a>w.neighbors[<span class="dv">0</span>]</span></code></pre>
+</div>
+</div>
+</section><section><h2 class="section-heading" id="global-morans-i">3. Global Moran’s I<a class="anchor" aria-label="anchor" href="#global-morans-i"></a>
+</h2>
+<hr class="half-width">
+<p>Moran’s I measures global spatial autocorrelation:</p>
+<ul>
+<li><p>Positive values → clustering</p></li>
+<li><p>Negative values → dispersion</p></li>
+<li><p>Near zero → random pattern</p></li>
+</ul>
+<p>Assume the dataset has a numeric column <code>value</code>:</p>
+<div class="codewrapper sourceCode" id="cb5">
+<h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a><span class="im">import</span> esda</span>
+<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a></span>
+<span id="cb5-4"><a href="#cb5-4" tabindex="-1"></a>y <span class="op">=</span> gdf[<span class="st">'value'</span>]</span>
+<span id="cb5-5"><a href="#cb5-5" tabindex="-1"></a>mi <span class="op">=</span> esda.Moran(y, w)</span></code></pre>
+</div>
+<p>View the results:</p>
+<div class="codewrapper sourceCode" id="cb6">
+<h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a>mi.I, mi.p_sim</span></code></pre>
+</div>
+<p>Plot the Moran scatterplot:</p>
+<div class="codewrapper sourceCode" id="cb7">
+<h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a><span class="im">import</span> splot.esda <span class="im">as</span> esdaplot</span>
+<span id="cb7-2"><a href="#cb7-2" tabindex="-1"></a></span>
+<span id="cb7-3"><a href="#cb7-3" tabindex="-1"></a>esdaplot.moran_scatterplot(mi)</span></code></pre>
+</div>
+</section><section><h2 class="section-heading" id="local-morans-i-outlier-analysis">4. Local Moran’s I (Outlier Analysis)<a class="anchor" aria-label="anchor" href="#local-morans-i-outlier-analysis"></a>
+</h2>
+<hr class="half-width">
+<p>Local Moran’s I finds hotspots and coldspots.</p>
+<div class="codewrapper sourceCode" id="cb8">
+<h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a>lisa <span class="op">=</span> esda.Moran_Local(y, w)</span></code></pre>
+</div>
+<p>Add LISA quadrant labels to the GeoDataFrame:</p>
+<div class="codewrapper sourceCode" id="cb9">
+<h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a>gdf[<span class="st">"lisa_cluster"</span>] <span class="op">=</span> lisa.q</span></code></pre>
+</div>
+<p>Map the clusters:</p>
+<div class="codewrapper sourceCode" id="cb10">
+<h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" tabindex="-1"></a>gdf.plot(column<span class="op">=</span><span class="st">"lisa_cluster"</span>, cmap<span class="op">=</span><span class="st">"Set1"</span>, figsize<span class="op">=</span>(<span class="dv">8</span>,<span class="dv">6</span>), legend<span class="op">=</span><span class="va">True</span>)</span></code></pre>
+</div>
+<p>This creates a basic LISA cluster map.</p>
+<div id="challenge1" class="callout challenge">
 <div class="callout-square">
 <i class="callout-icon" data-feather="zap"></i>
 </div>
 <span class="callout-header">Challenge</span>
-<div id="challenge-1-can-you-do-it" class="callout-inner">
-<h3 class="callout-title">Challenge 1: Can you do it?</h3>
+<div class="callout-inner">
+<h3 class="callout-title">Challenge</h3>
 <div class="callout-content">
-<p>What is the output of this command?</p>
-<div class="codewrapper sourceCode" id="cb1">
-<h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+<p>Challenge 1: Create Your Own Spatial Weights</p>
+<p>Using the GeoDataFrame loaded above:</p>
+<ul>
+<li><p>Create rook contiguity weights</p></li>
+<li><p>Print the neighbor list for observation 10</p></li>
+<li><p>Compare how rook vs queen differ</p></li>
+</ul>
+<div class="codewrapper sourceCode" id="cb11">
+<h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu">paste</span><span class="op">(</span><span class="st">"This"</span>, <span class="st">"new"</span>, <span class="st">"lesson"</span>, <span class="st">"looks"</span>, <span class="st">"good"</span><span class="op">)</span></span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" tabindex="-1"></a><span class="im">from</span> libpysal.weights <span class="im">import</span> Rook</span>
+<span id="cb11-2"><a href="#cb11-2" tabindex="-1"></a>w_rook <span class="op">=</span> Rook.from_dataframe(gdf)</span>
+<span id="cb11-3"><a href="#cb11-3" tabindex="-1"></a>w_rook.neighbors[<span class="dv">10</span>]</span></code></pre>
 </div>
 </div>
 </div>
@@ -792,29 +924,31 @@ reinforce the objectives.</li>
 <div id="accordionSolution1" class="accordion challenge-accordion accordion-flush">
 <div class="accordion-item">
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution1" aria-expanded="false" aria-controls="collapseSolution1">
-  <h4 class="accordion-header" id="headingSolution1"> Output </h4>
+  <h4 class="accordion-header" id="headingSolution1"> Show me the solution </h4>
 </button>
-<div id="collapseSolution1" class="accordion-collapse collapse" data-bs-parent="#accordionSolution1" aria-labelledby="headingSolution1">
+<div id="collapseSolution1" class="accordion-collapse collapse" aria-labelledby="headingSolution1" data-bs-parent="#accordionSolution1">
 <div class="accordion-body">
-<div class="codewrapper">
-<h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="output" tabindex="0"><code>[1] "This new lesson looks good"</code></pre>
+<p>Queen neighbors may include diagonal touches. Rook neighbors require
+shared edges only. You should see fewer rook neighbors than queen
+neighbors.</p>
 </div>
 </div>
 </div>
 </div>
-</div>
-<div id="challenge-2-how-do-you-nest-solutions-within-challenge-blocks" class="callout challenge">
+<div id="challenge2" class="callout challenge">
 <div class="callout-square">
 <i class="callout-icon" data-feather="zap"></i>
 </div>
 <span class="callout-header">Challenge</span>
-<div id="challenge-2-how-do-you-nest-solutions-within-challenge-blocks" class="callout-inner">
-<h3 class="callout-title">Challenge 2: how do you nest solutions within
-challenge blocks?</h3>
+<div class="callout-inner">
+<h3 class="callout-title">Challenge<em> (continued)</em>
+</h3>
 <div class="callout-content">
-
+<p>Challenge 2: Compute Moran’s I on a New Variable</p>
+<p>Choose any numeric variable in your dataset:</p>
+<p>Extract the variable</p>
+<p>Compute Moran’s I</p>
+<p>Interpret whether clustering exists</p>
 </div>
 </div>
 </div>
@@ -823,44 +957,24 @@ challenge blocks?</h3>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution2" aria-expanded="false" aria-controls="collapseSolution2">
   <h4 class="accordion-header" id="headingSolution2"> Show me the solution </h4>
 </button>
-<div id="collapseSolution2" class="accordion-collapse collapse" data-bs-parent="#accordionSolution2" aria-labelledby="headingSolution2">
+<div id="collapseSolution2" class="accordion-collapse collapse" aria-labelledby="headingSolution2" data-bs-parent="#accordionSolution2">
 <div class="accordion-body">
-<p>You can add a line with at least three colons and a
-<code>solution</code> tag.</p>
+<p>A positive Moran’s I with low p-value → strong clustering. Near zero
+→ randomness. Negative → spatial dispersion.</p>
 </div>
-</div>
-</div>
-</div>
-</section><section><h2 class="section-heading" id="figures">Figures<a class="anchor" aria-label="anchor" href="#figures"></a>
-</h2>
-<hr class="half-width">
-<p>You can use standard markdown for static figures with the following
-syntax:</p>
-<p><code>![optional caption that appears below the figure](figure url){alt='alt text for accessibility purposes'}</code></p>
-<figure><img src="https://raw.githubusercontent.com/carpentries/logo/master/Badge_Carpentries.svg" alt="Blue Carpentries hex person logo with no text." class="figure mx-auto d-block"><div class="figcaption">You belong in The Carpentries!</div>
-</figure><div id="callout1" class="callout">
-<div class="callout-square">
-<i class="callout-icon" data-feather="bell"></i>
-</div>
-<span class="callout-header">Callout</span>
-<div class="callout-inner">
-<div class="callout-content">
-<p>Callout sections can highlight information.</p>
-<p>They are sometimes used to emphasise particularly important points
-but are also used in some lessons to present “asides”: content that is
-not central to the narrative of the lesson, e.g. by providing the answer
-to a commonly-asked question.</p>
 </div>
 </div>
 </div>
 </section><section><h2 class="section-heading" id="math">Math<a class="anchor" aria-label="anchor" href="#math"></a>
 </h2>
 <hr class="half-width">
-<p>One of our episodes contains <span class="math inline">\(\LaTeX\)</span> equations when describing how to
-create dynamic reports with {knitr}, so we now use mathjax to describe
-this:</p>
-<p><code>$\alpha = \dfrac{1}{(1 - \beta)^2}$</code> becomes: <span class="math inline">\(\alpha = \dfrac{1}{(1 - \beta)^2}\)</span></p>
-<p>Cool, right?</p>
+<p>Global Moran’s I is defined as:</p>
+<p><code>$ I = \frac{N}{W} \frac{\sum_i \sum_j w_{ij}(x_i - \bar{x})(x_j - \bar{x})} {\sum_i (x_i - \bar{x})^2} $</code></p>
+<p>Where:</p>
+<p><code>N</code> = number of observations</p>
+<p><code>W</code> = sum of all spatial weights</p>
+<p><code>w_ij</code> = weight between units i and j</p>
+<p><code>x</code> = variable of interest</p>
 <div id="keypoints1" class="callout keypoints">
 <div class="callout-square">
 <i class="callout-icon" data-feather="key"></i>
@@ -868,24 +982,44 @@ this:</p>
 <span class="callout-header">Key Points</span>
 <div class="callout-inner">
 <div class="callout-content">
-<ul>
-<li>Use <code>.md</code> files for episodes when you want static
-content</li>
-<li>Use <code>.Rmd</code> files for episodes when you need to generate
-output</li>
-<li>Run <code>sandpaper::check_lesson()</code> to identify any issues
-with your lesson</li>
-<li>Run <code>sandpaper::build_lesson()</code> to preview your lesson
-locally</li>
-</ul>
+<p>PySAL provides tools for weights, autocorrelation, clustering, and
+modeling</p>
+<p>Queen and rook weights define spatial neighbors differently</p>
+<p>Moran’s I measures global autocorrelation</p>
+<p>Local Moran (LISA) identifies hotspots and coldspots</p>
+<p>GeoPandas and PySAL together form a powerful spatial analysis
+workflow</p>
 </div>
 </div>
 </div>
+</section><div class="section level1">
+<h1 id="module-overview">Module Overview<a class="anchor" aria-label="anchor" href="#module-overview"></a>
+</h1>
+<table class="table">
+<colgroup>
+<col width="14%">
+<col width="85%">
+</colgroup>
+<thead><tr class="header">
+<th>Lesson</th>
+<th>Overview</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td><a href="https://colab.research.google.com/github/SpatialTurn/DataCollection-Notebooks/blob/main/Census/pysal_basic.ipynb" target="_blank" class="external-link">Beginner</a></td>
+<td>Introduction to Spatial Analysis using PySAL package.</td>
+</tr>
+<tr class="even">
+<td><a href="">Advanced</a></td>
+<td>(to be added)</td>
+</tr>
+</tbody>
+</table>
 <!--
 Place links that you need to refer to multiple times across pages here. Delete
 any links that you are not going to use.
  -->
-</section></section><section id="aio-cluster"><p>Content from <a href="cluster.html">Introduction to Spatial Clustering in Python</a></p>
+</div></section><section id="aio-cluster"><p>Content from <a href="cluster.html">Spatial Clustering</a></p>
 <hr>
 <p>Last updated on 2025-11-21 |
 
@@ -1083,7 +1217,7 @@ when:</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution1" aria-expanded="false" aria-controls="collapseSolution1">
   <h4 class="accordion-header" id="headingSolution1"> Show me the solution </h4>
 </button>
-<div id="collapseSolution1" class="accordion-collapse collapse" aria-labelledby="headingSolution1" data-bs-parent="#accordionSolution1">
+<div id="collapseSolution1" class="accordion-collapse collapse" data-bs-parent="#accordionSolution1" aria-labelledby="headingSolution1">
 <div class="accordion-body">
 <p>Example Interpretation</p>
 <ul>
@@ -1122,7 +1256,7 @@ better</p></li>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution2" aria-expanded="false" aria-controls="collapseSolution2">
   <h4 class="accordion-header" id="headingSolution2"> Show me the solution </h4>
 </button>
-<div id="collapseSolution2" class="accordion-collapse collapse" aria-labelledby="headingSolution2" data-bs-parent="#accordionSolution2">
+<div id="collapseSolution2" class="accordion-collapse collapse" data-bs-parent="#accordionSolution2" aria-labelledby="headingSolution2">
 <div class="accordion-body">
 <p>Larger <code>eps</code> creates larger clusters. Smaller
 <code>eps</code> creates more clusters and more noise points.</p>
