@@ -1,5 +1,5 @@
 ---
-title: "Introduction to Spatial Clustering in Python"
+title: "Spatial Clustering"
 teaching: 100
 exercises: 1
 ---
