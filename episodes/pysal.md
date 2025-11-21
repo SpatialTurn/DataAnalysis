@@ -1,114 +1,234 @@
 ---
-title: "Spatial Analysis"
+title: "Introduction to Spatial Analysis with PySAL"
 teaching: 100
 exercises: 1
 ---
 
 :::::::::::::::::::::::::::::::::::::: questions 
 
-- How do you write a lesson using Markdown and `{sandpaper}`?
+- What is PySAL and what can it do for spatial analysis?
+- How do we compute spatial weights and perform spatial autocorrelation?
+- How do we interpret results like Moran’s I?
 
 ::::::::::::::::::::::::::::::::::::::::::::::::
 
 ::::::::::::::::::::::::::::::::::::: objectives
 
-- Explain how to use markdown with The Carpentries Workbench
-- Demonstrate how to include pieces of code, figures, and nested challenge blocks
+- Understand the purpose of PySAL in spatial data science
+- Learn how to load spatial data using GeoPandas
+- Construct spatial weight matrices
+- Compute Global Moran’s I using PySAL
+- Visualize spatial clustering and spatial autocorrelation
 
 ::::::::::::::::::::::::::::::::::::::::::::::::
 
 ## Introduction
 
-This is a lesson created via The Carpentries Workbench. It is written in
-[Pandoc-flavored Markdown](https://pandoc.org/MANUAL.html) for static files and
-[R Markdown][r-markdown] for dynamic files that can render code into output. 
-Please refer to the [Introduction to The Carpentries 
-Workbench](https://carpentries.github.io/sandpaper-docs/) for full documentation.
+[PySAL](https://pysal.org/) is the Python Spatial Analysis Library — a powerful,
+open-source toolkit for working with spatial data. It provides tools for:
 
-What you need to know is that there are three sections required for a valid
-Carpentries lesson:
+- spatial weights  
+- spatial autocorrelation  
+- clustering  
+- spatial regression  
+- neighborhood analysis  
 
- 1. `questions` are displayed at the beginning of the episode to prime the
-    learner for the content.
- 2. `objectives` are the learning objectives for an episode displayed with
-    the questions.
- 3. `keypoints` are displayed at the end of the episode to reinforce the
-    objectives.
+This tutorial introduces the **core PySAL workflow**, closely following the
+structure used in your uploaded notebook.  
+
+We will cover:
+
+1. Loading polygon or point data  
+2. Building spatial weights  
+3. Running Global Moran’s I  
+4. Visualizing results  
+
+This tutorial assumes basic familiarity with `pandas`, `geopandas`, and Python.
+
+What you need to know for Carpentries lessons:
+
+ 1. `questions` prime the learner for the lesson.
+ 2. `objectives` state what skills will be gained.
+ 3. `keypoints` summarize what was learned.
 
 :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::: instructor
 
-Inline instructor notes can help inform instructors of timing challenges
-associated with the lessons. They appear in the "Instructor View"
+Learners may struggle initially with spatial weights (rook, queen, k-nearest).
+Spend extra time walking through simple diagrams before showing code.
 
 ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 
-::::::::::::::::::::::::::::::::::::: challenge 
 
-## Challenge 1: Can you do it?
+## 1. Loading Spatial Data
 
-What is the output of this command?
+PySAL works seamlessly with **GeoPandas**.  
+Here’s a simple example using a polygon shapefile:
 
-```r
-paste("This", "new", "lesson", "looks", "good")
+```python
+import geopandas as gpd
+
+gdf = gpd.read_file("data/shapes.shp")
+gdf.head()
 ```
 
-:::::::::::::::::::::::: solution 
-
-## Output
- 
-```output
-[1] "This new lesson looks good"
+Plot the boundaries:
+```python
+gdf.plot(edgecolor="black", figsize=(6,6))
 ```
+This ensures the geometry is valid and loads correctly.
+
+## 2. Building Spatial Weights
+
+Spatial weights define who is a neighbor of whom.
+
+PySAL includes:
+
+- Rook contiguity
+
+- Queen contiguity
+
+- K-nearest neighbors
+
+- Distance-based neighbors
+
+### Example: Queen Contiguity
+```python
+from libpysal.weights import Queen
+
+w = Queen.from_dataframe(gdf)
+w.transform = "R"  # row-standardization
+```
+Check neighbors of the first polygon:
+```python
+w.neighbors[0]
+```
+
+## 3. Global Moran's I
+
+Moran’s I measures global spatial autocorrelation:
+
+- Positive values → clustering
+
+- Negative values → dispersion
+
+- Near zero → random pattern
+
+Assume the dataset has a numeric column `value`:
+```python
+import esda
+import numpy as np
+
+y = gdf['value']
+mi = esda.Moran(y, w)
+```
+View the results:
+```python
+mi.I, mi.p_sim
+```
+
+Plot the Moran scatterplot:
+```python
+import splot.esda as esdaplot
+
+esdaplot.moran_scatterplot(mi)
+```
+
+## 4. Local Moran's I (Outlier Analysis)
+
+Local Moran's I finds hotspots and coldspots.
+```python
+lisa = esda.Moran_Local(y, w)
+```
+
+Add LISA quadrant labels to the GeoDataFrame:
+```python
+gdf["lisa_cluster"] = lisa.q
+```
+Map the clusters:
+```python
+gdf.plot(column="lisa_cluster", cmap="Set1", figsize=(8,6), legend=True)
+```
+This creates a basic LISA cluster map.
+
+::::::::::::::::::::::::::::::::::::: challenge
+
+Challenge 1: Create Your Own Spatial Weights
+
+Using the GeoDataFrame loaded above:
+
+- Create rook contiguity weights
+
+- Print the neighbor list for observation 10
+
+- Compare how rook vs queen differ
+
+```python
+from libpysal.weights import Rook
+w_rook = Rook.from_dataframe(gdf)
+w_rook.neighbors[10]
+```
+
+:::::::::::::::::::::::: solution
+
+Queen neighbors may include diagonal touches.
+Rook neighbors require shared edges only.
+You should see fewer rook neighbors than queen neighbors.
 
 :::::::::::::::::::::::::::::::::
 
+Challenge 2: Compute Moran’s I on a New Variable
 
-## Challenge 2: how do you nest solutions within challenge blocks?
+Choose any numeric variable in your dataset:
 
-:::::::::::::::::::::::: solution 
+Extract the variable
 
-You can add a line with at least three colons and a `solution` tag.
+Compute Moran’s I
+
+Interpret whether clustering exists
+
+:::::::::::::::::::::::: solution
+
+A positive Moran’s I with low p-value → strong clustering.
+Near zero → randomness.
+Negative → spatial dispersion.
 
 :::::::::::::::::::::::::::::::::
-::::::::::::::::::::::::::::::::::::::::::::::::
-
-## Figures
-
-You can use standard markdown for static figures with the following syntax:
-
-`![optional caption that appears below the figure](figure url){alt='alt text for
-accessibility purposes'}`
-
-![You belong in The Carpentries!](https://raw.githubusercontent.com/carpentries/logo/master/Badge_Carpentries.svg){alt='Blue Carpentries hex person logo with no text.'}
-
-::::::::::::::::::::::::::::::::::::: callout
-
-Callout sections can highlight information.
-
-They are sometimes used to emphasise particularly important points
-but are also used in some lessons to present "asides": 
-content that is not central to the narrative of the lesson,
-e.g. by providing the answer to a commonly-asked question.
-
 ::::::::::::::::::::::::::::::::::::::::::::::::
 
 
 ## Math
 
-One of our episodes contains $\LaTeX$ equations when describing how to create
-dynamic reports with {knitr}, so we now use mathjax to describe this:
+Global Moran’s I is defined as:
 
-`$\alpha = \dfrac{1}{(1 - \beta)^2}$` becomes: $\alpha = \dfrac{1}{(1 - \beta)^2}$
+`$ I = \frac{N}{W} \frac{\sum_i \sum_j w_{ij}(x_i - \bar{x})(x_j - \bar{x})} {\sum_i (x_i - \bar{x})^2} $`
 
-Cool, right?
+Where:
 
-::::::::::::::::::::::::::::::::::::: keypoints 
+`N` = number of observations
 
-- Use `.md` files for episodes when you want static content
-- Use `.Rmd` files for episodes when you need to generate output
-- Run `sandpaper::check_lesson()` to identify any issues with your lesson
-- Run `sandpaper::build_lesson()` to preview your lesson locally
+`W` = sum of all spatial weights
+
+`w_ij` = weight between units i and j
+
+`x` = variable of interest
+
+::::::::::::::::::::::::::::::::::::: keypoints
+
+PySAL provides tools for weights, autocorrelation, clustering, and modeling
+
+Queen and rook weights define spatial neighbors differently
+
+Moran’s I measures global autocorrelation
+
+Local Moran (LISA) identifies hotspots and coldspots
+
+GeoPandas and PySAL together form a powerful spatial analysis workflow
 
 ::::::::::::::::::::::::::::::::::::::::::::::::
 
-[r-markdown]: https://rmarkdown.rstudio.com/
+# Module Overview
+
+| Lesson            | Overview                                                                                                   |
+|-------------------|------------------------------------------------------------------------------------------------------------|
+| <a href="https://colab.research.google.com/github/SpatialTurn/DataCollection-Notebooks/blob/main/Census/pysal_basic.ipynb" target="_blank">Beginner</a> | Introduction to Spatial Analysis using PySAL package. |
+| [Advanced]()  |  (to be added) |
