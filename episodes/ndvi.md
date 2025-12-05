@@ -69,7 +69,7 @@ nir = rasterio.open("LC08_L1TP_nir.tif")
 
 red_band = red.read(1).astype('float32')
 nir_band = nir.read(1).astype('float32')
-```python
+```
 
 Plot a band to inspect:
 ```python
