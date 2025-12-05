@@ -244,7 +244,8 @@
 
     <div id="flush-collapsecurrent" class="accordion-collapse collapse show" aria-labelledby="flush-headingcurrent" data-bs-parent="#accordionFlushcurrent">
       <div class="accordion-body">
-        <ul><li><a href="#introduction">Introduction</a></li>
+        <ul><li><a href="#why-is-spatial-clustering-important">Why is Spatial Clustering Important?</a></li>
+<li><a href="#introduction">Introduction</a></li>
 <li><a href="#loading-spatial-point-data">1. Loading Spatial Point Data</a></li>
 <li><a href="#k-means-clustering">2. K-Means Clustering</a></li>
 <li><a href="#hierarchical-clustering">3. Hierarchical Clustering</a></li>
@@ -323,7 +324,7 @@
       </div>
       <hr></nav><main id="main-content" class="main-content"><div class="container lesson-content">
         <h1>Spatial Clustering</h1>
-        <p>Last updated on 2025-11-21 |
+        <p>Last updated on 2025-12-05 |
 
         <a href="https://github.com/carpentries/workbench-template-md/edit/main/episodes/cluster.md" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
 
@@ -364,7 +365,62 @@ differ?</li>
 </div>
 </div>
 </div>
-<section><h2 class="section-heading" id="introduction">Introduction<a class="anchor" aria-label="anchor" href="#introduction"></a></h2>
+<section><h2 class="section-heading" id="why-is-spatial-clustering-important">Why is Spatial Clustering Important?<a class="anchor" aria-label="anchor" href="#why-is-spatial-clustering-important"></a></h2>
+<hr class="half-width"><p>Spatial clustering is a core method in geospatial analysis for
+identifying how points, people, places, or events are distributed across
+space. Instead of treating data as isolated observations, clustering
+helps us detect <strong>patterns</strong>, revealing where
+concentrations or groupings occur — and just as importantly, where they
+do not.</p>
+<p>Clustering allows us to transform large sets of point data into
+meaningful spatial insights that can guide research, decision-making,
+and planning.</p>
+<div class="section level3">
+<h3 id="what-spatial-clustering-helps-us-understand">What Spatial Clustering Helps Us Understand<a class="anchor" aria-label="anchor" href="#what-spatial-clustering-helps-us-understand"></a></h3>
+<ul><li>Where events or features form geographic
+<strong>hotspots</strong>
+</li>
+<li>How points group based on proximity or similarity</li>
+<li>Regions of high vs. low density</li>
+<li>Patterns of distribution — clustered, dispersed, or random?</li>
+<li>Spatial relationships in social, environmental, or urban data</li>
+<li>Location-based trends that maps alone may not reveal</li>
+</ul></div>
+<div class="section level3">
+<h3 id="why-analysts-use-spatial-clustering">Why Analysts Use Spatial Clustering<a class="anchor" aria-label="anchor" href="#why-analysts-use-spatial-clustering"></a></h3>
+<ul><li>Reduces <strong>complex spatial datasets</strong> into interpretable
+groups<br></li>
+<li>Helps detect clusters in public health (disease outbreaks), crime,
+ecology, and more<br></li>
+<li>Identifies <strong>emerging hotspots</strong> for management or
+intervention<br></li>
+<li>Useful for <strong>urban planning, environmental monitoring, and
+archaeology</strong><br></li>
+<li>Works well as a first step for further spatial statistics (PySAL,
+regression, AI)<br></li>
+<li>Enables classification, prediction, and pattern recognition in large
+datasets</li>
+</ul></div>
+<div class="section level3">
+<h3 id="clustering-at-a-glance">Clustering at a Glance<a class="anchor" aria-label="anchor" href="#clustering-at-a-glance"></a></h3>
+<table class="table"><colgroup><col width="33%"><col width="33%"><col width="33%"></colgroup><thead><tr class="header"><th>Method</th>
+<th>Strength</th>
+<th>Best For</th>
+</tr></thead><tbody><tr class="odd"><td>K-Means</td>
+<td>Simple, fast</td>
+<td>Well-separated, circular clusters</td>
+</tr><tr class="even"><td>Hierarchical</td>
+<td>Dendrogram visualization</td>
+<td>Multi-scale grouping, unknown k values</td>
+</tr><tr class="odd"><td>DBSCAN</td>
+<td>Finds irregular shapes + noise</td>
+<td>Spatial hotspots and natural patterns</td>
+</tr></tbody></table><p>Spatial clustering is often the <strong>first analytical
+step</strong> when exploring point distribution. It moves the analysis
+beyond visual mapping — showing not only where points are located, but
+how spatial processes shape them.</p>
+</div>
+</section><section><h2 class="section-heading" id="introduction">Introduction<a class="anchor" aria-label="anchor" href="#introduction"></a></h2>
 <hr class="half-width"><p>Spatial clustering is a core method used in geography, archaeology,
 ecology, and urban studies. It helps identify <em>patterns</em> in the
 spatial distribution of points—such as hotspots of crime, clusters of
@@ -386,7 +442,7 @@ uploaded notebook.</p>
 <button class="accordion-button instructor-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseInstructor1" aria-expanded="false" aria-controls="collapseInstructor1">
   <h3 class="accordion-header" id="headingInstructor1">  <div class="note-square"><i aria-hidden="true" class="callout-icon" data-feather="edit-2"></i></div> Instructor Note </h3>
 </button>
-<div id="collapseInstructor1" class="accordion-collapse collapse" data-bs-parent="#accordionInstructor1" aria-labelledby="headingInstructor1">
+<div id="collapseInstructor1" class="accordion-collapse collapse" aria-labelledby="headingInstructor1" data-bs-parent="#accordionInstructor1">
 <div class="accordion-body">
 <p>Learners may need extra time understanding the differences between
 clustering algorithms. Consider pausing after each method and showing
@@ -513,7 +569,7 @@ when:</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution1" aria-expanded="false" aria-controls="collapseSolution1">
   <h4 class="accordion-header" id="headingSolution1"> Show me the solution </h4>
 </button>
-<div id="collapseSolution1" class="accordion-collapse collapse" data-bs-parent="#accordionSolution1" aria-labelledby="headingSolution1">
+<div id="collapseSolution1" class="accordion-collapse collapse" aria-labelledby="headingSolution1" data-bs-parent="#accordionSolution1">
 <div class="accordion-body">
 <p>Example Interpretation</p>
 <ul><li><p>K-Means finds evenly divided clusters</p></li>
@@ -550,7 +606,7 @@ better</p></li>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution2" aria-expanded="false" aria-controls="collapseSolution2">
   <h4 class="accordion-header" id="headingSolution2"> Show me the solution </h4>
 </button>
-<div id="collapseSolution2" class="accordion-collapse collapse" data-bs-parent="#accordionSolution2" aria-labelledby="headingSolution2">
+<div id="collapseSolution2" class="accordion-collapse collapse" aria-labelledby="headingSolution2" data-bs-parent="#accordionSolution2">
 <div class="accordion-body">
 <p>Larger <code>eps</code> creates larger clusters. Smaller
 <code>eps</code> creates more clusters and more noise points.</p>
@@ -657,7 +713,7 @@ any links that you are not going to use.
   "url": "https://carpentries.github.io/workbench-template-md/instructor/cluster.html",
   "identifier": "https://carpentries.github.io/workbench-template-md/instructor/cluster.html",
   "dateCreated": "2025-12-05",
-  "dateModified": "2025-11-21",
+  "dateModified": "2025-12-05",
   "datePublished": "2025-12-05"
 }
 

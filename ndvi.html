@@ -253,7 +253,7 @@
 
     <div id="flush-collapsecurrent" class="accordion-collapse collapse show" aria-labelledby="flush-headingcurrent" data-bs-parent="#accordionFlushcurrent">
       <div class="accordion-body">
-        <ul><li><a href="#introduction">Introduction</a></li>
+        <ul><li><a href="#why-is-ndvi-important">Why is NDVI Important?</a></li>
 <li><a href="#installing-required-libraries">1. Installing Required Libraries</a></li>
 <li><a href="#import-dependencies">2. Import Dependencies</a></li>
 <li><a href="#load-landsat-red-and-nir-bands">3. Load Landsat RED and NIR Bands</a></li>
@@ -364,28 +364,62 @@
 </div>
 </div>
 </div>
-<section><h2 class="section-heading" id="introduction">Introduction<a class="anchor" aria-label="anchor" href="#introduction"></a></h2>
-<hr class="half-width"><p>Normalized Difference Vegetation Index (NDVI) is a widely used metric
-to estimate vegetation health and greenness from satellite imagery. It
-uses the <strong>Near-Infrared (NIR)</strong> and <strong>Red</strong>
-spectral bands:</p>
-<p><span class="math display">\[
-NDVI = \frac{NIR - RED}{NIR + RED}
-\]</span></p>
-<p>Values range from <strong>-1 to +1</strong>, where:</p>
-<table class="table"><thead><tr class="header"><th>NDVI Value</th>
-<th>Meaning</th>
-</tr></thead><tbody><tr class="odd"><td>&lt; 0</td>
-<td>Water / clouds / snow</td>
+<section><h2 class="section-heading" id="why-is-ndvi-important">Why is NDVI Important?<a class="anchor" aria-label="anchor" href="#why-is-ndvi-important"></a></h2>
+<hr class="half-width"><p>NDVI is one of the most widely used vegetation indices in remote
+sensing because it provides a simple yet powerful way to assess plant
+health and landscape greenness over large areas. Healthy vegetation
+strongly reflects Near-Infrared (NIR) light and absorbs Red light for
+photosynthesis — NDVI takes advantage of this behavior to quantify
+vegetation vigor.</p>
+<div class="section level3">
+<h3 id="what-ndvi-helps-us-understand">What NDVI Helps Us Understand<a class="anchor" aria-label="anchor" href="#what-ndvi-helps-us-understand"></a></h3>
+<ul><li>Crop health and agricultural productivity<br></li>
+<li>Drought severity and water stress<br></li>
+<li>Forest cover and vegetation density<br></li>
+<li>Urban expansion and land use change<br></li>
+<li>Seasonal phenology (spring green-up, fall senescence)<br></li>
+<li>Disaster monitoring (wildfire burn severity, storm damage)</li>
+</ul></div>
+<div class="section level3">
+<h3 id="why-researchers-use-ndvi">Why Researchers Use NDVI<a class="anchor" aria-label="anchor" href="#why-researchers-use-ndvi"></a></h3>
+<ul><li>It is <strong>easy to compute</strong> from satellite imagery<br></li>
+<li>Works across multiple sensors (Landsat, Sentinel-2, MODIS,
+etc.)<br></li>
+<li>Allows <strong>temporal comparison</strong> (year-to-year vegetation
+trends)<br></li>
+<li>Useful for <strong>ecosystem monitoring &amp; climate change
+studies</strong><br></li>
+<li>Enables <strong>land cover classification</strong> and biomass
+estimation<br></li>
+<li>Supports <strong>decision-making in agriculture and
+forestry</strong>
+</li>
+</ul></div>
+<div class="section level3">
+<h3 id="ndvi-interpretation-at-a-glance">NDVI Interpretation at a Glance<a class="anchor" aria-label="anchor" href="#ndvi-interpretation-at-a-glance"></a></h3>
+<table class="table"><thead><tr class="header"><th>NDVI Range</th>
+<th>Interpretation</th>
+<th>Example Areas</th>
+</tr></thead><tbody><tr class="odd"><td>-1 to 0</td>
+<td>Water, snow, clouds, barren</td>
+<td>Lakes, rivers</td>
 </tr><tr class="even"><td>0–0.2</td>
-<td>Barren land / urban surfaces</td>
+<td>Bare soil, built-up land</td>
+<td>Urban areas, deserts</td>
 </tr><tr class="odd"><td>0.2–0.5</td>
-<td>Sparse vegetation</td>
+<td>Moderate vegetation</td>
+<td>Grasslands, shrubs</td>
 </tr><tr class="even"><td>&gt; 0.5</td>
 <td>Dense, healthy vegetation</td>
-</tr></tbody></table><p>In this lesson, we will compute NDVI for Indiana using Landsat bands
+<td>Forests, croplands</td>
+</tr></tbody></table><p>NDVI is therefore a foundation metric in environmental science —
+enabling researchers, planners, and ecologists to <strong>visualize
+vegetation patterns, track change through time, and make data-driven
+decisions about land and resources.</strong></p>
+<p>In this lesson, we will compute NDVI for Indiana using Landsat bands
 and generate maps with Python.</p>
 
+</div>
 </section><section><h2 class="section-heading" id="installing-required-libraries">1. Installing Required Libraries<a class="anchor" aria-label="anchor" href="#installing-required-libraries"></a></h2>
 <hr class="half-width"><div class="codewrapper sourceCode" id="cb1">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>

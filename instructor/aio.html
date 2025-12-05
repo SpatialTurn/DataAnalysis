@@ -732,7 +732,7 @@ any links that you are not going to use.
  -->
 </div></section><section id="aio-pysal"><p>Content from <a href="pysal.html">Spatial Analysis</a></p>
 <hr>
-<p>Last updated on 2025-11-21 |
+<p>Last updated on 2025-12-05 |
 
         <a href="https://github.com/carpentries/workbench-template-md/edit/main/episodes/pysal.md" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
 <p>Estimated time: <i aria-hidden="true" data-feather="clock"></i> 101 minutes</p>
@@ -771,7 +771,112 @@ autocorrelation?</li>
 </div>
 </div>
 </div>
-<section><h2 class="section-heading" id="introduction">Introduction<a class="anchor" aria-label="anchor" href="#introduction"></a>
+<section><h2 class="section-heading" id="why-is-pysal-important">Why is PySAL Important?<a class="anchor" aria-label="anchor" href="#why-is-pysal-important"></a>
+</h2>
+<hr class="half-width">
+<p>PySAL (Python Spatial Analysis Library) is one of the most widely
+used toolkits for working with spatial data in Python. Unlike
+traditional statistical libraries, PySAL is designed specifically for
+datasets where <strong>location matters</strong> — where observations
+influence nearby observations, and spatial patterns may not be
+random.</p>
+<p>Geographers, urban planners, environmental scientists,
+epidemiologists, and data analysts use PySAL to identify spatial
+relationships, detect clustering, and build models that incorporate
+proximity and geography.</p>
+<div class="section level3">
+<h3 id="what-pysal-helps-us-understand">What PySAL Helps Us Understand<a class="anchor" aria-label="anchor" href="#what-pysal-helps-us-understand"></a>
+</h3>
+<ul>
+<li>Where events cluster or disperse across space<br>
+</li>
+<li>Whether high or low values form <strong>hotspots or
+coldspots</strong><br>
+</li>
+<li>How neighborhoods influence one another (spatial dependency)<br>
+</li>
+<li>Spatial inequality patterns in income, population, crime, disease,
+etc.<br>
+</li>
+<li>Geographic diffusion (wildfire spread, disease transmission,
+migration flows)<br>
+</li>
+<li>Environmental change and land-use impacts</li>
+</ul>
+</div>
+<div class="section level3">
+<h3 id="why-researchers-use-pysal">Why Researchers Use PySAL<a class="anchor" aria-label="anchor" href="#why-researchers-use-pysal"></a>
+</h3>
+<ul>
+<li>Built for <strong>spatial statistics</strong> — tools that general
+libraries lack<br>
+</li>
+<li>Easy integration with <strong>GeoPandas, raster data, and
+shapefiles</strong><br>
+</li>
+<li>Provides standard spatial methods such as:
+<ul>
+<li>Spatial weights (Queen, Rook, KNN, Distance-based)<br>
+</li>
+<li>Global &amp; Local Moran’s I (LISA)<br>
+</li>
+<li>Spatial clustering &amp; hotspot detection<br>
+</li>
+<li>Spatial regression models<br>
+</li>
+</ul>
+</li>
+<li>Enables <strong>data-driven decision making in
+geography</strong><br>
+</li>
+<li>Scales from local studies to large regional/global analyses<br>
+</li>
+<li>Helps test spatial hypotheses scientifically instead of
+visually</li>
+</ul>
+</div>
+<div class="section level3">
+<h3 id="spatial-analysis-in-context">Spatial Analysis in Context<a class="anchor" aria-label="anchor" href="#spatial-analysis-in-context"></a>
+</h3>
+<p>Spatial analysis answers questions like:</p>
+<table class="table">
+<colgroup>
+<col width="50%">
+<col width="50%">
+</colgroup>
+<thead><tr class="header">
+<th>Question</th>
+<th>PySAL Method</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td>Do areas with high values cluster together?</td>
+<td>Moran’s I</td>
+</tr>
+<tr class="even">
+<td>Where are hotspots located?</td>
+<td>Local Moran / LISA maps</td>
+</tr>
+<tr class="odd">
+<td>What counts as a neighbor?</td>
+<td>Spatial weights matrices</td>
+</tr>
+<tr class="even">
+<td>Are patterns random or significant?</td>
+<td>Monte Carlo permutation tests</td>
+</tr>
+<tr class="odd">
+<td>How do variables influence each other across space?</td>
+<td>Spatial regression</td>
+</tr>
+</tbody>
+</table>
+<p>PySAL makes these methods accessible in Python, allowing analysts to
+move from <strong>maps</strong> to <strong>statistical evidence</strong>
+— revealing underlying spatial patterns that are not visible from
+visualization alone.</p>
+</div>
+</section><section><h2 class="section-heading" id="introduction">Introduction<a class="anchor" aria-label="anchor" href="#introduction"></a>
 </h2>
 <hr class="half-width">
 <p><a href="https://pysal.org/" class="external-link">PySAL</a> is the Python Spatial Analysis
@@ -816,7 +921,7 @@ closely following the structure used in your uploaded notebook.</p>
 <button class="accordion-button instructor-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseInstructor1" aria-expanded="false" aria-controls="collapseInstructor1">
   <h3 class="accordion-header" id="headingInstructor1">  <div class="note-square"><i aria-hidden="true" class="callout-icon" data-feather="edit-2"></i></div> Instructor Note </h3>
 </button>
-<div id="collapseInstructor1" class="accordion-collapse collapse" aria-labelledby="headingInstructor1" data-bs-parent="#accordionInstructor1">
+<div id="collapseInstructor1" class="accordion-collapse collapse" data-bs-parent="#accordionInstructor1" aria-labelledby="headingInstructor1">
 <div class="accordion-body">
 <p>Learners may struggle initially with spatial weights (rook, queen,
 k-nearest). Spend extra time walking through simple diagrams before
@@ -959,7 +1064,7 @@ Here’s a simple example using a polygon shapefile:</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution1" aria-expanded="false" aria-controls="collapseSolution1">
   <h4 class="accordion-header" id="headingSolution1"> Show me the solution </h4>
 </button>
-<div id="collapseSolution1" class="accordion-collapse collapse" aria-labelledby="headingSolution1" data-bs-parent="#accordionSolution1">
+<div id="collapseSolution1" class="accordion-collapse collapse" data-bs-parent="#accordionSolution1" aria-labelledby="headingSolution1">
 <div class="accordion-body">
 <p>Queen neighbors may include diagonal touches. Rook neighbors require
 shared edges only. You should see fewer rook neighbors than queen
@@ -992,7 +1097,7 @@ neighbors.</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution2" aria-expanded="false" aria-controls="collapseSolution2">
   <h4 class="accordion-header" id="headingSolution2"> Show me the solution </h4>
 </button>
-<div id="collapseSolution2" class="accordion-collapse collapse" aria-labelledby="headingSolution2" data-bs-parent="#accordionSolution2">
+<div id="collapseSolution2" class="accordion-collapse collapse" data-bs-parent="#accordionSolution2" aria-labelledby="headingSolution2">
 <div class="accordion-body">
 <p>A positive Moran’s I with low p-value → strong clustering. Near zero
 → randomness. Negative → spatial dispersion.</p>
@@ -1056,7 +1161,7 @@ any links that you are not going to use.
  -->
 </div></section><section id="aio-cluster"><p>Content from <a href="cluster.html">Spatial Clustering</a></p>
 <hr>
-<p>Last updated on 2025-11-21 |
+<p>Last updated on 2025-12-05 |
 
         <a href="https://github.com/carpentries/workbench-template-md/edit/main/episodes/cluster.md" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
 <p>Estimated time: <i aria-hidden="true" data-feather="clock"></i> 101 minutes</p>
@@ -1094,7 +1199,93 @@ differ?</li>
 </div>
 </div>
 </div>
-<section><h2 class="section-heading" id="introduction">Introduction<a class="anchor" aria-label="anchor" href="#introduction"></a>
+<section><h2 class="section-heading" id="why-is-spatial-clustering-important">Why is Spatial Clustering Important?<a class="anchor" aria-label="anchor" href="#why-is-spatial-clustering-important"></a>
+</h2>
+<hr class="half-width">
+<p>Spatial clustering is a core method in geospatial analysis for
+identifying how points, people, places, or events are distributed across
+space. Instead of treating data as isolated observations, clustering
+helps us detect <strong>patterns</strong>, revealing where
+concentrations or groupings occur — and just as importantly, where they
+do not.</p>
+<p>Clustering allows us to transform large sets of point data into
+meaningful spatial insights that can guide research, decision-making,
+and planning.</p>
+<div class="section level3">
+<h3 id="what-spatial-clustering-helps-us-understand">What Spatial Clustering Helps Us Understand<a class="anchor" aria-label="anchor" href="#what-spatial-clustering-helps-us-understand"></a>
+</h3>
+<ul>
+<li>Where events or features form geographic
+<strong>hotspots</strong>
+</li>
+<li>How points group based on proximity or similarity</li>
+<li>Regions of high vs. low density</li>
+<li>Patterns of distribution — clustered, dispersed, or random?</li>
+<li>Spatial relationships in social, environmental, or urban data</li>
+<li>Location-based trends that maps alone may not reveal</li>
+</ul>
+</div>
+<div class="section level3">
+<h3 id="why-analysts-use-spatial-clustering">Why Analysts Use Spatial Clustering<a class="anchor" aria-label="anchor" href="#why-analysts-use-spatial-clustering"></a>
+</h3>
+<ul>
+<li>Reduces <strong>complex spatial datasets</strong> into interpretable
+groups<br>
+</li>
+<li>Helps detect clusters in public health (disease outbreaks), crime,
+ecology, and more<br>
+</li>
+<li>Identifies <strong>emerging hotspots</strong> for management or
+intervention<br>
+</li>
+<li>Useful for <strong>urban planning, environmental monitoring, and
+archaeology</strong><br>
+</li>
+<li>Works well as a first step for further spatial statistics (PySAL,
+regression, AI)<br>
+</li>
+<li>Enables classification, prediction, and pattern recognition in large
+datasets</li>
+</ul>
+</div>
+<div class="section level3">
+<h3 id="clustering-at-a-glance">Clustering at a Glance<a class="anchor" aria-label="anchor" href="#clustering-at-a-glance"></a>
+</h3>
+<table class="table">
+<colgroup>
+<col width="33%">
+<col width="33%">
+<col width="33%">
+</colgroup>
+<thead><tr class="header">
+<th>Method</th>
+<th>Strength</th>
+<th>Best For</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td>K-Means</td>
+<td>Simple, fast</td>
+<td>Well-separated, circular clusters</td>
+</tr>
+<tr class="even">
+<td>Hierarchical</td>
+<td>Dendrogram visualization</td>
+<td>Multi-scale grouping, unknown k values</td>
+</tr>
+<tr class="odd">
+<td>DBSCAN</td>
+<td>Finds irregular shapes + noise</td>
+<td>Spatial hotspots and natural patterns</td>
+</tr>
+</tbody>
+</table>
+<p>Spatial clustering is often the <strong>first analytical
+step</strong> when exploring point distribution. It moves the analysis
+beyond visual mapping — showing not only where points are located, but
+how spatial processes shape them.</p>
+</div>
+</section><section><h2 class="section-heading" id="introduction">Introduction<a class="anchor" aria-label="anchor" href="#introduction"></a>
 </h2>
 <hr class="half-width">
 <p>Spatial clustering is a core method used in geography, archaeology,
@@ -1123,7 +1314,7 @@ uploaded notebook.</p>
 <button class="accordion-button instructor-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseInstructor1" aria-expanded="false" aria-controls="collapseInstructor1">
   <h3 class="accordion-header" id="headingInstructor1">  <div class="note-square"><i aria-hidden="true" class="callout-icon" data-feather="edit-2"></i></div> Instructor Note </h3>
 </button>
-<div id="collapseInstructor1" class="accordion-collapse collapse" data-bs-parent="#accordionInstructor1" aria-labelledby="headingInstructor1">
+<div id="collapseInstructor1" class="accordion-collapse collapse" aria-labelledby="headingInstructor1" data-bs-parent="#accordionInstructor1">
 <div class="accordion-body">
 <p>Learners may need extra time understanding the differences between
 clustering algorithms. Consider pausing after each method and showing
@@ -1266,7 +1457,7 @@ when:</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution1" aria-expanded="false" aria-controls="collapseSolution1">
   <h4 class="accordion-header" id="headingSolution1"> Show me the solution </h4>
 </button>
-<div id="collapseSolution1" class="accordion-collapse collapse" data-bs-parent="#accordionSolution1" aria-labelledby="headingSolution1">
+<div id="collapseSolution1" class="accordion-collapse collapse" aria-labelledby="headingSolution1" data-bs-parent="#accordionSolution1">
 <div class="accordion-body">
 <p>Example Interpretation</p>
 <ul>
@@ -1305,7 +1496,7 @@ better</p></li>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution2" aria-expanded="false" aria-controls="collapseSolution2">
   <h4 class="accordion-header" id="headingSolution2"> Show me the solution </h4>
 </button>
-<div id="collapseSolution2" class="accordion-collapse collapse" data-bs-parent="#accordionSolution2" aria-labelledby="headingSolution2">
+<div id="collapseSolution2" class="accordion-collapse collapse" aria-labelledby="headingSolution2" data-bs-parent="#accordionSolution2">
 <div class="accordion-body">
 <p>Larger <code>eps</code> creates larger clusters. Smaller
 <code>eps</code> creates more clusters and more noise points.</p>
@@ -1409,41 +1600,91 @@ any links that you are not going to use.
 </div>
 </div>
 </div>
-<section><h2 class="section-heading" id="introduction">Introduction<a class="anchor" aria-label="anchor" href="#introduction"></a>
+<section><h2 class="section-heading" id="why-is-ndvi-important">Why is NDVI Important?<a class="anchor" aria-label="anchor" href="#why-is-ndvi-important"></a>
 </h2>
 <hr class="half-width">
-<p>Normalized Difference Vegetation Index (NDVI) is a widely used metric
-to estimate vegetation health and greenness from satellite imagery. It
-uses the <strong>Near-Infrared (NIR)</strong> and <strong>Red</strong>
-spectral bands:</p>
-<p><span class="math display">\[
-NDVI = \frac{NIR - RED}{NIR + RED}
-\]</span></p>
-<p>Values range from <strong>-1 to +1</strong>, where:</p>
+<p>NDVI is one of the most widely used vegetation indices in remote
+sensing because it provides a simple yet powerful way to assess plant
+health and landscape greenness over large areas. Healthy vegetation
+strongly reflects Near-Infrared (NIR) light and absorbs Red light for
+photosynthesis — NDVI takes advantage of this behavior to quantify
+vegetation vigor.</p>
+<div class="section level3">
+<h3 id="what-ndvi-helps-us-understand">What NDVI Helps Us Understand<a class="anchor" aria-label="anchor" href="#what-ndvi-helps-us-understand"></a>
+</h3>
+<ul>
+<li>Crop health and agricultural productivity<br>
+</li>
+<li>Drought severity and water stress<br>
+</li>
+<li>Forest cover and vegetation density<br>
+</li>
+<li>Urban expansion and land use change<br>
+</li>
+<li>Seasonal phenology (spring green-up, fall senescence)<br>
+</li>
+<li>Disaster monitoring (wildfire burn severity, storm damage)</li>
+</ul>
+</div>
+<div class="section level3">
+<h3 id="why-researchers-use-ndvi">Why Researchers Use NDVI<a class="anchor" aria-label="anchor" href="#why-researchers-use-ndvi"></a>
+</h3>
+<ul>
+<li>It is <strong>easy to compute</strong> from satellite imagery<br>
+</li>
+<li>Works across multiple sensors (Landsat, Sentinel-2, MODIS,
+etc.)<br>
+</li>
+<li>Allows <strong>temporal comparison</strong> (year-to-year vegetation
+trends)<br>
+</li>
+<li>Useful for <strong>ecosystem monitoring &amp; climate change
+studies</strong><br>
+</li>
+<li>Enables <strong>land cover classification</strong> and biomass
+estimation<br>
+</li>
+<li>Supports <strong>decision-making in agriculture and
+forestry</strong>
+</li>
+</ul>
+</div>
+<div class="section level3">
+<h3 id="ndvi-interpretation-at-a-glance">NDVI Interpretation at a Glance<a class="anchor" aria-label="anchor" href="#ndvi-interpretation-at-a-glance"></a>
+</h3>
 <table class="table">
 <thead><tr class="header">
-<th>NDVI Value</th>
-<th>Meaning</th>
+<th>NDVI Range</th>
+<th>Interpretation</th>
+<th>Example Areas</th>
 </tr></thead>
 <tbody>
 <tr class="odd">
-<td>&lt; 0</td>
-<td>Water / clouds / snow</td>
+<td>-1 to 0</td>
+<td>Water, snow, clouds, barren</td>
+<td>Lakes, rivers</td>
 </tr>
 <tr class="even">
 <td>0–0.2</td>
-<td>Barren land / urban surfaces</td>
+<td>Bare soil, built-up land</td>
+<td>Urban areas, deserts</td>
 </tr>
 <tr class="odd">
 <td>0.2–0.5</td>
-<td>Sparse vegetation</td>
+<td>Moderate vegetation</td>
+<td>Grasslands, shrubs</td>
 </tr>
 <tr class="even">
 <td>&gt; 0.5</td>
 <td>Dense, healthy vegetation</td>
+<td>Forests, croplands</td>
 </tr>
 </tbody>
 </table>
+<p>NDVI is therefore a foundation metric in environmental science —
+enabling researchers, planners, and ecologists to <strong>visualize
+vegetation patterns, track change through time, and make data-driven
+decisions about land and resources.</strong></p>
 <p>In this lesson, we will compute NDVI for Indiana using Landsat bands
 and generate maps with Python.</p>
 <div id="accordionInstructor1" class="accordion instructor-note accordion-flush">
@@ -1455,6 +1696,7 @@ and generate maps with Python.</p>
 <div class="accordion-body">
 <p>Pause after NDVI formula — ensure learners understand band meanings
 and data types.</p>
+</div>
 </div>
 </div>
 </div>

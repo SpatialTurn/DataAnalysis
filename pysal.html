@@ -235,7 +235,8 @@
 
     <div id="flush-collapsecurrent" class="accordion-collapse collapse show" aria-labelledby="flush-headingcurrent" data-bs-parent="#accordionFlushcurrent">
       <div class="accordion-body">
-        <ul><li><a href="#introduction">Introduction</a></li>
+        <ul><li><a href="#why-is-pysal-important">Why is PySAL Important?</a></li>
+<li><a href="#introduction">Introduction</a></li>
 <li><a href="#loading-spatial-data">1. Loading Spatial Data</a></li>
 <li><a href="#building-spatial-weights">2. Building Spatial Weights</a></li>
 <li><a href="#global-morans-i">3. Global Moran’s I</a></li>
@@ -323,7 +324,7 @@
       </div>
       <hr></nav><main id="main-content" class="main-content"><div class="container lesson-content">
         <h1>Spatial Analysis</h1>
-        <p>Last updated on 2025-11-21 |
+        <p>Last updated on 2025-12-05 |
 
         <a href="https://github.com/carpentries/workbench-template-md/edit/main/episodes/pysal.md" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
 
@@ -363,7 +364,68 @@ autocorrelation?</li>
 </div>
 </div>
 </div>
-<section><h2 class="section-heading" id="introduction">Introduction<a class="anchor" aria-label="anchor" href="#introduction"></a></h2>
+<section><h2 class="section-heading" id="why-is-pysal-important">Why is PySAL Important?<a class="anchor" aria-label="anchor" href="#why-is-pysal-important"></a></h2>
+<hr class="half-width"><p>PySAL (Python Spatial Analysis Library) is one of the most widely
+used toolkits for working with spatial data in Python. Unlike
+traditional statistical libraries, PySAL is designed specifically for
+datasets where <strong>location matters</strong> — where observations
+influence nearby observations, and spatial patterns may not be
+random.</p>
+<p>Geographers, urban planners, environmental scientists,
+epidemiologists, and data analysts use PySAL to identify spatial
+relationships, detect clustering, and build models that incorporate
+proximity and geography.</p>
+<div class="section level3">
+<h3 id="what-pysal-helps-us-understand">What PySAL Helps Us Understand<a class="anchor" aria-label="anchor" href="#what-pysal-helps-us-understand"></a></h3>
+<ul><li>Where events cluster or disperse across space<br></li>
+<li>Whether high or low values form <strong>hotspots or
+coldspots</strong><br></li>
+<li>How neighborhoods influence one another (spatial dependency)<br></li>
+<li>Spatial inequality patterns in income, population, crime, disease,
+etc.<br></li>
+<li>Geographic diffusion (wildfire spread, disease transmission,
+migration flows)<br></li>
+<li>Environmental change and land-use impacts</li>
+</ul></div>
+<div class="section level3">
+<h3 id="why-researchers-use-pysal">Why Researchers Use PySAL<a class="anchor" aria-label="anchor" href="#why-researchers-use-pysal"></a></h3>
+<ul><li>Built for <strong>spatial statistics</strong> — tools that general
+libraries lack<br></li>
+<li>Easy integration with <strong>GeoPandas, raster data, and
+shapefiles</strong><br></li>
+<li>Provides standard spatial methods such as:
+<ul><li>Spatial weights (Queen, Rook, KNN, Distance-based)<br></li>
+<li>Global &amp; Local Moran’s I (LISA)<br></li>
+<li>Spatial clustering &amp; hotspot detection<br></li>
+<li>Spatial regression models<br></li>
+</ul></li>
+<li>Enables <strong>data-driven decision making in
+geography</strong><br></li>
+<li>Scales from local studies to large regional/global analyses<br></li>
+<li>Helps test spatial hypotheses scientifically instead of
+visually</li>
+</ul></div>
+<div class="section level3">
+<h3 id="spatial-analysis-in-context">Spatial Analysis in Context<a class="anchor" aria-label="anchor" href="#spatial-analysis-in-context"></a></h3>
+<p>Spatial analysis answers questions like:</p>
+<table class="table"><colgroup><col width="50%"><col width="50%"></colgroup><thead><tr class="header"><th>Question</th>
+<th>PySAL Method</th>
+</tr></thead><tbody><tr class="odd"><td>Do areas with high values cluster together?</td>
+<td>Moran’s I</td>
+</tr><tr class="even"><td>Where are hotspots located?</td>
+<td>Local Moran / LISA maps</td>
+</tr><tr class="odd"><td>What counts as a neighbor?</td>
+<td>Spatial weights matrices</td>
+</tr><tr class="even"><td>Are patterns random or significant?</td>
+<td>Monte Carlo permutation tests</td>
+</tr><tr class="odd"><td>How do variables influence each other across space?</td>
+<td>Spatial regression</td>
+</tr></tbody></table><p>PySAL makes these methods accessible in Python, allowing analysts to
+move from <strong>maps</strong> to <strong>statistical evidence</strong>
+— revealing underlying spatial patterns that are not visible from
+visualization alone.</p>
+</div>
+</section><section><h2 class="section-heading" id="introduction">Introduction<a class="anchor" aria-label="anchor" href="#introduction"></a></h2>
 <hr class="half-width"><p><a href="https://pysal.org/" class="external-link">PySAL</a> is the Python Spatial Analysis
 Library — a powerful, open-source toolkit for working with spatial data.
 It provides tools for:</p>
@@ -507,7 +569,7 @@ Here’s a simple example using a polygon shapefile:</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution1" aria-expanded="false" aria-controls="collapseSolution1">
   <h4 class="accordion-header" id="headingSolution1"> Show me the solution </h4>
 </button>
-<div id="collapseSolution1" class="accordion-collapse collapse" aria-labelledby="headingSolution1" data-bs-parent="#accordionSolution1">
+<div id="collapseSolution1" class="accordion-collapse collapse" data-bs-parent="#accordionSolution1" aria-labelledby="headingSolution1">
 <div class="accordion-body">
 <p>Queen neighbors may include diagonal touches. Rook neighbors require
 shared edges only. You should see fewer rook neighbors than queen
@@ -538,7 +600,7 @@ neighbors.</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution2" aria-expanded="false" aria-controls="collapseSolution2">
   <h4 class="accordion-header" id="headingSolution2"> Show me the solution </h4>
 </button>
-<div id="collapseSolution2" class="accordion-collapse collapse" aria-labelledby="headingSolution2" data-bs-parent="#accordionSolution2">
+<div id="collapseSolution2" class="accordion-collapse collapse" data-bs-parent="#accordionSolution2" aria-labelledby="headingSolution2">
 <div class="accordion-body">
 <p>A positive Moran’s I with low p-value → strong clustering. Near zero
 → randomness. Negative → spatial dispersion.</p>
@@ -646,7 +708,7 @@ any links that you are not going to use.
   "url": "https://carpentries.github.io/workbench-template-md/pysal.html",
   "identifier": "https://carpentries.github.io/workbench-template-md/pysal.html",
   "dateCreated": "2025-12-05",
-  "dateModified": "2025-11-21",
+  "dateModified": "2025-12-05",
   "datePublished": "2025-12-05"
 }
 
