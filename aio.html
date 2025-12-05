@@ -75,6 +75,7 @@
 </li>
       </div>
 
+
       <div class="dropdown" id="instructor-dropdown">
         <button class="btn btn-secondary dropdown-toggle bordered-button" type="button" id="dropdownMenu1" data-bs-toggle="dropdown" aria-expanded="false">
           <i aria-hidden="true" class="icon" data-feather="eye"></i> Learner View <i data-feather="chevron-down"></i>
@@ -280,6 +281,18 @@
   <div class="accordion-item">
     <div class="accordion-header" id="flush-heading5">
         <a href="cluster.html">4. Spatial Clustering</a>
+    </div>
+<!--/div.accordion-header-->
+
+  </div>
+<!--/div.accordion-item-->
+</div>
+<!--/div.accordion-flush-->
+
+<div class="accordion accordion-flush" id="accordionFlush6">
+  <div class="accordion-item">
+    <div class="accordion-header" id="flush-heading6">
+        <a href="ndvi.html">5. NDVI Analysis</a>
     </div>
 <!--/div.accordion-header-->
 
@@ -926,7 +939,7 @@ Here’s a simple example using a polygon shapefile:</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution1" aria-expanded="false" aria-controls="collapseSolution1">
   <h4 class="accordion-header" id="headingSolution1"> Show me the solution </h4>
 </button>
-<div id="collapseSolution1" class="accordion-collapse collapse" data-bs-parent="#accordionSolution1" aria-labelledby="headingSolution1">
+<div id="collapseSolution1" class="accordion-collapse collapse" aria-labelledby="headingSolution1" data-bs-parent="#accordionSolution1">
 <div class="accordion-body">
 <p>Queen neighbors may include diagonal touches. Rook neighbors require
 shared edges only. You should see fewer rook neighbors than queen
@@ -959,7 +972,7 @@ neighbors.</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution2" aria-expanded="false" aria-controls="collapseSolution2">
   <h4 class="accordion-header" id="headingSolution2"> Show me the solution </h4>
 </button>
-<div id="collapseSolution2" class="accordion-collapse collapse" data-bs-parent="#accordionSolution2" aria-labelledby="headingSolution2">
+<div id="collapseSolution2" class="accordion-collapse collapse" aria-labelledby="headingSolution2" data-bs-parent="#accordionSolution2">
 <div class="accordion-body">
 <p>A positive Moran’s I with low p-value → strong clustering. Near zero
 → randomness. Negative → spatial dispersion.</p>
@@ -1321,6 +1334,290 @@ correctly</p></li>
 Place links that you need to refer to multiple times across pages here. Delete
 any links that you are not going to use.
  -->
+</div></section><section id="aio-ndvi"><p>Content from <a href="ndvi.html">NDVI Analysis</a></p>
+<hr>
+<p>Last updated on 2025-12-05 |
+
+        <a href="https://github.com/carpentries/workbench-template-md/edit/main/episodes/ndvi.md" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
+<div class="text-end">
+          <button role="button" aria-pressed="false" tabindex="0" id="expand-code" class="pull-right" data-expand="Expand All Solutions " data-collapse="Collapse All Solutions "> Expand All Solutions <i aria-hidden="true" data-feather="plus"></i></button>
+        </div>
+<div class="overview card">
+<h2 class="card-header">Overview</h2>
+<div class="row g-0">
+<div class="col-md-4">
+<div class="card-body">
+<div class="inner">
+<h3 class="card-title">Questions</h3>
+<ul>
+<li>What is NDVI and why is it useful?</li>
+<li>How do we calculate NDVI from Landsat imagery?</li>
+<li>How do we load and visualize raster data in Python?</li>
+<li>How can we classify and map greenness using NDVI?</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="col-md-8">
+<div class="card-body">
+<div class="inner bordered">
+<h3 class="card-title">Objectives</h3>
+<ul>
+<li>Understand NDVI and the spectral bands needed to compute it</li>
+<li>Learn to read geospatial raster files using rasterio</li>
+<li>Calculate NDVI using Red &amp; NIR bands from Landsat</li>
+<li>Visualize NDVI as a map with color gradients</li>
+<li>Create a simple vegetation classification from NDVI values</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+</div>
+<section><h2 class="section-heading" id="introduction">Introduction<a class="anchor" aria-label="anchor" href="#introduction"></a>
+</h2>
+<hr class="half-width">
+<p>Normalized Difference Vegetation Index (NDVI) is a widely used metric
+to estimate vegetation health and greenness from satellite imagery. It
+uses the <strong>Near-Infrared (NIR)</strong> and <strong>Red</strong>
+spectral bands:</p>
+<p><span class="math display">\[
+NDVI = \frac{NIR - RED}{NIR + RED}
+\]</span></p>
+<p>Values range from <strong>-1 to +1</strong>, where:</p>
+<table class="table">
+<thead><tr class="header">
+<th>NDVI Value</th>
+<th>Meaning</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td>&lt; 0</td>
+<td>Water / clouds / snow</td>
+</tr>
+<tr class="even">
+<td>0–0.2</td>
+<td>Barren land / urban surfaces</td>
+</tr>
+<tr class="odd">
+<td>0.2–0.5</td>
+<td>Sparse vegetation</td>
+</tr>
+<tr class="even">
+<td>&gt; 0.5</td>
+<td>Dense, healthy vegetation</td>
+</tr>
+</tbody>
+</table>
+<p>In this lesson, we will compute NDVI for Indiana using Landsat bands
+and generate maps with Python.</p>
+
+</section><section><h2 class="section-heading" id="installing-required-libraries">1. Installing Required Libraries<a class="anchor" aria-label="anchor" href="#installing-required-libraries"></a>
+</h2>
+<hr class="half-width">
+<div class="codewrapper sourceCode" id="cb1">
+<h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="op">!</span>pip install rasterio matplotlib numpy</span></code></pre>
+</div>
+</section><section><h2 class="section-heading" id="import-dependencies">2. Import Dependencies<a class="anchor" aria-label="anchor" href="#import-dependencies"></a>
+</h2>
+<hr class="half-width">
+<div class="codewrapper sourceCode" id="cb2">
+<h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a><span class="im">import</span> rasterio</span>
+<span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span></code></pre>
+</div>
+</section><section><h2 class="section-heading" id="load-landsat-red-and-nir-bands">3. Load Landsat RED and NIR Bands<a class="anchor" aria-label="anchor" href="#load-landsat-red-and-nir-bands"></a>
+</h2>
+<hr class="half-width">
+<p>Make sure your directory contains Landsat <code>.TIF</code> files
+(Band 4 = Red, Band 5 = NIR).</p>
+<div class="codewrapper sourceCode" id="cb3">
+<h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a>red <span class="op">=</span> rasterio.<span class="bu">open</span>(<span class="st">"LC08_L1TP_red.tif"</span>)</span>
+<span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a>nir <span class="op">=</span> rasterio.<span class="bu">open</span>(<span class="st">"LC08_L1TP_nir.tif"</span>)</span>
+<span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a></span>
+<span id="cb3-4"><a href="#cb3-4" tabindex="-1"></a>red_band <span class="op">=</span> red.read(<span class="dv">1</span>).astype(<span class="st">'float32'</span>)</span>
+<span id="cb3-5"><a href="#cb3-5" tabindex="-1"></a>nir_band <span class="op">=</span> nir.read(<span class="dv">1</span>).astype(<span class="st">'float32'</span>)</span></code></pre>
+</div>
+<p>Plot a band to inspect:</p>
+<div class="codewrapper sourceCode" id="cb4">
+<h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a>plt.imshow(red_band, cmap<span class="op">=</span><span class="st">'Reds'</span>)</span>
+<span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a>plt.title(<span class="st">"Red Band"</span>)</span>
+<span id="cb4-3"><a href="#cb4-3" tabindex="-1"></a>plt.colorbar()</span>
+<span id="cb4-4"><a href="#cb4-4" tabindex="-1"></a>plt.show()</span></code></pre>
+</div>
+</section><section><h2 class="section-heading" id="calculate-ndvi">4. Calculate NDVI<a class="anchor" aria-label="anchor" href="#calculate-ndvi"></a>
+</h2>
+<hr class="half-width">
+<div class="codewrapper sourceCode" id="cb5">
+<h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a>ndvi <span class="op">=</span> (nir_band <span class="op">-</span> red_band) <span class="op">/</span> (nir_band <span class="op">+</span> red_band)</span></code></pre>
+</div>
+<p>Visualize NDVI:</p>
+<div class="codewrapper sourceCode" id="cb6">
+<h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">7</span>,<span class="dv">6</span>))</span>
+<span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a>plt.imshow(ndvi, cmap<span class="op">=</span><span class="st">'YlGn'</span>)</span>
+<span id="cb6-3"><a href="#cb6-3" tabindex="-1"></a>plt.colorbar(label<span class="op">=</span><span class="st">"NDVI Value"</span>)</span>
+<span id="cb6-4"><a href="#cb6-4" tabindex="-1"></a>plt.title(<span class="st">"NDVI Map of Indiana"</span>)</span>
+<span id="cb6-5"><a href="#cb6-5" tabindex="-1"></a>plt.show()</span></code></pre>
+</div>
+</section><section><h2 class="section-heading" id="classify-ndvi-into-vegetation-categories">5. Classify NDVI into Vegetation Categories<a class="anchor" aria-label="anchor" href="#classify-ndvi-into-vegetation-categories"></a>
+</h2>
+<hr class="half-width">
+<div class="codewrapper sourceCode" id="cb7">
+<h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a>ndvi_class <span class="op">=</span> np.digitize(ndvi, bins<span class="op">=</span>[<span class="dv">0</span>, <span class="fl">0.2</span>, <span class="fl">0.5</span>])</span>
+<span id="cb7-2"><a href="#cb7-2" tabindex="-1"></a></span>
+<span id="cb7-3"><a href="#cb7-3" tabindex="-1"></a><span class="co"># 0 = water/barren, 1 = low vegetation, 2 = dense vegetation</span></span>
+<span id="cb7-4"><a href="#cb7-4" tabindex="-1"></a>colors <span class="op">=</span> [<span class="st">'blue'</span>, <span class="st">'yellow'</span>, <span class="st">'green'</span>]</span>
+<span id="cb7-5"><a href="#cb7-5" tabindex="-1"></a>plt.imshow(ndvi_class, cmap<span class="op">=</span>plt.matplotlib.colors.ListedColormap(colors))</span>
+<span id="cb7-6"><a href="#cb7-6" tabindex="-1"></a>plt.title(<span class="st">"NDVI Vegetation Classification"</span>)</span>
+<span id="cb7-7"><a href="#cb7-7" tabindex="-1"></a>plt.show()</span></code></pre>
+</div>
+<div id="challenge-1-try-it-yourself" class="callout challenge">
+<div class="callout-square">
+<i class="callout-icon" data-feather="zap"></i>
+</div>
+<span class="callout-header">Challenge</span>
+<div id="challenge-1-try-it-yourself" class="callout-inner">
+<h3 class="callout-title">Challenge 1 — Try It Yourself</h3>
+<div class="callout-content">
+<ul>
+<li><p>Change the NDVI color map (cmap)</p></li>
+<li><p>Classify NDVI into four categories instead of three</p></li>
+<li><p>Add labels or legends to your final map</p></li>
+</ul>
+</div>
+</div>
+</div>
+<div id="accordionSolution1" class="accordion challenge-accordion accordion-flush">
+<div class="accordion-item">
+<button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution1" aria-expanded="false" aria-controls="collapseSolution1">
+  <h4 class="accordion-header" id="headingSolution1"> Show me the solution </h4>
+</button>
+<div id="collapseSolution1" class="accordion-collapse collapse" aria-labelledby="headingSolution1" data-bs-parent="#accordionSolution1">
+<div class="accordion-body">
+<div class="codewrapper sourceCode" id="cb8">
+<h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a>bins <span class="op">=</span> [<span class="dv">0</span>, <span class="fl">0.2</span>, <span class="fl">0.4</span>, <span class="fl">0.6</span>]</span>
+<span id="cb8-2"><a href="#cb8-2" tabindex="-1"></a>ndvi_class <span class="op">=</span> np.digitize(ndvi, bins<span class="op">=</span>bins)</span></code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div id="challenge-2-mask-water-pixels" class="callout challenge">
+<div class="callout-square">
+<i class="callout-icon" data-feather="zap"></i>
+</div>
+<span class="callout-header">Challenge</span>
+<div id="challenge-2-mask-water-pixels" class="callout-inner">
+<h3 class="callout-title">Challenge 2 — Mask Water Pixels</h3>
+<div class="callout-content">
+<p>Use NDVI to mask water (&lt;0):</p>
+<div class="codewrapper sourceCode" id="cb9">
+<h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a>water_mask <span class="op">=</span> ndvi <span class="op">&lt;</span> <span class="dv">0</span></span>
+<span id="cb9-2"><a href="#cb9-2" tabindex="-1"></a>ndvi_water_removed <span class="op">=</span> np.where(water_mask, np.nan, ndvi)</span>
+<span id="cb9-3"><a href="#cb9-3" tabindex="-1"></a></span>
+<span id="cb9-4"><a href="#cb9-4" tabindex="-1"></a>plt.imshow(ndvi_water_removed, cmap<span class="op">=</span><span class="st">'YlGn'</span>)</span>
+<span id="cb9-5"><a href="#cb9-5" tabindex="-1"></a>plt.title(<span class="st">"NDVI with Water Masked"</span>)</span>
+<span id="cb9-6"><a href="#cb9-6" tabindex="-1"></a>plt.show()</span></code></pre>
+</div>
+</div>
+</div>
+</div>
+<div id="accordionSolution2" class="accordion challenge-accordion accordion-flush">
+<div class="accordion-item">
+<button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution2" aria-expanded="false" aria-controls="collapseSolution2">
+  <h4 class="accordion-header" id="headingSolution2"> Show me the solution </h4>
+</button>
+<div id="collapseSolution2" class="accordion-collapse collapse" aria-labelledby="headingSolution2" data-bs-parent="#accordionSolution2">
+<div class="accordion-body">
+<p>Water regions become transparent/ignored in the plot.</p>
+</div>
+</div>
+</div>
+</div>
+<div id="callout1" class="callout">
+<div class="callout-square">
+<i class="callout-icon" data-feather="bell"></i>
+</div>
+<span class="callout-header">Callout</span>
+<div class="callout-inner">
+<div class="callout-content">
+<p>NDVI is affected by seasonality, cloud cover, and atmospheric
+effects. Always check metadata to ensure you’re comparing compatible
+scenes.</p>
+</div>
+</div>
+</div>
+</section><section><h2 class="section-heading" id="math">Math<a class="anchor" aria-label="anchor" href="#math"></a>
+</h2>
+<hr class="half-width">
+<p>NDVI uses reflectance difference between two bands:</p>
+<p><code>NDVI = (NIR - RED)/(NIR + RED)</code></p>
+<p>NIR increases with vegetation health — higher NDVI = greener
+land.</p>
+<div id="keypoints1" class="callout keypoints">
+<div class="callout-square">
+<i class="callout-icon" data-feather="key"></i>
+</div>
+<span class="callout-header">Key Points</span>
+<div class="callout-inner">
+<div class="callout-content">
+<ul>
+<li><p>NDVI uses Red &amp; NIR reflectance from satellite
+imagery</p></li>
+<li><p>Landsat Band 4 = Red, Band 5 = NIR for NDVI</p></li>
+<li><p>NDVI ranges from -1 (water) to +1 (healthy vegetation)</p></li>
+<li><p>Python tools: rasterio, numpy, matplotlib</p></li>
+<li><p>NDVI maps reveal vegetation patterns visually and
+quantitatively</p></li>
+</ul>
+</div>
+</div>
+</div>
+</section><div class="section level1">
+<h1 id="module-overview">Module Overview<a class="anchor" aria-label="anchor" href="#module-overview"></a>
+</h1>
+<table class="table">
+<colgroup>
+<col width="14%">
+<col width="85%">
+</colgroup>
+<thead><tr class="header">
+<th>Lesson</th>
+<th>Overview</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td><a href="https://colab.research.google.com/github/SpatialTurn/DataCollection-Notebooks/blob/main/Census/NDVI_Indiana.ipynb" target="_blank" class="external-link">Beginner</a></td>
+<td>Introduction to NDVI using LANDSAT Dataset.</td>
+</tr>
+<tr class="even">
+<td><a href="">Advanced</a></td>
+<td>(to be added)</td>
+</tr>
+</tbody>
+</table>
+<!--
+Place links that you need to refer to multiple times across pages here. Delete
+any links that you are not going to use.
+ -->
 </div></section>
 </div>
     </main>
@@ -1339,15 +1636,17 @@ any links that you are not going to use.
 	
         | <a href="https://github.com/carpentries/workbench-template-md/blob/main/CONTRIBUTING.md" class="external-link">Contributing</a>
         | <a href="https://github.com/carpentries/workbench-template-md/" class="external-link">Source</a></p>
-				<p><a href="https://github.com/carpentries/workbench-template-md/blob/main/CITATION.cff" class="external-link">Cite</a> | <a href="mailto:team@carpentries.org">Contact</a> | <a href="https://carpentries.org/about/" class="external-link">About</a></p>
-			</div>
-			<div class="col-md-6">
+        <p>
+        <a href="citation.html">Cite</a>
+        | <a href="mailto:team@carpentries.org">Contact</a> | <a href="https://carpentries.org/about/" class="external-link">About</a></p>
+		</div>
+		<div class="col-md-6">
 
         <p>Materials licensed under <a href="LICENSE.html">CC-BY 4.0</a> by the authors</p>
 
         <p>Template licensed under <a href="https://creativecommons.org/licenses/by-sa/4.0/" class="external-link">CC-BY 4.0</a> by <a href="https://carpentries.org/" class="external-link">The Carpentries</a></p>
-        <p>Built with <a href="https://github.com/carpentries/sandpaper/tree/0.17.1" class="external-link">sandpaper (0.17.1)</a>, <a href="https://github.com/carpentries/pegboard/tree/0.7.9" class="external-link">pegboard (0.7.9)</a>, and <a href="https://github.com/carpentries/varnish/tree/1.0.7" class="external-link">varnish (1.0.7)</a></p>
-			</div>
+        <p>Built with <a href="https://github.com/carpentries/sandpaper/tree/0.17.3" class="external-link">sandpaper (0.17.3)</a>, <a href="https://github.com/carpentries/pegboard/tree/0.7.9" class="external-link">pegboard (0.7.9)</a>, and <a href="https://github.com/carpentries/varnish/tree/1.0.9" class="external-link">varnish (1.0.9)</a></p>
+		</div>
 		</footer>
 </div> <!-- / div.container -->
 	<div id="to-top">
@@ -1368,9 +1667,9 @@ any links that you are not going to use.
   "creativeWorkStatus": "active",
   "url": "https://carpentries.github.io/workbench-template-md/aio.html",
   "identifier": "https://carpentries.github.io/workbench-template-md/aio.html",
-  "dateCreated": "2025-11-21",
-  "dateModified": "2025-12-02",
-  "datePublished": "2025-12-02"
+  "dateCreated": "2025-12-05",
+  "dateModified": "2025-12-05",
+  "datePublished": "2025-12-05"
 }
 
   </script><script>

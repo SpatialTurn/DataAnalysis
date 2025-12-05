@@ -16,6 +16,9 @@
     <loc>https://carpentries.github.io/workbench-template-md/aio.html</loc>
   </url>
   <url>
+    <loc>https://carpentries.github.io/workbench-template-md/citation.html</loc>
+  </url>
+  <url>
     <loc>https://carpentries.github.io/workbench-template-md/cluster.html</loc>
   </url>
   <url>
@@ -40,6 +43,9 @@
     <loc>https://carpentries.github.io/workbench-template-md/instructor/aio.html</loc>
   </url>
   <url>
+    <loc>https://carpentries.github.io/workbench-template-md/instructor/citation.html</loc>
+  </url>
+  <url>
     <loc>https://carpentries.github.io/workbench-template-md/instructor/cluster.html</loc>
   </url>
   <url>
@@ -56,6 +62,9 @@
   </url>
   <url>
     <loc>https://carpentries.github.io/workbench-template-md/instructor/key-points.html</loc>
+  </url>
+  <url>
+    <loc>https://carpentries.github.io/workbench-template-md/instructor/ndvi.html</loc>
   </url>
   <url>
     <loc>https://carpentries.github.io/workbench-template-md/instructor/networkanalysis.html</loc>
@@ -77,6 +86,9 @@
   </url>
   <url>
     <loc>https://carpentries.github.io/workbench-template-md/key-points.html</loc>
+  </url>
+  <url>
+    <loc>https://carpentries.github.io/workbench-template-md/ndvi.html</loc>
   </url>
   <url>
     <loc>https://carpentries.github.io/workbench-template-md/networkanalysis.html</loc>
