@@ -4,19 +4,20 @@ teaching: 100
 exercises: 2
 ---
 
-:::::::::::::::::::::::::::::::::::::: questions 
+:::::::::::::::::::::::::::::::::::::: questions
 
-- How can network analysis be used to assess food desert accessibility in different regions?
-- What factors should be considered when calculating the shortest path between grocery stores and census tracts?
-- How does the quality of OpenStreetMap data impact the accuracy of network analysis for urban planning?
+- How do we download and visualize road networks with OSM data?
+- What is a graph network and how is it represented in Python?
+- How can we compute shortest paths and network distances?
 
 ::::::::::::::::::::::::::::::::::::::::::::::::
 
 ::::::::::::::::::::::::::::::::::::: objectives
 
-- Demonstrate how to use Python libraries like osmnx and networkx to perform road network analysis for food desert studies.
-- Analyze the relationship between distance, transportation networks, and food accessibility using geospatial data.
-- Evaluate the limitations of network analysis tools and suggest improvements for real-world applications.
+- Learn how to retrieve OpenStreetMap road data using OSMnx
+- Convert road networks into graphs for routing and analysis
+- Visualize networks and shortest paths on a map
+- Compute route distances and travel time across a network
 
 ::::::::::::::::::::::::::::::::::::::::::::::::
 
@@ -56,9 +57,128 @@ A folium map example shows a blue star indicating the centroid of West Lafayette
 - **Data Dependency**: Relies on OpenStreetMap data, which may vary in quality or availability by region.
 - **Performance**: Large networks may require significant computational resources for fetching and processing.
 
+
+## Introduction
+
+Network analysis allows us to study movement, connectivity, and accessibility across
+geographic space. Roads, sidewalks, rivers, power lines, and transit systems can be
+modeled as **graphs**, where intersections are *nodes* and paths are *edges*.
+
+This lesson demonstrates how to:
+
+1. Download a road network using **OSMnx**
+2. Convert it into a **graph using NetworkX**
+3. Visualize the network
+4. Run **shortest path routing** between two locations
+
+---
+
+## 1. Install Required Libraries
+
+```python
+!pip install osmnx networkx matplotlib
+```
+
+## 2. Import Libraries 
+```python
+import osmnx as ox
+import networkx as nx
+import matplotlib.pyplot as plt
+```
+
+## 3. Download a Road Network from OpenStreetMap
+```python
+place = "West Lafayette, Indiana, USA"
+
+G = ox.graph_from_place(place, network_type="drive")
+```
+Visualize network:
+```python
+fig, ax = ox.plot_graph(G, node_size=5, edge_color="gray")
+```
+
+## 4. Convert the Graph to Nodes and Edges GeoDataFrames
+```python
+nodes, edges = ox.graph_to_gdfs(G)
+nodes.head(), edges.head()
+```
+Plot edges alone:
+```python
+edges.plot(figsize=(8,6), linewidth=0.8)
+plt.title("Road Network")
+plt.show()
+```
+
+## 5. Find Shortest Route Between Two Points
+Choose two coordinates manually or by clicking on a map.
+```python
+orig = ox.distance.nearest_nodes(G, -86.9145, 40.4253)  # lon, lat
+dest = ox.distance.nearest_nodes(G, -86.9079, 40.4268)
+```
+Calculate shortest path:
+```python
+route = nx.shortest_path(G, orig, dest, weight="length")
+```
+Plot route:
+```python
+ox.plot_graph_route(G, route, route_color="red")
+```
+
+::::::::::::::::::::::::::::::::::::: challenge
+
+Challenge 1 — Try Your Own Route
+
+* Pick any two points in a city of your choice.
+* Compute and visualize the shortest path between them.
+
+:::::::::::::::::::::::: solution
+```python
+orig = ox.distance.nearest_nodes(G, lon1, lat1)
+dest = ox.distance.nearest_nodes(G, lon2, lat2)
+route = nx.shortest_path(G, orig, dest, weight="length")
+ox.plot_graph_route(G, route)
+```
+:::::::::::::::::::::::::::::::::
+
+Challenge 2 — Estimate Travel Distance
+
+Using your computed route, calculate the total path length:
+```python
+total_length = sum(
+    ox.utils_graph.get_route_edge_attributes(G, route, "length")
+)
+print("Route length (meters):", total_length)
+```
+:::::::::::::::::::::::: solution
+Convert meters → km:
+```python
+print(total_length/1000, "km")
+```
+:::::::::::::::::::::::::::::::::
+::::::::::::::::::::::::::::::::::::::::::::::::
+
+## Math
+
+A network is represented as a graph:
+
+G = (V,E)
+
+Where:
+
+* V = set of nodes (intersections)
+* E = edges (roads)
+
+Shortest path = minimum weighted path across `E`.
+
 ::::::::::::::::::::::::::::::::::::: keypoints
 
-- OSM is a great alternative to map real time locations using Folium feature of Python. 
+* OSMnx simplifies downloading and converting OSM road networks
+
+* Graphs model movement and connectivity in space
+
+* NetworkX allows shortest path and routing analysis
+
+* Visualization helps interpret accessibility patterns
 
 ::::::::::::::::::::::::::::::::::::::::::::::::
 
