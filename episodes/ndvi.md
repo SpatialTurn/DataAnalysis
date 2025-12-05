@@ -133,12 +133,14 @@ plt.imshow(ndvi_water_removed, cmap='YlGn')
 plt.title("NDVI with Water Masked")
 plt.show()
 ```
+
 :::::::::::::::::::::::: solution
 
 Water regions become transparent/ignored in the plot.
 
 :::::::::::::::::::::::::::::::::
 
+::::::::::::::::::::::::::::::::::::::::::::::::
 
 ::::::::::::::::::::::::::::::::::::: callout
 
