@@ -543,7 +543,7 @@ any links that you are not going to use.
  -->
 </div></section><section id="aio-networkanalysis"><p>Content from <a href="networkanalysis.html">Network Analysis</a></p>
 <hr>
-<p>Last updated on 2025-08-11 |
+<p>Last updated on 2025-12-05 |
 
         <a href="https://github.com/carpentries/workbench-template-md/edit/main/episodes/networkanalysis.md" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
 <div class="text-end">
@@ -557,12 +557,9 @@ any links that you are not going to use.
 <div class="inner">
 <h3 class="card-title">Questions</h3>
 <ul>
-<li>How can network analysis be used to assess food desert accessibility
-in different regions?</li>
-<li>What factors should be considered when calculating the shortest path
-between grocery stores and census tracts?</li>
-<li>How does the quality of OpenStreetMap data impact the accuracy of
-network analysis for urban planning?</li>
+<li>How do we download and visualize road networks with OSM data?</li>
+<li>What is a graph network and how is it represented in Python?</li>
+<li>How can we compute shortest paths and network distances?</li>
 </ul>
 </div>
 </div>
@@ -572,12 +569,10 @@ network analysis for urban planning?</li>
 <div class="inner bordered">
 <h3 class="card-title">Objectives</h3>
 <ul>
-<li>Demonstrate how to use Python libraries like osmnx and networkx to
-perform road network analysis for food desert studies.</li>
-<li>Analyze the relationship between distance, transportation networks,
-and food accessibility using geospatial data.</li>
-<li>Evaluate the limitations of network analysis tools and suggest
-improvements for real-world applications.</li>
+<li>Learn how to retrieve OpenStreetMap road data using OSMnx</li>
+<li>Convert road networks into graphs for routing and analysis</li>
+<li>Visualize networks and shortest paths on a map</li>
+<li>Compute route distances and travel time across a network</li>
 </ul>
 </div>
 </div>
@@ -683,6 +678,182 @@ which may vary in quality or availability by region.</li>
 <strong>Performance</strong>: Large networks may require significant
 computational resources for fetching and processing.</li>
 </ul>
+</div>
+</section><section><h2 class="section-heading" id="introduction">Introduction<a class="anchor" aria-label="anchor" href="#introduction"></a>
+</h2>
+<hr class="half-width">
+<p>Network analysis allows us to study movement, connectivity, and
+accessibility across geographic space. Roads, sidewalks, rivers, power
+lines, and transit systems can be modeled as <strong>graphs</strong>,
+where intersections are <em>nodes</em> and paths are <em>edges</em>.</p>
+<p>This lesson demonstrates how to:</p>
+<ol style="list-style-type: decimal">
+<li>Download a road network using <strong>OSMnx</strong>
+</li>
+<li>Convert it into a <strong>graph using NetworkX</strong>
+</li>
+<li>Visualize the network</li>
+<li>Run <strong>shortest path routing</strong> between two
+locations</li>
+</ol>
+<hr></section><section><h2 class="section-heading" id="install-required-libraries">1. Install Required Libraries<a class="anchor" aria-label="anchor" href="#install-required-libraries"></a>
+</h2>
+<hr class="half-width">
+<div class="codewrapper sourceCode" id="cb1">
+<h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="op">!</span>pip install osmnx networkx matplotlib</span></code></pre>
+</div>
+</section><section><h2 class="section-heading" id="import-libraries">2. Import Libraries<a class="anchor" aria-label="anchor" href="#import-libraries"></a>
+</h2>
+<hr class="half-width">
+<div class="codewrapper sourceCode" id="cb2">
+<h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a><span class="im">import</span> osmnx <span class="im">as</span> ox</span>
+<span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a><span class="im">import</span> networkx <span class="im">as</span> nx</span>
+<span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span></code></pre>
+</div>
+</section><section><h2 class="section-heading" id="download-a-road-network-from-openstreetmap">3. Download a Road Network from OpenStreetMap<a class="anchor" aria-label="anchor" href="#download-a-road-network-from-openstreetmap"></a>
+</h2>
+<hr class="half-width">
+<div class="codewrapper sourceCode" id="cb3">
+<h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a>place <span class="op">=</span> <span class="st">"West Lafayette, Indiana, USA"</span></span>
+<span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a></span>
+<span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a>G <span class="op">=</span> ox.graph_from_place(place, network_type<span class="op">=</span><span class="st">"drive"</span>)</span></code></pre>
+</div>
+<p>Visualize network:</p>
+<div class="codewrapper sourceCode" id="cb4">
+<h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a>fig, ax <span class="op">=</span> ox.plot_graph(G, node_size<span class="op">=</span><span class="dv">5</span>, edge_color<span class="op">=</span><span class="st">"gray"</span>)</span></code></pre>
+</div>
+</section><section><h2 class="section-heading" id="convert-the-graph-to-nodes-and-edges-geodataframes">4. Convert the Graph to Nodes and Edges GeoDataFrames<a class="anchor" aria-label="anchor" href="#convert-the-graph-to-nodes-and-edges-geodataframes"></a>
+</h2>
+<hr class="half-width">
+<div class="codewrapper sourceCode" id="cb5">
+<h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a>nodes, edges <span class="op">=</span> ox.graph_to_gdfs(G)</span>
+<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a>nodes.head(), edges.head()</span></code></pre>
+</div>
+<p>Plot edges alone:</p>
+<div class="codewrapper sourceCode" id="cb6">
+<h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a>edges.plot(figsize<span class="op">=</span>(<span class="dv">8</span>,<span class="dv">6</span>), linewidth<span class="op">=</span><span class="fl">0.8</span>)</span>
+<span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a>plt.title(<span class="st">"Road Network"</span>)</span>
+<span id="cb6-3"><a href="#cb6-3" tabindex="-1"></a>plt.show()</span></code></pre>
+</div>
+</section><section><h2 class="section-heading" id="find-shortest-route-between-two-points">5. Find Shortest Route Between Two Points<a class="anchor" aria-label="anchor" href="#find-shortest-route-between-two-points"></a>
+</h2>
+<hr class="half-width">
+<p>Choose two coordinates manually or by clicking on a map.</p>
+<div class="codewrapper sourceCode" id="cb7">
+<h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a>orig <span class="op">=</span> ox.distance.nearest_nodes(G, <span class="op">-</span><span class="fl">86.9145</span>, <span class="fl">40.4253</span>)  <span class="co"># lon, lat</span></span>
+<span id="cb7-2"><a href="#cb7-2" tabindex="-1"></a>dest <span class="op">=</span> ox.distance.nearest_nodes(G, <span class="op">-</span><span class="fl">86.9079</span>, <span class="fl">40.4268</span>)</span></code></pre>
+</div>
+<p>Calculate shortest path:</p>
+<div class="codewrapper sourceCode" id="cb8">
+<h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a>route <span class="op">=</span> nx.shortest_path(G, orig, dest, weight<span class="op">=</span><span class="st">"length"</span>)</span></code></pre>
+</div>
+<p>Plot route:</p>
+<div class="codewrapper sourceCode" id="cb9">
+<h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a>ox.plot_graph_route(G, route, route_color<span class="op">=</span><span class="st">"red"</span>)</span></code></pre>
+</div>
+<div id="challenge1" class="callout challenge">
+<div class="callout-square">
+<i class="callout-icon" data-feather="zap"></i>
+</div>
+<span class="callout-header">Challenge</span>
+<div class="callout-inner">
+<h3 class="callout-title">Challenge</h3>
+<div class="callout-content">
+<p>Challenge 1 — Try Your Own Route</p>
+<ul>
+<li>Pick any two points in a city of your choice.</li>
+<li>Compute and visualize the shortest path between them.</li>
+</ul>
+</div>
+</div>
+</div>
+<div id="accordionSolution1" class="accordion challenge-accordion accordion-flush">
+<div class="accordion-item">
+<button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution1" aria-expanded="false" aria-controls="collapseSolution1">
+  <h4 class="accordion-header" id="headingSolution1"> Show me the solution </h4>
+</button>
+<div id="collapseSolution1" class="accordion-collapse collapse" data-bs-parent="#accordionSolution1" aria-labelledby="headingSolution1">
+<div class="accordion-body">
+<div class="codewrapper sourceCode" id="cb10">
+<h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" tabindex="-1"></a>orig <span class="op">=</span> ox.distance.nearest_nodes(G, lon1, lat1)</span>
+<span id="cb10-2"><a href="#cb10-2" tabindex="-1"></a>dest <span class="op">=</span> ox.distance.nearest_nodes(G, lon2, lat2)</span>
+<span id="cb10-3"><a href="#cb10-3" tabindex="-1"></a>route <span class="op">=</span> nx.shortest_path(G, orig, dest, weight<span class="op">=</span><span class="st">"length"</span>)</span>
+<span id="cb10-4"><a href="#cb10-4" tabindex="-1"></a>ox.plot_graph_route(G, route)</span></code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div id="challenge2" class="callout challenge">
+<div class="callout-square">
+<i class="callout-icon" data-feather="zap"></i>
+</div>
+<span class="callout-header">Challenge</span>
+<div class="callout-inner">
+<h3 class="callout-title">Challenge<em> (continued)</em>
+</h3>
+<div class="callout-content">
+<p>Challenge 2 — Estimate Travel Distance</p>
+<p>Using your computed route, calculate the total path length:</p>
+<div class="codewrapper sourceCode" id="cb11">
+<h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" tabindex="-1"></a>total_length <span class="op">=</span> <span class="bu">sum</span>(</span>
+<span id="cb11-2"><a href="#cb11-2" tabindex="-1"></a>    ox.utils_graph.get_route_edge_attributes(G, route, <span class="st">"length"</span>)</span>
+<span id="cb11-3"><a href="#cb11-3" tabindex="-1"></a>)</span>
+<span id="cb11-4"><a href="#cb11-4" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Route length (meters):"</span>, total_length)</span></code></pre>
+</div>
+</div>
+</div>
+</div>
+<div id="accordionSolution2" class="accordion challenge-accordion accordion-flush">
+<div class="accordion-item">
+<button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution2" aria-expanded="false" aria-controls="collapseSolution2">
+  <h4 class="accordion-header" id="headingSolution2"> Show me the solution </h4>
+</button>
+<div id="collapseSolution2" class="accordion-collapse collapse" data-bs-parent="#accordionSolution2" aria-labelledby="headingSolution2">
+<div class="accordion-body">
+<p>Convert meters → km:</p>
+<div class="codewrapper sourceCode" id="cb12">
+<h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" tabindex="-1"></a><span class="bu">print</span>(total_length<span class="op">/</span><span class="dv">1000</span>, <span class="st">"km"</span>)</span></code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section><section><h2 class="section-heading" id="math">Math<a class="anchor" aria-label="anchor" href="#math"></a>
+</h2>
+<hr class="half-width">
+<p>A network is represented as a graph:</p>
+<p>G = (V,E)</p>
+<p>Where:</p>
+<ul>
+<li>V = set of nodes (intersections)</li>
+<li>E = edges (roads)</li>
+</ul>
+<p>Shortest path = minimum weighted path across <code>E</code>.</p>
 <div id="keypoints1" class="callout keypoints">
 <div class="callout-square">
 <i class="callout-icon" data-feather="key"></i>
@@ -691,10 +862,12 @@ computational resources for fetching and processing.</li>
 <div class="callout-inner">
 <div class="callout-content">
 <ul>
-<li>OSM is a great alternative to map real time locations using Folium
-feature of Python.</li>
+<li><p>OSMnx simplifies downloading and converting OSM road
+networks</p></li>
+<li><p>Graphs model movement and connectivity in space</p></li>
+<li><p>NetworkX allows shortest path and routing analysis</p></li>
+<li><p>Visualization helps interpret accessibility patterns</p></li>
 </ul>
-</div>
 </div>
 </div>
 </div>
@@ -1044,7 +1217,7 @@ Here’s a simple example using a polygon shapefile:</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution1" aria-expanded="false" aria-controls="collapseSolution1">
   <h4 class="accordion-header" id="headingSolution1"> Show me the solution </h4>
 </button>
-<div id="collapseSolution1" class="accordion-collapse collapse" data-bs-parent="#accordionSolution1" aria-labelledby="headingSolution1">
+<div id="collapseSolution1" class="accordion-collapse collapse" aria-labelledby="headingSolution1" data-bs-parent="#accordionSolution1">
 <div class="accordion-body">
 <p>Queen neighbors may include diagonal touches. Rook neighbors require
 shared edges only. You should see fewer rook neighbors than queen
@@ -1077,7 +1250,7 @@ neighbors.</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution2" aria-expanded="false" aria-controls="collapseSolution2">
   <h4 class="accordion-header" id="headingSolution2"> Show me the solution </h4>
 </button>
-<div id="collapseSolution2" class="accordion-collapse collapse" data-bs-parent="#accordionSolution2" aria-labelledby="headingSolution2">
+<div id="collapseSolution2" class="accordion-collapse collapse" aria-labelledby="headingSolution2" data-bs-parent="#accordionSolution2">
 <div class="accordion-body">
 <p>A positive Moran’s I with low p-value → strong clustering. Near zero
 → randomness. Negative → spatial dispersion.</p>
@@ -1423,7 +1596,7 @@ when:</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution1" aria-expanded="false" aria-controls="collapseSolution1">
   <h4 class="accordion-header" id="headingSolution1"> Show me the solution </h4>
 </button>
-<div id="collapseSolution1" class="accordion-collapse collapse" aria-labelledby="headingSolution1" data-bs-parent="#accordionSolution1">
+<div id="collapseSolution1" class="accordion-collapse collapse" data-bs-parent="#accordionSolution1" aria-labelledby="headingSolution1">
 <div class="accordion-body">
 <p>Example Interpretation</p>
 <ul>
@@ -1462,7 +1635,7 @@ better</p></li>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution2" aria-expanded="false" aria-controls="collapseSolution2">
   <h4 class="accordion-header" id="headingSolution2"> Show me the solution </h4>
 </button>
-<div id="collapseSolution2" class="accordion-collapse collapse" aria-labelledby="headingSolution2" data-bs-parent="#accordionSolution2">
+<div id="collapseSolution2" class="accordion-collapse collapse" data-bs-parent="#accordionSolution2" aria-labelledby="headingSolution2">
 <div class="accordion-body">
 <p>Larger <code>eps</code> creates larger clusters. Smaller
 <code>eps</code> creates more clusters and more noise points.</p>
@@ -1748,7 +1921,7 @@ and generate maps with Python.</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution1" aria-expanded="false" aria-controls="collapseSolution1">
   <h4 class="accordion-header" id="headingSolution1"> Show me the solution </h4>
 </button>
-<div id="collapseSolution1" class="accordion-collapse collapse" aria-labelledby="headingSolution1" data-bs-parent="#accordionSolution1">
+<div id="collapseSolution1" class="accordion-collapse collapse" data-bs-parent="#accordionSolution1" aria-labelledby="headingSolution1">
 <div class="accordion-body">
 <div class="codewrapper sourceCode" id="cb8">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -1787,7 +1960,7 @@ and generate maps with Python.</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution2" aria-expanded="false" aria-controls="collapseSolution2">
   <h4 class="accordion-header" id="headingSolution2"> Show me the solution </h4>
 </button>
-<div id="collapseSolution2" class="accordion-collapse collapse" aria-labelledby="headingSolution2" data-bs-parent="#accordionSolution2">
+<div id="collapseSolution2" class="accordion-collapse collapse" data-bs-parent="#accordionSolution2" aria-labelledby="headingSolution2">
 <div class="accordion-body">
 <p>Water regions become transparent/ignored in the plot.</p>
 </div>
