@@ -49,7 +49,7 @@ geocoding accuracy varies by location and data quality.
 
 ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 
-## Why Census Geocoding Matters
+## Why Census Geocoding Matters ?
 
 Census data becomes far more powerful when location is explicitly included.
 Geocoding allows researchers to move from spreadsheets to spatial insight.
@@ -75,8 +75,6 @@ Geocoding allows researchers to move from spreadsheets to spatial insight.
   - Place-based policy analysis
 
 Geocoding transforms census data from static tables into **spatial evidence**.
-
----
 
 ## 1. Installing Required Libraries
 
@@ -184,6 +182,7 @@ Plot the feature with census points.
 parks = ox.geometries_from_place(place, tags={"leisure": "park"})
 parks.plot()
 ```
+:::::::::::::::::::::::::::::::::
 
 Challenge 2 — Accessibility Analysis
 
