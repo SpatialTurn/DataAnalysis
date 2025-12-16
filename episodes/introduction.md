@@ -1,82 +1,232 @@
 ---
-title: "Geocoding and OSM"
+title: "Census Geocoding"
 teaching: 100
-exercises: 5
+exercises: 2
 ---
 
-:::::::::::::::::::::::::::::::::::::: questions 
+:::::::::::::::::::::::::::::::::::::: questions
 
-- What are the various geocoding services that can be used?
-- What are some limitations of the geocoding API?
-- What are some categories of places that can be geocoded using the Open Street Map (OSM) API?
+- What is geocoding and why is it essential for census analysis?
+- How can we convert addresses into spatial coordinates?
+- How do we combine census data with OpenStreetMap features?
+- How can spatial context improve demographic analysis?
 
 ::::::::::::::::::::::::::::::::::::::::::::::::
 
 ::::::::::::::::::::::::::::::::::::: objectives
 
-- Learn how to use the Census geocoding API
-- Learn how to use the Nominatim and Overpass APIs to access Open Street Map (OSM) data
-- Learn Geocoding services
+- Understand what geocoding is and how it works
+- Convert address-based census data into geographic coordinates
+- Query OpenStreetMap (OSM) features using Python
+- Combine census points with OSM layers for spatial analysis
+- Visualize geocoded census data alongside urban infrastructure
 
 ::::::::::::::::::::::::::::::::::::::::::::::::
 
 ## Introduction
 
-The geocoding API is a service that converts street addresses into geographic coordinates (e.g., 610 Purdue Mall, West Lafayette, IN 47907, into latitudes and longitudes). This can be done either way, converting geographic coordinates back to street addresses.
-Features of geocoding APIs include:
+Census and demographic datasets are often **non-spatial** — they exist as tables
+containing addresses, place names, or administrative units. To analyze these data
+geographically, we must first **geocode** them: converting text-based locations
+into latitude and longitude coordinates.
 
-1. Geocoding – addresses to geographic coordinates.
-2. Reverse geocoding – geographic coordinates to address.
-3. Region Biasing – constrain results to specific region, county, or postal code.
-4. Place IDs – place ID to address and vice versa.
+Once census data are geocoded, they can be enriched with contextual information
+from **OpenStreetMap (OSM)**, such as roads, buildings, parks, schools, or hospitals.
+This enables deeper spatial insights into population distribution, accessibility,
+and urban structure.
 
-There are several practical applications of geocoding such as:
+In this lesson, you will learn how to:
 
-1. Location Based Services: Delivery companies like Uber and DoorDash convert user addresses into GPS coordinates for efficient dispatching.
-2. Mapping and GIS: Real estate platforms use geocoding to display properties of interest on maps.
-3. Emergency Services: Police, fire, and medical services use geocoding for precise identification and to reduce response times by finding the fastest route.
+1. Geocode address-based census data
+2. Convert results into spatial objects
+3. Query OpenStreetMap features
+4. Visualize census data in its geographic context
 
-Geocoding APIs also have certain limitations that need to be taken into account when using them. They are designed to convert predefined, static addresses and can result in an error if the address is incorrect. Several APIs may also impose daily usage limits for free access, potentially leading to additional charges if exceeded. Finally, geographic data involving geocoding needs to be constantly updated to avoid inaccuracies over time.
+:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::: instructor
 
-### Open Street Map
-This tutorial demonstrates how to use the U.S. Census Geocoding API and OpenStreetMap (OSM) via the `geopy` library to convert addresses into geographic coordinates (latitude and longitude) and plot them using the `folium` library.
+Emphasize ethical use of geocoding services and rate limits. Remind learners that
+geocoding accuracy varies by location and data quality.
 
-#### Part 1: Census Geocoding API
-This part explores a simple walkthrough of geocoding street addresses using the Census API. The initial setup includes importing essential libraries:
-- `geopy.geocoders`: Interfaces with OSM's Nominatim or Census API to geocode.
-- `geopandas`: Manages geospatial data for spatial operations.
-- `pandas`: Handles tabular data manipulation.
-- `folium`: Creates interactive maps to visualize geocoded locations.
-- `requests`: Facilitates HTTP requests to the U.S. Census Geocoding API.
-- `time.sleep`: Introduces delays to avoid overwhelming APIs with rapid requests, especially for batch processing.
+::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 
-A function `get_coordinates` is defined to geocode a single address:
-- Constructs an API request URL with parameters such as address, benchmark (e.g., Public_AR_Current for up-to-date public addresses), and JSON format.
-- Sends a request and checks for a successful response (200).
-- Parses the JSON response to extract coordinates if the address matches.
-- Returns latitude (y) and longitude (x) if successful, or `None` if not.
+## Why Census Geocoding Matters
 
-The function is applied to a pandas DataFrame (e.g., reading a `museums.txt` file with museum names and addresses) to fetch coordinates, which are then added as new columns (Latitude and Longitude) for plotting with `folium`. Note that inaccurate addresses in the input file may result in `None` values.
+Census data becomes far more powerful when location is explicitly included.
+Geocoding allows researchers to move from spreadsheets to spatial insight.
 
-#### Part 2: Open Street Map User Input Query
-This part explores querying OSM for specific location types (e.g., supermarkets like Walmart) in a given area using the Overpass API. The notebook includes the following functions:
+### What Census Geocoding Helps Us Understand
 
-- **`get_locations`**: Queries the Overpass API[](http://overpass-api.de/api/interpreter) for locations matching specific categories, queries, and cities, with an optional "Brand" filter (e.g., "Walmart").
-  - Creates an empty list `all_locations` to append addresses.
-  - Checks for valid input and stops if invalid.
-  - Sends requests and stores results in `all_locations`.
+* Population distribution and density patterns  
+* Access to services (schools, hospitals, transit, parks)  
+* Spatial inequality and environmental justice  
+* Urban growth and land-use change  
+* Neighborhood-level demographic trends  
+* Relationships between people and infrastructure  
 
-- **`plot_locations` and `display_locations`**: Import results (latitude, longitude, and name) from `all_locations`, displaying them using `folium` and saving them in a pandas DataFrame for further analysis.
+### Why Researchers Combine Census Data with OSM
 
-The final part of the code accepts user input queries, which are passed through these functions to get results. Refer to the OSM query keywords webpage for desired outcomes (e.g., supermarkets in Indianapolis). An example use case is fetching coordinates of fast-food chains in West Lafayette by inputting relevant query words. This is reverse geocoding, as it passes a query to grab locations.
+- Census data provides **who and what**
+- OpenStreetMap provides **where and how**
+- Together, they enable:
+  - Accessibility studies
+  - Urban planning analysis
+  - Public health assessments
+  - Infrastructure equity evaluations
+  - Place-based policy analysis
 
-Regular geocoding was demonstrated by fetching coordinates based on addresses (e.g., random U.S. museums with their street addresses), passed to the Census Geocoder, which requires precise U.S. addresses to avoid null returns and unplotted locations. Locations of Supermarkets in Indianapolis were plotted using this OSM query approach.
+Geocoding transforms census data from static tables into **spatial evidence**.
 
-::::::::::::::::::::::::::::::::::::: keypoints 
+---
 
-- Geocoding APIs can be used to identify locations of specific categories such as grocery stores or restaurants
+## 1. Installing Required Libraries
+
+```python
+!pip install geopandas geopy osmnx matplotlib
+```
+
+## 2. Load Census Data or Address Data
+
+```python 
+import pandas as pd
+
+df = pd.read_csv("census_addresses.csv")
+df.head()
+```
+This dataset should contain an address column (e.g., street, city, state).
+
+
+## 3. Geocode Addresses Using `Nominatim`
+
+```python
+from geopy.geocoders import Nominatim
+
+geolocator = Nominatim(user_agent="census_geocoding_tutorial")
+
+def geocode_address(address):
+    try:
+        location = geolocator.geocode(address)
+        return location.latitude, location.longitude
+    except:
+        return None, None
+
+df["lat"], df["lon"] = zip(*df["address"].apply(geocode_address))
+```
+*Note: Geocoding services may return None for incomplete or ambiguous addresses.*
+
+## 4. Convert to a GeoDataFrame
+
+```python
+import geopandas as gpd
+
+gdf = gpd.GeoDataFrame(
+    df,
+    geometry=gpd.points_from_xy(df.lon, df.lat),
+    crs="EPSG:4326"
+)
+
+gdf.head()
+```
+Plot the geocoded points:
+```python
+gdf.plot(figsize=(6,6), color="red")
+```
+
+## 5. Query OpenStreetMap Features
+OpenStreetMap provides free, global geographic data.
+
+Example: download buildings in a city.
+```python
+import osmnx as ox
+
+place = "Lafayette, Indiana, USA"
+
+buildings = ox.geometries_from_place(
+    place,
+    tags={"building": True}
+)
+```
+Plot buildings with census points:
+```python
+ax = buildings.plot(color="lightgray", figsize=(8,6))
+gdf.plot(ax=ax, color="red", markersize=10)
+```
+
+## 6. Adding Spatial Context to Census Data
+You can buffer census points to analyze nearby features.
+```python
+gdf_buffer = gdf.copy()
+gdf_buffer["geometry"] = gdf_buffer.geometry.buffer(200)  # meters (after projection)
+```
+Spatial join example:
+```python
+join = gpd.sjoin(buildings, gdf_buffer, predicate="within")
+join.head()
+```
+This links buildings to nearby census locations.
+
+
+:::::::::::::::::::::::::::::::::::: challenge
+
+Challenge 1 — Query a Different OSM Feature
+
+Choose one:
+
+* Roads → `{"highway": True}`
+
+* Schools → `{"amenity": "school"}`
+
+* Parks → `{"leisure": "park"}`
+
+Plot the feature with census points.
+
+:::::::::::::::::::::::: solution
+```python
+parks = ox.geometries_from_place(place, tags={"leisure": "park"})
+parks.plot()
+```
+
+Challenge 2 — Accessibility Analysis
+
+For each census point:
+
+Create a buffer
+
+Count how many buildings fall inside
+
+Interpret spatial differences
+
+:::::::::::::::::::::::: solution
+
+Higher counts suggest higher accessibility or density.
+
+:::::::::::::::::::::::::::::::::
+::::::::::::::::::::::::::::::::::::::::::::::::
+
+## Math
+Geocoding transforms a text location `L` into coordinates (x,y)
+
+Spatial joins evaluate relationships between geometries:
+
+* within
+* intersects
+* contains
+These operations allow census attributes to be analyzed spatially. 
+
+::::::::::::::::::::::::::::::::::::: keypoints
+
+* Geocoding converts census addresses into spatial coordinates
+
+* GeoPandas enables spatial operations on tabular data
+
+* OpenStreetMap provides rich contextual geographic layers
+
+* Combining census + OSM reveals spatial patterns and inequality
+
+* Spatial context transforms demographic data into actionable insight
 
 ::::::::::::::::::::::::::::::::::::::::::::::::
+
+
 
 # Module Overview
 
