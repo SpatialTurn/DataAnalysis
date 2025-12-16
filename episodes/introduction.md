@@ -322,4 +322,5 @@ These operations allow census attributes to be analyzed spatially.
 | Lesson            | Overview                                                                                                   |
 |-------------------|------------------------------------------------------------------------------------------------------------|
 | <a href="https://colab.research.google.com/github/SpatialTurn/DataCollection-Notebooks/blob/main/Census/CensusGeocodeAPI.ipynb" target="_blank">CensusAPI</a> | Downloading Census Data using API. |
+| <a href="https://colab.research.google.com/github/SpatialTurn/DataCollection-Notebooks/blob/main/Census/Address_based_geocode.ipynb" target="_blank">Basic</a>  | Introduction to Address Geocoding |
 | <a href="https://colab.research.google.com/github/SpatialTurn/DataCollection-Notebooks/blob/main/Census/Census_Geocoding_OSM-Query.ipynb" target="_blank">Beginner</a>  | Introduction to Geocoding |
