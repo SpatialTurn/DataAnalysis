@@ -188,11 +188,11 @@ Challenge 2 — Accessibility Analysis
 
 For each census point:
 
-Create a buffer
+* Create a buffer
 
-Count how many buildings fall inside
+* Count how many buildings fall inside
 
-Interpret spatial differences
+* Interpret spatial differences
 
 :::::::::::::::::::::::: solution
 
