@@ -232,5 +232,5 @@ These operations allow census attributes to be analyzed spatially.
 | Lesson            | Overview                                                                                                   |
 |-------------------|------------------------------------------------------------------------------------------------------------|
 | <a href="https://colab.research.google.com/github/SpatialTurn/DataCollection-Notebooks/blob/main/Census/Address_based_geocode.ipynb" target="_blank">Beginner</a>  | Introduction to Address Geocoding |
-| <a href="https://colab.research.google.com/github/SpatialTurn/DataCollection-Notebooks/blob/main/Census/OSM-Query_intermediate.ipynb" target="_blank">Intermediate</a>  | Introduction to OSM Overpass API |
-| <a href="https://colab.research.google.com/github/SpatialTurn/DataCollection-Notebooks/blob/main/Census/OSM-Query_intermediate.ipynb" target="_blank">Advanced</a>  | Introduction to Advanced Batch-Geoding |
+| <a href="https://colab.research.google.com/github/SpatialTurn/DataCollection-Notebooks/blob/main/Census/OSM_Query_intermediate.ipynb" target="_blank">Intermediate</a>  | Introduction to OSM Overpass API |
+| <a href="https://colab.research.google.com/github/SpatialTurn/DataCollection-Notebooks/blob/main/Census/batchgeocoding.ipynb" target="_blank">Advanced</a>  | Introduction to Advanced Batch-Geoding |
