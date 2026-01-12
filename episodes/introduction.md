@@ -125,6 +125,7 @@ gdf = gpd.GeoDataFrame(
 gdf.head()
 ```
 Plot the geocoded points:
+
 ```python
 gdf.plot(figsize=(6,6), color="red")
 ```
