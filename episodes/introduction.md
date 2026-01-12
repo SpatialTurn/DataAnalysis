@@ -213,15 +213,15 @@ These operations allow census attributes to be analyzed spatially.
 
 ::::::::::::::::::::::::::::::::::::: keypoints
 
-* Geocoding converts census addresses into spatial coordinates
+* Geocoding converts census addresses into spatial coordinates.
 
-* GeoPandas enables spatial operations on tabular data
+* GeoPandas enables spatial operations on tabular data.
 
-* OpenStreetMap provides rich contextual geographic layers
+* OpenStreetMap provides rich contextual geographic layers.
 
-* Combining census + OSM reveals spatial patterns and inequality
+* Combining census + OSM reveals spatial patterns and inequality.
 
-* Spatial context transforms demographic data into actionable insight
+* Spatial context transforms demographic data into actionable insight.
 
 ::::::::::::::::::::::::::::::::::::::::::::::::
 
