@@ -582,7 +582,7 @@ ambiguous addresses.</em></p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution1" aria-expanded="false" aria-controls="collapseSolution1">
   <h4 class="accordion-header" id="headingSolution1"> Show me the solution </h4>
 </button>
-<div id="collapseSolution1" class="accordion-collapse collapse" data-bs-parent="#accordionSolution1" aria-labelledby="headingSolution1">
+<div id="collapseSolution1" class="accordion-collapse collapse" aria-labelledby="headingSolution1" data-bs-parent="#accordionSolution1">
 <div class="accordion-body">
 <div class="codewrapper sourceCode" id="cb10">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -618,7 +618,7 @@ ambiguous addresses.</em></p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution2" aria-expanded="false" aria-controls="collapseSolution2">
   <h4 class="accordion-header" id="headingSolution2"> Show me the solution </h4>
 </button>
-<div id="collapseSolution2" class="accordion-collapse collapse" data-bs-parent="#accordionSolution2" aria-labelledby="headingSolution2">
+<div id="collapseSolution2" class="accordion-collapse collapse" aria-labelledby="headingSolution2" data-bs-parent="#accordionSolution2">
 <div class="accordion-body">
 <p>Higher counts suggest higher accessibility or density.</p>
 </div>
@@ -665,20 +665,20 @@ insight</p></li>
 <col width="14%">
 <col width="85%">
 </colgroup>
-<thead><tr class="header">
+<thead><tr>
 <th>Lesson</th>
 <th>Overview</th>
 </tr></thead>
 <tbody>
-<tr class="odd">
+<tr>
 <td><a href="https://colab.research.google.com/github/SpatialTurn/DataCollection-Notebooks/blob/main/Census/Address_based_geocode.ipynb" target="_blank" class="external-link">Beginner</a></td>
 <td>Introduction to Address Geocoding</td>
 </tr>
-<tr class="even">
+<tr>
 <td><a href="https://colab.research.google.com/github/SpatialTurn/DataCollection-Notebooks/blob/main/Census/OSM_Query_intermediate.ipynb" target="_blank" class="external-link">Intermediate</a></td>
 <td>Introduction to OSM Overpass API</td>
 </tr>
-<tr class="odd">
+<tr>
 <td><a href="https://colab.research.google.com/github/SpatialTurn/DataCollection-Notebooks/blob/main/Census/batchgeocoding.ipynb" target="_blank" class="external-link">Advanced</a></td>
 <td>Introduction to Advanced Batch-Geocoding</td>
 </tr>
@@ -937,7 +937,7 @@ locations</li>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution1" aria-expanded="false" aria-controls="collapseSolution1">
   <h4 class="accordion-header" id="headingSolution1"> Show me the solution </h4>
 </button>
-<div id="collapseSolution1" class="accordion-collapse collapse" aria-labelledby="headingSolution1" data-bs-parent="#accordionSolution1">
+<div id="collapseSolution1" class="accordion-collapse collapse" data-bs-parent="#accordionSolution1" aria-labelledby="headingSolution1">
 <div class="accordion-body">
 <div class="codewrapper sourceCode" id="cb10">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -978,7 +978,7 @@ locations</li>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution2" aria-expanded="false" aria-controls="collapseSolution2">
   <h4 class="accordion-header" id="headingSolution2"> Show me the solution </h4>
 </button>
-<div id="collapseSolution2" class="accordion-collapse collapse" aria-labelledby="headingSolution2" data-bs-parent="#accordionSolution2">
+<div id="collapseSolution2" class="accordion-collapse collapse" data-bs-parent="#accordionSolution2" aria-labelledby="headingSolution2">
 <div class="accordion-body">
 <p>Convert meters → km:</p>
 <div class="codewrapper sourceCode" id="cb12">
@@ -1026,16 +1026,16 @@ networks</p></li>
 <col width="14%">
 <col width="85%">
 </colgroup>
-<thead><tr class="header">
+<thead><tr>
 <th>Lesson</th>
 <th>Overview</th>
 </tr></thead>
 <tbody>
-<tr class="odd">
+<tr>
 <td><a href="https://colab.research.google.com/github/SpatialTurn/DataCollection-Notebooks/blob/main/Census/Network_Analysis_Tutorial.ipynb" target="_blank" class="external-link">Beginner</a></td>
 <td>Introduction to Network Analysis and color coding distances.</td>
 </tr>
-<tr class="even">
+<tr>
 <td><a href="https://colab.research.google.com/github/SpatialTurn/DataCollection-Notebooks/blob/main/Census/OSM_Network_Tutorial.ipynb" target="_blank" class="external-link">Advanced</a></td>
 <td>Obtains coordinates from OSM and uses centroid analysis to calculate
 distances and travel times for multiple points of interests.</td>
@@ -1159,28 +1159,28 @@ visually</li>
 <col width="50%">
 <col width="50%">
 </colgroup>
-<thead><tr class="header">
+<thead><tr>
 <th>Question</th>
 <th>PySAL Method</th>
 </tr></thead>
 <tbody>
-<tr class="odd">
+<tr>
 <td>Do areas with high values cluster together?</td>
 <td>Moran’s I</td>
 </tr>
-<tr class="even">
+<tr>
 <td>Where are hotspots located?</td>
 <td>Local Moran / LISA maps</td>
 </tr>
-<tr class="odd">
+<tr>
 <td>What counts as a neighbor?</td>
 <td>Spatial weights matrices</td>
 </tr>
-<tr class="even">
+<tr>
 <td>Are patterns random or significant?</td>
 <td>Monte Carlo permutation tests</td>
 </tr>
-<tr class="odd">
+<tr>
 <td>How do variables influence each other across space?</td>
 <td>Spatial regression</td>
 </tr>
@@ -1364,7 +1364,7 @@ Here’s a simple example using a polygon shapefile:</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution1" aria-expanded="false" aria-controls="collapseSolution1">
   <h4 class="accordion-header" id="headingSolution1"> Show me the solution </h4>
 </button>
-<div id="collapseSolution1" class="accordion-collapse collapse" aria-labelledby="headingSolution1" data-bs-parent="#accordionSolution1">
+<div id="collapseSolution1" class="accordion-collapse collapse" data-bs-parent="#accordionSolution1" aria-labelledby="headingSolution1">
 <div class="accordion-body">
 <p>Queen neighbors may include diagonal touches. Rook neighbors require
 shared edges only. You should see fewer rook neighbors than queen
@@ -1397,7 +1397,7 @@ neighbors.</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution2" aria-expanded="false" aria-controls="collapseSolution2">
   <h4 class="accordion-header" id="headingSolution2"> Show me the solution </h4>
 </button>
-<div id="collapseSolution2" class="accordion-collapse collapse" aria-labelledby="headingSolution2" data-bs-parent="#accordionSolution2">
+<div id="collapseSolution2" class="accordion-collapse collapse" data-bs-parent="#accordionSolution2" aria-labelledby="headingSolution2">
 <div class="accordion-body">
 <p>A positive Moran’s I with low p-value → strong clustering. Near zero
 → randomness. Negative → spatial dispersion.</p>
@@ -1440,16 +1440,16 @@ workflow</p>
 <col width="14%">
 <col width="85%">
 </colgroup>
-<thead><tr class="header">
+<thead><tr>
 <th>Lesson</th>
 <th>Overview</th>
 </tr></thead>
 <tbody>
-<tr class="odd">
+<tr>
 <td><a href="https://colab.research.google.com/github/SpatialTurn/DataCollection-Notebooks/blob/main/Census/pysal_basic.ipynb" target="_blank" class="external-link">Beginner</a></td>
 <td>Introduction to Spatial Analysis using PySAL package.</td>
 </tr>
-<tr class="even">
+<tr>
 <td><a href="">Advanced</a></td>
 <td>(to be added)</td>
 </tr>
@@ -1556,23 +1556,23 @@ datasets</li>
 <col width="33%">
 <col width="33%">
 </colgroup>
-<thead><tr class="header">
+<thead><tr>
 <th>Method</th>
 <th>Strength</th>
 <th>Best For</th>
 </tr></thead>
 <tbody>
-<tr class="odd">
+<tr>
 <td>K-Means</td>
 <td>Simple, fast</td>
 <td>Well-separated, circular clusters</td>
 </tr>
-<tr class="even">
+<tr>
 <td>Hierarchical</td>
 <td>Dendrogram visualization</td>
 <td>Multi-scale grouping, unknown k values</td>
 </tr>
-<tr class="odd">
+<tr>
 <td>DBSCAN</td>
 <td>Finds irregular shapes + noise</td>
 <td>Spatial hotspots and natural patterns</td>
@@ -1743,7 +1743,7 @@ when:</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution1" aria-expanded="false" aria-controls="collapseSolution1">
   <h4 class="accordion-header" id="headingSolution1"> Show me the solution </h4>
 </button>
-<div id="collapseSolution1" class="accordion-collapse collapse" aria-labelledby="headingSolution1" data-bs-parent="#accordionSolution1">
+<div id="collapseSolution1" class="accordion-collapse collapse" data-bs-parent="#accordionSolution1" aria-labelledby="headingSolution1">
 <div class="accordion-body">
 <p>Example Interpretation</p>
 <ul>
@@ -1782,7 +1782,7 @@ better</p></li>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution2" aria-expanded="false" aria-controls="collapseSolution2">
   <h4 class="accordion-header" id="headingSolution2"> Show me the solution </h4>
 </button>
-<div id="collapseSolution2" class="accordion-collapse collapse" aria-labelledby="headingSolution2" data-bs-parent="#accordionSolution2">
+<div id="collapseSolution2" class="accordion-collapse collapse" data-bs-parent="#accordionSolution2" aria-labelledby="headingSolution2">
 <div class="accordion-body">
 <p>Larger <code>eps</code> creates larger clusters. Smaller
 <code>eps</code> creates more clusters and more noise points.</p>
@@ -1826,16 +1826,16 @@ correctly</p></li>
 <col width="14%">
 <col width="85%">
 </colgroup>
-<thead><tr class="header">
+<thead><tr>
 <th>Lesson</th>
 <th>Overview</th>
 </tr></thead>
 <tbody>
-<tr class="odd">
+<tr>
 <td><a href="https://colab.research.google.com/github/SpatialTurn/DataCollection-Notebooks/blob/main/Census/spatialclustering.ipynb" target="_blank" class="external-link">Beginner</a></td>
 <td>Introduction to Spatial Clustering using Crime Datasets.</td>
 </tr>
-<tr class="even">
+<tr>
 <td><a href="">Advanced</a></td>
 <td>(to be added)</td>
 </tr>
@@ -1938,28 +1938,28 @@ forestry</strong>
 <h3 id="ndvi-interpretation-at-a-glance">NDVI Interpretation at a Glance<a class="anchor" aria-label="anchor" href="#ndvi-interpretation-at-a-glance"></a>
 </h3>
 <table class="table">
-<thead><tr class="header">
+<thead><tr>
 <th>NDVI Range</th>
 <th>Interpretation</th>
 <th>Example Areas</th>
 </tr></thead>
 <tbody>
-<tr class="odd">
+<tr>
 <td>-1 to 0</td>
 <td>Water, snow, clouds, barren</td>
 <td>Lakes, rivers</td>
 </tr>
-<tr class="even">
+<tr>
 <td>0–0.2</td>
 <td>Bare soil, built-up land</td>
 <td>Urban areas, deserts</td>
 </tr>
-<tr class="odd">
+<tr>
 <td>0.2–0.5</td>
 <td>Moderate vegetation</td>
 <td>Grasslands, shrubs</td>
 </tr>
-<tr class="even">
+<tr>
 <td>&gt; 0.5</td>
 <td>Dense, healthy vegetation</td>
 <td>Forests, croplands</td>
@@ -2161,16 +2161,16 @@ quantitatively</p></li>
 <col width="14%">
 <col width="85%">
 </colgroup>
-<thead><tr class="header">
+<thead><tr>
 <th>Lesson</th>
 <th>Overview</th>
 </tr></thead>
 <tbody>
-<tr class="odd">
+<tr>
 <td><a href="https://colab.research.google.com/github/SpatialTurn/DataCollection-Notebooks/blob/main/Census/NDVI_Indiana.ipynb" target="_blank" class="external-link">Beginner</a></td>
 <td>Introduction to NDVI using LANDSAT Dataset.</td>
 </tr>
-<tr class="even">
+<tr>
 <td><a href="">Advanced</a></td>
 <td>(to be added)</td>
 </tr>
@@ -2230,8 +2230,8 @@ any links that you are not going to use.
   "url": "https://carpentries.github.io/workbench-template-md/aio.html",
   "identifier": "https://carpentries.github.io/workbench-template-md/aio.html",
   "dateCreated": "2026-01-14",
-  "dateModified": "2026-04-28",
-  "datePublished": "2026-04-28"
+  "dateModified": "2026-05-05",
+  "datePublished": "2026-05-05"
 }
 
   </script><script>
