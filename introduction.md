@@ -6,7 +6,7 @@ exercises: 2
 
 :::::::::::::::::::::::::::::::::::::: questions
 
-- What is geocoding and why is it essential for census analysis?
+- What is geocoding and why is it essential for census analysis??
 - How can we convert addresses into spatial coordinates?
 - How do we combine census data with OpenStreetMap features?
 - How can spatial context improve demographic analysis?
