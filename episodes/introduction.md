@@ -83,11 +83,11 @@ points = gpd.GeoDataFrame(
     geometry=gpd.points_from_xy(matched["Longitude"], matched["Latitude"]),
     crs="EPSG:4326",     # latitude and longitude
 )
-points.explore(tooltip="Name", tiles="CartoDB positron")
+points.explore(tooltip="Name", tiles="Esri.WorldGrayCanvas")
 ```
 
-`tiles="CartoDB positron"` sets the background map. The default OpenStreetMap background is blocked
-inside Colab and shows "403 Access blocked" behind your points.
+`tiles="Esri.WorldGrayCanvas"` sets a light grey background map. Some popular backgrounds do not work
+inside Colab: the default OpenStreetMap one shows "403 Access blocked" and CARTO shows "API key required".
 
 Always check the rows that did not match (`museums[museums["Latitude"].isna()]`). Missing street
 numbers, typos, and places absent from the Census address database (campuses, parks, large landmarks)
@@ -104,7 +104,7 @@ import osmnx as ox
 stores = ox.features_from_place("West Lafayette, Indiana, USA", tags={"shop": "supermarket"})
 stores = stores.reset_index()[["name", "geometry"]]
 stores["geometry"] = stores.geometry.representative_point()   # polygons to points
-stores.explore(tooltip="name", color="green", tiles="CartoDB positron")
+stores.explore(tooltip="name", color="green", tiles="Esri.WorldGrayCanvas")
 ```
 
 ## 4. Measure what is nearby
@@ -133,7 +133,7 @@ Download schools (`amenity=school`) or parks (`leisure=park`) for West Lafayette
 
 ```python
 parks = ox.features_from_place("West Lafayette, Indiana, USA", tags={"leisure": "park"})
-parks.explore(color="darkgreen", tiles="CartoDB positron")
+parks.explore(color="darkgreen", tiles="Esri.WorldGrayCanvas")
 ```
 
 :::::::::::::::::::::::::::::::::

@@ -71,6 +71,6 @@ title: 'Instructor Notes'
 | `ModuleNotFoundError: osmnx` (or `libpysal`, `rasterio`) | The `!pip install` cell did not run | Run it, then rerun the imports |
 | Geocoder or OSM timeout | Free server busy or rate limited | Wait a minute and rerun |
 | `KeyError` or HTTP 400 from the Census API | Key missing, mistyped or not yet activated | Check the key and the activation email |
-| Map shows "403 Access blocked" behind the points | OpenStreetMap tiles are blocked inside Colab | Add `tiles="CartoDB positron"` to `.explore()` |
+| Map shows "403 Access blocked" or "API key required" behind the points | OpenStreetMap and CARTO tiles do not work inside Colab | Add `tiles="Esri.WorldGrayCanvas"` to `.explore()` |
 | Census Geocoder returns `(None, None)` | Address not in the Census database (campus addresses such as "610 Purdue Mall") | Use a building's street address, or Nominatim |
 | Colab session crashed | Out of memory on a large raster | **Runtime > Restart session**, then rerun |
