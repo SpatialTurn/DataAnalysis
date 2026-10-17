@@ -458,7 +458,7 @@ health work and planning research.</p>
 <span id="cb1-12"><a href="#cb1-12" tabindex="-1" aria-label="code-block-1-12"></a>        <span class="cf">return</span> point[<span class="st">"y"</span>], point[<span class="st">"x"</span>]   <span class="co"># latitude, longitude</span></span>
 <span id="cb1-13"><a href="#cb1-13" tabindex="-1" aria-label="code-block-1-13"></a>    <span class="cf">return</span> <span class="va">None</span>, <span class="va">None</span></span>
 <span id="cb1-14"><a href="#cb1-14" tabindex="-1" aria-label="code-block-1-14"></a></span>
-<span id="cb1-15"><a href="#cb1-15" tabindex="-1" aria-label="code-block-1-15"></a>get_coordinates(<span class="st">"610 Purdue Mall, West Lafayette, IN 47907"</span>)</span></code></pre>
+<span id="cb1-15"><a href="#cb1-15" tabindex="-1" aria-label="code-block-1-15"></a>get_coordinates(<span class="st">"101 N Grant St, West Lafayette, IN 47906"</span>)</span></code></pre>
 </div>
 </section><section><h2 class="section-heading" id="geocode-a-list-and-turn-it-into-map-points">2. Geocode a list and turn it into map points<a class="anchor" aria-label="anchor" href="#geocode-a-list-and-turn-it-into-map-points"></a>
 </h2>
@@ -470,7 +470,7 @@ health work and planning research.</p>
 <span id="cb2-2"><a href="#cb2-2" tabindex="-1" aria-label="code-block-2-2"></a><span class="im">import</span> geopandas <span class="im">as</span> gpd</span>
 <span id="cb2-3"><a href="#cb2-3" tabindex="-1" aria-label="code-block-2-3"></a></span>
 <span id="cb2-4"><a href="#cb2-4" tabindex="-1" aria-label="code-block-2-4"></a><span class="co"># pandas reads the file straight from its web address into memory</span></span>
-<span id="cb2-5"><a href="#cb2-5" tabindex="-1" aria-label="code-block-2-5"></a>museums_url <span class="op">=</span> <span class="st">"https://raw.githubusercontent.com/SpatialTurn/DataCollection-Notebooks/main/Census/museums.txt"</span></span>
+<span id="cb2-5"><a href="#cb2-5" tabindex="-1" aria-label="code-block-2-5"></a>museums_url <span class="op">=</span> <span class="st">"https://raw.githubusercontent.com/SpatialTurn/DataAnalysis/main/data/museums.txt"</span></span>
 <span id="cb2-6"><a href="#cb2-6" tabindex="-1" aria-label="code-block-2-6"></a>museums <span class="op">=</span> pd.read_csv(museums_url, sep<span class="op">=</span><span class="st">"</span><span class="ch">\t</span><span class="st">"</span>, header<span class="op">=</span><span class="va">None</span>, names<span class="op">=</span>[<span class="st">"Name"</span>, <span class="st">"Address"</span>])</span>
 <span id="cb2-7"><a href="#cb2-7" tabindex="-1" aria-label="code-block-2-7"></a>results <span class="op">=</span> museums[<span class="st">"Address"</span>].<span class="bu">apply</span>(get_coordinates)</span>
 <span id="cb2-8"><a href="#cb2-8" tabindex="-1" aria-label="code-block-2-8"></a>museums[<span class="st">"Latitude"</span>] <span class="op">=</span> [lat <span class="cf">for</span> lat, lon <span class="kw">in</span> results]</span>
@@ -482,11 +482,16 @@ health work and planning research.</p>
 <span id="cb2-14"><a href="#cb2-14" tabindex="-1" aria-label="code-block-2-14"></a>    geometry<span class="op">=</span>gpd.points_from_xy(matched[<span class="st">"Longitude"</span>], matched[<span class="st">"Latitude"</span>]),</span>
 <span id="cb2-15"><a href="#cb2-15" tabindex="-1" aria-label="code-block-2-15"></a>    crs<span class="op">=</span><span class="st">"EPSG:4326"</span>,     <span class="co"># latitude and longitude</span></span>
 <span id="cb2-16"><a href="#cb2-16" tabindex="-1" aria-label="code-block-2-16"></a>)</span>
-<span id="cb2-17"><a href="#cb2-17" tabindex="-1" aria-label="code-block-2-17"></a>points.explore(tooltip<span class="op">=</span><span class="st">"Name"</span>)</span></code></pre>
+<span id="cb2-17"><a href="#cb2-17" tabindex="-1" aria-label="code-block-2-17"></a>points.explore(tooltip<span class="op">=</span><span class="st">"Name"</span>, tiles<span class="op">=</span><span class="st">"CartoDB positron"</span>)</span></code></pre>
 </div>
+<p><code>tiles="CartoDB positron"</code> sets the background map. The
+default OpenStreetMap background is blocked inside Colab and shows “403
+Access blocked” behind your points.</p>
 <p>Always check the rows that did not match
-(<code>museums[museums["Latitude"].isna()]</code>). Incomplete or
-landmark style addresses are the usual cause.</p>
+(<code>museums[museums["Latitude"].isna()]</code>). Missing street
+numbers, typos, and places absent from the Census address database
+(campuses, parks, large landmarks) are the usual causes. Campus
+addresses such as “610 Purdue Mall” fail for this reason.</p>
 </section><section><h2 class="section-heading" id="add-context-from-openstreetmap">3. Add context from OpenStreetMap<a class="anchor" aria-label="anchor" href="#add-context-from-openstreetmap"></a>
 </h2>
 <hr class="half-width">
@@ -501,7 +506,7 @@ list</a>).</p>
 <span id="cb3-3"><a href="#cb3-3" tabindex="-1" aria-label="code-block-3-3"></a>stores <span class="op">=</span> ox.features_from_place(<span class="st">"West Lafayette, Indiana, USA"</span>, tags<span class="op">=</span>{<span class="st">"shop"</span>: <span class="st">"supermarket"</span>})</span>
 <span id="cb3-4"><a href="#cb3-4" tabindex="-1" aria-label="code-block-3-4"></a>stores <span class="op">=</span> stores.reset_index()[[<span class="st">"name"</span>, <span class="st">"geometry"</span>]]</span>
 <span id="cb3-5"><a href="#cb3-5" tabindex="-1" aria-label="code-block-3-5"></a>stores[<span class="st">"geometry"</span>] <span class="op">=</span> stores.geometry.representative_point()   <span class="co"># polygons to points</span></span>
-<span id="cb3-6"><a href="#cb3-6" tabindex="-1" aria-label="code-block-3-6"></a>stores.explore(tooltip<span class="op">=</span><span class="st">"name"</span>, color<span class="op">=</span><span class="st">"green"</span>)</span></code></pre>
+<span id="cb3-6"><a href="#cb3-6" tabindex="-1" aria-label="code-block-3-6"></a>stores.explore(tooltip<span class="op">=</span><span class="st">"name"</span>, color<span class="op">=</span><span class="st">"green"</span>, tiles<span class="op">=</span><span class="st">"CartoDB positron"</span>)</span></code></pre>
 </div>
 </section><section><h2 class="section-heading" id="measure-what-is-nearby">4. Measure what is nearby<a class="anchor" aria-label="anchor" href="#measure-what-is-nearby"></a>
 </h2>
@@ -512,7 +517,7 @@ degrees.</p>
 <div class="codewrapper sourceCode" id="cb4">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" tabindex="-1" aria-label="code-block-4-1"></a>lat, lon <span class="op">=</span> get_coordinates(<span class="st">"610 Purdue Mall, West Lafayette, IN 47907"</span>)</span>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" tabindex="-1" aria-label="code-block-4-1"></a>lat, lon <span class="op">=</span> get_coordinates(<span class="st">"101 N Grant St, West Lafayette, IN 47906"</span>)</span>
 <span id="cb4-2"><a href="#cb4-2" tabindex="-1" aria-label="code-block-4-2"></a>campus <span class="op">=</span> gpd.GeoDataFrame(geometry<span class="op">=</span>gpd.points_from_xy([lon], [lat]), crs<span class="op">=</span><span class="st">"EPSG:4326"</span>)</span>
 <span id="cb4-3"><a href="#cb4-3" tabindex="-1" aria-label="code-block-4-3"></a></span>
 <span id="cb4-4"><a href="#cb4-4" tabindex="-1" aria-label="code-block-4-4"></a>campus_m <span class="op">=</span> campus.to_crs(epsg<span class="op">=</span><span class="dv">5070</span>)      <span class="co"># USA Contiguous Albers, units are meters</span></span>
@@ -546,7 +551,7 @@ feature</h3>
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" tabindex="-1" aria-label="code-block-5-1"></a>parks <span class="op">=</span> ox.features_from_place(<span class="st">"West Lafayette, Indiana, USA"</span>, tags<span class="op">=</span>{<span class="st">"leisure"</span>: <span class="st">"park"</span>})</span>
-<span id="cb5-2"><a href="#cb5-2" tabindex="-1" aria-label="code-block-5-2"></a>parks.explore(color<span class="op">=</span><span class="st">"darkgreen"</span>)</span></code></pre>
+<span id="cb5-2"><a href="#cb5-2" tabindex="-1" aria-label="code-block-5-2"></a>parks.explore(color<span class="op">=</span><span class="st">"darkgreen"</span>, tiles<span class="op">=</span><span class="st">"CartoDB positron"</span>)</span></code></pre>
 </div>
 </div>
 </div>
@@ -560,9 +565,9 @@ feature</h3>
 <div id="challenge-2-why-did-it-fail" class="callout-inner">
 <h3 class="callout-title">Challenge 2: Why did it fail?</h3>
 <div class="callout-content">
-<p>One museum in the list is written as
-<code>10th St. &amp; Constitution Ave. NW, Washington, DC 20560</code>.
-Why might the Census Geocoder fail on it, and how would you fix it?</p>
+<p>The National Gallery of Art is listed as
+<code>Constitution Ave NW, Washington, DC 20565</code>. Why does the
+Census Geocoder fail on it, and how would you fix it?</p>
 </div>
 </div>
 </div>
@@ -573,9 +578,14 @@ Why might the Census Geocoder fail on it, and how would you fix it?</p>
 </button>
 <div id="collapseSolution2" class="accordion-collapse collapse" data-bs-parent="#accordionSolution2" aria-labelledby="headingSolution2">
 <div class="accordion-body">
-<p>The geocoder expects a numbered street address, not an intersection.
-Rewriting it as <code>1000 Madison Dr NW, Washington, DC 20560</code>
+<p>There is no street number, so the geocoder cannot place it on the
+street. The gallery sits at a corner, and the Census Geocoder
+understands intersections written with <code>&amp;</code>:
+<code>6th St &amp; Constitution Ave NW, Washington, DC 20565</code>
 gives a match.</p>
+<p>Some complete addresses still fail because they are not in the Census
+address database (in this list, the Philadelphia Museum of Art). For
+those, try another geocoder such as Nominatim (notebook 1c).</p>
 </div>
 </div>
 </div>
@@ -618,19 +628,19 @@ distance</li>
 <tbody>
 <tr>
 <td>Beginner</td>
-<td><a href="https://colab.research.google.com/github/SpatialTurn/DataCollection-Notebooks/blob/main/DataAnalysis/01a_Geocoding_Addresses.ipynb" target="_blank" class="external-link">1a.
+<td><a href="https://colab.research.google.com/github/SpatialTurn/DataAnalysis/blob/main/notebooks/01a_Geocoding_Addresses.ipynb" target="_blank" class="external-link">1a.
 Geocoding Addresses</a></td>
 <td>Geocode museum addresses with the Census Geocoder and map them</td>
 </tr>
 <tr>
 <td>Intermediate</td>
-<td><a href="https://colab.research.google.com/github/SpatialTurn/DataCollection-Notebooks/blob/main/DataAnalysis/01b_Finding_Places_with_OSM.ipynb" target="_blank" class="external-link">1b.
+<td><a href="https://colab.research.google.com/github/SpatialTurn/DataAnalysis/blob/main/notebooks/01b_Finding_Places_with_OSM.ipynb" target="_blank" class="external-link">1b.
 Finding Places with OpenStreetMap</a></td>
 <td>Download supermarkets by tag and reverse geocode a point</td>
 </tr>
 <tr>
 <td>Advanced</td>
-<td><a href="https://colab.research.google.com/github/SpatialTurn/DataCollection-Notebooks/blob/main/DataAnalysis/01c_Batch_Geocoding_and_Ambiguous_Names.ipynb" target="_blank" class="external-link">1c.
+<td><a href="https://colab.research.google.com/github/SpatialTurn/DataAnalysis/blob/main/notebooks/01c_Batch_Geocoding_and_Ambiguous_Names.ipynb" target="_blank" class="external-link">1c.
 Batch Geocoding and Ambiguous Names</a></td>
 <td>Geocode many places politely and resolve names like Springfield</td>
 </tr>
@@ -874,19 +884,19 @@ access studies</li>
 <tbody>
 <tr>
 <td>Beginner</td>
-<td><a href="https://colab.research.google.com/github/SpatialTurn/DataCollection-Notebooks/blob/main/DataAnalysis/02a_Road_Networks_Basics.ipynb" target="_blank" class="external-link">2a.
+<td><a href="https://colab.research.google.com/github/SpatialTurn/DataAnalysis/blob/main/notebooks/02a_Road_Networks_Basics.ipynb" target="_blank" class="external-link">2a.
 Road Networks: Nodes and Edges</a></td>
 <td>Download, plot, inspect and save a road network</td>
 </tr>
 <tr>
 <td>Intermediate</td>
-<td><a href="https://colab.research.google.com/github/SpatialTurn/DataCollection-Notebooks/blob/main/DataAnalysis/02b_Shortest_Paths_and_Travel_Time.ipynb" target="_blank" class="external-link">2b.
+<td><a href="https://colab.research.google.com/github/SpatialTurn/DataAnalysis/blob/main/notebooks/02b_Shortest_Paths_and_Travel_Time.ipynb" target="_blank" class="external-link">2b.
 Shortest Paths and Travel Time</a></td>
 <td>Route between two points and map travel time across the city</td>
 </tr>
 <tr>
 <td>Advanced</td>
-<td><a href="https://colab.research.google.com/github/SpatialTurn/DataCollection-Notebooks/blob/main/DataAnalysis/02c_Travel_Time_to_Stores.ipynb" target="_blank" class="external-link">2c.
+<td><a href="https://colab.research.google.com/github/SpatialTurn/DataAnalysis/blob/main/notebooks/02c_Travel_Time_to_Stores.ipynb" target="_blank" class="external-link">2c.
 Travel Time to Grocery Stores</a></td>
 <td>Route from every OSM grocery store to the town center</td>
 </tr>
@@ -1146,20 +1156,20 @@ always filter by p-value</li>
 <tbody>
 <tr>
 <td>Beginner</td>
-<td><a href="https://colab.research.google.com/github/SpatialTurn/DataCollection-Notebooks/blob/main/DataAnalysis/03a_Spatial_Weights_Neighbors.ipynb" target="_blank" class="external-link">3a.
+<td><a href="https://colab.research.google.com/github/SpatialTurn/DataAnalysis/blob/main/notebooks/03a_Spatial_Weights_Neighbors.ipynb" target="_blank" class="external-link">3a.
 What Is a Neighbor? Spatial Weights</a></td>
 <td>Load Indiana counties and compare Rook, Queen and KNN neighbors</td>
 </tr>
 <tr>
 <td>Intermediate</td>
-<td><a href="https://colab.research.google.com/github/SpatialTurn/DataCollection-Notebooks/blob/main/DataAnalysis/03b_Global_Morans_I.ipynb" target="_blank" class="external-link">3b.
+<td><a href="https://colab.research.google.com/github/SpatialTurn/DataAnalysis/blob/main/notebooks/03b_Global_Morans_I.ipynb" target="_blank" class="external-link">3b.
 Global Moran’s I</a></td>
 <td>Test whether median age is clustered and read the Moran
 scatterplot</td>
 </tr>
 <tr>
 <td>Advanced</td>
-<td><a href="https://colab.research.google.com/github/SpatialTurn/DataCollection-Notebooks/blob/main/DataAnalysis/03c_Local_Morans_I_Hotspots.ipynb" target="_blank" class="external-link">3c.
+<td><a href="https://colab.research.google.com/github/SpatialTurn/DataAnalysis/blob/main/notebooks/03c_Local_Morans_I_Hotspots.ipynb" target="_blank" class="external-link">3c.
 Local Moran’s I and Hotspots</a></td>
 <td>Map significant clusters for counties, then for Marion County
 tracts</td>
@@ -1273,7 +1283,7 @@ on robbery.</p>
 <span id="cb1-3"><a href="#cb1-3" tabindex="-1" aria-label="code-block-1-3"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb1-4"><a href="#cb1-4" tabindex="-1" aria-label="code-block-1-4"></a></span>
 <span id="cb1-5"><a href="#cb1-5" tabindex="-1" aria-label="code-block-1-5"></a><span class="co"># read the CSV straight from GitHub into memory (nothing to download)</span></span>
-<span id="cb1-6"><a href="#cb1-6" tabindex="-1" aria-label="code-block-1-6"></a>crimes <span class="op">=</span> pd.read_csv(<span class="st">"https://raw.githubusercontent.com/SpatialTurn/DataCollection-Notebooks/main/Census/CrimesChicago20220225.csv"</span>)</span>
+<span id="cb1-6"><a href="#cb1-6" tabindex="-1" aria-label="code-block-1-6"></a>crimes <span class="op">=</span> pd.read_csv(<span class="st">"https://raw.githubusercontent.com/SpatialTurn/DataAnalysis/main/data/CrimesChicago20220225.csv"</span>)</span>
 <span id="cb1-7"><a href="#cb1-7" tabindex="-1" aria-label="code-block-1-7"></a>crimes.columns <span class="op">=</span> crimes.columns.<span class="bu">str</span>.strip()</span>
 <span id="cb1-8"><a href="#cb1-8" tabindex="-1" aria-label="code-block-1-8"></a>robbery <span class="op">=</span> crimes[crimes[<span class="st">"PRIMARY DESCRIPTION"</span>] <span class="op">==</span> <span class="st">"ROBBERY"</span>].dropna(subset<span class="op">=</span>[<span class="st">"LATITUDE"</span>, <span class="st">"LONGITUDE"</span>])</span>
 <span id="cb1-9"><a href="#cb1-9" tabindex="-1" aria-label="code-block-1-9"></a></span>
@@ -1356,7 +1366,7 @@ use to report “robbery hotspots” to a city council, and why?</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution1" aria-expanded="false" aria-controls="collapseSolution1">
   <h4 class="accordion-header" id="headingSolution1"> Show me the solution </h4>
 </button>
-<div id="collapseSolution1" class="accordion-collapse collapse" data-bs-parent="#accordionSolution1" aria-labelledby="headingSolution1">
+<div id="collapseSolution1" class="accordion-collapse collapse" aria-labelledby="headingSolution1" data-bs-parent="#accordionSolution1">
 <div class="accordion-body">
 <p>DBSCAN (or HDBSCAN). K-Means assigns every robbery to a zone, even
 isolated ones, so its “clusters” cover the whole city. DBSCAN keeps only
@@ -1385,7 +1395,7 @@ change?</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution2" aria-expanded="false" aria-controls="collapseSolution2">
   <h4 class="accordion-header" id="headingSolution2"> Show me the solution </h4>
 </button>
-<div id="collapseSolution2" class="accordion-collapse collapse" data-bs-parent="#accordionSolution2" aria-labelledby="headingSolution2">
+<div id="collapseSolution2" class="accordion-collapse collapse" aria-labelledby="headingSolution2" data-bs-parent="#accordionSolution2">
 <div class="accordion-body">
 <div class="codewrapper sourceCode" id="cb6">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -1451,20 +1461,20 @@ datasets</li>
 <tbody>
 <tr>
 <td>Beginner</td>
-<td><a href="https://colab.research.google.com/github/SpatialTurn/DataCollection-Notebooks/blob/main/DataAnalysis/04a_Exploring_Crime_Points.ipynb" target="_blank" class="external-link">4a.
+<td><a href="https://colab.research.google.com/github/SpatialTurn/DataAnalysis/blob/main/notebooks/04a_Exploring_Crime_Points.ipynb" target="_blank" class="external-link">4a.
 Exploring Crime Points</a></td>
 <td>Summarize Chicago crimes and turn them into points in meters</td>
 </tr>
 <tr>
 <td>Intermediate</td>
-<td><a href="https://colab.research.google.com/github/SpatialTurn/DataCollection-Notebooks/blob/main/DataAnalysis/04b_DBSCAN_and_HDBSCAN.ipynb" target="_blank" class="external-link">4b.
+<td><a href="https://colab.research.google.com/github/SpatialTurn/DataAnalysis/blob/main/notebooks/04b_DBSCAN_and_HDBSCAN.ipynb" target="_blank" class="external-link">4b.
 DBSCAN and HDBSCAN</a></td>
 <td>Choose <code>eps</code>, find robbery hotspots and compare with
 HDBSCAN</td>
 </tr>
 <tr>
 <td>Advanced</td>
-<td><a href="https://colab.research.google.com/github/SpatialTurn/DataCollection-Notebooks/blob/main/DataAnalysis/04c_KMeans_and_Comparing_Methods.ipynb" target="_blank" class="external-link">4c.
+<td><a href="https://colab.research.google.com/github/SpatialTurn/DataAnalysis/blob/main/notebooks/04c_KMeans_and_Comparing_Methods.ipynb" target="_blank" class="external-link">4c.
 K-Means and Comparing Methods</a></td>
 <td>Use the elbow method, a dendrogram and a side by side
 comparison</td>
@@ -1562,7 +1572,7 @@ red</strong> and <strong>Band 5 is NIR</strong>.</p>
 <span id="cb1-3"><a href="#cb1-3" tabindex="-1" aria-label="code-block-1-3"></a><span class="im">import</span> rasterio</span>
 <span id="cb1-4"><a href="#cb1-4" tabindex="-1" aria-label="code-block-1-4"></a></span>
 <span id="cb1-5"><a href="#cb1-5" tabindex="-1" aria-label="code-block-1-5"></a><span class="co"># rasterio reads the bands straight from GitHub into memory; nothing is downloaded</span></span>
-<span id="cb1-6"><a href="#cb1-6" tabindex="-1" aria-label="code-block-1-6"></a>LANDSAT <span class="op">=</span> <span class="st">"https://raw.githubusercontent.com/SpatialTurn/DataCollection-Notebooks/main/Census/landsat"</span></span>
+<span id="cb1-6"><a href="#cb1-6" tabindex="-1" aria-label="code-block-1-6"></a>LANDSAT <span class="op">=</span> <span class="st">"https://raw.githubusercontent.com/SpatialTurn/DataAnalysis/main/data/landsat"</span></span>
 <span id="cb1-7"><a href="#cb1-7" tabindex="-1" aria-label="code-block-1-7"></a></span>
 <span id="cb1-8"><a href="#cb1-8" tabindex="-1" aria-label="code-block-1-8"></a><span class="cf">with</span> rasterio.<span class="bu">open</span>(<span class="ss">f"</span><span class="sc">{</span>LANDSAT<span class="sc">}</span><span class="ss">/band4.TIF"</span>) <span class="im">as</span> src:     <span class="co"># red</span></span>
 <span id="cb1-9"><a href="#cb1-9" tabindex="-1" aria-label="code-block-1-9"></a>    red <span class="op">=</span> src.read(<span class="dv">1</span>).astype(<span class="st">"float32"</span>)</span>
@@ -1754,19 +1764,19 @@ bands 5 and 4</li>
 <tbody>
 <tr>
 <td>Beginner</td>
-<td><a href="https://colab.research.google.com/github/SpatialTurn/DataCollection-Notebooks/blob/main/DataAnalysis/05a_Computing_NDVI.ipynb" target="_blank" class="external-link">5a.
+<td><a href="https://colab.research.google.com/github/SpatialTurn/DataAnalysis/blob/main/notebooks/05a_Computing_NDVI.ipynb" target="_blank" class="external-link">5a.
 Computing NDVI from Landsat</a></td>
 <td>Read bands, convert to reflectance, map NDVI and save a GeoTIFF</td>
 </tr>
 <tr>
 <td>Intermediate</td>
-<td><a href="https://colab.research.google.com/github/SpatialTurn/DataCollection-Notebooks/blob/main/DataAnalysis/05b_Classifying_NDVI.ipynb" target="_blank" class="external-link">5b.
+<td><a href="https://colab.research.google.com/github/SpatialTurn/DataAnalysis/blob/main/notebooks/05b_Classifying_NDVI.ipynb" target="_blank" class="external-link">5b.
 Classifying NDVI</a></td>
 <td>Group NDVI into classes, map them and measure area per class</td>
 </tr>
 <tr>
 <td>Advanced</td>
-<td><a href="https://colab.research.google.com/github/SpatialTurn/DataCollection-Notebooks/blob/main/DataAnalysis/05c_Image_Classification_Advanced.ipynb" target="_blank" class="external-link">5c.
+<td><a href="https://colab.research.google.com/github/SpatialTurn/DataAnalysis/blob/main/notebooks/05c_Image_Classification_Advanced.ipynb" target="_blank" class="external-link">5c.
 Image Classification with Machine Learning</a></td>
 <td>True color image, K-Means and Random Forest classification</td>
 </tr>
