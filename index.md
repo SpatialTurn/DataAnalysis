@@ -29,8 +29,8 @@ Geocoding (turning addresses into points and downloading OpenStreetMap features)
 - Basic Python: running cells, variables, lists, and simple `pandas` DataFrames
 - A free [Census API key](https://api.census.gov/data/key_signup.html) of your own (needed for the PySAL episode)
 
-New to Python or Colab? Start with the **Geospatial Python** session of the 2026 workshop, then
-read the [Setup](learners/setup.md) page.
+New to Python or Colab? Start with the [Foundations](https://spatialturn.github.io/Foundations/) module,
+then read the [Setup](learners/setup.md) page.
 
 ::::::::::::::::::::::::::::::::::::::::::::::::::
 
