@@ -367,9 +367,8 @@ ideas from PySAL.</p>
 <ul><li>A Google account, to open the notebooks in Google Colab</li>
 <li>Basic Python: running cells, variables, lists, and simple
 <code>pandas</code> DataFrames</li>
-<li>For the PySAL episode: a free <a href="https://api.census.gov/data/key_signup.html" class="external-link">Census API
-key</a>
-</li>
+<li>A free <a href="https://api.census.gov/data/key_signup.html" class="external-link">Census
+API key</a> of your own (needed for the PySAL episode)</li>
 </ul><p>New to Python or Colab? Start with the <strong>Geospatial
 Python</strong> session of the 2026 workshop, then read the <a href="index.html#setup">Setup</a> page.</p>
 </div>
@@ -460,9 +459,12 @@ GIS software on your computer.</p>
 <section><h2 class="section-heading" id="what-you-need">What you need<a class="anchor" aria-label="anchor" href="#what-you-need"></a></h2>
 <hr class="half-width"><ul><li>A Google account</li>
 <li>A web browser (Chrome, Firefox, Edge or Safari)</li>
-<li>For the <strong>Spatial Autocorrelation with PySAL</strong> episode
-only: a free Census API key. Request one at <a href="https://api.census.gov/data/key_signup.html" class="external-link uri">https://api.census.gov/data/key_signup.html</a>; it arrives
-by email within a few minutes.</li>
+<li>
+<strong>A free Census API key.</strong> Every learner needs their
+own. Request one at <a href="https://api.census.gov/data/key_signup.html" class="external-link uri">https://api.census.gov/data/key_signup.html</a>; it arrives
+by email within a few minutes, and you must click the activation link in
+that email before it works. The PySAL episode cannot run without
+it.</li>
 </ul></section><section><h2 class="section-heading" id="opening-a-notebook">Opening a notebook<a class="anchor" aria-label="anchor" href="#opening-a-notebook"></a></h2>
 <hr class="half-width"><ol style="list-style-type: decimal"><li>Click a notebook link in the <strong>Notebooks</strong> table at the
 end of any episode. It opens in Colab.</li>
@@ -482,14 +484,14 @@ not written by Google. Click <strong>Run anyway</strong>.</li>
 <div class="callout-content">
 <ul><li>
 <strong>Run cells in order.</strong> Most errors come from skipping
-a cell, for example the one that downloads data.</li>
+a cell, for example the one that reads the data.</li>
 <li>
 <strong>Start over cleanly</strong> with <strong>Runtime &gt;
 Restart session and run all</strong>.</li>
-<li>
-<strong>Files disappear</strong> when the session ends. To keep an
-output (such as <code>ndvi.tif</code>), open the Files panel on the
-left, right click the file and choose <strong>Download</strong>.</li>
+<li>Data lives in memory, so it disappears when the session ends. Rerun
+the notebook to get it back. To keep an optional output (such as
+<code>ndvi.tif</code>), open the Files panel on the left, right click
+the file and choose <strong>Download</strong>.</li>
 <li>Cells that start with <code>!pip install</code> add libraries Colab
 does not include by default. They take a few seconds and only need to
 run once per session.</li>
@@ -497,8 +499,11 @@ run once per session.</li>
 </div>
 </div>
 </section><section><h2 class="section-heading" id="data">Data<a class="anchor" aria-label="anchor" href="#data"></a></h2>
-<hr class="half-width"><p>You do not need to download anything in advance. Each notebook
-downloads its own data:</p>
+<hr class="half-width"><p>You never need to download data. Every notebook reads its data
+straight from the web into memory: <code>pd.read_csv()</code> and
+<code>gpd.read_file()</code> accept a web address (including zipped
+shapefiles), and <code>rasterio.open()</code> reads satellite images the
+same way.</p>
 <table class="table"><colgroup><col width="33%"><col width="33%"><col width="33%"></colgroup><thead><tr><th>Episode</th>
 <th>Data</th>
 <th>Source</th>
@@ -521,8 +526,8 @@ estimates</td>
 <td>Landsat 8/9 Collection 2 Level-2 bands over Indiana
 (<code>band2.TIF</code> to <code>band5.TIF</code>)</td>
 <td>USGS</td>
-</tr></tbody></table><p>The Landsat bands are about 90 MB each, so the NDVI downloads take a
-minute or two.</p>
+</tr></tbody></table><p>The Landsat bands are about 90 MB each, so reading them takes a few
+seconds.</p>
 </section><section><h2 class="section-heading" id="working-offline-or-on-your-own-computer-optional">Working offline or on your own computer (optional)<a class="anchor" aria-label="anchor" href="#working-offline-or-on-your-own-computer-optional"></a></h2>
 <hr class="half-width"><p>If you prefer to run the notebooks locally, install <a href="https://www.anaconda.com/download" class="external-link">Anaconda</a> and create an
 environment with the libraries used in this module:</p>
@@ -534,10 +539,8 @@ environment with the libraries used in this module:</p>
 <span id="cb1-3"><a href="#cb1-3" tabindex="-1" aria-label="code-block-1-3"></a><span class="ex">jupyter</span> lab</span></code></pre>
 </div>
 <p>Then download a notebook from GitHub (<strong>File &gt; Download &gt;
-Download .ipynb</strong> in Colab) and open it in JupyterLab. Lines
-starting with <code>!wget</code> need the <code>wget</code> program; on
-Windows, download those files by hand from the <a href="https://github.com/SpatialTurn/DataCollection-Notebooks" class="external-link">DataCollection-Notebooks
-repository</a>.</p>
+Download .ipynb</strong> in Colab) and open it in JupyterLab. The data
+is still read from the web, so you need an internet connection.</p>
 <!--
 Place links that you need to refer to multiple times across pages here. Delete
 any links that you are not going to use.

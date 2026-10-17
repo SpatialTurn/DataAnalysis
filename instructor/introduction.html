@@ -400,7 +400,7 @@ health work and planning research.</p>
 <button class="accordion-button instructor-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseInstructor1" aria-expanded="false" aria-controls="collapseInstructor1">
   <h3 class="accordion-header" id="headingInstructor1">  <div class="note-square"><i aria-hidden="true" class="callout-icon" data-feather="edit-2"></i></div> Instructor Note </h3>
 </button>
-<div id="collapseInstructor1" class="accordion-collapse collapse" aria-labelledby="headingInstructor1" data-bs-parent="#accordionInstructor1">
+<div id="collapseInstructor1" class="accordion-collapse collapse" data-bs-parent="#accordionInstructor1" aria-labelledby="headingInstructor1">
 <div class="accordion-body">
 <p>Stress responsible use of free services: one request per second for
 Nominatim, and no bulk geocoding of personal addresses without
@@ -437,18 +437,20 @@ address quality.</p>
 <pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" tabindex="-1" aria-label="code-block-2-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
 <span id="cb2-2"><a href="#cb2-2" tabindex="-1" aria-label="code-block-2-2"></a><span class="im">import</span> geopandas <span class="im">as</span> gpd</span>
 <span id="cb2-3"><a href="#cb2-3" tabindex="-1" aria-label="code-block-2-3"></a></span>
-<span id="cb2-4"><a href="#cb2-4" tabindex="-1" aria-label="code-block-2-4"></a>museums <span class="op">=</span> pd.read_csv(<span class="st">"museums.txt"</span>, sep<span class="op">=</span><span class="st">"</span><span class="ch">\t</span><span class="st">"</span>, header<span class="op">=</span><span class="va">None</span>, names<span class="op">=</span>[<span class="st">"Name"</span>, <span class="st">"Address"</span>])</span>
-<span id="cb2-5"><a href="#cb2-5" tabindex="-1" aria-label="code-block-2-5"></a>results <span class="op">=</span> museums[<span class="st">"Address"</span>].<span class="bu">apply</span>(get_coordinates)</span>
-<span id="cb2-6"><a href="#cb2-6" tabindex="-1" aria-label="code-block-2-6"></a>museums[<span class="st">"Latitude"</span>] <span class="op">=</span> [lat <span class="cf">for</span> lat, lon <span class="kw">in</span> results]</span>
-<span id="cb2-7"><a href="#cb2-7" tabindex="-1" aria-label="code-block-2-7"></a>museums[<span class="st">"Longitude"</span>] <span class="op">=</span> [lon <span class="cf">for</span> lat, lon <span class="kw">in</span> results]</span>
-<span id="cb2-8"><a href="#cb2-8" tabindex="-1" aria-label="code-block-2-8"></a></span>
-<span id="cb2-9"><a href="#cb2-9" tabindex="-1" aria-label="code-block-2-9"></a>matched <span class="op">=</span> museums.dropna(subset<span class="op">=</span>[<span class="st">"Latitude"</span>])</span>
-<span id="cb2-10"><a href="#cb2-10" tabindex="-1" aria-label="code-block-2-10"></a>points <span class="op">=</span> gpd.GeoDataFrame(</span>
-<span id="cb2-11"><a href="#cb2-11" tabindex="-1" aria-label="code-block-2-11"></a>    matched,</span>
-<span id="cb2-12"><a href="#cb2-12" tabindex="-1" aria-label="code-block-2-12"></a>    geometry<span class="op">=</span>gpd.points_from_xy(matched[<span class="st">"Longitude"</span>], matched[<span class="st">"Latitude"</span>]),</span>
-<span id="cb2-13"><a href="#cb2-13" tabindex="-1" aria-label="code-block-2-13"></a>    crs<span class="op">=</span><span class="st">"EPSG:4326"</span>,     <span class="co"># latitude and longitude</span></span>
-<span id="cb2-14"><a href="#cb2-14" tabindex="-1" aria-label="code-block-2-14"></a>)</span>
-<span id="cb2-15"><a href="#cb2-15" tabindex="-1" aria-label="code-block-2-15"></a>points.explore(tooltip<span class="op">=</span><span class="st">"Name"</span>)</span></code></pre>
+<span id="cb2-4"><a href="#cb2-4" tabindex="-1" aria-label="code-block-2-4"></a><span class="co"># pandas reads the file straight from its web address into memory</span></span>
+<span id="cb2-5"><a href="#cb2-5" tabindex="-1" aria-label="code-block-2-5"></a>museums_url <span class="op">=</span> <span class="st">"https://raw.githubusercontent.com/SpatialTurn/DataCollection-Notebooks/main/Census/museums.txt"</span></span>
+<span id="cb2-6"><a href="#cb2-6" tabindex="-1" aria-label="code-block-2-6"></a>museums <span class="op">=</span> pd.read_csv(museums_url, sep<span class="op">=</span><span class="st">"</span><span class="ch">\t</span><span class="st">"</span>, header<span class="op">=</span><span class="va">None</span>, names<span class="op">=</span>[<span class="st">"Name"</span>, <span class="st">"Address"</span>])</span>
+<span id="cb2-7"><a href="#cb2-7" tabindex="-1" aria-label="code-block-2-7"></a>results <span class="op">=</span> museums[<span class="st">"Address"</span>].<span class="bu">apply</span>(get_coordinates)</span>
+<span id="cb2-8"><a href="#cb2-8" tabindex="-1" aria-label="code-block-2-8"></a>museums[<span class="st">"Latitude"</span>] <span class="op">=</span> [lat <span class="cf">for</span> lat, lon <span class="kw">in</span> results]</span>
+<span id="cb2-9"><a href="#cb2-9" tabindex="-1" aria-label="code-block-2-9"></a>museums[<span class="st">"Longitude"</span>] <span class="op">=</span> [lon <span class="cf">for</span> lat, lon <span class="kw">in</span> results]</span>
+<span id="cb2-10"><a href="#cb2-10" tabindex="-1" aria-label="code-block-2-10"></a></span>
+<span id="cb2-11"><a href="#cb2-11" tabindex="-1" aria-label="code-block-2-11"></a>matched <span class="op">=</span> museums.dropna(subset<span class="op">=</span>[<span class="st">"Latitude"</span>])</span>
+<span id="cb2-12"><a href="#cb2-12" tabindex="-1" aria-label="code-block-2-12"></a>points <span class="op">=</span> gpd.GeoDataFrame(</span>
+<span id="cb2-13"><a href="#cb2-13" tabindex="-1" aria-label="code-block-2-13"></a>    matched,</span>
+<span id="cb2-14"><a href="#cb2-14" tabindex="-1" aria-label="code-block-2-14"></a>    geometry<span class="op">=</span>gpd.points_from_xy(matched[<span class="st">"Longitude"</span>], matched[<span class="st">"Latitude"</span>]),</span>
+<span id="cb2-15"><a href="#cb2-15" tabindex="-1" aria-label="code-block-2-15"></a>    crs<span class="op">=</span><span class="st">"EPSG:4326"</span>,     <span class="co"># latitude and longitude</span></span>
+<span id="cb2-16"><a href="#cb2-16" tabindex="-1" aria-label="code-block-2-16"></a>)</span>
+<span id="cb2-17"><a href="#cb2-17" tabindex="-1" aria-label="code-block-2-17"></a>points.explore(tooltip<span class="op">=</span><span class="st">"Name"</span>)</span></code></pre>
 </div>
 <p>Always check the rows that did not match
 (<code>museums[museums["Latitude"].isna()]</code>). Incomplete or
@@ -502,7 +504,7 @@ feature</h3>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution1" aria-expanded="false" aria-controls="collapseSolution1">
   <h4 class="accordion-header" id="headingSolution1"> Show me the solution </h4>
 </button>
-<div id="collapseSolution1" class="accordion-collapse collapse" aria-labelledby="headingSolution1" data-bs-parent="#accordionSolution1">
+<div id="collapseSolution1" class="accordion-collapse collapse" data-bs-parent="#accordionSolution1" aria-labelledby="headingSolution1">
 <div class="accordion-body">
 <div class="codewrapper sourceCode" id="cb5">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -533,7 +535,7 @@ Why might the Census Geocoder fail on it, and how would you fix it?</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution2" aria-expanded="false" aria-controls="collapseSolution2">
   <h4 class="accordion-header" id="headingSolution2"> Show me the solution </h4>
 </button>
-<div id="collapseSolution2" class="accordion-collapse collapse" aria-labelledby="headingSolution2" data-bs-parent="#accordionSolution2">
+<div id="collapseSolution2" class="accordion-collapse collapse" data-bs-parent="#accordionSolution2" aria-labelledby="headingSolution2">
 <div class="accordion-body">
 <p>The geocoder expects a numbered street address, not an intersection.
 Rewriting it as <code>1000 Madison Dr NW, Washington, DC 20560</code>

@@ -417,7 +417,7 @@ on robbery.</p>
 <button class="accordion-button instructor-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseInstructor1" aria-expanded="false" aria-controls="collapseInstructor1">
   <h3 class="accordion-header" id="headingInstructor1">  <div class="note-square"><i aria-hidden="true" class="callout-icon" data-feather="edit-2"></i></div> Instructor Note </h3>
 </button>
-<div id="collapseInstructor1" class="accordion-collapse collapse" aria-labelledby="headingInstructor1" data-bs-parent="#accordionInstructor1">
+<div id="collapseInstructor1" class="accordion-collapse collapse" data-bs-parent="#accordionInstructor1" aria-labelledby="headingInstructor1">
 <div class="accordion-body">
 <p>The most common mistake is clustering raw latitude and longitude.
 Show what <code>eps=1000</code> means in meters versus degrees before
@@ -435,17 +435,18 @@ side.</p>
 <span id="cb1-2"><a href="#cb1-2" tabindex="-1" aria-label="code-block-1-2"></a><span class="im">import</span> geopandas <span class="im">as</span> gpd</span>
 <span id="cb1-3"><a href="#cb1-3" tabindex="-1" aria-label="code-block-1-3"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb1-4"><a href="#cb1-4" tabindex="-1" aria-label="code-block-1-4"></a></span>
-<span id="cb1-5"><a href="#cb1-5" tabindex="-1" aria-label="code-block-1-5"></a>crimes <span class="op">=</span> pd.read_csv(<span class="st">"CrimesChicago20220225.csv"</span>)</span>
-<span id="cb1-6"><a href="#cb1-6" tabindex="-1" aria-label="code-block-1-6"></a>crimes.columns <span class="op">=</span> crimes.columns.<span class="bu">str</span>.strip()</span>
-<span id="cb1-7"><a href="#cb1-7" tabindex="-1" aria-label="code-block-1-7"></a>robbery <span class="op">=</span> crimes[crimes[<span class="st">"PRIMARY DESCRIPTION"</span>] <span class="op">==</span> <span class="st">"ROBBERY"</span>].dropna(subset<span class="op">=</span>[<span class="st">"LATITUDE"</span>, <span class="st">"LONGITUDE"</span>])</span>
-<span id="cb1-8"><a href="#cb1-8" tabindex="-1" aria-label="code-block-1-8"></a></span>
-<span id="cb1-9"><a href="#cb1-9" tabindex="-1" aria-label="code-block-1-9"></a>robbery <span class="op">=</span> gpd.GeoDataFrame(</span>
-<span id="cb1-10"><a href="#cb1-10" tabindex="-1" aria-label="code-block-1-10"></a>    robbery,</span>
-<span id="cb1-11"><a href="#cb1-11" tabindex="-1" aria-label="code-block-1-11"></a>    geometry<span class="op">=</span>gpd.points_from_xy(robbery[<span class="st">"LONGITUDE"</span>], robbery[<span class="st">"LATITUDE"</span>]),</span>
-<span id="cb1-12"><a href="#cb1-12" tabindex="-1" aria-label="code-block-1-12"></a>    crs<span class="op">=</span><span class="st">"EPSG:4326"</span>,</span>
-<span id="cb1-13"><a href="#cb1-13" tabindex="-1" aria-label="code-block-1-13"></a>).to_crs(epsg<span class="op">=</span><span class="dv">32616</span>)          <span class="co"># UTM zone 16N: x and y in meters</span></span>
-<span id="cb1-14"><a href="#cb1-14" tabindex="-1" aria-label="code-block-1-14"></a></span>
-<span id="cb1-15"><a href="#cb1-15" tabindex="-1" aria-label="code-block-1-15"></a>coords <span class="op">=</span> np.column_stack([robbery.geometry.x, robbery.geometry.y])</span></code></pre>
+<span id="cb1-5"><a href="#cb1-5" tabindex="-1" aria-label="code-block-1-5"></a><span class="co"># read the CSV straight from GitHub into memory (nothing to download)</span></span>
+<span id="cb1-6"><a href="#cb1-6" tabindex="-1" aria-label="code-block-1-6"></a>crimes <span class="op">=</span> pd.read_csv(<span class="st">"https://raw.githubusercontent.com/SpatialTurn/DataCollection-Notebooks/main/Census/CrimesChicago20220225.csv"</span>)</span>
+<span id="cb1-7"><a href="#cb1-7" tabindex="-1" aria-label="code-block-1-7"></a>crimes.columns <span class="op">=</span> crimes.columns.<span class="bu">str</span>.strip()</span>
+<span id="cb1-8"><a href="#cb1-8" tabindex="-1" aria-label="code-block-1-8"></a>robbery <span class="op">=</span> crimes[crimes[<span class="st">"PRIMARY DESCRIPTION"</span>] <span class="op">==</span> <span class="st">"ROBBERY"</span>].dropna(subset<span class="op">=</span>[<span class="st">"LATITUDE"</span>, <span class="st">"LONGITUDE"</span>])</span>
+<span id="cb1-9"><a href="#cb1-9" tabindex="-1" aria-label="code-block-1-9"></a></span>
+<span id="cb1-10"><a href="#cb1-10" tabindex="-1" aria-label="code-block-1-10"></a>robbery <span class="op">=</span> gpd.GeoDataFrame(</span>
+<span id="cb1-11"><a href="#cb1-11" tabindex="-1" aria-label="code-block-1-11"></a>    robbery,</span>
+<span id="cb1-12"><a href="#cb1-12" tabindex="-1" aria-label="code-block-1-12"></a>    geometry<span class="op">=</span>gpd.points_from_xy(robbery[<span class="st">"LONGITUDE"</span>], robbery[<span class="st">"LATITUDE"</span>]),</span>
+<span id="cb1-13"><a href="#cb1-13" tabindex="-1" aria-label="code-block-1-13"></a>    crs<span class="op">=</span><span class="st">"EPSG:4326"</span>,</span>
+<span id="cb1-14"><a href="#cb1-14" tabindex="-1" aria-label="code-block-1-14"></a>).to_crs(epsg<span class="op">=</span><span class="dv">32616</span>)          <span class="co"># UTM zone 16N: x and y in meters</span></span>
+<span id="cb1-15"><a href="#cb1-15" tabindex="-1" aria-label="code-block-1-15"></a></span>
+<span id="cb1-16"><a href="#cb1-16" tabindex="-1" aria-label="code-block-1-16"></a>coords <span class="op">=</span> np.column_stack([robbery.geometry.x, robbery.geometry.y])</span></code></pre>
 </div>
 <p>Latitude and longitude are angles. One degree of longitude in Chicago
 is about 85 km while one degree of latitude is about 111 km, so
@@ -510,7 +511,7 @@ use to report “robbery hotspots” to a city council, and why?</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution1" aria-expanded="false" aria-controls="collapseSolution1">
   <h4 class="accordion-header" id="headingSolution1"> Show me the solution </h4>
 </button>
-<div id="collapseSolution1" class="accordion-collapse collapse" aria-labelledby="headingSolution1" data-bs-parent="#accordionSolution1">
+<div id="collapseSolution1" class="accordion-collapse collapse" data-bs-parent="#accordionSolution1" aria-labelledby="headingSolution1">
 <div class="accordion-body">
 <p>DBSCAN (or HDBSCAN). K-Means assigns every robbery to a zone, even
 isolated ones, so its “clusters” cover the whole city. DBSCAN keeps only
@@ -539,7 +540,7 @@ change?</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution2" aria-expanded="false" aria-controls="collapseSolution2">
   <h4 class="accordion-header" id="headingSolution2"> Show me the solution </h4>
 </button>
-<div id="collapseSolution2" class="accordion-collapse collapse" aria-labelledby="headingSolution2" data-bs-parent="#accordionSolution2">
+<div id="collapseSolution2" class="accordion-collapse collapse" data-bs-parent="#accordionSolution2" aria-labelledby="headingSolution2">
 <div class="accordion-body">
 <div class="codewrapper sourceCode" id="cb6">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>

@@ -431,8 +431,11 @@ explain nodes and edges.</li>
 <h3 id="spatial-autocorrelation-with-pysal">Spatial Autocorrelation with PySAL<a class="anchor" aria-label="anchor" href="#spatial-autocorrelation-with-pysal"></a>
 </h3>
 <ul>
-<li>Learners need a Census API key. Ask them to request it
-<strong>before</strong> the session; it arrives by email.</li>
+<li>
+<strong>Every learner needs their own free Census API key.</strong>
+Ask them to request and activate it <strong>before</strong> the session
+(it arrives by email). Without it the data cell stops with a clear
+message.</li>
 <li>Spatial weights are the hardest idea. Use the chess analogy and a 3
 by 3 grid on the board.</li>
 <li>Stress the p-value filter on LISA maps. Without it, many “hotspots”
@@ -459,8 +462,8 @@ this before showing maps.</li>
 <h3 id="ndvi-analysis">NDVI Analysis<a class="anchor" aria-label="anchor" href="#ndvi-analysis"></a>
 </h3>
 <ul>
-<li>Start the band downloads (about 90 MB each) before explaining
-NDVI.</li>
+<li>Bands are read from GitHub into memory (about 90 MB each). Run the
+reading cell, then explain NDVI while it loads.</li>
 <li>The provided bands are Landsat Collection 2 <strong>Level-2</strong>
 surface reflectance. They must be scaled with
 <code>value * 0.0000275 - 0.2</code> before computing NDVI.</li>
@@ -493,9 +496,10 @@ real training polygons would be drawn in QGIS.</li>
 <td><strong>Runtime &gt; Run before</strong></td>
 </tr>
 <tr>
-<td><code>FileNotFoundError</code></td>
-<td>The download cell did not run</td>
-<td>Run the <code>!wget</code> cell again</td>
+<td>
+<code>HTTPError</code> or a timeout while reading data</td>
+<td>Network hiccup reading from GitHub or the Census site</td>
+<td>Rerun the cell</td>
 </tr>
 <tr>
 <td>
