@@ -1,283 +1,159 @@
 ---
-title: "Spatial Analysis"
-teaching: 100
-exercises: 1
+title: "Spatial Autocorrelation with PySAL"
+teaching: 50
+exercises: 20
 ---
 
-:::::::::::::::::::::::::::::::::::::: questions 
+:::::::::::::::::::::::::::::::::::::: questions
 
-- What is PySAL and what can it do for spatial analysis?
-- How do we compute spatial weights and perform spatial autocorrelation?
-- How do we interpret results like Moran’s I?
+- What does it mean for data to be spatially autocorrelated?
+- How do we tell the computer which places are neighbors?
+- How do Global and Local Moran's I measure and locate clustering?
 
 ::::::::::::::::::::::::::::::::::::::::::::::::
 
 ::::::::::::::::::::::::::::::::::::: objectives
 
-- Understand the purpose of PySAL in spatial data science
-- Learn how to load spatial data using GeoPandas
-- Construct spatial weight matrices
-- Compute Global Moran’s I using PySAL
-- Visualize spatial clustering and spatial autocorrelation
+- Build Rook, Queen and K-nearest neighbor spatial weights with PySAL
+- Compute and interpret Global Moran's I and its p-value
+- Read a Moran scatterplot
+- Map statistically significant hotspots and coldspots with Local Moran's I (LISA)
 
 ::::::::::::::::::::::::::::::::::::::::::::::::
 
-## Why is PySAL Important?
+## Why spatial autocorrelation?
 
-PySAL (Python Spatial Analysis Library) is one of the most widely used toolkits for
-working with spatial data in Python. Unlike traditional statistical libraries,
-PySAL is designed specifically for datasets where **location matters** — where
-observations influence nearby observations, and spatial patterns may not be random.
+> "Everything is related to everything else, but near things are more related than distant things."
+> (Tobler's first law of geography)
 
-Geographers, urban planners, environmental scientists, epidemiologists, and data
-analysts use PySAL to identify spatial relationships, detect clustering, and build
-models that incorporate proximity and geography.
+Most statistics assume observations are independent. Places are not: a county's income or median
+age is usually similar to its neighbors'. **Spatial autocorrelation** measures how strong that
+similarity is, and **PySAL** (the Python Spatial Analysis Library) provides the standard tools.
 
-### What PySAL Helps Us Understand
-
-* Where events cluster or disperse across space  
-* Whether high or low values form **hotspots or coldspots**  
-* How neighborhoods influence one another (spatial dependency)  
-* Spatial inequality patterns in income, population, crime, disease, etc.  
-* Geographic diffusion (wildfire spread, disease transmission, migration flows)  
-* Environmental change and land-use impacts  
-
-### Why Researchers Use PySAL
-
-- Built for **spatial statistics** — tools that general libraries lack  
-- Easy integration with **GeoPandas, raster data, and shapefiles**  
-- Provides standard spatial methods such as:  
-  - Spatial weights (Queen, Rook, KNN, Distance-based)  
-  - Global & Local Moran’s I (LISA)  
-  - Spatial clustering & hotspot detection  
-  - Spatial regression models  
-- Enables **data-driven decision making in geography**  
-- Scales from local studies to large regional/global analyses  
-- Helps test spatial hypotheses scientifically instead of visually  
-
-### Spatial Analysis in Context
-
-Spatial analysis answers questions like:
-
-| Question | PySAL Method |
+| Question | PySAL method |
 |---|---|
-| Do areas with high values cluster together? | Moran’s I |
-| Where are hotspots located? | Local Moran / LISA maps |
-| What counts as a neighbor? | Spatial weights matrices |
-| Are patterns random or significant? | Monte Carlo permutation tests |
-| How do variables influence each other across space? | Spatial regression |
+| Who counts as a neighbor? | Spatial weights (`libpysal.weights`) |
+| Is there clustering across the whole map? | Global Moran's I (`esda.Moran`) |
+| Where are the hotspots and coldspots? | Local Moran's I, LISA (`esda.Moran_Local`) |
+| Could the pattern be chance? | Permutation tests (`p_sim`) |
 
-PySAL makes these methods accessible in Python, allowing analysts to move from
-**maps** to **statistical evidence** — revealing underlying spatial patterns
-that are not visible from visualization alone.
-
-## Introduction
-
-[PySAL](https://pysal.org/) is the Python Spatial Analysis Library — a powerful,
-open-source toolkit for working with spatial data. It provides tools for:
-
-- spatial weights  
-- spatial autocorrelation  
-- clustering  
-- spatial regression  
-- neighborhood analysis  
-
-This tutorial introduces the **core PySAL workflow**, closely following the
-structure used in your uploaded notebook.  
-
-We will cover:
-
-1. Loading polygon or point data  
-2. Building spatial weights  
-3. Running Global Moran’s I  
-4. Visualizing results  
-
-This tutorial assumes basic familiarity with `pandas`, `geopandas`, and Python.
-
-What you need to know for Carpentries lessons:
-
- 1. `questions` prime the learner for the lesson.
- 2. `objectives` state what skills will be gained.
- 3. `keypoints` summarize what was learned.
+In this episode we use 2023 American Community Survey data for Indiana counties, loaded with a
+Census API key (see the Census data session for how to get one).
 
 :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::: instructor
 
-Learners may struggle initially with spatial weights (rook, queen, k-nearest).
-Spend extra time walking through simple diagrams before showing code.
+Spatial weights are the hardest idea here. Use the chess analogy (Rook moves straight, Queen also
+moves diagonally) and draw a 3 by 3 grid before showing code. Also stress that an unfiltered LISA map
+(without the p-value cutoff) shows many false hotspots.
 
 ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 
+## 1. Build spatial weights
 
-## 1. Loading Spatial Data
-
-PySAL works seamlessly with **GeoPandas**.  
-Here’s a simple example using a polygon shapefile:
+`counties` is a GeoDataFrame of Indiana counties with a `median_age` column, projected to meters.
 
 ```python
-import geopandas as gpd
+from libpysal.weights import Rook, Queen, KNN
 
-gdf = gpd.read_file("data/shapes.shp")
-gdf.head()
+w_rook = Rook.from_dataframe(counties, use_index=True)    # shared edge
+w_queen = Queen.from_dataframe(counties, use_index=True)  # shared edge or corner
+w_knn = KNN.from_dataframe(counties, k=4)                 # 4 closest centers
+
+print(w_rook.mean_neighbors, w_queen.mean_neighbors)
+w_queen.transform = "R"    # row standardize: each county's weights sum to 1
 ```
 
-Plot the boundaries:
-```python
-gdf.plot(edgecolor="black", figsize=(6,6))
-```
-This ensures the geometry is valid and loads correctly.
-
-## 2. Building Spatial Weights
-
-Spatial weights define who is a neighbor of whom.
-
-PySAL includes:
-
-- Rook contiguity
-
-- Queen contiguity
-
-- K-nearest neighbors
-
-- Distance-based neighbors
-
-### Example: Queen Contiguity
-```python
-from libpysal.weights import Queen
-
-w = Queen.from_dataframe(gdf)
-w.transform = "R"  # row-standardization
-```
-Check neighbors of the first polygon:
-```python
-w.neighbors[0]
-```
-
-## 3. Global Moran's I
-
-Moran’s I measures global spatial autocorrelation:
-
-- Positive values → clustering
-
-- Negative values → dispersion
-
-- Near zero → random pattern
-
-Assume the dataset has a numeric column `value`:
-```python
-import esda
-import numpy as np
-
-y = gdf['value']
-mi = esda.Moran(y, w)
-```
-View the results:
-```python
-mi.I, mi.p_sim
-```
-
-Plot the Moran scatterplot:
-```python
-import splot.esda as esdaplot
-
-esdaplot.moran_scatterplot(mi)
-```
-
-## 4. Local Moran's I (Outlier Analysis)
-
-Local Moran's I finds hotspots and coldspots.
-```python
-lisa = esda.Moran_Local(y, w)
-```
-
-Add LISA quadrant labels to the GeoDataFrame:
-```python
-gdf["lisa_cluster"] = lisa.q
-```
-Map the clusters:
-```python
-gdf.plot(column="lisa_cluster", cmap="Set1", figsize=(8,6), legend=True)
-```
-This creates a basic LISA cluster map.
-
-::::::::::::::::::::::::::::::::::::: challenge
-
-Challenge 1: Create Your Own Spatial Weights
-
-Using the GeoDataFrame loaded above:
-
-- Create rook contiguity weights
-
-- Print the neighbor list for observation 10
-
-- Compare how rook vs queen differ
+## 2. Global Moran's I
 
 ```python
-from libpysal.weights import Rook
-w_rook = Rook.from_dataframe(gdf)
-w_rook.neighbors[10]
+from esda.moran import Moran
+
+mi = Moran(counties["median_age"], w_queen, permutations=999)
+print(f"I = {mi.I:.3f}, p = {mi.p_sim:.3f}")
 ```
+
+- I clearly above 0 with p below 0.05: similar values cluster together
+- I near 0: no spatial pattern
+- I below 0: neighbors tend to be different
+
+```python
+from splot.esda import moran_scatterplot
+moran_scatterplot(mi, aspect_equal=True)
+```
+
+## 3. Local Moran's I (LISA)
+
+```python
+from esda.moran import Moran_Local
+from splot.esda import lisa_cluster
+
+lisa = Moran_Local(counties["median_age"], w_queen, permutations=999, seed=42)
+lisa_cluster(lisa, counties, p=0.05)     # only significant counties are colored
+```
+
+Labels: **High-High** (hotspot), **Low-Low** (coldspot), **High-Low** and **Low-High** (outliers),
+and **Not significant**.
+
+:::::::::::::::::::::::::::::::::::: challenge
+
+## Challenge 1: Rook or Queen?
+
+Print the Rook and Queen neighbors of the same county, for example
+`w_rook.neighbors[0]` and `w_queen.neighbors[0]`. Why can Queen never have fewer neighbors than Rook?
 
 :::::::::::::::::::::::: solution
 
-Queen neighbors may include diagonal touches.
-Rook neighbors require shared edges only.
-You should see fewer rook neighbors than queen neighbors.
-
-:::::::::::::::::::::::::::::::::
-
-Challenge 2: Compute Moran’s I on a New Variable
-
-Choose any numeric variable in your dataset:
-
-- Extract the variable
-
-- Compute Moran’s I
-
-- Interpret whether clustering exists
-
-:::::::::::::::::::::::: solution
-
-A positive Moran’s I with low p-value → strong clustering.
-Near zero → randomness.
-Negative → spatial dispersion.
+Queen counts every county that shares an edge (like Rook) **plus** any that only touch at a corner.
+So it always includes all Rook neighbors, and sometimes a few more.
 
 :::::::::::::::::::::::::::::::::
 ::::::::::::::::::::::::::::::::::::::::::::::::
 
+:::::::::::::::::::::::::::::::::::: challenge
+
+## Challenge 2: A second variable
+
+Compute Global Moran's I for `pct_asian`. Is it clustered? Then make its LISA map.
+
+:::::::::::::::::::::::: solution
+
+```python
+mi2 = Moran(counties["pct_asian"], w_queen, permutations=999)
+print(mi2.I, mi2.p_sim)
+lisa_cluster(Moran_Local(counties["pct_asian"], w_queen, seed=42), counties, p=0.05)
+```
+
+A positive I with p below 0.05 means clustering. High-High counties usually sit around large
+cities and universities.
+
+:::::::::::::::::::::::::::::::::
+::::::::::::::::::::::::::::::::::::::::::::::::
 
 ## Math
 
-Global Moran’s I is defined as:
+Global Moran's I is
 
-`$ I = \frac{N}{W} \frac{\sum_i \sum_j w_{ij}(x_i - \bar{x})(x_j - \bar{x})} {\sum_i (x_i - \bar{x})^2} $`
+$$
+I = \frac{N}{W} \cdot \frac{\sum_i \sum_j w_{ij}(x_i - \bar{x})(x_j - \bar{x})}{\sum_i (x_i - \bar{x})^2}
+$$
 
-Where:
-
-`N` = number of observations
-
-`W` = sum of all spatial weights
-
-`w_ij` = weight between units i and j
-
-`x` = variable of interest
+where $N$ is the number of places, $w_{ij}$ is the weight between places $i$ and $j$ (non zero only
+for neighbors), $W$ is the sum of all weights, and $x$ is the variable. The top of the fraction is
+large when neighbors are on the same side of the mean.
 
 ::::::::::::::::::::::::::::::::::::: keypoints
 
-PySAL provides tools for weights, autocorrelation, clustering, and modeling
-
-Queen and rook weights define spatial neighbors differently
-
-Moran’s I measures global autocorrelation
-
-Local Moran (LISA) identifies hotspots and coldspots
-
-GeoPandas and PySAL together form a powerful spatial analysis workflow
+- Spatial weights define who is a neighbor: Rook (edges), Queen (edges and corners), KNN (closest)
+- Global Moran's I gives one number for clustering across the whole map
+- The permutation p-value tells you whether the pattern could be chance
+- Local Moran's I (LISA) locates hotspots, coldspots and outliers; always filter by p-value
 
 ::::::::::::::::::::::::::::::::::::::::::::::::
 
-# Module Overview
+## Notebooks
 
-| Lesson            | Overview                                                                                                   |
-|-------------------|------------------------------------------------------------------------------------------------------------|
-| <a href="https://colab.research.google.com/github/SpatialTurn/DataCollection-Notebooks/blob/main/Census/pysal_basic.ipynb" target="_blank">Beginner</a> | Introduction to Spatial Analysis using PySAL package. |
-| [Advanced]()  |  (to be added) |
+| Level | Notebook | What you will do |
+|---|---|---|
+| Beginner | <a href="https://colab.research.google.com/github/SpatialTurn/DataCollection-Notebooks/blob/main/DataAnalysis/03a_Spatial_Weights_Neighbors.ipynb" target="_blank">3a. What Is a Neighbor? Spatial Weights</a> | Load Indiana counties and compare Rook, Queen and KNN neighbors |
+| Intermediate | <a href="https://colab.research.google.com/github/SpatialTurn/DataCollection-Notebooks/blob/main/DataAnalysis/03b_Global_Morans_I.ipynb" target="_blank">3b. Global Moran's I</a> | Test whether median age is clustered and read the Moran scatterplot |
+| Advanced | <a href="https://colab.research.google.com/github/SpatialTurn/DataCollection-Notebooks/blob/main/DataAnalysis/03c_Local_Morans_I_Hotspots.ipynb" target="_blank">3c. Local Moran's I and Hotspots</a> | Map significant clusters for counties, then for Marion County tracts |

@@ -1,203 +1,181 @@
 ---
 title: "NDVI Analysis"
-teaching: 120
-exercises: 2
+teaching: 50
+exercises: 20
 ---
 
-:::::::::::::::::::::::::::::::::::::: questions 
+:::::::::::::::::::::::::::::::::::::: questions
 
 - What is NDVI and why is it useful?
-- How do we calculate NDVI from Landsat imagery?
-- How do we load and visualize raster data in Python?
-- How can we classify and map greenness using NDVI?
+- How do we read Landsat bands and compute NDVI in Python?
+- How can we classify NDVI into land cover groups?
 
 ::::::::::::::::::::::::::::::::::::::::::::::::
 
 ::::::::::::::::::::::::::::::::::::: objectives
 
-- Understand NDVI and the spectral bands needed to compute it
-- Learn to read geospatial raster files using rasterio
-- Calculate NDVI using Red & NIR bands from Landsat
-- Visualize NDVI as a map with color gradients
-- Create a simple vegetation classification from NDVI values
+- Explain why vegetation is bright in near infrared and dark in red
+- Read raster bands with `rasterio` and convert them to surface reflectance
+- Compute, map and save NDVI as a GeoTIFF
+- Classify NDVI with thresholds and summarize area by class
 
 ::::::::::::::::::::::::::::::::::::::::::::::::
 
-## Why is NDVI Important?
+## Why NDVI?
 
-NDVI is one of the most widely used vegetation indices in remote sensing because
-it provides a simple yet powerful way to assess plant health and landscape
-greenness over large areas. Healthy vegetation strongly reflects Near-Infrared
-(NIR) light and absorbs Red light for photosynthesis — NDVI takes advantage of
-this behavior to quantify vegetation vigor.
+Healthy leaves absorb red light for photosynthesis and strongly reflect near infrared (NIR) light.
+The **Normalized Difference Vegetation Index (NDVI)** uses that contrast to measure greenness
+from satellite images. It is easy to compute, works with most sensors (Landsat, Sentinel-2, MODIS),
+and is used for crop monitoring, drought, urban green space and land cover change.
 
-### What NDVI Helps Us Understand
+| NDVI | Typical surface |
+|---|---|
+| below 0 | Water, snow, clouds |
+| 0 to 0.2 | Bare soil, buildings, roads |
+| 0.2 to 0.4 | Sparse vegetation, grass, early crops |
+| above 0.4 | Dense, healthy vegetation |
 
-* Crop health and agricultural productivity  
-* Drought severity and water stress  
-* Forest cover and vegetation density  
-* Urban expansion and land use change  
-* Seasonal phenology (spring green-up, fall senescence)  
-* Disaster monitoring (wildfire burn severity, storm damage)  
-
-### Why Researchers Use NDVI
-
-- It is **easy to compute** from satellite imagery  
-- Works across multiple sensors (Landsat, Sentinel-2, MODIS, etc.)  
-- Allows **temporal comparison** (year-to-year vegetation trends)  
-- Useful for **ecosystem monitoring & climate change studies**  
-- Enables **land cover classification** and biomass estimation  
-- Supports **decision-making in agriculture and forestry**  
-
-### NDVI Interpretation at a Glance
-
-| NDVI Range | Interpretation | Example Areas |
-|---|---|---|
-| -1 to 0 | Water, snow, clouds, barren | Lakes, rivers |
-| 0–0.2 | Bare soil, built-up land | Urban areas, deserts |
-| 0.2–0.5 | Moderate vegetation | Grasslands, shrubs |
-| > 0.5 | Dense, healthy vegetation | Forests, croplands |
-
-NDVI is therefore a foundation metric in environmental science — enabling
-researchers, planners, and ecologists to **visualize vegetation patterns, track
-change through time, and make data-driven decisions about land and resources.**
-
-In this lesson, we will compute NDVI for Indiana using Landsat bands and generate maps with Python.
+The notebooks use one Landsat scene over Indiana (Collection 2 Level-2 surface reflectance).
+For Landsat 8 and 9, **Band 4 is red** and **Band 5 is NIR**.
 
 :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::: instructor
 
-Pause after NDVI formula — ensure learners understand band meanings and data types.
+Pause after the formula and make sure learners know which band is which. The band files are large
+(about 90 MB each); start the downloads before explaining NDVI.
 
 ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 
-## 1. Installing Required Libraries
+## 1. Read the bands and convert to reflectance
 
 ```python
-!pip install rasterio matplotlib numpy
-```
-
-## 2. Import Dependencies 
-```python
-import rasterio
 import numpy as np
 import matplotlib.pyplot as plt
+import rasterio
+
+with rasterio.open("band4.TIF") as src:
+    red = src.read(1).astype("float32")
+    profile = src.profile
+with rasterio.open("band5.TIF") as src:
+    nir = src.read(1).astype("float32")
+
+red[red == 0] = np.nan          # 0 = outside the scene
+nir[nir == 0] = np.nan
+
+# Level-2 values are stored as integers; this converts them to reflectance (0 to 1)
+red = np.clip(red * 0.0000275 - 0.2, 0, 1)
+nir = np.clip(nir * 0.0000275 - 0.2, 0, 1)
 ```
 
-## 3. Load Landsat RED and NIR Bands
-Make sure your directory contains Landsat `.TIF` files (Band 4 = Red, Band 5 = NIR).
-```python
-red = rasterio.open("LC08_L1TP_red.tif")
-nir = rasterio.open("LC08_L1TP_nir.tif")
+## 2. Compute and map NDVI
 
-red_band = red.read(1).astype('float32')
-nir_band = nir.read(1).astype('float32')
-```
-
-Plot a band to inspect:
 ```python
-plt.imshow(red_band, cmap='Reds')
-plt.title("Red Band")
-plt.colorbar()
+ndvi = (nir - red) / (nir + red)
+
+plt.imshow(ndvi, cmap="RdYlGn", vmin=-0.2, vmax=0.8)
+plt.colorbar(label="NDVI")
+plt.title("NDVI, Landsat scene over Indiana")
 plt.show()
 ```
 
-## 4. Calculate NDVI
+## 3. Save NDVI as a GeoTIFF
+
 ```python
-ndvi = (nir_band - red_band) / (nir_band + red_band)
+profile.update(dtype="float32", count=1, nodata=np.nan)
+with rasterio.open("ndvi.tif", "w", **profile) as dst:
+    dst.write(ndvi.astype("float32"), 1)
 ```
-Visualize NDVI:
+
+The saved file keeps the scene's location, so it lines up in QGIS.
+
+## 4. Classify NDVI
+
+`np.digitize` gives each pixel a class number. **Three** break values make **four** classes,
+so we need four colors.
+
 ```python
-plt.figure(figsize=(7,6))
-plt.imshow(ndvi, cmap='YlGn')
-plt.colorbar(label="NDVI Value")
-plt.title("NDVI Map of Indiana")
+from matplotlib.colors import ListedColormap
+
+classes = np.digitize(ndvi, [0, 0.2, 0.4]).astype("float32")   # 0, 1, 2, 3
+classes[np.isnan(ndvi)] = np.nan
+
+colors = ["#2b83ba", "#d7a26b", "#a6d96a", "#1a9641"]   # water, bare, sparse, dense
+plt.imshow(classes[::4, ::4], cmap=ListedColormap(colors), vmin=0, vmax=3,
+           interpolation="nearest")    # every 4th pixel keeps the plot fast
+plt.title("NDVI classes")
 plt.show()
 ```
 
-## 5. Classify NDVI into Vegetation Categories
-```python
-ndvi_class = np.digitize(ndvi, bins=[0, 0.2, 0.5])
+:::::::::::::::::::::::::::::::::::: challenge
 
-# 0 = water/barren, 1 = low vegetation, 2 = dense vegetation
-colors = ['blue', 'yellow', 'green']
-plt.imshow(ndvi_class, cmap=plt.matplotlib.colors.ListedColormap(colors))
-plt.title("NDVI Vegetation Classification")
+## Challenge 1: Five classes
+
+Classify NDVI into five classes with breaks `[0, 0.1, 0.2, 0.3]`. How many colors do you need?
+
+:::::::::::::::::::::::: solution
+
+Four breaks make five classes, so you need five colors and `vmax=4`.
+
+```python
+classes = np.digitize(ndvi, [0, 0.1, 0.2, 0.3]).astype("float32")
+classes[np.isnan(ndvi)] = np.nan
+colors = ["#2b83ba", "#d7a26b", "#fdae61", "#a6d96a", "#1a9641"]
+plt.imshow(classes[::4, ::4], cmap=ListedColormap(colors), vmin=0, vmax=4,
+           interpolation="nearest")
 plt.show()
 ```
 
-::::::::::::::::::::::::::::::::::::: challenge
+:::::::::::::::::::::::::::::::::
+::::::::::::::::::::::::::::::::::::::::::::::::
 
-## Challenge 1 — Try It Yourself
+:::::::::::::::::::::::::::::::::::: challenge
 
-* Change the NDVI color map (cmap)
+## Challenge 2: Mask water
 
-* Classify NDVI into four categories instead of three
-
-* Add labels or legends to your final map
+Replace NDVI values below 0 with `np.nan` and map the result. What is the mean NDVI of land only?
 
 :::::::::::::::::::::::: solution
 
 ```python
-bins = [0, 0.2, 0.4, 0.6]
-ndvi_class = np.digitize(ndvi, bins=bins)
-```
-
-:::::::::::::::::::::::::::::::::
-
-## Challenge 2 — Mask Water Pixels
-
-Use NDVI to mask water (<0):
-```python
-water_mask = ndvi < 0
-ndvi_water_removed = np.where(water_mask, np.nan, ndvi)
-
-plt.imshow(ndvi_water_removed, cmap='YlGn')
-plt.title("NDVI with Water Masked")
+ndvi_land = np.where(ndvi < 0, np.nan, ndvi)
+plt.imshow(ndvi_land[::4, ::4], cmap="YlGn", vmin=0, vmax=0.8)
 plt.show()
+print(np.nanmean(ndvi_land))
 ```
 
-:::::::::::::::::::::::: solution
-
-Water regions become transparent/ignored in the plot.
+Masked pixels are left blank on the map and ignored by `np.nanmean`.
 
 :::::::::::::::::::::::::::::::::
-
 ::::::::::::::::::::::::::::::::::::::::::::::::
 
 ::::::::::::::::::::::::::::::::::::: callout
 
-NDVI is affected by seasonality, cloud cover, and atmospheric effects.
-Always check metadata to ensure you're comparing compatible scenes.
+NDVI changes with the seasons, clouds and the atmosphere. Compare scenes from the same time of
+year, and use surface reflectance (Level-2) products rather than raw Level-1 values when possible.
 
 ::::::::::::::::::::::::::::::::::::::::::::::::
 
 ## Math
 
-NDVI uses reflectance difference between two bands:
+$$
+NDVI = \frac{NIR - Red}{NIR + Red}
+$$
 
-`NDVI = (NIR - RED)/(NIR + RED)`
-
-NIR increases with vegetation health — higher NDVI = greener land.
+NDVI ranges from -1 to +1. Healthy vegetation has high NIR and low red reflectance, which pushes NDVI
+toward +1. Water reflects more red than NIR, so its NDVI is negative.
 
 ::::::::::::::::::::::::::::::::::::: keypoints
 
-* NDVI uses Red & NIR reflectance from satellite imagery
-
-* Landsat Band 4 = Red, Band 5 = NIR for NDVI
-
-* NDVI ranges from -1 (water) to +1 (healthy vegetation)
-
-* Python tools: rasterio, numpy, matplotlib
-
-* NDVI maps reveal vegetation patterns visually and quantitatively
+- NDVI compares NIR and red reflectance; for Landsat 8 and 9 these are bands 5 and 4
+- Convert Level-2 values to reflectance (`value * 0.0000275 - 0.2`) before computing NDVI
+- `rasterio` reads and writes rasters; reuse the input `profile` when saving
+- `np.digitize` turns NDVI into classes; n breaks give n + 1 classes
 
 ::::::::::::::::::::::::::::::::::::::::::::::::
 
+## Notebooks
 
-
-# Module Overview
-
-| Lesson            | Overview                                                                                                   |
-|-------------------|------------------------------------------------------------------------------------------------------------|
-| <a href="https://colab.research.google.com/github/SpatialTurn/DataCollection-Notebooks/blob/main/Census/NDVI_Indiana.ipynb" target="_blank">Beginner</a> | Introduction to NDVI using LANDSAT Dataset. |
-| [Advanced]()  |  (to be added) |
+| Level | Notebook | What you will do |
+|---|---|---|
+| Beginner | <a href="https://colab.research.google.com/github/SpatialTurn/DataCollection-Notebooks/blob/main/DataAnalysis/05a_Computing_NDVI.ipynb" target="_blank">5a. Computing NDVI from Landsat</a> | Read bands, convert to reflectance, map NDVI and save a GeoTIFF |
+| Intermediate | <a href="https://colab.research.google.com/github/SpatialTurn/DataCollection-Notebooks/blob/main/DataAnalysis/05b_Classifying_NDVI.ipynb" target="_blank">5b. Classifying NDVI</a> | Group NDVI into classes, map them and measure area per class |
+| Advanced | <a href="https://colab.research.google.com/github/SpatialTurn/DataCollection-Notebooks/blob/main/DataAnalysis/05c_Image_Classification_Advanced.ipynb" target="_blank">5c. Image Classification with Machine Learning</a> | True color image, K-Means and Random Forest classification |
