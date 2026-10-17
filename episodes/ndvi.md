@@ -53,7 +53,7 @@ import matplotlib.pyplot as plt
 import rasterio
 
 # rasterio reads the bands straight from GitHub into memory; nothing is downloaded
-LANDSAT = "https://raw.githubusercontent.com/SpatialTurn/DataCollection-Notebooks/main/Census/landsat"
+LANDSAT = "https://raw.githubusercontent.com/SpatialTurn/DataAnalysis/main/data/landsat"
 
 with rasterio.open(f"{LANDSAT}/band4.TIF") as src:     # red
     red = src.read(1).astype("float32")
@@ -180,6 +180,6 @@ toward +1. Water reflects more red than NIR, so its NDVI is negative.
 
 | Level | Notebook | What you will do |
 |---|---|---|
-| Beginner | <a href="https://colab.research.google.com/github/SpatialTurn/DataCollection-Notebooks/blob/main/DataAnalysis/05a_Computing_NDVI.ipynb" target="_blank">5a. Computing NDVI from Landsat</a> | Read bands, convert to reflectance, map NDVI and save a GeoTIFF |
-| Intermediate | <a href="https://colab.research.google.com/github/SpatialTurn/DataCollection-Notebooks/blob/main/DataAnalysis/05b_Classifying_NDVI.ipynb" target="_blank">5b. Classifying NDVI</a> | Group NDVI into classes, map them and measure area per class |
-| Advanced | <a href="https://colab.research.google.com/github/SpatialTurn/DataCollection-Notebooks/blob/main/DataAnalysis/05c_Image_Classification_Advanced.ipynb" target="_blank">5c. Image Classification with Machine Learning</a> | True color image, K-Means and Random Forest classification |
+| Beginner | <a href="https://colab.research.google.com/github/SpatialTurn/DataAnalysis/blob/main/notebooks/05a_Computing_NDVI.ipynb" target="_blank">5a. Computing NDVI from Landsat</a> | Read bands, convert to reflectance, map NDVI and save a GeoTIFF |
+| Intermediate | <a href="https://colab.research.google.com/github/SpatialTurn/DataAnalysis/blob/main/notebooks/05b_Classifying_NDVI.ipynb" target="_blank">5b. Classifying NDVI</a> | Group NDVI into classes, map them and measure area per class |
+| Advanced | <a href="https://colab.research.google.com/github/SpatialTurn/DataAnalysis/blob/main/notebooks/05c_Image_Classification_Advanced.ipynb" target="_blank">5c. Image Classification with Machine Learning</a> | True color image, K-Means and Random Forest classification |

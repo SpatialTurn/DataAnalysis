@@ -146,6 +146,6 @@ is smallest. OSMnx finds it with Dijkstra's algorithm.
 
 | Level | Notebook | What you will do |
 |---|---|---|
-| Beginner | <a href="https://colab.research.google.com/github/SpatialTurn/DataCollection-Notebooks/blob/main/DataAnalysis/02a_Road_Networks_Basics.ipynb" target="_blank">2a. Road Networks: Nodes and Edges</a> | Download, plot, inspect and save a road network |
-| Intermediate | <a href="https://colab.research.google.com/github/SpatialTurn/DataCollection-Notebooks/blob/main/DataAnalysis/02b_Shortest_Paths_and_Travel_Time.ipynb" target="_blank">2b. Shortest Paths and Travel Time</a> | Route between two points and map travel time across the city |
-| Advanced | <a href="https://colab.research.google.com/github/SpatialTurn/DataCollection-Notebooks/blob/main/DataAnalysis/02c_Travel_Time_to_Stores.ipynb" target="_blank">2c. Travel Time to Grocery Stores</a> | Route from every OSM grocery store to the town center |
+| Beginner | <a href="https://colab.research.google.com/github/SpatialTurn/DataAnalysis/blob/main/notebooks/02a_Road_Networks_Basics.ipynb" target="_blank">2a. Road Networks: Nodes and Edges</a> | Download, plot, inspect and save a road network |
+| Intermediate | <a href="https://colab.research.google.com/github/SpatialTurn/DataAnalysis/blob/main/notebooks/02b_Shortest_Paths_and_Travel_Time.ipynb" target="_blank">2b. Shortest Paths and Travel Time</a> | Route between two points and map travel time across the city |
+| Advanced | <a href="https://colab.research.google.com/github/SpatialTurn/DataAnalysis/blob/main/notebooks/02c_Travel_Time_to_Stores.ipynb" target="_blank">2c. Travel Time to Grocery Stores</a> | Route from every OSM grocery store to the town center |

@@ -52,7 +52,7 @@ import geopandas as gpd
 import numpy as np
 
 # read the CSV straight from GitHub into memory (nothing to download)
-crimes = pd.read_csv("https://raw.githubusercontent.com/SpatialTurn/DataCollection-Notebooks/main/Census/CrimesChicago20220225.csv")
+crimes = pd.read_csv("https://raw.githubusercontent.com/SpatialTurn/DataAnalysis/main/data/CrimesChicago20220225.csv")
 crimes.columns = crimes.columns.str.strip()
 robbery = crimes[crimes["PRIMARY DESCRIPTION"] == "ROBBERY"].dropna(subset=["LATITUDE", "LONGITUDE"])
 
@@ -171,6 +171,6 @@ This total is the **inertia** used in the elbow plot.
 
 | Level | Notebook | What you will do |
 |---|---|---|
-| Beginner | <a href="https://colab.research.google.com/github/SpatialTurn/DataCollection-Notebooks/blob/main/DataAnalysis/04a_Exploring_Crime_Points.ipynb" target="_blank">4a. Exploring Crime Points</a> | Summarize Chicago crimes and turn them into points in meters |
-| Intermediate | <a href="https://colab.research.google.com/github/SpatialTurn/DataCollection-Notebooks/blob/main/DataAnalysis/04b_DBSCAN_and_HDBSCAN.ipynb" target="_blank">4b. DBSCAN and HDBSCAN</a> | Choose `eps`, find robbery hotspots and compare with HDBSCAN |
-| Advanced | <a href="https://colab.research.google.com/github/SpatialTurn/DataCollection-Notebooks/blob/main/DataAnalysis/04c_KMeans_and_Comparing_Methods.ipynb" target="_blank">4c. K-Means and Comparing Methods</a> | Use the elbow method, a dendrogram and a side by side comparison |
+| Beginner | <a href="https://colab.research.google.com/github/SpatialTurn/DataAnalysis/blob/main/notebooks/04a_Exploring_Crime_Points.ipynb" target="_blank">4a. Exploring Crime Points</a> | Summarize Chicago crimes and turn them into points in meters |
+| Intermediate | <a href="https://colab.research.google.com/github/SpatialTurn/DataAnalysis/blob/main/notebooks/04b_DBSCAN_and_HDBSCAN.ipynb" target="_blank">4b. DBSCAN and HDBSCAN</a> | Choose `eps`, find robbery hotspots and compare with HDBSCAN |
+| Advanced | <a href="https://colab.research.google.com/github/SpatialTurn/DataAnalysis/blob/main/notebooks/04c_KMeans_and_Comparing_Methods.ipynb" target="_blank">4c. K-Means and Comparing Methods</a> | Use the elbow method, a dendrogram and a side by side comparison |

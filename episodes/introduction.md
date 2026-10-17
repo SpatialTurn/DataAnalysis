@@ -61,7 +61,7 @@ def get_coordinates(address):
         return point["y"], point["x"]   # latitude, longitude
     return None, None
 
-get_coordinates("610 Purdue Mall, West Lafayette, IN 47907")
+get_coordinates("101 N Grant St, West Lafayette, IN 47906")
 ```
 
 ## 2. Geocode a list and turn it into map points
@@ -71,7 +71,7 @@ import pandas as pd
 import geopandas as gpd
 
 # pandas reads the file straight from its web address into memory
-museums_url = "https://raw.githubusercontent.com/SpatialTurn/DataCollection-Notebooks/main/Census/museums.txt"
+museums_url = "https://raw.githubusercontent.com/SpatialTurn/DataAnalysis/main/data/museums.txt"
 museums = pd.read_csv(museums_url, sep="\t", header=None, names=["Name", "Address"])
 results = museums["Address"].apply(get_coordinates)
 museums["Latitude"] = [lat for lat, lon in results]
@@ -83,11 +83,15 @@ points = gpd.GeoDataFrame(
     geometry=gpd.points_from_xy(matched["Longitude"], matched["Latitude"]),
     crs="EPSG:4326",     # latitude and longitude
 )
-points.explore(tooltip="Name")
+points.explore(tooltip="Name", tiles="CartoDB positron")
 ```
 
-Always check the rows that did not match (`museums[museums["Latitude"].isna()]`). Incomplete or
-landmark style addresses are the usual cause.
+`tiles="CartoDB positron"` sets the background map. The default OpenStreetMap background is blocked
+inside Colab and shows "403 Access blocked" behind your points.
+
+Always check the rows that did not match (`museums[museums["Latitude"].isna()]`). Missing street
+numbers, typos, and places absent from the Census address database (campuses, parks, large landmarks)
+are the usual causes. Campus addresses such as "610 Purdue Mall" fail for this reason.
 
 ## 3. Add context from OpenStreetMap
 
@@ -100,7 +104,7 @@ import osmnx as ox
 stores = ox.features_from_place("West Lafayette, Indiana, USA", tags={"shop": "supermarket"})
 stores = stores.reset_index()[["name", "geometry"]]
 stores["geometry"] = stores.geometry.representative_point()   # polygons to points
-stores.explore(tooltip="name", color="green")
+stores.explore(tooltip="name", color="green", tiles="CartoDB positron")
 ```
 
 ## 4. Measure what is nearby
@@ -109,7 +113,7 @@ To count features within a distance, first **reproject to meters**. Buffers on l
 longitude would be measured in degrees.
 
 ```python
-lat, lon = get_coordinates("610 Purdue Mall, West Lafayette, IN 47907")
+lat, lon = get_coordinates("101 N Grant St, West Lafayette, IN 47906")
 campus = gpd.GeoDataFrame(geometry=gpd.points_from_xy([lon], [lat]), crs="EPSG:4326")
 
 campus_m = campus.to_crs(epsg=5070)      # USA Contiguous Albers, units are meters
@@ -129,7 +133,7 @@ Download schools (`amenity=school`) or parks (`leisure=park`) for West Lafayette
 
 ```python
 parks = ox.features_from_place("West Lafayette, Indiana, USA", tags={"leisure": "park"})
-parks.explore(color="darkgreen")
+parks.explore(color="darkgreen", tiles="CartoDB positron")
 ```
 
 :::::::::::::::::::::::::::::::::
@@ -139,13 +143,17 @@ parks.explore(color="darkgreen")
 
 ## Challenge 2: Why did it fail?
 
-One museum in the list is written as `10th St. & Constitution Ave. NW, Washington, DC 20560`.
-Why might the Census Geocoder fail on it, and how would you fix it?
+The National Gallery of Art is listed as `Constitution Ave NW, Washington, DC 20565`.
+Why does the Census Geocoder fail on it, and how would you fix it?
 
 :::::::::::::::::::::::: solution
 
-The geocoder expects a numbered street address, not an intersection. Rewriting it as
-`1000 Madison Dr NW, Washington, DC 20560` gives a match.
+There is no street number, so the geocoder cannot place it on the street. The gallery sits at a
+corner, and the Census Geocoder understands intersections written with `&`:
+`6th St & Constitution Ave NW, Washington, DC 20565` gives a match.
+
+Some complete addresses still fail because they are not in the Census address database (in this list,
+the Philadelphia Museum of Art). For those, try another geocoder such as Nominatim (notebook 1c).
 
 :::::::::::::::::::::::::::::::::
 ::::::::::::::::::::::::::::::::::::::::::::::::
@@ -166,6 +174,6 @@ Work through these in order. Each one opens in Google Colab.
 
 | Level | Notebook | What you will do |
 |---|---|---|
-| Beginner | <a href="https://colab.research.google.com/github/SpatialTurn/DataCollection-Notebooks/blob/main/DataAnalysis/01a_Geocoding_Addresses.ipynb" target="_blank">1a. Geocoding Addresses</a> | Geocode museum addresses with the Census Geocoder and map them |
-| Intermediate | <a href="https://colab.research.google.com/github/SpatialTurn/DataCollection-Notebooks/blob/main/DataAnalysis/01b_Finding_Places_with_OSM.ipynb" target="_blank">1b. Finding Places with OpenStreetMap</a> | Download supermarkets by tag and reverse geocode a point |
-| Advanced | <a href="https://colab.research.google.com/github/SpatialTurn/DataCollection-Notebooks/blob/main/DataAnalysis/01c_Batch_Geocoding_and_Ambiguous_Names.ipynb" target="_blank">1c. Batch Geocoding and Ambiguous Names</a> | Geocode many places politely and resolve names like Springfield |
+| Beginner | <a href="https://colab.research.google.com/github/SpatialTurn/DataAnalysis/blob/main/notebooks/01a_Geocoding_Addresses.ipynb" target="_blank">1a. Geocoding Addresses</a> | Geocode museum addresses with the Census Geocoder and map them |
+| Intermediate | <a href="https://colab.research.google.com/github/SpatialTurn/DataAnalysis/blob/main/notebooks/01b_Finding_Places_with_OSM.ipynb" target="_blank">1b. Finding Places with OpenStreetMap</a> | Download supermarkets by tag and reverse geocode a point |
+| Advanced | <a href="https://colab.research.google.com/github/SpatialTurn/DataAnalysis/blob/main/notebooks/01c_Batch_Geocoding_and_Ambiguous_Names.ipynb" target="_blank">1c. Batch Geocoding and Ambiguous Names</a> | Geocode many places politely and resolve names like Springfield |
