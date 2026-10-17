@@ -34,7 +34,8 @@ title: 'Instructor Notes'
 
 ### Spatial Autocorrelation with PySAL
 
-- Learners need a Census API key. Ask them to request it **before** the session; it arrives by email.
+- **Every learner needs their own free Census API key.** Ask them to request and activate it
+  **before** the session (it arrives by email). Without it the data cell stops with a clear message.
 - Spatial weights are the hardest idea. Use the chess analogy and a 3 by 3 grid on the board.
 - Stress the p-value filter on LISA maps. Without it, many "hotspots" are noise.
 - Results depend on the units used (counties vs tracts): a good discussion point on the modifiable
@@ -50,7 +51,7 @@ title: 'Instructor Notes'
 
 ### NDVI Analysis
 
-- Start the band downloads (about 90 MB each) before explaining NDVI.
+- Bands are read from GitHub into memory (about 90 MB each). Run the reading cell, then explain NDVI while it loads.
 - The provided bands are Landsat Collection 2 **Level-2** surface reflectance. They must be scaled with
   `value * 0.0000275 - 0.2` before computing NDVI.
 - Full resolution images have about 60 million pixels. The notebooks plot every 4th pixel
@@ -63,7 +64,7 @@ title: 'Instructor Notes'
 | Symptom | Likely cause | Fix |
 |---|---|---|
 | `NameError: name 'x' is not defined` | A cell was skipped | **Runtime > Run before** |
-| `FileNotFoundError` | The download cell did not run | Run the `!wget` cell again |
+| `HTTPError` or a timeout while reading data | Network hiccup reading from GitHub or the Census site | Rerun the cell |
 | `ModuleNotFoundError: osmnx` (or `libpysal`, `rasterio`) | The `!pip install` cell did not run | Run it, then rerun the imports |
 | Geocoder or OSM timeout | Free server busy or rate limited | Wait a minute and rerun |
 | `KeyError` or HTTP 400 from the Census API | Key missing, mistyped or not yet activated | Check the key and the activation email |

@@ -40,8 +40,8 @@ For Landsat 8 and 9, **Band 4 is red** and **Band 5 is NIR**.
 
 :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::: instructor
 
-Pause after the formula and make sure learners know which band is which. The band files are large
-(about 90 MB each); start the downloads before explaining NDVI.
+Pause after the formula and make sure learners know which band is which. Each band is about 90 MB and
+is read from GitHub into memory, so the reading cell takes a few seconds.
 
 ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 
@@ -52,10 +52,13 @@ import numpy as np
 import matplotlib.pyplot as plt
 import rasterio
 
-with rasterio.open("band4.TIF") as src:
+# rasterio reads the bands straight from GitHub into memory; nothing is downloaded
+LANDSAT = "https://raw.githubusercontent.com/SpatialTurn/DataCollection-Notebooks/main/Census/landsat"
+
+with rasterio.open(f"{LANDSAT}/band4.TIF") as src:     # red
     red = src.read(1).astype("float32")
     profile = src.profile
-with rasterio.open("band5.TIF") as src:
+with rasterio.open(f"{LANDSAT}/band5.TIF") as src:     # near infrared
     nir = src.read(1).astype("float32")
 
 red[red == 0] = np.nan          # 0 = outside the scene
@@ -77,7 +80,7 @@ plt.title("NDVI, Landsat scene over Indiana")
 plt.show()
 ```
 
-## 3. Save NDVI as a GeoTIFF
+## 3. Save NDVI as a GeoTIFF (optional)
 
 ```python
 profile.update(dtype="float32", count=1, nodata=np.nan)
@@ -85,7 +88,8 @@ with rasterio.open("ndvi.tif", "w", **profile) as dst:
     dst.write(ndvi.astype("float32"), 1)
 ```
 
-The saved file keeps the scene's location, so it lines up in QGIS.
+Everything above stays in memory. Save a file only if you want to open the result in QGIS;
+it keeps the scene's location, so it lines up exactly.
 
 ## 4. Classify NDVI
 

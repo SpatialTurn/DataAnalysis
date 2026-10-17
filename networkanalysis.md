@@ -53,8 +53,7 @@ print(G.number_of_nodes(), "nodes,", G.number_of_edges(), "edges")
 ox.plot_graph(G, node_size=5, edge_color="gray", bgcolor="white")
 ```
 
-`network_type` can also be `"walk"` or `"bike"`. Save the graph with `ox.save_graphml(G, "wl.graphml")`
-so you do not download it again.
+`network_type` can also be `"walk"` or `"bike"`. The graph is held in memory as `G`.
 
 ## 2. Look at nodes and edges as tables
 

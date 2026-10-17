@@ -51,7 +51,8 @@ import pandas as pd
 import geopandas as gpd
 import numpy as np
 
-crimes = pd.read_csv("CrimesChicago20220225.csv")
+# read the CSV straight from GitHub into memory (nothing to download)
+crimes = pd.read_csv("https://raw.githubusercontent.com/SpatialTurn/DataCollection-Notebooks/main/Census/CrimesChicago20220225.csv")
 crimes.columns = crimes.columns.str.strip()
 robbery = crimes[crimes["PRIMARY DESCRIPTION"] == "ROBBERY"].dropna(subset=["LATITUDE", "LONGITUDE"])
 

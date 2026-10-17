@@ -27,7 +27,7 @@ and Spatial Clustering builds lightly on ideas from PySAL.
 
 - A Google account, to open the notebooks in Google Colab
 - Basic Python: running cells, variables, lists, and simple `pandas` DataFrames
-- For the PySAL episode: a free [Census API key](https://api.census.gov/data/key_signup.html)
+- A free [Census API key](https://api.census.gov/data/key_signup.html) of your own (needed for the PySAL episode)
 
 New to Python or Colab? Start with the **Geospatial Python** session of the 2026 workshop, then
 read the [Setup](learners/setup.md) page.
