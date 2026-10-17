@@ -1,11 +1,5 @@
-# This template CITATION.cff file was generated with cffinit.
-# Visit https://bit.ly/cffinit to replace its contents
-# with information about your lesson.
-# Remember to update this file periodically, 
-# ensuring that the author list and other fields remain accurate.
-
 cff-version: 1.2.0
-title: FIXME
+title: "GIS Data Analysis for Social Scientists"
 message: >-
   Please cite this lesson using the information in this file
   when you refer to it in publications, and/or if you
@@ -13,10 +7,39 @@ message: >-
   training material.
 type: dataset
 authors:
-  - given-names: FIXME
-    family-names: FIXME
+  - given-names: Ian
+    family-names: Lindsay
+    affiliation: "Purdue University"
+  - given-names: Nicole
+    family-names: Kong
+    affiliation: "Purdue University"
+  - given-names: Innocensia
+    family-names: Owuor
+    affiliation: "Purdue University"
+  - given-names: Max
+    family-names: Gosch
+    affiliation: "Department of Anthropology, Purdue University"
+  - given-names: Aniket Dev
+    family-names: Roy
+    affiliation: "Purdue University Libraries and School of Information"
 abstract: >-
-  FIXME Replace this with a short abstract describing the
-  lesson, e.g. its target audience and main intended
-  learning objectives.
+  A beginner friendly lesson on spatial analysis in Python using Google Colab,
+  written for social scientists. It covers geocoding addresses and adding
+  OpenStreetMap context, road network analysis and travel time, spatial
+  autocorrelation with PySAL, spatial clustering of point data, and NDVI from
+  Landsat imagery. Each episode links to three short notebooks that read their
+  data directly from the web.
+keywords:
+  - GIS
+  - Python
+  - spatial analysis
+  - geocoding
+  - network analysis
+  - PySAL
+  - clustering
+  - NDVI
+  - social science
+repository-code: "https://github.com/SpatialTurn/DataAnalysis"
+url: "https://spatialturn.github.io/DataAnalysis/"
 license: CC-BY-4.0
+date-released: "2025-07-23"
