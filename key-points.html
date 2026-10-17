@@ -3,7 +3,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta charset="utf-8">
-<title>Lesson Title: Key Points</title>
+<title>GIS Data Analysis for Social Scientists: Key Points</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <script src="assets/themetoggle.js"></script><link rel="stylesheet" type="text/css" href="assets/styles.css">
 <script src="assets/scripts.js" type="text/javascript"></script><!-- mathjax --><!-- NOTE: https://docs.mathjax.org/en/latest/output/mathml.html#mathml-support --><!-- Changes from V2 to V4: https://mathjax.github.io/MathJax-demos-web/convert-configuration/convert-configuration.html
@@ -41,15 +41,15 @@
     <div class="col-md-8">
       <div class="large-logo">
         <a href="index.html">
-        <img id="incubator-logo" alt="Lesson Description" src="assets/images/incubator-logo.svg"></a>
+        <img id="incubator-logo" alt="GIS Data Analysis for Social Scientists" src="assets/images/incubator-logo.svg"></a>
 
-        <span class="badge text-bg-danger">
-          <abbr title="This lesson is in the pre-alpha phase, which means that it is in early development, but has not yet been taught.">
+        <span class="badge text-bg-warning">
+          <abbr title="This lesson is in the alpha phase, which means that it has been taught once and lesson authors are iterating on feedback.">
             <a href="https://docs.carpentries.org/resources/curriculum/lesson-life-cycle.html" class="external-link alert-link">
-              <i aria-hidden="true" class="icon" data-feather="alert-octagon" style="border-radius: 5px"></i>
-              Pre-Alpha
+              <i aria-hidden="true" class="icon" data-feather="alert-triangle" style="border-radius: 5px"></i>
+              Alpha
             </a>
-            <span class="visually-hidden">This lesson is in the pre-alpha phase, which means that it is in early development, but has not yet been taught.</span>
+            <span class="visually-hidden">This lesson is in the alpha phase, which means that it has been taught once and lesson authors are iterating on feedback.</span>
           </abbr>
         </span>
 
@@ -100,10 +100,10 @@
     </button>
     <div class="nav-logo">
       <a href="index.html">
-      <img class="small-logo" alt="Lesson Description" src="assets/images/incubator-logo-sm.svg"></a>
+      <img class="small-logo" alt="GIS Data Analysis for Social Scientists" src="assets/images/incubator-logo-sm.svg"></a>
     </div>
     <div class="lesson-title-md">
-      Lesson Title
+      GIS Data Analysis for Social Scientists
     </div>
     <div class="search-icon-sm">
       <!-- TODO: do not show until we have search
@@ -114,7 +114,7 @@
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
 <li class="nav-item">
           <span class="lesson-title">
-            Lesson Title
+            GIS Data Analysis for Social Scientists
           </span>
         </li>
         <li class="nav-item">
@@ -244,7 +244,7 @@
 <div class="accordion accordion-flush" id="accordionFlush2">
   <div class="accordion-item">
     <div class="accordion-header" id="flush-heading2">
-        <a href="introduction.html">1. Census Geocoding</a>
+        <a href="introduction.html">1. Geocoding and Adding Spatial Context</a>
     </div>
 <!--/div.accordion-header-->
 
@@ -268,7 +268,7 @@
 <div class="accordion accordion-flush" id="accordionFlush4">
   <div class="accordion-item">
     <div class="accordion-header" id="flush-heading4">
-        <a href="pysal.html">3. Spatial Analysis</a>
+        <a href="pysal.html">3. Spatial Autocorrelation with PySAL</a>
     </div>
 <!--/div.accordion-header-->
 
@@ -374,53 +374,69 @@
     <main id="main-content" class="main-content"><div class="container lesson-content">
         <h1>Key Points</h1>
         
-<section id="introduction"><h2 class="section-heading"><a href="introduction.html">Census GeocodingModule Overview<a class="anchor" aria-label="anchor" href="#module-overview"></a></a></h2>
+<section id="introduction"><h2 class="section-heading"><a href="introduction.html">Geocoding and Adding Spatial Context</a></h2>
 <hr class="half-width">
 <ul>
-<li><p>Geocoding converts census addresses into spatial
-coordinates</p></li>
-<li><p>GeoPandas enables spatial operations on tabular data</p></li>
-<li><p>OpenStreetMap provides rich contextual geographic layers</p></li>
-<li><p>Combining census + OSM reveals spatial patterns and
-inequality</p></li>
-<li><p>Spatial context transforms demographic data into actionable
-insight</p></li>
-</ul></section><section id="networkanalysis"><h2 class="section-heading"><a href="networkanalysis.html">Network AnalysisModule Overview<a class="anchor" aria-label="anchor" href="#module-overview"></a></a></h2>
+<li>Geocoding converts text addresses into coordinates</li>
+<li>The U.S. Census Geocoder is free and works best with complete U.S.
+street addresses</li>
+<li>Always check match rates and inspect failed addresses</li>
+<li>OpenStreetMap tags (<code>key=value</code>) let you download context
+layers such as stores or schools</li>
+<li>Reproject to a meter based CRS before buffering or measuring
+distance</li>
+</ul></section><section id="networkanalysis"><h2 class="section-heading"><a href="networkanalysis.html">Network Analysis</a></h2>
 <hr class="half-width">
 <ul>
-<li><p>OSMnx simplifies downloading and converting OSM road
-networks</p></li>
-<li><p>Graphs model movement and connectivity in space</p></li>
-<li><p>NetworkX allows shortest path and routing analysis</p></li>
-<li><p>Visualization helps interpret accessibility patterns</p></li>
-</ul></section><section id="pysal"><h2 class="section-heading"><a href="pysal.html">Spatial AnalysisModule Overview<a class="anchor" aria-label="anchor" href="#module-overview"></a></a></h2>
-<hr class="half-width">
-<p>PySAL provides tools for weights, autocorrelation, clustering, and
-modeling</p>
-<p>Queen and rook weights define spatial neighbors differently</p>
-<p>Moran’s I measures global autocorrelation</p>
-<p>Local Moran (LISA) identifies hotspots and coldspots</p>
-<p>GeoPandas and PySAL together form a powerful spatial analysis
-workflow</p></section><section id="cluster"><h2 class="section-heading"><a href="cluster.html">Spatial ClusteringModule Overview<a class="anchor" aria-label="anchor" href="#module-overview"></a></a></h2>
-<hr class="half-width">
-<ul>
-<li><p>Spatial clustering groups geographic points into meaningful
-patterns</p></li>
-<li><p>K-Means is simple but assumes circular clusters</p></li>
-<li><p>Hierarchical clustering builds clusters step-wise</p></li>
-<li><p>DBSCAN is best for irregular shapes and detecting noise</p></li>
-<li><p>Always visualize your clusters to interpret them
-correctly</p></li>
-</ul></section><section id="ndvi"><h2 class="section-heading"><a href="ndvi.html">NDVI AnalysisModule Overview<a class="anchor" aria-label="anchor" href="#module-overview"></a></a></h2>
+<li>Road networks are graphs of nodes (intersections) and edges (road
+segments)</li>
+<li>
+<code>ox.graph_from_place</code> downloads OpenStreetMap roads for
+any named place</li>
+<li>
+<code>add_edge_speeds</code> and <code>add_edge_travel_times</code>
+let you route by time instead of distance</li>
+<li>
+<code>nearest_nodes</code> (longitude first),
+<code>shortest_path</code> and <code>route_to_gdf</code> cover most
+routing tasks</li>
+<li>Network distance is more realistic than straight line distance for
+access studies</li>
+</ul></section><section id="pysal"><h2 class="section-heading"><a href="pysal.html">Spatial Autocorrelation with PySAL</a></h2>
 <hr class="half-width">
 <ul>
-<li><p>NDVI uses Red &amp; NIR reflectance from satellite
-imagery</p></li>
-<li><p>Landsat Band 4 = Red, Band 5 = NIR for NDVI</p></li>
-<li><p>NDVI ranges from -1 (water) to +1 (healthy vegetation)</p></li>
-<li><p>Python tools: rasterio, numpy, matplotlib</p></li>
-<li><p>NDVI maps reveal vegetation patterns visually and
-quantitatively</p></li>
+<li>Spatial weights define who is a neighbor: Rook (edges), Queen (edges
+and corners), KNN (closest)</li>
+<li>Global Moran’s I gives one number for clustering across the whole
+map</li>
+<li>The permutation p-value tells you whether the pattern could be
+chance</li>
+<li>Local Moran’s I (LISA) locates hotspots, coldspots and outliers;
+always filter by p-value</li>
+</ul></section><section id="cluster"><h2 class="section-heading"><a href="cluster.html">Spatial Clustering</a></h2>
+<hr class="half-width">
+<ul>
+<li>Reproject to meters before clustering so distances are real</li>
+<li>DBSCAN and HDBSCAN find dense hotspots of any shape and label
+scattered points as noise</li>
+<li>K-Means splits all points into k round zones; choose k with the
+elbow method</li>
+<li>Hierarchical clustering shows how groups merge, but is slow on large
+datasets</li>
+<li>Pick the method that matches your question: hotspots or zones</li>
+</ul></section><section id="ndvi"><h2 class="section-heading"><a href="ndvi.html">NDVI Analysis</a></h2>
+<hr class="half-width">
+<ul>
+<li>NDVI compares NIR and red reflectance; for Landsat 8 and 9 these are
+bands 5 and 4</li>
+<li>Convert Level-2 values to reflectance
+(<code>value * 0.0000275 - 0.2</code>) before computing NDVI</li>
+<li>
+<code>rasterio</code> reads and writes rasters; reuse the input
+<code>profile</code> when saving</li>
+<li>
+<code>np.digitize</code> turns NDVI into classes; n breaks give n +
+1 classes</li>
 </ul></section>
 </div>
     </main>
@@ -434,14 +450,14 @@ quantitatively</p></li>
         <p>This lesson is subject to the <a href="CODE_OF_CONDUCT.html">Code of Conduct</a></p>
         <p>
 
-        <a href="https://github.com/carpentries/workbench-template-md/edit/main/README.md" class="external-link">Edit on GitHub</a>
+        <a href="https://github.com/SpatialTurn/DataAnalysis/edit/main/README.md" class="external-link">Edit on GitHub</a>
 
 	
-        | <a href="https://github.com/carpentries/workbench-template-md/blob/main/CONTRIBUTING.md" class="external-link">Contributing</a>
-        | <a href="https://github.com/carpentries/workbench-template-md/" class="external-link">Source</a></p>
+        | <a href="https://github.com/SpatialTurn/DataAnalysis/blob/main/CONTRIBUTING.md" class="external-link">Contributing</a>
+        | <a href="https://github.com/SpatialTurn/DataAnalysis/" class="external-link">Source</a></p>
         <p>
         <a href="citation.html">Cite</a>
-        | <a href="mailto:team@carpentries.org">Contact</a> | <a href="https://carpentries.org/about/" class="external-link">About</a></p>
+        | <a href="mailto:ilindsay@purdue.edu">Contact</a> | <a href="https://carpentries.org/about/" class="external-link">About</a></p>
 		</div>
 		<div class="col-md-6">
 
@@ -461,18 +477,18 @@ quantitatively</p></li>
     {
   "@context": "https://schema.org",
   "@type": "LearningResource",
-  "@id": "https://carpentries.github.io/workbench-template-md/key-points.html",
+  "@id": "https://SpatialTurn.github.io/DataAnalysis/key-points.html",
   "inLanguage": "en",
   "dct:conformsTo": "https://bioschemas.org/profiles/LearningResource/1.0-RELEASE",
   "description": "A Carpentries Lesson teaching foundational data and coding skills to researchers worldwide",
-  "keywords": "software, data, lesson, The Carpentries",
+  "keywords": "GIS, Python, spatial analysis, geocoding, network analysis, PySAL, clustering, NDVI, social science",
   "name": "Key Points",
   "creativeWorkStatus": "active",
-  "url": "https://carpentries.github.io/workbench-template-md/key-points.html",
-  "identifier": "https://carpentries.github.io/workbench-template-md/key-points.html",
-  "dateCreated": "2026-06-13",
-  "dateModified": "2026-10-13",
-  "datePublished": "2026-10-13"
+  "url": "https://SpatialTurn.github.io/DataAnalysis/key-points.html",
+  "identifier": "https://SpatialTurn.github.io/DataAnalysis/key-points.html",
+  "dateCreated": "2025-07-23",
+  "dateModified": "2026-10-17",
+  "datePublished": "2026-10-17"
 }
 
   </script><script>

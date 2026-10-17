@@ -3,7 +3,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta charset="utf-8">
-<title>Lesson Title: All in One View</title>
+<title>GIS Data Analysis for Social Scientists: All in One View</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <script src="assets/themetoggle.js"></script><link rel="stylesheet" type="text/css" href="assets/styles.css">
 <script src="assets/scripts.js" type="text/javascript"></script><!-- mathjax --><!-- NOTE: https://docs.mathjax.org/en/latest/output/mathml.html#mathml-support --><!-- Changes from V2 to V4: https://mathjax.github.io/MathJax-demos-web/convert-configuration/convert-configuration.html
@@ -41,15 +41,15 @@
     <div class="col-md-8">
       <div class="large-logo">
         <a href="index.html">
-        <img id="incubator-logo" alt="Lesson Description" src="assets/images/incubator-logo.svg"></a>
+        <img id="incubator-logo" alt="GIS Data Analysis for Social Scientists" src="assets/images/incubator-logo.svg"></a>
 
-        <span class="badge text-bg-danger">
-          <abbr title="This lesson is in the pre-alpha phase, which means that it is in early development, but has not yet been taught.">
+        <span class="badge text-bg-warning">
+          <abbr title="This lesson is in the alpha phase, which means that it has been taught once and lesson authors are iterating on feedback.">
             <a href="https://docs.carpentries.org/resources/curriculum/lesson-life-cycle.html" class="external-link alert-link">
-              <i aria-hidden="true" class="icon" data-feather="alert-octagon" style="border-radius: 5px"></i>
-              Pre-Alpha
+              <i aria-hidden="true" class="icon" data-feather="alert-triangle" style="border-radius: 5px"></i>
+              Alpha
             </a>
-            <span class="visually-hidden">This lesson is in the pre-alpha phase, which means that it is in early development, but has not yet been taught.</span>
+            <span class="visually-hidden">This lesson is in the alpha phase, which means that it has been taught once and lesson authors are iterating on feedback.</span>
           </abbr>
         </span>
 
@@ -100,10 +100,10 @@
     </button>
     <div class="nav-logo">
       <a href="index.html">
-      <img class="small-logo" alt="Lesson Description" src="assets/images/incubator-logo-sm.svg"></a>
+      <img class="small-logo" alt="GIS Data Analysis for Social Scientists" src="assets/images/incubator-logo-sm.svg"></a>
     </div>
     <div class="lesson-title-md">
-      Lesson Title
+      GIS Data Analysis for Social Scientists
     </div>
     <div class="search-icon-sm">
       <!-- TODO: do not show until we have search
@@ -114,7 +114,7 @@
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
 <li class="nav-item">
           <span class="lesson-title">
-            Lesson Title
+            GIS Data Analysis for Social Scientists
           </span>
         </li>
         <li class="nav-item">
@@ -244,7 +244,7 @@
 <div class="accordion accordion-flush" id="accordionFlush2">
   <div class="accordion-item">
     <div class="accordion-header" id="flush-heading2">
-        <a href="introduction.html">1. Census Geocoding</a>
+        <a href="introduction.html">1. Geocoding and Adding Spatial Context</a>
     </div>
 <!--/div.accordion-header-->
 
@@ -268,7 +268,7 @@
 <div class="accordion accordion-flush" id="accordionFlush4">
   <div class="accordion-item">
     <div class="accordion-header" id="flush-heading4">
-        <a href="pysal.html">3. Spatial Analysis</a>
+        <a href="pysal.html">3. Spatial Autocorrelation with PySAL</a>
     </div>
 <!--/div.accordion-header-->
 
@@ -374,11 +374,11 @@
     <main id="main-content" class="main-content"><div class="container lesson-content">
         <h1>All in One View</h1>
         
-<section id="aio-introduction"><p>Content from <a href="introduction.html">Census Geocoding</a></p>
+<section id="aio-introduction"><p>Content from <a href="introduction.html">Geocoding and Adding Spatial Context</a></p>
 <hr>
-<p>Last updated on 2026-06-13 |
+<p>Last updated on 2026-10-17 |
 
-        <a href="https://github.com/carpentries/workbench-template-md/edit/main/episodes/introduction.md" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
+        <a href="https://github.com/SpatialTurn/DataAnalysis/edit/main/episodes/introduction.md" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
 <div class="text-end">
           <button role="button" aria-pressed="false" tabindex="0" id="expand-code" class="pull-right" data-expand="Expand All Solutions " data-collapse="Collapse All Solutions "> Expand All Solutions <i aria-hidden="true" data-feather="plus"></i></button>
         </div>
@@ -390,10 +390,10 @@
 <div class="inner">
 <h3 class="card-title">Questions</h3>
 <ul>
-<li>What is geocoding and why is it essential for census analysis??</li>
-<li>How can we convert addresses into spatial coordinates?</li>
-<li>How do we combine census data with OpenStreetMap features?</li>
-<li>How can spatial context improve demographic analysis?</li>
+<li>What is geocoding, and why do social scientists need it?</li>
+<li>How do we turn a list of addresses into points on a map?</li>
+<li>How can OpenStreetMap add context such as stores, schools or
+parks?</li>
 </ul>
 </div>
 </div>
@@ -403,203 +403,133 @@
 <div class="inner bordered">
 <h3 class="card-title">Objectives</h3>
 <ul>
-<li>Understand what geocoding is and how it works</li>
-<li>Convert address-based census data into geographic coordinates</li>
-<li>Query OpenStreetMap (OSM) features using Python</li>
-<li>Combine census points with OSM layers for spatial analysis</li>
-<li>Visualize geocoded census data alongside urban infrastructure</li>
+<li>Geocode U.S. addresses with the free U.S. Census Geocoder</li>
+<li>Check match rates and find addresses that failed</li>
+<li>Turn coordinates into a GeoDataFrame and map it</li>
+<li>Download features from OpenStreetMap by tag</li>
+<li>Handle rate limits and ambiguous place names when geocoding many
+places</li>
 </ul>
 </div>
 </div>
 </div>
 </div>
 </div>
-<section><h2 class="section-heading" id="introduction">Introduction<a class="anchor" aria-label="anchor" href="#introduction"></a>
+<section><h2 class="section-heading" id="why-geocoding-matters">Why geocoding matters<a class="anchor" aria-label="anchor" href="#why-geocoding-matters"></a>
 </h2>
 <hr class="half-width">
-<p>Census and demographic datasets are often
-<strong>non-spatial</strong> — they exist as tables containing
-addresses, place names, or administrative units. To analyze these data
-geographically, we must first <strong>geocode</strong> them: converting
-text-based locations into latitude and longitude coordinates.</p>
-<p>Once census data are geocoded, they can be enriched with contextual
-information from <strong>OpenStreetMap (OSM)</strong>, such as roads,
-buildings, parks, schools, or hospitals. This enables deeper spatial
-insights into population distribution, accessibility, and urban
-structure.</p>
-<p>In this lesson, you will learn how to:</p>
-<ol style="list-style-type: decimal">
-<li>Geocode address-based census data</li>
-<li>Convert results into spatial objects</li>
-<li>Query OpenStreetMap features</li>
-<li>Visualize census data in its geographic context</li>
-</ol></section><section><h2 class="section-heading" id="why-census-geocoding-matters">Why Census Geocoding Matters ?<a class="anchor" aria-label="anchor" href="#why-census-geocoding-matters"></a>
-</h2>
-<hr class="half-width">
-<p>Census data becomes far more powerful when location is explicitly
-included. Geocoding allows researchers to move from spreadsheets to
-spatial insight.</p>
-<div class="section level3">
-<h3 id="what-census-geocoding-helps-us-understand">What Census Geocoding Helps Us Understand<a class="anchor" aria-label="anchor" href="#what-census-geocoding-helps-us-understand"></a>
-</h3>
-<ul>
-<li>Population distribution and density patterns<br>
-</li>
-<li>Access to services (schools, hospitals, transit, parks)<br>
-</li>
-<li>Spatial inequality and environmental justice<br>
-</li>
-<li>Urban growth and land-use change<br>
-</li>
-<li>Neighborhood-level demographic trends<br>
-</li>
-<li>Relationships between people and infrastructure</li>
-</ul>
-</div>
-<div class="section level3">
-<h3 id="why-researchers-combine-census-data-with-osm">Why Researchers Combine Census Data with OSM<a class="anchor" aria-label="anchor" href="#why-researchers-combine-census-data-with-osm"></a>
-</h3>
-<ul>
-<li>Census data provides <strong>who and what</strong>
-</li>
-<li>OpenStreetMap provides <strong>where and how</strong>
-</li>
-<li>Together, they enable:
-<ul>
-<li>Accessibility studies</li>
-<li>Urban planning analysis</li>
-<li>Public health assessments</li>
-<li>Infrastructure equity evaluations</li>
-<li>Place-based policy analysis</li>
-</ul>
-</li>
-</ul>
-<p>Geocoding transforms census data from static tables into
-<strong>spatial evidence</strong>.</p>
-</div>
-</section><section><h2 class="section-heading" id="installing-required-libraries">1. Installing Required Libraries<a class="anchor" aria-label="anchor" href="#installing-required-libraries"></a>
+<p>Most social science data has a location written as text: a survey
+respondent’s address, a list of clinics, a business directory.
+<strong>Geocoding</strong> turns that text into latitude and longitude
+so the data can be mapped and analyzed spatially.</p>
+<table class="table">
+<thead><tr>
+<th>Input (text)</th>
+<th>Output (coordinates)</th>
+</tr></thead>
+<tbody><tr>
+<td><code>1600 Pennsylvania Ave NW, Washington, DC 20500</code></td>
+<td>38.8977, -77.0365</td>
+</tr></tbody>
+</table>
+<p>Once your data are points, you can combine them with
+<strong>OpenStreetMap (OSM)</strong> layers. Census data tells you
+<em>who</em> lives in an area; OSM tells you <em>what is there</em>
+(stores, schools, transit). Together they support access studies, public
+health work and planning research.</p>
+
+</section><section><h2 class="section-heading" id="geocode-one-address-with-the-census-geocoder">1. Geocode one address with the Census Geocoder<a class="anchor" aria-label="anchor" href="#geocode-one-address-with-the-census-geocoder"></a>
 </h2>
 <hr class="half-width">
 <div class="codewrapper sourceCode" id="cb1">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" tabindex="-1" aria-label="code-block-1-1"></a><span class="op">!</span>pip install geopandas geopy osmnx matplotlib</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" tabindex="-1" aria-label="code-block-1-1"></a><span class="im">import</span> requests</span>
+<span id="cb1-2"><a href="#cb1-2" tabindex="-1" aria-label="code-block-1-2"></a></span>
+<span id="cb1-3"><a href="#cb1-3" tabindex="-1" aria-label="code-block-1-3"></a><span class="kw">def</span> get_coordinates(address):</span>
+<span id="cb1-4"><a href="#cb1-4" tabindex="-1" aria-label="code-block-1-4"></a>    reply <span class="op">=</span> requests.get(</span>
+<span id="cb1-5"><a href="#cb1-5" tabindex="-1" aria-label="code-block-1-5"></a>        <span class="st">"https://geocoding.geo.census.gov/geocoder/locations/onelineaddress"</span>,</span>
+<span id="cb1-6"><a href="#cb1-6" tabindex="-1" aria-label="code-block-1-6"></a>        params<span class="op">=</span>{<span class="st">"address"</span>: address, <span class="st">"benchmark"</span>: <span class="st">"Public_AR_Current"</span>, <span class="st">"format"</span>: <span class="st">"json"</span>},</span>
+<span id="cb1-7"><a href="#cb1-7" tabindex="-1" aria-label="code-block-1-7"></a>        timeout<span class="op">=</span><span class="dv">30</span>,</span>
+<span id="cb1-8"><a href="#cb1-8" tabindex="-1" aria-label="code-block-1-8"></a>    )</span>
+<span id="cb1-9"><a href="#cb1-9" tabindex="-1" aria-label="code-block-1-9"></a>    matches <span class="op">=</span> reply.json()[<span class="st">"result"</span>][<span class="st">"addressMatches"</span>]</span>
+<span id="cb1-10"><a href="#cb1-10" tabindex="-1" aria-label="code-block-1-10"></a>    <span class="cf">if</span> matches:</span>
+<span id="cb1-11"><a href="#cb1-11" tabindex="-1" aria-label="code-block-1-11"></a>        point <span class="op">=</span> matches[<span class="dv">0</span>][<span class="st">"coordinates"</span>]</span>
+<span id="cb1-12"><a href="#cb1-12" tabindex="-1" aria-label="code-block-1-12"></a>        <span class="cf">return</span> point[<span class="st">"y"</span>], point[<span class="st">"x"</span>]   <span class="co"># latitude, longitude</span></span>
+<span id="cb1-13"><a href="#cb1-13" tabindex="-1" aria-label="code-block-1-13"></a>    <span class="cf">return</span> <span class="va">None</span>, <span class="va">None</span></span>
+<span id="cb1-14"><a href="#cb1-14" tabindex="-1" aria-label="code-block-1-14"></a></span>
+<span id="cb1-15"><a href="#cb1-15" tabindex="-1" aria-label="code-block-1-15"></a>get_coordinates(<span class="st">"610 Purdue Mall, West Lafayette, IN 47907"</span>)</span></code></pre>
 </div>
-</section><section><h2 class="section-heading" id="load-census-data-or-address-data">2. Load Census Data or Address Data<a class="anchor" aria-label="anchor" href="#load-census-data-or-address-data"></a>
+</section><section><h2 class="section-heading" id="geocode-a-list-and-turn-it-into-map-points">2. Geocode a list and turn it into map points<a class="anchor" aria-label="anchor" href="#geocode-a-list-and-turn-it-into-map-points"></a>
 </h2>
 <hr class="half-width">
 <div class="codewrapper sourceCode" id="cb2">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" tabindex="-1" aria-label="code-block-2-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
-<span id="cb2-2"><a href="#cb2-2" tabindex="-1" aria-label="code-block-2-2"></a></span>
-<span id="cb2-3"><a href="#cb2-3" tabindex="-1" aria-label="code-block-2-3"></a>df <span class="op">=</span> pd.read_csv(<span class="st">"census_addresses.csv"</span>)</span>
-<span id="cb2-4"><a href="#cb2-4" tabindex="-1" aria-label="code-block-2-4"></a>df.head()</span></code></pre>
+<span id="cb2-2"><a href="#cb2-2" tabindex="-1" aria-label="code-block-2-2"></a><span class="im">import</span> geopandas <span class="im">as</span> gpd</span>
+<span id="cb2-3"><a href="#cb2-3" tabindex="-1" aria-label="code-block-2-3"></a></span>
+<span id="cb2-4"><a href="#cb2-4" tabindex="-1" aria-label="code-block-2-4"></a>museums <span class="op">=</span> pd.read_csv(<span class="st">"museums.txt"</span>, sep<span class="op">=</span><span class="st">"</span><span class="ch">\t</span><span class="st">"</span>, header<span class="op">=</span><span class="va">None</span>, names<span class="op">=</span>[<span class="st">"Name"</span>, <span class="st">"Address"</span>])</span>
+<span id="cb2-5"><a href="#cb2-5" tabindex="-1" aria-label="code-block-2-5"></a>results <span class="op">=</span> museums[<span class="st">"Address"</span>].<span class="bu">apply</span>(get_coordinates)</span>
+<span id="cb2-6"><a href="#cb2-6" tabindex="-1" aria-label="code-block-2-6"></a>museums[<span class="st">"Latitude"</span>] <span class="op">=</span> [lat <span class="cf">for</span> lat, lon <span class="kw">in</span> results]</span>
+<span id="cb2-7"><a href="#cb2-7" tabindex="-1" aria-label="code-block-2-7"></a>museums[<span class="st">"Longitude"</span>] <span class="op">=</span> [lon <span class="cf">for</span> lat, lon <span class="kw">in</span> results]</span>
+<span id="cb2-8"><a href="#cb2-8" tabindex="-1" aria-label="code-block-2-8"></a></span>
+<span id="cb2-9"><a href="#cb2-9" tabindex="-1" aria-label="code-block-2-9"></a>matched <span class="op">=</span> museums.dropna(subset<span class="op">=</span>[<span class="st">"Latitude"</span>])</span>
+<span id="cb2-10"><a href="#cb2-10" tabindex="-1" aria-label="code-block-2-10"></a>points <span class="op">=</span> gpd.GeoDataFrame(</span>
+<span id="cb2-11"><a href="#cb2-11" tabindex="-1" aria-label="code-block-2-11"></a>    matched,</span>
+<span id="cb2-12"><a href="#cb2-12" tabindex="-1" aria-label="code-block-2-12"></a>    geometry<span class="op">=</span>gpd.points_from_xy(matched[<span class="st">"Longitude"</span>], matched[<span class="st">"Latitude"</span>]),</span>
+<span id="cb2-13"><a href="#cb2-13" tabindex="-1" aria-label="code-block-2-13"></a>    crs<span class="op">=</span><span class="st">"EPSG:4326"</span>,     <span class="co"># latitude and longitude</span></span>
+<span id="cb2-14"><a href="#cb2-14" tabindex="-1" aria-label="code-block-2-14"></a>)</span>
+<span id="cb2-15"><a href="#cb2-15" tabindex="-1" aria-label="code-block-2-15"></a>points.explore(tooltip<span class="op">=</span><span class="st">"Name"</span>)</span></code></pre>
 </div>
-<p>This dataset should contain an address column (e.g., street, city,
-state).</p>
-</section><section><h2 class="section-heading" id="geocode-addresses-using-nominatim">3. Geocode Addresses Using <code>Nominatim</code>
-<a class="anchor" aria-label="anchor" href="#geocode-addresses-using-nominatim"></a>
+<p>Always check the rows that did not match
+(<code>museums[museums["Latitude"].isna()]</code>). Incomplete or
+landmark style addresses are the usual cause.</p>
+</section><section><h2 class="section-heading" id="add-context-from-openstreetmap">3. Add context from OpenStreetMap<a class="anchor" aria-label="anchor" href="#add-context-from-openstreetmap"></a>
 </h2>
 <hr class="half-width">
+<p>OSM features are described by <strong>tags</strong> such as
+<code>shop=supermarket</code> or <code>amenity=school</code> (see the <a href="https://wiki.openstreetmap.org/wiki/Map_features" class="external-link">Map Features
+list</a>).</p>
 <div class="codewrapper sourceCode" id="cb3">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" tabindex="-1" aria-label="code-block-3-1"></a><span class="im">from</span> geopy.geocoders <span class="im">import</span> Nominatim</span>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" tabindex="-1" aria-label="code-block-3-1"></a><span class="im">import</span> osmnx <span class="im">as</span> ox</span>
 <span id="cb3-2"><a href="#cb3-2" tabindex="-1" aria-label="code-block-3-2"></a></span>
-<span id="cb3-3"><a href="#cb3-3" tabindex="-1" aria-label="code-block-3-3"></a>geolocator <span class="op">=</span> Nominatim(user_agent<span class="op">=</span><span class="st">"census_geocoding_tutorial"</span>)</span>
-<span id="cb3-4"><a href="#cb3-4" tabindex="-1" aria-label="code-block-3-4"></a></span>
-<span id="cb3-5"><a href="#cb3-5" tabindex="-1" aria-label="code-block-3-5"></a><span class="kw">def</span> geocode_address(address):</span>
-<span id="cb3-6"><a href="#cb3-6" tabindex="-1" aria-label="code-block-3-6"></a>    <span class="cf">try</span>:</span>
-<span id="cb3-7"><a href="#cb3-7" tabindex="-1" aria-label="code-block-3-7"></a>        location <span class="op">=</span> geolocator.geocode(address)</span>
-<span id="cb3-8"><a href="#cb3-8" tabindex="-1" aria-label="code-block-3-8"></a>        <span class="cf">return</span> location.latitude, location.longitude</span>
-<span id="cb3-9"><a href="#cb3-9" tabindex="-1" aria-label="code-block-3-9"></a>    <span class="cf">except</span>:</span>
-<span id="cb3-10"><a href="#cb3-10" tabindex="-1" aria-label="code-block-3-10"></a>        <span class="cf">return</span> <span class="va">None</span>, <span class="va">None</span></span>
-<span id="cb3-11"><a href="#cb3-11" tabindex="-1" aria-label="code-block-3-11"></a></span>
-<span id="cb3-12"><a href="#cb3-12" tabindex="-1" aria-label="code-block-3-12"></a>df[<span class="st">"lat"</span>], df[<span class="st">"lon"</span>] <span class="op">=</span> <span class="bu">zip</span>(<span class="op">*</span>df[<span class="st">"address"</span>].<span class="bu">apply</span>(geocode_address))</span></code></pre>
+<span id="cb3-3"><a href="#cb3-3" tabindex="-1" aria-label="code-block-3-3"></a>stores <span class="op">=</span> ox.features_from_place(<span class="st">"West Lafayette, Indiana, USA"</span>, tags<span class="op">=</span>{<span class="st">"shop"</span>: <span class="st">"supermarket"</span>})</span>
+<span id="cb3-4"><a href="#cb3-4" tabindex="-1" aria-label="code-block-3-4"></a>stores <span class="op">=</span> stores.reset_index()[[<span class="st">"name"</span>, <span class="st">"geometry"</span>]]</span>
+<span id="cb3-5"><a href="#cb3-5" tabindex="-1" aria-label="code-block-3-5"></a>stores[<span class="st">"geometry"</span>] <span class="op">=</span> stores.geometry.representative_point()   <span class="co"># polygons to points</span></span>
+<span id="cb3-6"><a href="#cb3-6" tabindex="-1" aria-label="code-block-3-6"></a>stores.explore(tooltip<span class="op">=</span><span class="st">"name"</span>, color<span class="op">=</span><span class="st">"green"</span>)</span></code></pre>
 </div>
-<p><em>Note: Geocoding services may return None for incomplete or
-ambiguous addresses.</em></p>
-</section><section><h2 class="section-heading" id="convert-to-a-geodataframe">4. Convert to a GeoDataFrame<a class="anchor" aria-label="anchor" href="#convert-to-a-geodataframe"></a>
+</section><section><h2 class="section-heading" id="measure-what-is-nearby">4. Measure what is nearby<a class="anchor" aria-label="anchor" href="#measure-what-is-nearby"></a>
 </h2>
 <hr class="half-width">
+<p>To count features within a distance, first <strong>reproject to
+meters</strong>. Buffers on latitude and longitude would be measured in
+degrees.</p>
 <div class="codewrapper sourceCode" id="cb4">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" tabindex="-1" aria-label="code-block-4-1"></a><span class="im">import</span> geopandas <span class="im">as</span> gpd</span>
-<span id="cb4-2"><a href="#cb4-2" tabindex="-1" aria-label="code-block-4-2"></a></span>
-<span id="cb4-3"><a href="#cb4-3" tabindex="-1" aria-label="code-block-4-3"></a>gdf <span class="op">=</span> gpd.GeoDataFrame(</span>
-<span id="cb4-4"><a href="#cb4-4" tabindex="-1" aria-label="code-block-4-4"></a>    df,</span>
-<span id="cb4-5"><a href="#cb4-5" tabindex="-1" aria-label="code-block-4-5"></a>    geometry<span class="op">=</span>gpd.points_from_xy(df.lon, df.lat),</span>
-<span id="cb4-6"><a href="#cb4-6" tabindex="-1" aria-label="code-block-4-6"></a>    crs<span class="op">=</span><span class="st">"EPSG:4326"</span></span>
-<span id="cb4-7"><a href="#cb4-7" tabindex="-1" aria-label="code-block-4-7"></a>)</span>
-<span id="cb4-8"><a href="#cb4-8" tabindex="-1" aria-label="code-block-4-8"></a></span>
-<span id="cb4-9"><a href="#cb4-9" tabindex="-1" aria-label="code-block-4-9"></a>gdf.head()</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" tabindex="-1" aria-label="code-block-4-1"></a>lat, lon <span class="op">=</span> get_coordinates(<span class="st">"610 Purdue Mall, West Lafayette, IN 47907"</span>)</span>
+<span id="cb4-2"><a href="#cb4-2" tabindex="-1" aria-label="code-block-4-2"></a>campus <span class="op">=</span> gpd.GeoDataFrame(geometry<span class="op">=</span>gpd.points_from_xy([lon], [lat]), crs<span class="op">=</span><span class="st">"EPSG:4326"</span>)</span>
+<span id="cb4-3"><a href="#cb4-3" tabindex="-1" aria-label="code-block-4-3"></a></span>
+<span id="cb4-4"><a href="#cb4-4" tabindex="-1" aria-label="code-block-4-4"></a>campus_m <span class="op">=</span> campus.to_crs(epsg<span class="op">=</span><span class="dv">5070</span>)      <span class="co"># USA Contiguous Albers, units are meters</span></span>
+<span id="cb4-5"><a href="#cb4-5" tabindex="-1" aria-label="code-block-4-5"></a>stores_m <span class="op">=</span> stores.to_crs(epsg<span class="op">=</span><span class="dv">5070</span>)</span>
+<span id="cb4-6"><a href="#cb4-6" tabindex="-1" aria-label="code-block-4-6"></a></span>
+<span id="cb4-7"><a href="#cb4-7" tabindex="-1" aria-label="code-block-4-7"></a>one_mile <span class="op">=</span> campus_m.<span class="bu">buffer</span>(<span class="dv">1600</span>).iloc[<span class="dv">0</span>]          <span class="co"># circle with a 1 mile (1,600 m) radius</span></span>
+<span id="cb4-8"><a href="#cb4-8" tabindex="-1" aria-label="code-block-4-8"></a>stores_m[stores_m.within(one_mile)]               <span class="co"># supermarkets within 1 mile of campus</span></span></code></pre>
 </div>
-<p>Plot the geocoded points:</p>
-<div class="codewrapper sourceCode" id="cb5">
-<h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" tabindex="-1" aria-label="code-block-5-1"></a>gdf.plot(figsize<span class="op">=</span>(<span class="dv">6</span>,<span class="dv">6</span>), color<span class="op">=</span><span class="st">"red"</span>)</span></code></pre>
-</div>
-</section><section><h2 class="section-heading" id="query-openstreetmap-features">5. Query OpenStreetMap Features<a class="anchor" aria-label="anchor" href="#query-openstreetmap-features"></a>
-</h2>
-<hr class="half-width">
-<p>OpenStreetMap provides free, global geographic data.</p>
-<p>Example: download buildings in a city.</p>
-<div class="codewrapper sourceCode" id="cb6">
-<h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" tabindex="-1" aria-label="code-block-6-1"></a><span class="im">import</span> osmnx <span class="im">as</span> ox</span>
-<span id="cb6-2"><a href="#cb6-2" tabindex="-1" aria-label="code-block-6-2"></a></span>
-<span id="cb6-3"><a href="#cb6-3" tabindex="-1" aria-label="code-block-6-3"></a>place <span class="op">=</span> <span class="st">"Lafayette, Indiana, USA"</span></span>
-<span id="cb6-4"><a href="#cb6-4" tabindex="-1" aria-label="code-block-6-4"></a></span>
-<span id="cb6-5"><a href="#cb6-5" tabindex="-1" aria-label="code-block-6-5"></a>buildings <span class="op">=</span> ox.geometries_from_place(</span>
-<span id="cb6-6"><a href="#cb6-6" tabindex="-1" aria-label="code-block-6-6"></a>    place,</span>
-<span id="cb6-7"><a href="#cb6-7" tabindex="-1" aria-label="code-block-6-7"></a>    tags<span class="op">=</span>{<span class="st">"building"</span>: <span class="va">True</span>}</span>
-<span id="cb6-8"><a href="#cb6-8" tabindex="-1" aria-label="code-block-6-8"></a>)</span></code></pre>
-</div>
-<p>Plot buildings with census points:</p>
-<div class="codewrapper sourceCode" id="cb7">
-<h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" tabindex="-1" aria-label="code-block-7-1"></a>ax <span class="op">=</span> buildings.plot(color<span class="op">=</span><span class="st">"lightgray"</span>, figsize<span class="op">=</span>(<span class="dv">8</span>,<span class="dv">6</span>))</span>
-<span id="cb7-2"><a href="#cb7-2" tabindex="-1" aria-label="code-block-7-2"></a>gdf.plot(ax<span class="op">=</span>ax, color<span class="op">=</span><span class="st">"red"</span>, markersize<span class="op">=</span><span class="dv">10</span>)</span></code></pre>
-</div>
-</section><section><h2 class="section-heading" id="adding-spatial-context-to-census-data">6. Adding Spatial Context to Census Data<a class="anchor" aria-label="anchor" href="#adding-spatial-context-to-census-data"></a>
-</h2>
-<hr class="half-width">
-<p>You can buffer census points to analyze nearby features.</p>
-<div class="codewrapper sourceCode" id="cb8">
-<h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" tabindex="-1" aria-label="code-block-8-1"></a>gdf_buffer <span class="op">=</span> gdf.copy()</span>
-<span id="cb8-2"><a href="#cb8-2" tabindex="-1" aria-label="code-block-8-2"></a>gdf_buffer[<span class="st">"geometry"</span>] <span class="op">=</span> gdf_buffer.geometry.<span class="bu">buffer</span>(<span class="dv">200</span>)  <span class="co"># meters (after projection)</span></span></code></pre>
-</div>
-<p>Spatial join example:</p>
-<div class="codewrapper sourceCode" id="cb9">
-<h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" tabindex="-1" aria-label="code-block-9-1"></a>join <span class="op">=</span> gpd.sjoin(buildings, gdf_buffer, predicate<span class="op">=</span><span class="st">"within"</span>)</span>
-<span id="cb9-2"><a href="#cb9-2" tabindex="-1" aria-label="code-block-9-2"></a>join.head()</span></code></pre>
-</div>
-<p>This links buildings to nearby census locations.</p>
-<div id="challenge1" class="callout challenge">
+<div id="challenge-1-query-a-different-osm-feature" class="callout challenge">
 <div class="callout-square">
 <i class="callout-icon" data-feather="zap"></i>
 </div>
 <span class="callout-header">Challenge</span>
-<div class="callout-inner">
-<h3 class="callout-title">Challenge</h3>
+<div id="challenge-1-query-a-different-osm-feature" class="callout-inner">
+<h3 class="callout-title">Challenge 1: Query a different OSM
+feature</h3>
 <div class="callout-content">
-<p>Challenge 1 — Query a Different OSM Feature</p>
-<p>Choose one:</p>
-<ul>
-<li><p>Roads → <code>{"highway": True}</code></p></li>
-<li><p>Schools → <code>{"amenity": "school"}</code></p></li>
-<li><p>Parks → <code>{"leisure": "park"}</code></p></li>
-</ul>
-<p>Plot the feature with census points.</p>
+<p>Download schools (<code>amenity=school</code>) or parks
+(<code>leisure=park</code>) for West Lafayette and map them.</p>
 </div>
 </div>
 </div>
@@ -610,32 +540,27 @@ ambiguous addresses.</em></p>
 </button>
 <div id="collapseSolution1" class="accordion-collapse collapse" aria-labelledby="headingSolution1" data-bs-parent="#accordionSolution1">
 <div class="accordion-body">
-<div class="codewrapper sourceCode" id="cb10">
+<div class="codewrapper sourceCode" id="cb5">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" tabindex="-1" aria-label="code-block-10-1"></a>parks <span class="op">=</span> ox.geometries_from_place(place, tags<span class="op">=</span>{<span class="st">"leisure"</span>: <span class="st">"park"</span>})</span>
-<span id="cb10-2"><a href="#cb10-2" tabindex="-1" aria-label="code-block-10-2"></a>parks.plot()</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" tabindex="-1" aria-label="code-block-5-1"></a>parks <span class="op">=</span> ox.features_from_place(<span class="st">"West Lafayette, Indiana, USA"</span>, tags<span class="op">=</span>{<span class="st">"leisure"</span>: <span class="st">"park"</span>})</span>
+<span id="cb5-2"><a href="#cb5-2" tabindex="-1" aria-label="code-block-5-2"></a>parks.explore(color<span class="op">=</span><span class="st">"darkgreen"</span>)</span></code></pre>
 </div>
 </div>
 </div>
 </div>
 </div>
-<div id="challenge2" class="callout challenge">
+<div id="challenge-2-why-did-it-fail" class="callout challenge">
 <div class="callout-square">
 <i class="callout-icon" data-feather="zap"></i>
 </div>
 <span class="callout-header">Challenge</span>
-<div class="callout-inner">
-<h3 class="callout-title">Challenge<em> (continued)</em>
-</h3>
+<div id="challenge-2-why-did-it-fail" class="callout-inner">
+<h3 class="callout-title">Challenge 2: Why did it fail?</h3>
 <div class="callout-content">
-<p>Challenge 2 — Accessibility Analysis</p>
-<p>For each census point:</p>
-<ul>
-<li><p>Create a buffer</p></li>
-<li><p>Count how many buildings fall inside</p></li>
-<li><p>Interpret spatial differences</p></li>
-</ul>
+<p>One museum in the list is written as
+<code>10th St. &amp; Constitution Ave. NW, Washington, DC 20560</code>.
+Why might the Census Geocoder fail on it, and how would you fix it?</p>
 </div>
 </div>
 </div>
@@ -646,23 +571,13 @@ ambiguous addresses.</em></p>
 </button>
 <div id="collapseSolution2" class="accordion-collapse collapse" aria-labelledby="headingSolution2" data-bs-parent="#accordionSolution2">
 <div class="accordion-body">
-<p>Higher counts suggest higher accessibility or density.</p>
+<p>The geocoder expects a numbered street address, not an intersection.
+Rewriting it as <code>1000 Madison Dr NW, Washington, DC 20560</code>
+gives a match.</p>
 </div>
 </div>
 </div>
 </div>
-</section><section><h2 class="section-heading" id="math">Math<a class="anchor" aria-label="anchor" href="#math"></a>
-</h2>
-<hr class="half-width">
-<p>Geocoding transforms a text location <code>L</code> into coordinates
-(x,y)</p>
-<p>Spatial joins evaluate relationships between geometries:</p>
-<ul>
-<li>within</li>
-<li>intersects</li>
-<li>contains These operations allow census attributes to be analyzed
-spatially.</li>
-</ul>
 <div id="keypoints1" class="callout keypoints">
 <div class="callout-square">
 <i class="callout-icon" data-feather="key"></i>
@@ -671,54 +586,62 @@ spatially.</li>
 <div class="callout-inner">
 <div class="callout-content">
 <ul>
-<li><p>Geocoding converts census addresses into spatial
-coordinates</p></li>
-<li><p>GeoPandas enables spatial operations on tabular data</p></li>
-<li><p>OpenStreetMap provides rich contextual geographic layers</p></li>
-<li><p>Combining census + OSM reveals spatial patterns and
-inequality</p></li>
-<li><p>Spatial context transforms demographic data into actionable
-insight</p></li>
+<li>Geocoding converts text addresses into coordinates</li>
+<li>The U.S. Census Geocoder is free and works best with complete U.S.
+street addresses</li>
+<li>Always check match rates and inspect failed addresses</li>
+<li>OpenStreetMap tags (<code>key=value</code>) let you download context
+layers such as stores or schools</li>
+<li>Reproject to a meter based CRS before buffering or measuring
+distance</li>
 </ul>
 </div>
 </div>
 </div>
-</section><div class="section level1">
-<h1 id="module-overview">Module Overview<a class="anchor" aria-label="anchor" href="#module-overview"></a>
-</h1>
+</section><section><h2 class="section-heading" id="notebooks">Notebooks<a class="anchor" aria-label="anchor" href="#notebooks"></a>
+</h2>
+<hr class="half-width">
+<p>Work through these in order. Each one opens in Google Colab.</p>
 <table class="table">
 <colgroup>
-<col width="14%">
-<col width="85%">
+<col width="33%">
+<col width="33%">
+<col width="33%">
 </colgroup>
 <thead><tr>
-<th>Lesson</th>
-<th>Overview</th>
+<th>Level</th>
+<th>Notebook</th>
+<th>What you will do</th>
 </tr></thead>
 <tbody>
 <tr>
-<td><a href="https://colab.research.google.com/github/SpatialTurn/DataCollection-Notebooks/blob/main/Census/Address_based_geocode.ipynb" target="_blank" class="external-link">Beginner</a></td>
-<td>Introduction to Address Geocoding</td>
+<td>Beginner</td>
+<td><a href="https://colab.research.google.com/github/SpatialTurn/DataCollection-Notebooks/blob/main/DataAnalysis/01a_Geocoding_Addresses.ipynb" target="_blank" class="external-link">1a.
+Geocoding Addresses</a></td>
+<td>Geocode museum addresses with the Census Geocoder and map them</td>
 </tr>
 <tr>
-<td><a href="https://colab.research.google.com/github/SpatialTurn/DataCollection-Notebooks/blob/main/Census/OSM_Query_intermediate.ipynb" target="_blank" class="external-link">Intermediate</a></td>
-<td>Introduction to OSM Overpass API</td>
+<td>Intermediate</td>
+<td><a href="https://colab.research.google.com/github/SpatialTurn/DataCollection-Notebooks/blob/main/DataAnalysis/01b_Finding_Places_with_OSM.ipynb" target="_blank" class="external-link">1b.
+Finding Places with OpenStreetMap</a></td>
+<td>Download supermarkets by tag and reverse geocode a point</td>
 </tr>
 <tr>
-<td><a href="https://colab.research.google.com/github/SpatialTurn/DataCollection-Notebooks/blob/main/Census/batchgeocoding.ipynb" target="_blank" class="external-link">Advanced</a></td>
-<td>Introduction to Advanced Batch-Geocoding</td>
+<td>Advanced</td>
+<td><a href="https://colab.research.google.com/github/SpatialTurn/DataCollection-Notebooks/blob/main/DataAnalysis/01c_Batch_Geocoding_and_Ambiguous_Names.ipynb" target="_blank" class="external-link">1c.
+Batch Geocoding and Ambiguous Names</a></td>
+<td>Geocode many places politely and resolve names like Springfield</td>
 </tr>
 </tbody>
 </table>
 <!--
 Place links that you need to refer to multiple times across pages here. Delete
 any links that you are not going to use.
- -->
-</div></section><section id="aio-networkanalysis"><p>Content from <a href="networkanalysis.html">Network Analysis</a></p>
+ --></section></section><section id="aio-networkanalysis"><p>Content from <a href="networkanalysis.html">Network Analysis</a></p>
 <hr>
-<p>Last updated on 2025-12-05 |
+<p>Last updated on 2026-10-17 |
 
-        <a href="https://github.com/carpentries/workbench-template-md/edit/main/episodes/networkanalysis.md" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
+        <a href="https://github.com/SpatialTurn/DataAnalysis/edit/main/episodes/networkanalysis.md" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
 <div class="text-end">
           <button role="button" aria-pressed="false" tabindex="0" id="expand-code" class="pull-right" data-expand="Expand All Solutions " data-collapse="Collapse All Solutions "> Expand All Solutions <i aria-hidden="true" data-feather="plus"></i></button>
         </div>
@@ -730,9 +653,10 @@ any links that you are not going to use.
 <div class="inner">
 <h3 class="card-title">Questions</h3>
 <ul>
-<li>How do we download and visualize road networks with OSM data?</li>
-<li>What is a graph network and how is it represented in Python?</li>
-<li>How can we compute shortest paths and network distances?</li>
+<li>How can a road map be represented as a graph?</li>
+<li>How do we download and visualize road networks from
+OpenStreetMap?</li>
+<li>How do we find the shortest route and measure travel time?</li>
 </ul>
 </div>
 </div>
@@ -742,219 +666,104 @@ any links that you are not going to use.
 <div class="inner bordered">
 <h3 class="card-title">Objectives</h3>
 <ul>
-<li>Learn how to retrieve OpenStreetMap road data using OSMnx</li>
-<li>Convert road networks into graphs for routing and analysis</li>
-<li>Visualize networks and shortest paths on a map</li>
-<li>Compute route distances and travel time across a network</li>
+<li>Explain nodes and edges in a road network</li>
+<li>Download a drivable network with OSMnx and inspect it as
+GeoDataFrames</li>
+<li>Compute shortest paths by distance and by travel time</li>
+<li>Measure travel time from many locations to one point, the basis of
+an access study</li>
 </ul>
 </div>
 </div>
 </div>
 </div>
 </div>
-<section><h2 class="section-heading" id="overview">Overview<a class="anchor" aria-label="anchor" href="#overview"></a>
+<section><h2 class="section-heading" id="why-network-analysis">Why network analysis?<a class="anchor" aria-label="anchor" href="#why-network-analysis"></a>
 </h2>
 <hr class="half-width">
-<p>This tutorial provides a practical introduction to performing road
-network analysis using Python, focusing on analyzing road networks in a
-specified area (e.g., West Lafayette, Indiana) to study food deserts. It
-uses libraries such as <code>networkx</code>, <code>osmnx</code>,
-<code>folium</code>, <code>pandas</code>, <code>geopandas</code>, and
-<code>matplotlib</code> to fetch, visualize, and analyze road networks,
-compute centroid nodes, and calculate the shortest path based on travel
-time. The tutorial also applies this analysis to food accessibility data
-in Indiana.</p>
-<p>The coordinates of grocery stores in Indiana were fetched using
-OpenStreetMap (OSM). Network analysis is used to calculate distances and
-times from grocery store locations to the center of areas of interest,
-considering factors such as the number of supermarkets, income, and
-vehicle accessibility. Distances are classified as good (around 1 mile)
-or low-accessible (over 5 miles), depending on rural or urban settings.
-Low Income and Low Access maps were created for each census tract in
-Indiana and compared to the USDA food desert dataset.</p>
-<div class="section level4">
-<h4 id="why-network-analysis-for-food-deserts">Why Network Analysis for Food Deserts?<a class="anchor" aria-label="anchor" href="#why-network-analysis-for-food-deserts"></a>
-</h4>
-<ol style="list-style-type: decimal">
-<li>
-<strong>Mapping Accessibility</strong>: Models connections between
-grocery stores and transportation systems to identify areas with limited
-healthy food access due to distance or lack of transportation.</li>
-<li>
-<strong>Area Development</strong>: Helps improve accessibility and
-quality of life in underserved regions.</li>
-<li>
-<strong>Promotes Equity</strong>: Highlights disparities to create
-solutions for equitable access to nutritious food.</li>
-<li>
-<strong>Optimization of Resources</strong>: Ensures equal
-distribution of resources for all individuals.</li>
-</ol>
-</div>
-<div class="section level4">
-<h4 id="environment-setup">Environment Setup<a class="anchor" aria-label="anchor" href="#environment-setup"></a>
-</h4>
-<p>Libraries imported for this tutorial: - <code>osmnx</code>: Fetches
-and processes OpenStreetMap road network data. - <code>networkx</code>:
-Performs graph-based computations, such as shortest path calculations. -
-<code>folium</code>: Enables interactive map visualizations. -
-<code>geopandas</code> and <code>shapely</code>: Handle geospatial data
-and geometry operations. - <code>matplotlib</code>: Generates static
-plots, including network visualization. - <code>geopy</code>: Calculates
-geodesic distances for spatial analysis.</p>
-</div>
-<div class="section level4">
-<h4 id="data-acquisition">Data Acquisition<a class="anchor" aria-label="anchor" href="#data-acquisition"></a>
-</h4>
-<p>The road network for West Lafayette, Indiana, is fetched using
-<code>ox.graph.from_place("West Lafayette, Indiana", network_type="drive")</code>,
-retrieving the drivable road network from OpenStreetMap as a graph
-(nodes as intersections, edges as road segments). The graph can be saved
-as a GraphML file (e.g.,
-<code>westlafayette_indiana_network.graphml</code>) using
-<code>ox.save_graphml</code> to avoid redundant downloads. This can be
-adapted for any U.S. area with a single line of code.</p>
-</div>
-<div class="section level4">
-<h4 id="applications">Applications<a class="anchor" aria-label="anchor" href="#applications"></a>
-</h4>
+<p>Straight line distance is misleading: a store 1 km away across a
+river may be a 6 km drive. Network analysis measures distance
+<strong>along roads</strong>, which is how people actually travel.</p>
+<p>Road networks are stored as <strong>graphs</strong>:</p>
 <ul>
 <li>
-<strong>Urban Planning</strong>: Analyzing road connectivity and
-accessibility in cities.</li>
+<strong>Nodes</strong> are intersections and dead ends</li>
 <li>
-<strong>Transportation Studies</strong>: Optimizing routes based on
-travel time or distance.</li>
-<li>
-<strong>Geospatial Analysis</strong>: Studying spatial relationships
-in infrastructure networks.</li>
-<li>
-<strong>Emergency Response</strong>: Identifying the fastest routes
-for first responders.</li>
+<strong>Edges</strong> are road segments, each with a length (and,
+once added, a speed and travel time)</li>
 </ul>
-</div>
-<div class="section level4">
-<h4 id="visualization">Visualization<a class="anchor" aria-label="anchor" href="#visualization"></a>
-</h4>
-<p>A folium map example shows a blue star indicating the centroid of
-West Lafayette to a random point (green flag), with the shortest path
-marked by a red line/polygon.</p>
-</div>
-<div class="section level4">
-<h4 id="limitations">Limitations<a class="anchor" aria-label="anchor" href="#limitations"></a>
-</h4>
-<ul>
-<li>
-<strong>Data Dependency</strong>: Relies on OpenStreetMap data,
-which may vary in quality or availability by region.</li>
-<li>
-<strong>Performance</strong>: Large networks may require significant
-computational resources for fetching and processing.</li>
-</ul>
-</div>
-</section><section><h2 class="section-heading" id="introduction">Introduction<a class="anchor" aria-label="anchor" href="#introduction"></a>
-</h2>
-<hr class="half-width">
-<p>Network analysis allows us to study movement, connectivity, and
-accessibility across geographic space. Roads, sidewalks, rivers, power
-lines, and transit systems can be modeled as <strong>graphs</strong>,
-where intersections are <em>nodes</em> and paths are <em>edges</em>.</p>
-<p>This lesson demonstrates how to:</p>
-<ol style="list-style-type: decimal">
-<li>Download a road network using <strong>OSMnx</strong>
-</li>
-<li>Convert it into a <strong>graph using NetworkX</strong>
-</li>
-<li>Visualize the network</li>
-<li>Run <strong>shortest path routing</strong> between two
-locations</li>
-</ol>
-<hr></section><section><h2 class="section-heading" id="install-required-libraries">1. Install Required Libraries<a class="anchor" aria-label="anchor" href="#install-required-libraries"></a>
+<p>Common uses include food and health care access, emergency response
+times, and transportation planning. The Food Desert case study in this
+curriculum is built on these steps.</p>
+
+</section><section><h2 class="section-heading" id="download-a-road-network">1. Download a road network<a class="anchor" aria-label="anchor" href="#download-a-road-network"></a>
 </h2>
 <hr class="half-width">
 <div class="codewrapper sourceCode" id="cb1">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" tabindex="-1" aria-label="code-block-1-1"></a><span class="op">!</span>pip install osmnx networkx matplotlib</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" tabindex="-1" aria-label="code-block-1-1"></a><span class="im">import</span> osmnx <span class="im">as</span> ox</span>
+<span id="cb1-2"><a href="#cb1-2" tabindex="-1" aria-label="code-block-1-2"></a><span class="im">import</span> networkx <span class="im">as</span> nx</span>
+<span id="cb1-3"><a href="#cb1-3" tabindex="-1" aria-label="code-block-1-3"></a></span>
+<span id="cb1-4"><a href="#cb1-4" tabindex="-1" aria-label="code-block-1-4"></a>G <span class="op">=</span> ox.graph_from_place(<span class="st">"West Lafayette, Indiana, USA"</span>, network_type<span class="op">=</span><span class="st">"drive"</span>)</span>
+<span id="cb1-5"><a href="#cb1-5" tabindex="-1" aria-label="code-block-1-5"></a><span class="bu">print</span>(G.number_of_nodes(), <span class="st">"nodes,"</span>, G.number_of_edges(), <span class="st">"edges"</span>)</span>
+<span id="cb1-6"><a href="#cb1-6" tabindex="-1" aria-label="code-block-1-6"></a>ox.plot_graph(G, node_size<span class="op">=</span><span class="dv">5</span>, edge_color<span class="op">=</span><span class="st">"gray"</span>, bgcolor<span class="op">=</span><span class="st">"white"</span>)</span></code></pre>
 </div>
-</section><section><h2 class="section-heading" id="import-libraries">2. Import Libraries<a class="anchor" aria-label="anchor" href="#import-libraries"></a>
+<p><code>network_type</code> can also be <code>"walk"</code> or
+<code>"bike"</code>. Save the graph with
+<code>ox.save_graphml(G, "wl.graphml")</code> so you do not download it
+again.</p>
+</section><section><h2 class="section-heading" id="look-at-nodes-and-edges-as-tables">2. Look at nodes and edges as tables<a class="anchor" aria-label="anchor" href="#look-at-nodes-and-edges-as-tables"></a>
 </h2>
 <hr class="half-width">
 <div class="codewrapper sourceCode" id="cb2">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" tabindex="-1" aria-label="code-block-2-1"></a><span class="im">import</span> osmnx <span class="im">as</span> ox</span>
-<span id="cb2-2"><a href="#cb2-2" tabindex="-1" aria-label="code-block-2-2"></a><span class="im">import</span> networkx <span class="im">as</span> nx</span>
-<span id="cb2-3"><a href="#cb2-3" tabindex="-1" aria-label="code-block-2-3"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" tabindex="-1" aria-label="code-block-2-1"></a>nodes, edges <span class="op">=</span> ox.graph_to_gdfs(G)</span>
+<span id="cb2-2"><a href="#cb2-2" tabindex="-1" aria-label="code-block-2-2"></a>edges[[<span class="st">"name"</span>, <span class="st">"highway"</span>, <span class="st">"length"</span>]].head()    <span class="co"># length is in meters</span></span></code></pre>
 </div>
-</section><section><h2 class="section-heading" id="download-a-road-network-from-openstreetmap">3. Download a Road Network from OpenStreetMap<a class="anchor" aria-label="anchor" href="#download-a-road-network-from-openstreetmap"></a>
+</section><section><h2 class="section-heading" id="add-speeds-and-travel-times">3. Add speeds and travel times<a class="anchor" aria-label="anchor" href="#add-speeds-and-travel-times"></a>
 </h2>
 <hr class="half-width">
 <div class="codewrapper sourceCode" id="cb3">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" tabindex="-1" aria-label="code-block-3-1"></a>place <span class="op">=</span> <span class="st">"West Lafayette, Indiana, USA"</span></span>
-<span id="cb3-2"><a href="#cb3-2" tabindex="-1" aria-label="code-block-3-2"></a></span>
-<span id="cb3-3"><a href="#cb3-3" tabindex="-1" aria-label="code-block-3-3"></a>G <span class="op">=</span> ox.graph_from_place(place, network_type<span class="op">=</span><span class="st">"drive"</span>)</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" tabindex="-1" aria-label="code-block-3-1"></a>G <span class="op">=</span> ox.add_edge_speeds(G, fallback<span class="op">=</span><span class="dv">40</span>)   <span class="co"># km/h used where a road type has no speed data</span></span>
+<span id="cb3-2"><a href="#cb3-2" tabindex="-1" aria-label="code-block-3-2"></a>G <span class="op">=</span> ox.add_edge_travel_times(G)          <span class="co"># adds travel_time in seconds to every edge</span></span></code></pre>
 </div>
-<p>Visualize network:</p>
+</section><section><h2 class="section-heading" id="find-the-shortest-route-between-two-points">4. Find the shortest route between two points<a class="anchor" aria-label="anchor" href="#find-the-shortest-route-between-two-points"></a>
+</h2>
+<hr class="half-width">
 <div class="codewrapper sourceCode" id="cb4">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" tabindex="-1" aria-label="code-block-4-1"></a>fig, ax <span class="op">=</span> ox.plot_graph(G, node_size<span class="op">=</span><span class="dv">5</span>, edge_color<span class="op">=</span><span class="st">"gray"</span>)</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" tabindex="-1" aria-label="code-block-4-1"></a>start <span class="op">=</span> ox.nearest_nodes(G, X<span class="op">=-</span><span class="fl">86.9112</span>, Y<span class="op">=</span><span class="fl">40.4247</span>)   <span class="co"># longitude, latitude</span></span>
+<span id="cb4-2"><a href="#cb4-2" tabindex="-1" aria-label="code-block-4-2"></a>end <span class="op">=</span> ox.nearest_nodes(G, X<span class="op">=-</span><span class="fl">86.9290</span>, Y<span class="op">=</span><span class="fl">40.4580</span>)</span>
+<span id="cb4-3"><a href="#cb4-3" tabindex="-1" aria-label="code-block-4-3"></a></span>
+<span id="cb4-4"><a href="#cb4-4" tabindex="-1" aria-label="code-block-4-4"></a>route <span class="op">=</span> ox.shortest_path(G, start, end, weight<span class="op">=</span><span class="st">"travel_time"</span>)</span>
+<span id="cb4-5"><a href="#cb4-5" tabindex="-1" aria-label="code-block-4-5"></a>ox.plot_graph_route(G, route, route_color<span class="op">=</span><span class="st">"red"</span>, node_size<span class="op">=</span><span class="dv">0</span>)</span></code></pre>
 </div>
-</section><section><h2 class="section-heading" id="convert-the-graph-to-nodes-and-edges-geodataframes">4. Convert the Graph to Nodes and Edges GeoDataFrames<a class="anchor" aria-label="anchor" href="#convert-the-graph-to-nodes-and-edges-geodataframes"></a>
+</section><section><h2 class="section-heading" id="measure-the-route">5. Measure the route<a class="anchor" aria-label="anchor" href="#measure-the-route"></a>
 </h2>
 <hr class="half-width">
 <div class="codewrapper sourceCode" id="cb5">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" tabindex="-1" aria-label="code-block-5-1"></a>nodes, edges <span class="op">=</span> ox.graph_to_gdfs(G)</span>
-<span id="cb5-2"><a href="#cb5-2" tabindex="-1" aria-label="code-block-5-2"></a>nodes.head(), edges.head()</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" tabindex="-1" aria-label="code-block-5-1"></a>route_edges <span class="op">=</span> ox.routing.route_to_gdf(G, route)</span>
+<span id="cb5-2"><a href="#cb5-2" tabindex="-1" aria-label="code-block-5-2"></a><span class="bu">print</span>(<span class="bu">round</span>(route_edges[<span class="st">"length"</span>].<span class="bu">sum</span>() <span class="op">/</span> <span class="dv">1000</span>, <span class="dv">2</span>), <span class="st">"km"</span>)</span>
+<span id="cb5-3"><a href="#cb5-3" tabindex="-1" aria-label="code-block-5-3"></a><span class="bu">print</span>(<span class="bu">round</span>(route_edges[<span class="st">"travel_time"</span>].<span class="bu">sum</span>() <span class="op">/</span> <span class="dv">60</span>, <span class="dv">1</span>), <span class="st">"minutes"</span>)</span></code></pre>
 </div>
-<p>Plot edges alone:</p>
-<div class="codewrapper sourceCode" id="cb6">
-<h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" tabindex="-1" aria-label="code-block-6-1"></a>edges.plot(figsize<span class="op">=</span>(<span class="dv">8</span>,<span class="dv">6</span>), linewidth<span class="op">=</span><span class="fl">0.8</span>)</span>
-<span id="cb6-2"><a href="#cb6-2" tabindex="-1" aria-label="code-block-6-2"></a>plt.title(<span class="st">"Road Network"</span>)</span>
-<span id="cb6-3"><a href="#cb6-3" tabindex="-1" aria-label="code-block-6-3"></a>plt.show()</span></code></pre>
-</div>
-</section><section><h2 class="section-heading" id="find-shortest-route-between-two-points">5. Find Shortest Route Between Two Points<a class="anchor" aria-label="anchor" href="#find-shortest-route-between-two-points"></a>
-</h2>
-<hr class="half-width">
-<p>Choose two coordinates manually or by clicking on a map.</p>
-<div class="codewrapper sourceCode" id="cb7">
-<h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" tabindex="-1" aria-label="code-block-7-1"></a>orig <span class="op">=</span> ox.distance.nearest_nodes(G, <span class="op">-</span><span class="fl">86.9145</span>, <span class="fl">40.4253</span>)  <span class="co"># lon, lat</span></span>
-<span id="cb7-2"><a href="#cb7-2" tabindex="-1" aria-label="code-block-7-2"></a>dest <span class="op">=</span> ox.distance.nearest_nodes(G, <span class="op">-</span><span class="fl">86.9079</span>, <span class="fl">40.4268</span>)</span></code></pre>
-</div>
-<p>Calculate shortest path:</p>
-<div class="codewrapper sourceCode" id="cb8">
-<h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" tabindex="-1" aria-label="code-block-8-1"></a>route <span class="op">=</span> nx.shortest_path(G, orig, dest, weight<span class="op">=</span><span class="st">"length"</span>)</span></code></pre>
-</div>
-<p>Plot route:</p>
-<div class="codewrapper sourceCode" id="cb9">
-<h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" tabindex="-1" aria-label="code-block-9-1"></a>ox.plot_graph_route(G, route, route_color<span class="op">=</span><span class="st">"red"</span>)</span></code></pre>
-</div>
-<div id="challenge1" class="callout challenge">
+<div id="challenge-1-shortest-or-fastest" class="callout challenge">
 <div class="callout-square">
 <i class="callout-icon" data-feather="zap"></i>
 </div>
 <span class="callout-header">Challenge</span>
-<div class="callout-inner">
-<h3 class="callout-title">Challenge</h3>
+<div id="challenge-1-shortest-or-fastest" class="callout-inner">
+<h3 class="callout-title">Challenge 1: Shortest or fastest?</h3>
 <div class="callout-content">
-<p>Challenge 1 — Try Your Own Route</p>
-<ul>
-<li>Pick any two points in a city of your choice.</li>
-<li>Compute and visualize the shortest path between them.</li>
-</ul>
+<p>Compute the route between the same two points with
+<code>weight="length"</code> and with <code>weight="travel_time"</code>.
+Are they the same route? Which is longer in kilometers?</p>
 </div>
 </div>
 </div>
@@ -963,39 +772,34 @@ locations</li>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution1" aria-expanded="false" aria-controls="collapseSolution1">
   <h4 class="accordion-header" id="headingSolution1"> Show me the solution </h4>
 </button>
-<div id="collapseSolution1" class="accordion-collapse collapse" data-bs-parent="#accordionSolution1" aria-labelledby="headingSolution1">
+<div id="collapseSolution1" class="accordion-collapse collapse" aria-labelledby="headingSolution1" data-bs-parent="#accordionSolution1">
 <div class="accordion-body">
-<div class="codewrapper sourceCode" id="cb10">
+<div class="codewrapper sourceCode" id="cb6">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" tabindex="-1" aria-label="code-block-10-1"></a>orig <span class="op">=</span> ox.distance.nearest_nodes(G, lon1, lat1)</span>
-<span id="cb10-2"><a href="#cb10-2" tabindex="-1" aria-label="code-block-10-2"></a>dest <span class="op">=</span> ox.distance.nearest_nodes(G, lon2, lat2)</span>
-<span id="cb10-3"><a href="#cb10-3" tabindex="-1" aria-label="code-block-10-3"></a>route <span class="op">=</span> nx.shortest_path(G, orig, dest, weight<span class="op">=</span><span class="st">"length"</span>)</span>
-<span id="cb10-4"><a href="#cb10-4" tabindex="-1" aria-label="code-block-10-4"></a>ox.plot_graph_route(G, route)</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" tabindex="-1" aria-label="code-block-6-1"></a><span class="cf">for</span> w <span class="kw">in</span> [<span class="st">"length"</span>, <span class="st">"travel_time"</span>]:</span>
+<span id="cb6-2"><a href="#cb6-2" tabindex="-1" aria-label="code-block-6-2"></a>    e <span class="op">=</span> ox.routing.route_to_gdf(G, ox.shortest_path(G, start, end, weight<span class="op">=</span>w))</span>
+<span id="cb6-3"><a href="#cb6-3" tabindex="-1" aria-label="code-block-6-3"></a>    <span class="bu">print</span>(w, <span class="bu">round</span>(e[<span class="st">"length"</span>].<span class="bu">sum</span>() <span class="op">/</span> <span class="dv">1000</span>, <span class="dv">2</span>), <span class="st">"km"</span>,</span>
+<span id="cb6-4"><a href="#cb6-4" tabindex="-1" aria-label="code-block-6-4"></a>          <span class="bu">round</span>(e[<span class="st">"travel_time"</span>].<span class="bu">sum</span>() <span class="op">/</span> <span class="dv">60</span>, <span class="dv">1</span>), <span class="st">"min"</span>)</span></code></pre>
+</div>
+<p>The fastest route often uses faster main roads and can be a little
+longer in distance.</p>
 </div>
 </div>
 </div>
 </div>
-</div>
-<div id="challenge2" class="callout challenge">
+<div id="challenge-2-travel-time-to-everywhere" class="callout challenge">
 <div class="callout-square">
 <i class="callout-icon" data-feather="zap"></i>
 </div>
 <span class="callout-header">Challenge</span>
-<div class="callout-inner">
-<h3 class="callout-title">Challenge<em> (continued)</em>
-</h3>
+<div id="challenge-2-travel-time-to-everywhere" class="callout-inner">
+<h3 class="callout-title">Challenge 2: Travel time to everywhere</h3>
 <div class="callout-content">
-<p>Challenge 2 — Estimate Travel Distance</p>
-<p>Using your computed route, calculate the total path length:</p>
-<div class="codewrapper sourceCode" id="cb11">
-<h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" tabindex="-1" aria-label="code-block-11-1"></a>total_length <span class="op">=</span> <span class="bu">sum</span>(</span>
-<span id="cb11-2"><a href="#cb11-2" tabindex="-1" aria-label="code-block-11-2"></a>    ox.utils_graph.get_route_edge_attributes(G, route, <span class="st">"length"</span>)</span>
-<span id="cb11-3"><a href="#cb11-3" tabindex="-1" aria-label="code-block-11-3"></a>)</span>
-<span id="cb11-4"><a href="#cb11-4" tabindex="-1" aria-label="code-block-11-4"></a><span class="bu">print</span>(<span class="st">"Route length (meters):"</span>, total_length)</span></code></pre>
-</div>
+<p>Use
+<code>nx.single_source_dijkstra_path_length(G, start, weight="travel_time")</code>
+to get the travel time from <code>start</code> to every node. What is
+the longest drive time (in minutes) within the city?</p>
 </div>
 </div>
 </div>
@@ -1004,13 +808,13 @@ locations</li>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution2" aria-expanded="false" aria-controls="collapseSolution2">
   <h4 class="accordion-header" id="headingSolution2"> Show me the solution </h4>
 </button>
-<div id="collapseSolution2" class="accordion-collapse collapse" data-bs-parent="#accordionSolution2" aria-labelledby="headingSolution2">
+<div id="collapseSolution2" class="accordion-collapse collapse" aria-labelledby="headingSolution2" data-bs-parent="#accordionSolution2">
 <div class="accordion-body">
-<p>Convert meters → km:</p>
-<div class="codewrapper sourceCode" id="cb12">
+<div class="codewrapper sourceCode" id="cb7">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" tabindex="-1" aria-label="code-block-12-1"></a><span class="bu">print</span>(total_length<span class="op">/</span><span class="dv">1000</span>, <span class="st">"km"</span>)</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" tabindex="-1" aria-label="code-block-7-1"></a>times <span class="op">=</span> nx.single_source_dijkstra_path_length(G, start, weight<span class="op">=</span><span class="st">"travel_time"</span>)</span>
+<span id="cb7-2"><a href="#cb7-2" tabindex="-1" aria-label="code-block-7-2"></a><span class="bu">print</span>(<span class="bu">round</span>(<span class="bu">max</span>(times.values()) <span class="op">/</span> <span class="dv">60</span>, <span class="dv">1</span>), <span class="st">"minutes"</span>)</span></code></pre>
 </div>
 </div>
 </div>
@@ -1019,14 +823,14 @@ locations</li>
 </section><section><h2 class="section-heading" id="math">Math<a class="anchor" aria-label="anchor" href="#math"></a>
 </h2>
 <hr class="half-width">
-<p>A network is represented as a graph:</p>
-<p>G = (V,E)</p>
-<p>Where:</p>
-<ul>
-<li>V = set of nodes (intersections)</li>
-<li>E = edges (roads)</li>
-</ul>
-<p>Shortest path = minimum weighted path across <code>E</code>.</p>
+<p>A network is a graph <span class="math inline">\(G = (V, E)\)</span>,
+where <span class="math inline">\(V\)</span> is the set of nodes
+(intersections) and <span class="math inline">\(E\)</span> the set of
+edges (road segments). Each edge <span class="math inline">\(e\)</span>
+has a weight <span class="math inline">\(w_e\)</span>, such as length or
+travel time. The shortest path between two nodes is the route whose
+total weight <span class="math inline">\(\sum_{e \in \text{route}}
+w_e\)</span> is smallest. OSMnx finds it with Dijkstra’s algorithm.</p>
 <div id="keypoints1" class="callout keypoints">
 <div class="callout-square">
 <i class="callout-icon" data-feather="key"></i>
@@ -1035,48 +839,67 @@ locations</li>
 <div class="callout-inner">
 <div class="callout-content">
 <ul>
-<li><p>OSMnx simplifies downloading and converting OSM road
-networks</p></li>
-<li><p>Graphs model movement and connectivity in space</p></li>
-<li><p>NetworkX allows shortest path and routing analysis</p></li>
-<li><p>Visualization helps interpret accessibility patterns</p></li>
+<li>Road networks are graphs of nodes (intersections) and edges (road
+segments)</li>
+<li>
+<code>ox.graph_from_place</code> downloads OpenStreetMap roads for
+any named place</li>
+<li>
+<code>add_edge_speeds</code> and <code>add_edge_travel_times</code>
+let you route by time instead of distance</li>
+<li>
+<code>nearest_nodes</code> (longitude first),
+<code>shortest_path</code> and <code>route_to_gdf</code> cover most
+routing tasks</li>
+<li>Network distance is more realistic than straight line distance for
+access studies</li>
 </ul>
 </div>
 </div>
 </div>
-</section><div class="section level1">
-<h1 id="module-overview">Module Overview<a class="anchor" aria-label="anchor" href="#module-overview"></a>
-</h1>
+</section><section><h2 class="section-heading" id="notebooks">Notebooks<a class="anchor" aria-label="anchor" href="#notebooks"></a>
+</h2>
+<hr class="half-width">
 <table class="table">
 <colgroup>
-<col width="14%">
-<col width="85%">
+<col width="33%">
+<col width="33%">
+<col width="33%">
 </colgroup>
 <thead><tr>
-<th>Lesson</th>
-<th>Overview</th>
+<th>Level</th>
+<th>Notebook</th>
+<th>What you will do</th>
 </tr></thead>
 <tbody>
 <tr>
-<td><a href="https://colab.research.google.com/github/SpatialTurn/DataCollection-Notebooks/blob/main/Census/Network_Analysis_Tutorial.ipynb" target="_blank" class="external-link">Beginner</a></td>
-<td>Introduction to Network Analysis and color coding distances.</td>
+<td>Beginner</td>
+<td><a href="https://colab.research.google.com/github/SpatialTurn/DataCollection-Notebooks/blob/main/DataAnalysis/02a_Road_Networks_Basics.ipynb" target="_blank" class="external-link">2a.
+Road Networks: Nodes and Edges</a></td>
+<td>Download, plot, inspect and save a road network</td>
 </tr>
 <tr>
-<td><a href="https://colab.research.google.com/github/SpatialTurn/DataCollection-Notebooks/blob/main/Census/OSM_Network_Tutorial.ipynb" target="_blank" class="external-link">Advanced</a></td>
-<td>Obtains coordinates from OSM and uses centroid analysis to calculate
-distances and travel times for multiple points of interests.</td>
+<td>Intermediate</td>
+<td><a href="https://colab.research.google.com/github/SpatialTurn/DataCollection-Notebooks/blob/main/DataAnalysis/02b_Shortest_Paths_and_Travel_Time.ipynb" target="_blank" class="external-link">2b.
+Shortest Paths and Travel Time</a></td>
+<td>Route between two points and map travel time across the city</td>
+</tr>
+<tr>
+<td>Advanced</td>
+<td><a href="https://colab.research.google.com/github/SpatialTurn/DataCollection-Notebooks/blob/main/DataAnalysis/02c_Travel_Time_to_Stores.ipynb" target="_blank" class="external-link">2c.
+Travel Time to Grocery Stores</a></td>
+<td>Route from every OSM grocery store to the town center</td>
 </tr>
 </tbody>
 </table>
 <!--
 Place links that you need to refer to multiple times across pages here. Delete
 any links that you are not going to use.
- -->
-</div></section><section id="aio-pysal"><p>Content from <a href="pysal.html">Spatial Analysis</a></p>
+ --></section></section><section id="aio-pysal"><p>Content from <a href="pysal.html">Spatial Autocorrelation with PySAL</a></p>
 <hr>
-<p>Last updated on 2025-12-05 |
+<p>Last updated on 2026-10-17 |
 
-        <a href="https://github.com/carpentries/workbench-template-md/edit/main/episodes/pysal.md" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
+        <a href="https://github.com/SpatialTurn/DataAnalysis/edit/main/episodes/pysal.md" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
 <div class="text-end">
           <button role="button" aria-pressed="false" tabindex="0" id="expand-code" class="pull-right" data-expand="Expand All Solutions " data-collapse="Collapse All Solutions "> Expand All Solutions <i aria-hidden="true" data-feather="plus"></i></button>
         </div>
@@ -1088,10 +911,10 @@ any links that you are not going to use.
 <div class="inner">
 <h3 class="card-title">Questions</h3>
 <ul>
-<li>What is PySAL and what can it do for spatial analysis?</li>
-<li>How do we compute spatial weights and perform spatial
-autocorrelation?</li>
-<li>How do we interpret results like Moran’s I?</li>
+<li>What does it mean for data to be spatially autocorrelated?</li>
+<li>How do we tell the computer which places are neighbors?</li>
+<li>How do Global and Local Moran’s I measure and locate
+clustering?</li>
 </ul>
 </div>
 </div>
@@ -1101,85 +924,30 @@ autocorrelation?</li>
 <div class="inner bordered">
 <h3 class="card-title">Objectives</h3>
 <ul>
-<li>Understand the purpose of PySAL in spatial data science</li>
-<li>Learn how to load spatial data using GeoPandas</li>
-<li>Construct spatial weight matrices</li>
-<li>Compute Global Moran’s I using PySAL</li>
-<li>Visualize spatial clustering and spatial autocorrelation</li>
+<li>Build Rook, Queen and K-nearest neighbor spatial weights with
+PySAL</li>
+<li>Compute and interpret Global Moran’s I and its p-value</li>
+<li>Read a Moran scatterplot</li>
+<li>Map statistically significant hotspots and coldspots with Local
+Moran’s I (LISA)</li>
 </ul>
 </div>
 </div>
 </div>
 </div>
 </div>
-<section><h2 class="section-heading" id="why-is-pysal-important">Why is PySAL Important?<a class="anchor" aria-label="anchor" href="#why-is-pysal-important"></a>
+<section><h2 class="section-heading" id="why-spatial-autocorrelation">Why spatial autocorrelation?<a class="anchor" aria-label="anchor" href="#why-spatial-autocorrelation"></a>
 </h2>
 <hr class="half-width">
-<p>PySAL (Python Spatial Analysis Library) is one of the most widely
-used toolkits for working with spatial data in Python. Unlike
-traditional statistical libraries, PySAL is designed specifically for
-datasets where <strong>location matters</strong> — where observations
-influence nearby observations, and spatial patterns may not be
-random.</p>
-<p>Geographers, urban planners, environmental scientists,
-epidemiologists, and data analysts use PySAL to identify spatial
-relationships, detect clustering, and build models that incorporate
-proximity and geography.</p>
-<div class="section level3">
-<h3 id="what-pysal-helps-us-understand">What PySAL Helps Us Understand<a class="anchor" aria-label="anchor" href="#what-pysal-helps-us-understand"></a>
-</h3>
-<ul>
-<li>Where events cluster or disperse across space<br>
-</li>
-<li>Whether high or low values form <strong>hotspots or
-coldspots</strong><br>
-</li>
-<li>How neighborhoods influence one another (spatial dependency)<br>
-</li>
-<li>Spatial inequality patterns in income, population, crime, disease,
-etc.<br>
-</li>
-<li>Geographic diffusion (wildfire spread, disease transmission,
-migration flows)<br>
-</li>
-<li>Environmental change and land-use impacts</li>
-</ul>
-</div>
-<div class="section level3">
-<h3 id="why-researchers-use-pysal">Why Researchers Use PySAL<a class="anchor" aria-label="anchor" href="#why-researchers-use-pysal"></a>
-</h3>
-<ul>
-<li>Built for <strong>spatial statistics</strong> — tools that general
-libraries lack<br>
-</li>
-<li>Easy integration with <strong>GeoPandas, raster data, and
-shapefiles</strong><br>
-</li>
-<li>Provides standard spatial methods such as:
-<ul>
-<li>Spatial weights (Queen, Rook, KNN, Distance-based)<br>
-</li>
-<li>Global &amp; Local Moran’s I (LISA)<br>
-</li>
-<li>Spatial clustering &amp; hotspot detection<br>
-</li>
-<li>Spatial regression models<br>
-</li>
-</ul>
-</li>
-<li>Enables <strong>data-driven decision making in
-geography</strong><br>
-</li>
-<li>Scales from local studies to large regional/global analyses<br>
-</li>
-<li>Helps test spatial hypotheses scientifically instead of
-visually</li>
-</ul>
-</div>
-<div class="section level3">
-<h3 id="spatial-analysis-in-context">Spatial Analysis in Context<a class="anchor" aria-label="anchor" href="#spatial-analysis-in-context"></a>
-</h3>
-<p>Spatial analysis answers questions like:</p>
+<blockquote>
+<p>“Everything is related to everything else, but near things are more
+related than distant things.” (Tobler’s first law of geography)</p>
+</blockquote>
+<p>Most statistics assume observations are independent. Places are not:
+a county’s income or median age is usually similar to its neighbors’.
+<strong>Spatial autocorrelation</strong> measures how strong that
+similarity is, and <strong>PySAL</strong> (the Python Spatial Analysis
+Library) provides the standard tools.</p>
 <table class="table">
 <colgroup>
 <col width="50%">
@@ -1187,201 +955,98 @@ visually</li>
 </colgroup>
 <thead><tr>
 <th>Question</th>
-<th>PySAL Method</th>
+<th>PySAL method</th>
 </tr></thead>
 <tbody>
 <tr>
-<td>Do areas with high values cluster together?</td>
-<td>Moran’s I</td>
+<td>Who counts as a neighbor?</td>
+<td>Spatial weights (<code>libpysal.weights</code>)</td>
 </tr>
 <tr>
-<td>Where are hotspots located?</td>
-<td>Local Moran / LISA maps</td>
+<td>Is there clustering across the whole map?</td>
+<td>Global Moran’s I (<code>esda.Moran</code>)</td>
 </tr>
 <tr>
-<td>What counts as a neighbor?</td>
-<td>Spatial weights matrices</td>
+<td>Where are the hotspots and coldspots?</td>
+<td>Local Moran’s I, LISA (<code>esda.Moran_Local</code>)</td>
 </tr>
 <tr>
-<td>Are patterns random or significant?</td>
-<td>Monte Carlo permutation tests</td>
-</tr>
-<tr>
-<td>How do variables influence each other across space?</td>
-<td>Spatial regression</td>
+<td>Could the pattern be chance?</td>
+<td>Permutation tests (<code>p_sim</code>)</td>
 </tr>
 </tbody>
 </table>
-<p>PySAL makes these methods accessible in Python, allowing analysts to
-move from <strong>maps</strong> to <strong>statistical evidence</strong>
-— revealing underlying spatial patterns that are not visible from
-visualization alone.</p>
-</div>
-</section><section><h2 class="section-heading" id="introduction">Introduction<a class="anchor" aria-label="anchor" href="#introduction"></a>
+<p>In this episode we use 2023 American Community Survey data for
+Indiana counties, loaded with a Census API key (see the Census data
+session for how to get one).</p>
+
+</section><section><h2 class="section-heading" id="build-spatial-weights">1. Build spatial weights<a class="anchor" aria-label="anchor" href="#build-spatial-weights"></a>
 </h2>
 <hr class="half-width">
-<p><a href="https://pysal.org/" class="external-link">PySAL</a> is the Python Spatial Analysis
-Library — a powerful, open-source toolkit for working with spatial data.
-It provides tools for:</p>
-<ul>
-<li>spatial weights<br>
-</li>
-<li>spatial autocorrelation<br>
-</li>
-<li>clustering<br>
-</li>
-<li>spatial regression<br>
-</li>
-<li>neighborhood analysis</li>
-</ul>
-<p>This tutorial introduces the <strong>core PySAL workflow</strong>,
-closely following the structure used in your uploaded notebook.</p>
-<p>We will cover:</p>
-<ol style="list-style-type: decimal">
-<li>Loading polygon or point data<br>
-</li>
-<li>Building spatial weights<br>
-</li>
-<li>Running Global Moran’s I<br>
-</li>
-<li>Visualizing results</li>
-</ol>
-<p>This tutorial assumes basic familiarity with <code>pandas</code>,
-<code>geopandas</code>, and Python.</p>
-<p>What you need to know for Carpentries lessons:</p>
-<ol style="list-style-type: decimal">
-<li>
-<code>questions</code> prime the learner for the lesson.</li>
-<li>
-<code>objectives</code> state what skills will be gained.</li>
-<li>
-<code>keypoints</code> summarize what was learned.</li>
-</ol></section><section><h2 class="section-heading" id="loading-spatial-data">1. Loading Spatial Data<a class="anchor" aria-label="anchor" href="#loading-spatial-data"></a>
-</h2>
-<hr class="half-width">
-<p>PySAL works seamlessly with <strong>GeoPandas</strong>.<br>
-Here’s a simple example using a polygon shapefile:</p>
+<p><code>counties</code> is a GeoDataFrame of Indiana counties with a
+<code>median_age</code> column, projected to meters.</p>
 <div class="codewrapper sourceCode" id="cb1">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" tabindex="-1" aria-label="code-block-1-1"></a><span class="im">import</span> geopandas <span class="im">as</span> gpd</span>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" tabindex="-1" aria-label="code-block-1-1"></a><span class="im">from</span> libpysal.weights <span class="im">import</span> Rook, Queen, KNN</span>
 <span id="cb1-2"><a href="#cb1-2" tabindex="-1" aria-label="code-block-1-2"></a></span>
-<span id="cb1-3"><a href="#cb1-3" tabindex="-1" aria-label="code-block-1-3"></a>gdf <span class="op">=</span> gpd.read_file(<span class="st">"data/shapes.shp"</span>)</span>
-<span id="cb1-4"><a href="#cb1-4" tabindex="-1" aria-label="code-block-1-4"></a>gdf.head()</span></code></pre>
+<span id="cb1-3"><a href="#cb1-3" tabindex="-1" aria-label="code-block-1-3"></a>w_rook <span class="op">=</span> Rook.from_dataframe(counties, use_index<span class="op">=</span><span class="va">True</span>)    <span class="co"># shared edge</span></span>
+<span id="cb1-4"><a href="#cb1-4" tabindex="-1" aria-label="code-block-1-4"></a>w_queen <span class="op">=</span> Queen.from_dataframe(counties, use_index<span class="op">=</span><span class="va">True</span>)  <span class="co"># shared edge or corner</span></span>
+<span id="cb1-5"><a href="#cb1-5" tabindex="-1" aria-label="code-block-1-5"></a>w_knn <span class="op">=</span> KNN.from_dataframe(counties, k<span class="op">=</span><span class="dv">4</span>)                 <span class="co"># 4 closest centers</span></span>
+<span id="cb1-6"><a href="#cb1-6" tabindex="-1" aria-label="code-block-1-6"></a></span>
+<span id="cb1-7"><a href="#cb1-7" tabindex="-1" aria-label="code-block-1-7"></a><span class="bu">print</span>(w_rook.mean_neighbors, w_queen.mean_neighbors)</span>
+<span id="cb1-8"><a href="#cb1-8" tabindex="-1" aria-label="code-block-1-8"></a>w_queen.transform <span class="op">=</span> <span class="st">"R"</span>    <span class="co"># row standardize: each county's weights sum to 1</span></span></code></pre>
 </div>
-<p>Plot the boundaries:</p>
+</section><section><h2 class="section-heading" id="global-morans-i">2. Global Moran’s I<a class="anchor" aria-label="anchor" href="#global-morans-i"></a>
+</h2>
+<hr class="half-width">
 <div class="codewrapper sourceCode" id="cb2">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" tabindex="-1" aria-label="code-block-2-1"></a>gdf.plot(edgecolor<span class="op">=</span><span class="st">"black"</span>, figsize<span class="op">=</span>(<span class="dv">6</span>,<span class="dv">6</span>))</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" tabindex="-1" aria-label="code-block-2-1"></a><span class="im">from</span> esda.moran <span class="im">import</span> Moran</span>
+<span id="cb2-2"><a href="#cb2-2" tabindex="-1" aria-label="code-block-2-2"></a></span>
+<span id="cb2-3"><a href="#cb2-3" tabindex="-1" aria-label="code-block-2-3"></a>mi <span class="op">=</span> Moran(counties[<span class="st">"median_age"</span>], w_queen, permutations<span class="op">=</span><span class="dv">999</span>)</span>
+<span id="cb2-4"><a href="#cb2-4" tabindex="-1" aria-label="code-block-2-4"></a><span class="bu">print</span>(<span class="ss">f"I = </span><span class="sc">{</span>mi<span class="sc">.</span>I<span class="sc">:.3f}</span><span class="ss">, p = </span><span class="sc">{</span>mi<span class="sc">.</span>p_sim<span class="sc">:.3f}</span><span class="ss">"</span>)</span></code></pre>
 </div>
-<p>This ensures the geometry is valid and loads correctly.</p>
-</section><section><h2 class="section-heading" id="building-spatial-weights">2. Building Spatial Weights<a class="anchor" aria-label="anchor" href="#building-spatial-weights"></a>
-</h2>
-<hr class="half-width">
-<p>Spatial weights define who is a neighbor of whom.</p>
-<p>PySAL includes:</p>
 <ul>
-<li><p>Rook contiguity</p></li>
-<li><p>Queen contiguity</p></li>
-<li><p>K-nearest neighbors</p></li>
-<li><p>Distance-based neighbors</p></li>
+<li>I clearly above 0 with p below 0.05: similar values cluster
+together</li>
+<li>I near 0: no spatial pattern</li>
+<li>I below 0: neighbors tend to be different</li>
 </ul>
-<div class="section level3">
-<h3 id="example-queen-contiguity">Example: Queen Contiguity<a class="anchor" aria-label="anchor" href="#example-queen-contiguity"></a>
-</h3>
 <div class="codewrapper sourceCode" id="cb3">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" tabindex="-1" aria-label="code-block-3-1"></a><span class="im">from</span> libpysal.weights <span class="im">import</span> Queen</span>
-<span id="cb3-2"><a href="#cb3-2" tabindex="-1" aria-label="code-block-3-2"></a></span>
-<span id="cb3-3"><a href="#cb3-3" tabindex="-1" aria-label="code-block-3-3"></a>w <span class="op">=</span> Queen.from_dataframe(gdf)</span>
-<span id="cb3-4"><a href="#cb3-4" tabindex="-1" aria-label="code-block-3-4"></a>w.transform <span class="op">=</span> <span class="st">"R"</span>  <span class="co"># row-standardization</span></span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" tabindex="-1" aria-label="code-block-3-1"></a><span class="im">from</span> splot.esda <span class="im">import</span> moran_scatterplot</span>
+<span id="cb3-2"><a href="#cb3-2" tabindex="-1" aria-label="code-block-3-2"></a>moran_scatterplot(mi, aspect_equal<span class="op">=</span><span class="va">True</span>)</span></code></pre>
 </div>
-<p>Check neighbors of the first polygon:</p>
+</section><section><h2 class="section-heading" id="local-morans-i-lisa">3. Local Moran’s I (LISA)<a class="anchor" aria-label="anchor" href="#local-morans-i-lisa"></a>
+</h2>
+<hr class="half-width">
 <div class="codewrapper sourceCode" id="cb4">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" tabindex="-1" aria-label="code-block-4-1"></a>w.neighbors[<span class="dv">0</span>]</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" tabindex="-1" aria-label="code-block-4-1"></a><span class="im">from</span> esda.moran <span class="im">import</span> Moran_Local</span>
+<span id="cb4-2"><a href="#cb4-2" tabindex="-1" aria-label="code-block-4-2"></a><span class="im">from</span> splot.esda <span class="im">import</span> lisa_cluster</span>
+<span id="cb4-3"><a href="#cb4-3" tabindex="-1" aria-label="code-block-4-3"></a></span>
+<span id="cb4-4"><a href="#cb4-4" tabindex="-1" aria-label="code-block-4-4"></a>lisa <span class="op">=</span> Moran_Local(counties[<span class="st">"median_age"</span>], w_queen, permutations<span class="op">=</span><span class="dv">999</span>, seed<span class="op">=</span><span class="dv">42</span>)</span>
+<span id="cb4-5"><a href="#cb4-5" tabindex="-1" aria-label="code-block-4-5"></a>lisa_cluster(lisa, counties, p<span class="op">=</span><span class="fl">0.05</span>)     <span class="co"># only significant counties are colored</span></span></code></pre>
 </div>
-</div>
-</section><section><h2 class="section-heading" id="global-morans-i">3. Global Moran’s I<a class="anchor" aria-label="anchor" href="#global-morans-i"></a>
-</h2>
-<hr class="half-width">
-<p>Moran’s I measures global spatial autocorrelation:</p>
-<ul>
-<li><p>Positive values → clustering</p></li>
-<li><p>Negative values → dispersion</p></li>
-<li><p>Near zero → random pattern</p></li>
-</ul>
-<p>Assume the dataset has a numeric column <code>value</code>:</p>
-<div class="codewrapper sourceCode" id="cb5">
-<h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" tabindex="-1" aria-label="code-block-5-1"></a><span class="im">import</span> esda</span>
-<span id="cb5-2"><a href="#cb5-2" tabindex="-1" aria-label="code-block-5-2"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
-<span id="cb5-3"><a href="#cb5-3" tabindex="-1" aria-label="code-block-5-3"></a></span>
-<span id="cb5-4"><a href="#cb5-4" tabindex="-1" aria-label="code-block-5-4"></a>y <span class="op">=</span> gdf[<span class="st">'value'</span>]</span>
-<span id="cb5-5"><a href="#cb5-5" tabindex="-1" aria-label="code-block-5-5"></a>mi <span class="op">=</span> esda.Moran(y, w)</span></code></pre>
-</div>
-<p>View the results:</p>
-<div class="codewrapper sourceCode" id="cb6">
-<h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" tabindex="-1" aria-label="code-block-6-1"></a>mi.I, mi.p_sim</span></code></pre>
-</div>
-<p>Plot the Moran scatterplot:</p>
-<div class="codewrapper sourceCode" id="cb7">
-<h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" tabindex="-1" aria-label="code-block-7-1"></a><span class="im">import</span> splot.esda <span class="im">as</span> esdaplot</span>
-<span id="cb7-2"><a href="#cb7-2" tabindex="-1" aria-label="code-block-7-2"></a></span>
-<span id="cb7-3"><a href="#cb7-3" tabindex="-1" aria-label="code-block-7-3"></a>esdaplot.moran_scatterplot(mi)</span></code></pre>
-</div>
-</section><section><h2 class="section-heading" id="local-morans-i-outlier-analysis">4. Local Moran’s I (Outlier Analysis)<a class="anchor" aria-label="anchor" href="#local-morans-i-outlier-analysis"></a>
-</h2>
-<hr class="half-width">
-<p>Local Moran’s I finds hotspots and coldspots.</p>
-<div class="codewrapper sourceCode" id="cb8">
-<h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" tabindex="-1" aria-label="code-block-8-1"></a>lisa <span class="op">=</span> esda.Moran_Local(y, w)</span></code></pre>
-</div>
-<p>Add LISA quadrant labels to the GeoDataFrame:</p>
-<div class="codewrapper sourceCode" id="cb9">
-<h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" tabindex="-1" aria-label="code-block-9-1"></a>gdf[<span class="st">"lisa_cluster"</span>] <span class="op">=</span> lisa.q</span></code></pre>
-</div>
-<p>Map the clusters:</p>
-<div class="codewrapper sourceCode" id="cb10">
-<h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" tabindex="-1" aria-label="code-block-10-1"></a>gdf.plot(column<span class="op">=</span><span class="st">"lisa_cluster"</span>, cmap<span class="op">=</span><span class="st">"Set1"</span>, figsize<span class="op">=</span>(<span class="dv">8</span>,<span class="dv">6</span>), legend<span class="op">=</span><span class="va">True</span>)</span></code></pre>
-</div>
-<p>This creates a basic LISA cluster map.</p>
-<div id="challenge1" class="callout challenge">
+<p>Labels: <strong>High-High</strong> (hotspot),
+<strong>Low-Low</strong> (coldspot), <strong>High-Low</strong> and
+<strong>Low-High</strong> (outliers), and <strong>Not
+significant</strong>.</p>
+<div id="challenge-1-rook-or-queen" class="callout challenge">
 <div class="callout-square">
 <i class="callout-icon" data-feather="zap"></i>
 </div>
 <span class="callout-header">Challenge</span>
-<div class="callout-inner">
-<h3 class="callout-title">Challenge</h3>
+<div id="challenge-1-rook-or-queen" class="callout-inner">
+<h3 class="callout-title">Challenge 1: Rook or Queen?</h3>
 <div class="callout-content">
-<p>Challenge 1: Create Your Own Spatial Weights</p>
-<p>Using the GeoDataFrame loaded above:</p>
-<ul>
-<li><p>Create rook contiguity weights</p></li>
-<li><p>Print the neighbor list for observation 10</p></li>
-<li><p>Compare how rook vs queen differ</p></li>
-</ul>
-<div class="codewrapper sourceCode" id="cb11">
-<h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" tabindex="-1" aria-label="code-block-11-1"></a><span class="im">from</span> libpysal.weights <span class="im">import</span> Rook</span>
-<span id="cb11-2"><a href="#cb11-2" tabindex="-1" aria-label="code-block-11-2"></a>w_rook <span class="op">=</span> Rook.from_dataframe(gdf)</span>
-<span id="cb11-3"><a href="#cb11-3" tabindex="-1" aria-label="code-block-11-3"></a>w_rook.neighbors[<span class="dv">10</span>]</span></code></pre>
-</div>
+<p>Print the Rook and Queen neighbors of the same county, for example
+<code>w_rook.neighbors[0]</code> and <code>w_queen.neighbors[0]</code>.
+Why can Queen never have fewer neighbors than Rook?</p>
 </div>
 </div>
 </div>
@@ -1392,29 +1057,23 @@ Here’s a simple example using a polygon shapefile:</p>
 </button>
 <div id="collapseSolution1" class="accordion-collapse collapse" data-bs-parent="#accordionSolution1" aria-labelledby="headingSolution1">
 <div class="accordion-body">
-<p>Queen neighbors may include diagonal touches. Rook neighbors require
-shared edges only. You should see fewer rook neighbors than queen
-neighbors.</p>
+<p>Queen counts every county that shares an edge (like Rook)
+<strong>plus</strong> any that only touch at a corner. So it always
+includes all Rook neighbors, and sometimes a few more.</p>
 </div>
 </div>
 </div>
 </div>
-<div id="challenge2" class="callout challenge">
+<div id="challenge-2-a-second-variable" class="callout challenge">
 <div class="callout-square">
 <i class="callout-icon" data-feather="zap"></i>
 </div>
 <span class="callout-header">Challenge</span>
-<div class="callout-inner">
-<h3 class="callout-title">Challenge<em> (continued)</em>
-</h3>
+<div id="challenge-2-a-second-variable" class="callout-inner">
+<h3 class="callout-title">Challenge 2: A second variable</h3>
 <div class="callout-content">
-<p>Challenge 2: Compute Moran’s I on a New Variable</p>
-<p>Choose any numeric variable in your dataset:</p>
-<ul>
-<li><p>Extract the variable</p></li>
-<li><p>Compute Moran’s I</p></li>
-<li><p>Interpret whether clustering exists</p></li>
-</ul>
+<p>Compute Global Moran’s I for <code>pct_asian</code>. Is it clustered?
+Then make its LISA map.</p>
 </div>
 </div>
 </div>
@@ -1425,8 +1084,15 @@ neighbors.</p>
 </button>
 <div id="collapseSolution2" class="accordion-collapse collapse" data-bs-parent="#accordionSolution2" aria-labelledby="headingSolution2">
 <div class="accordion-body">
-<p>A positive Moran’s I with low p-value → strong clustering. Near zero
-→ randomness. Negative → spatial dispersion.</p>
+<div class="codewrapper sourceCode" id="cb5">
+<h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" tabindex="-1" aria-label="code-block-5-1"></a>mi2 <span class="op">=</span> Moran(counties[<span class="st">"pct_asian"</span>], w_queen, permutations<span class="op">=</span><span class="dv">999</span>)</span>
+<span id="cb5-2"><a href="#cb5-2" tabindex="-1" aria-label="code-block-5-2"></a><span class="bu">print</span>(mi2.I, mi2.p_sim)</span>
+<span id="cb5-3"><a href="#cb5-3" tabindex="-1" aria-label="code-block-5-3"></a>lisa_cluster(Moran_Local(counties[<span class="st">"pct_asian"</span>], w_queen, seed<span class="op">=</span><span class="dv">42</span>), counties, p<span class="op">=</span><span class="fl">0.05</span>)</span></code></pre>
+</div>
+<p>A positive I with p below 0.05 means clustering. High-High counties
+usually sit around large cities and universities.</p>
 </div>
 </div>
 </div>
@@ -1434,13 +1100,15 @@ neighbors.</p>
 </section><section><h2 class="section-heading" id="math">Math<a class="anchor" aria-label="anchor" href="#math"></a>
 </h2>
 <hr class="half-width">
-<p>Global Moran’s I is defined as:</p>
-<p><code>$ I = \frac{N}{W} \frac{\sum_i \sum_j w_{ij}(x_i - \bar{x})(x_j - \bar{x})} {\sum_i (x_i - \bar{x})^2} $</code></p>
-<p>Where:</p>
-<p><code>N</code> = number of observations</p>
-<p><code>W</code> = sum of all spatial weights</p>
-<p><code>w_ij</code> = weight between units i and j</p>
-<p><code>x</code> = variable of interest</p>
+<p>Global Moran’s I is</p>
+<p><span class="math display">\[
+I = \frac{N}{W} \cdot \frac{\sum_i \sum_j w_{ij}(x_i - \bar{x})(x_j -
+\bar{x})}{\sum_i (x_i - \bar{x})^2}
+\]</span></p>
+<p>where <span class="math inline">\(N\)</span> is the number of places,
+<span class="math inline">\(w_{ij}\)</span> is the weight between places
+<span class="math inline">\(i\)</span> and <span class="math inline">\(j\)</span> (non zero only for neighbors), <span class="math inline">\(W\)</span> is the sum of all weights, and <span class="math inline">\(x\)</span> is the variable. The top of the
+fraction is large when neighbors are on the same side of the mean.</p>
 <div id="keypoints1" class="callout keypoints">
 <div class="callout-square">
 <i class="callout-icon" data-feather="key"></i>
@@ -1448,48 +1116,64 @@ neighbors.</p>
 <span class="callout-header">Key Points</span>
 <div class="callout-inner">
 <div class="callout-content">
-<p>PySAL provides tools for weights, autocorrelation, clustering, and
-modeling</p>
-<p>Queen and rook weights define spatial neighbors differently</p>
-<p>Moran’s I measures global autocorrelation</p>
-<p>Local Moran (LISA) identifies hotspots and coldspots</p>
-<p>GeoPandas and PySAL together form a powerful spatial analysis
-workflow</p>
+<ul>
+<li>Spatial weights define who is a neighbor: Rook (edges), Queen (edges
+and corners), KNN (closest)</li>
+<li>Global Moran’s I gives one number for clustering across the whole
+map</li>
+<li>The permutation p-value tells you whether the pattern could be
+chance</li>
+<li>Local Moran’s I (LISA) locates hotspots, coldspots and outliers;
+always filter by p-value</li>
+</ul>
 </div>
 </div>
 </div>
-</section><div class="section level1">
-<h1 id="module-overview">Module Overview<a class="anchor" aria-label="anchor" href="#module-overview"></a>
-</h1>
+</section><section><h2 class="section-heading" id="notebooks">Notebooks<a class="anchor" aria-label="anchor" href="#notebooks"></a>
+</h2>
+<hr class="half-width">
 <table class="table">
 <colgroup>
-<col width="14%">
-<col width="85%">
+<col width="33%">
+<col width="33%">
+<col width="33%">
 </colgroup>
 <thead><tr>
-<th>Lesson</th>
-<th>Overview</th>
+<th>Level</th>
+<th>Notebook</th>
+<th>What you will do</th>
 </tr></thead>
 <tbody>
 <tr>
-<td><a href="https://colab.research.google.com/github/SpatialTurn/DataCollection-Notebooks/blob/main/Census/pysal_basic.ipynb" target="_blank" class="external-link">Beginner</a></td>
-<td>Introduction to Spatial Analysis using PySAL package.</td>
+<td>Beginner</td>
+<td><a href="https://colab.research.google.com/github/SpatialTurn/DataCollection-Notebooks/blob/main/DataAnalysis/03a_Spatial_Weights_Neighbors.ipynb" target="_blank" class="external-link">3a.
+What Is a Neighbor? Spatial Weights</a></td>
+<td>Load Indiana counties and compare Rook, Queen and KNN neighbors</td>
 </tr>
 <tr>
-<td><a href="">Advanced</a></td>
-<td>(to be added)</td>
+<td>Intermediate</td>
+<td><a href="https://colab.research.google.com/github/SpatialTurn/DataCollection-Notebooks/blob/main/DataAnalysis/03b_Global_Morans_I.ipynb" target="_blank" class="external-link">3b.
+Global Moran’s I</a></td>
+<td>Test whether median age is clustered and read the Moran
+scatterplot</td>
+</tr>
+<tr>
+<td>Advanced</td>
+<td><a href="https://colab.research.google.com/github/SpatialTurn/DataCollection-Notebooks/blob/main/DataAnalysis/03c_Local_Morans_I_Hotspots.ipynb" target="_blank" class="external-link">3c.
+Local Moran’s I and Hotspots</a></td>
+<td>Map significant clusters for counties, then for Marion County
+tracts</td>
 </tr>
 </tbody>
 </table>
 <!--
 Place links that you need to refer to multiple times across pages here. Delete
 any links that you are not going to use.
- -->
-</div></section><section id="aio-cluster"><p>Content from <a href="cluster.html">Spatial Clustering</a></p>
+ --></section></section><section id="aio-cluster"><p>Content from <a href="cluster.html">Spatial Clustering</a></p>
 <hr>
-<p>Last updated on 2025-12-05 |
+<p>Last updated on 2026-10-17 |
 
-        <a href="https://github.com/carpentries/workbench-template-md/edit/main/episodes/cluster.md" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
+        <a href="https://github.com/SpatialTurn/DataAnalysis/edit/main/episodes/cluster.md" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
 <div class="text-end">
           <button role="button" aria-pressed="false" tabindex="0" id="expand-code" class="pull-right" data-expand="Expand All Solutions " data-collapse="Collapse All Solutions "> Expand All Solutions <i aria-hidden="true" data-feather="plus"></i></button>
         </div>
@@ -1501,9 +1185,9 @@ any links that you are not going to use.
 <div class="inner">
 <h3 class="card-title">Questions</h3>
 <ul>
-<li>What is spatial clustering and why do we use it?</li>
-<li>How can we perform basic clustering on geographic point data?</li>
-<li>How do algorithms like K-Means, Hierarchical Clustering, and DBSCAN
+<li>What is spatial clustering and when is it useful?</li>
+<li>Why must coordinates be in meters before clustering?</li>
+<li>How do K-Means, hierarchical clustering, DBSCAN and HDBSCAN
 differ?</li>
 </ul>
 </div>
@@ -1514,253 +1198,155 @@ differ?</li>
 <div class="inner bordered">
 <h3 class="card-title">Objectives</h3>
 <ul>
-<li>Understand the concept of spatial clustering</li>
-<li>Learn how to prepare point data for clustering</li>
-<li>Apply K-Means, Hierarchical Clustering, and DBSCAN in Python</li>
-<li>Visualize clustering results on simple scatterplots and maps</li>
+<li>Prepare point data for clustering by reprojecting to a meter based
+CRS</li>
+<li>Find dense hotspots with DBSCAN and HDBSCAN and recognize noise
+points</li>
+<li>Divide points into zones with K-Means and choose k with the elbow
+method</li>
+<li>Choose a clustering method that fits the research question</li>
 </ul>
 </div>
 </div>
 </div>
 </div>
 </div>
-<section><h2 class="section-heading" id="why-is-spatial-clustering-important">Why is Spatial Clustering Important?<a class="anchor" aria-label="anchor" href="#why-is-spatial-clustering-important"></a>
+<section><h2 class="section-heading" id="why-spatial-clustering">Why spatial clustering?<a class="anchor" aria-label="anchor" href="#why-spatial-clustering"></a>
 </h2>
 <hr class="half-width">
-<p>Spatial clustering is a core method in geospatial analysis for
-identifying how points, people, places, or events are distributed across
-space. Instead of treating data as isolated observations, clustering
-helps us detect <strong>patterns</strong>, revealing where
-concentrations or groupings occur — and just as importantly, where they
-do not.</p>
-<p>Clustering allows us to transform large sets of point data into
-meaningful spatial insights that can guide research, decision-making,
-and planning.</p>
-<div class="section level3">
-<h3 id="what-spatial-clustering-helps-us-understand">What Spatial Clustering Helps Us Understand<a class="anchor" aria-label="anchor" href="#what-spatial-clustering-helps-us-understand"></a>
-</h3>
-<ul>
-<li>Where events or features form geographic
-<strong>hotspots</strong>
-</li>
-<li>How points group based on proximity or similarity</li>
-<li>Regions of high vs. low density</li>
-<li>Patterns of distribution — clustered, dispersed, or random?</li>
-<li>Spatial relationships in social, environmental, or urban data</li>
-<li>Location-based trends that maps alone may not reveal</li>
-</ul>
-</div>
-<div class="section level3">
-<h3 id="why-analysts-use-spatial-clustering">Why Analysts Use Spatial Clustering<a class="anchor" aria-label="anchor" href="#why-analysts-use-spatial-clustering"></a>
-</h3>
-<ul>
-<li>Reduces <strong>complex spatial datasets</strong> into interpretable
-groups<br>
-</li>
-<li>Helps detect clusters in public health (disease outbreaks), crime,
-ecology, and more<br>
-</li>
-<li>Identifies <strong>emerging hotspots</strong> for management or
-intervention<br>
-</li>
-<li>Useful for <strong>urban planning, environmental monitoring, and
-archaeology</strong><br>
-</li>
-<li>Works well as a first step for further spatial statistics (PySAL,
-regression, AI)<br>
-</li>
-<li>Enables classification, prediction, and pattern recognition in large
-datasets</li>
-</ul>
-</div>
-<div class="section level3">
-<h3 id="clustering-at-a-glance">Clustering at a Glance<a class="anchor" aria-label="anchor" href="#clustering-at-a-glance"></a>
-</h3>
+<p>Clustering finds groups of points that sit close together: crime
+hotspots, disease outbreaks, clusters of archaeological finds, or
+concentrations of businesses. It turns thousands of points into a few
+areas you can describe and compare.</p>
 <table class="table">
 <colgroup>
-<col width="33%">
-<col width="33%">
-<col width="33%">
+<col width="25%">
+<col width="25%">
+<col width="25%">
+<col width="25%">
 </colgroup>
 <thead><tr>
 <th>Method</th>
-<th>Strength</th>
-<th>Best For</th>
+<th>You choose</th>
+<th>Noise points?</th>
+<th>Best for</th>
 </tr></thead>
 <tbody>
 <tr>
 <td>K-Means</td>
-<td>Simple, fast</td>
-<td>Well-separated, circular clusters</td>
+<td>Number of clusters (k)</td>
+<td>No, every point is assigned</td>
+<td>Dividing an area into zones</td>
 </tr>
 <tr>
 <td>Hierarchical</td>
-<td>Dendrogram visualization</td>
-<td>Multi-scale grouping, unknown k values</td>
+<td>Number of clusters or a cut height</td>
+<td>No</td>
+<td>Seeing structure at several scales (small datasets)</td>
 </tr>
 <tr>
 <td>DBSCAN</td>
-<td>Finds irregular shapes + noise</td>
-<td>Spatial hotspots and natural patterns</td>
+<td>Search radius (<code>eps</code>) and <code>min_samples</code>
+</td>
+<td>Yes</td>
+<td>Hotspots of any shape at a known distance</td>
+</tr>
+<tr>
+<td>HDBSCAN</td>
+<td><code>min_cluster_size</code></td>
+<td>Yes</td>
+<td>Hotspots with varying density</td>
 </tr>
 </tbody>
 </table>
-<p>Spatial clustering is often the <strong>first analytical
-step</strong> when exploring point distribution. It moves the analysis
-beyond visual mapping — showing not only where points are located, but
-how spatial processes shape them.</p>
-</div>
-</section><section><h2 class="section-heading" id="introduction">Introduction<a class="anchor" aria-label="anchor" href="#introduction"></a>
-</h2>
-<hr class="half-width">
-<p>Spatial clustering is a core method used in geography, archaeology,
-ecology, and urban studies. It helps identify <em>patterns</em> in the
-spatial distribution of points—such as hotspots of crime, clusters of
-archaeological artifacts, or regions with similar environmental
-characteristics.</p>
-<p>This beginner tutorial walks you through the fundamentals of spatial
-clustering using a simple dataset of geographic coordinates. The
-workflow is entirely in Python, following the structure used in your
-uploaded notebook.</p>
-<p>We will cover:</p>
-<ul>
-<li>Loading and exploring point data<br>
-</li>
-<li>Preparing coordinates for clustering<br>
-</li>
-<li>Running three clustering algorithms<br>
-</li>
-<li>Visualizing the results</li>
-</ul>
-<p>All examples use standard Python libraries:<br><code>pandas</code>, <code>geopandas</code>, <code>matplotlib</code>,
-<code>sklearn</code>, and <code>scipy</code>.</p>
+<p>The notebooks use about 200,000 crime reports from the <a href="https://data.cityofchicago.org/" class="external-link">Chicago Data Portal</a> and focus
+on robbery.</p>
 
-</section><section><h2 class="section-heading" id="loading-spatial-point-data">1. Loading Spatial Point Data<a class="anchor" aria-label="anchor" href="#loading-spatial-point-data"></a>
+</section><section><h2 class="section-heading" id="load-points-and-reproject-to-meters">1. Load points and reproject to meters<a class="anchor" aria-label="anchor" href="#load-points-and-reproject-to-meters"></a>
 </h2>
 <hr class="half-width">
-<p>Spatial clustering typically starts with a set of point locations. A
-minimal example:</p>
 <div class="codewrapper sourceCode" id="cb1">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" tabindex="-1" aria-label="code-block-1-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
-<span id="cb1-2"><a href="#cb1-2" tabindex="-1" aria-label="code-block-1-2"></a></span>
-<span id="cb1-3"><a href="#cb1-3" tabindex="-1" aria-label="code-block-1-3"></a>df <span class="op">=</span> pd.read_csv(<span class="st">"points.csv"</span>)   <span class="co"># contains lon, lat</span></span>
-<span id="cb1-4"><a href="#cb1-4" tabindex="-1" aria-label="code-block-1-4"></a>df.head()</span></code></pre>
+<span id="cb1-2"><a href="#cb1-2" tabindex="-1" aria-label="code-block-1-2"></a><span class="im">import</span> geopandas <span class="im">as</span> gpd</span>
+<span id="cb1-3"><a href="#cb1-3" tabindex="-1" aria-label="code-block-1-3"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb1-4"><a href="#cb1-4" tabindex="-1" aria-label="code-block-1-4"></a></span>
+<span id="cb1-5"><a href="#cb1-5" tabindex="-1" aria-label="code-block-1-5"></a>crimes <span class="op">=</span> pd.read_csv(<span class="st">"CrimesChicago20220225.csv"</span>)</span>
+<span id="cb1-6"><a href="#cb1-6" tabindex="-1" aria-label="code-block-1-6"></a>crimes.columns <span class="op">=</span> crimes.columns.<span class="bu">str</span>.strip()</span>
+<span id="cb1-7"><a href="#cb1-7" tabindex="-1" aria-label="code-block-1-7"></a>robbery <span class="op">=</span> crimes[crimes[<span class="st">"PRIMARY DESCRIPTION"</span>] <span class="op">==</span> <span class="st">"ROBBERY"</span>].dropna(subset<span class="op">=</span>[<span class="st">"LATITUDE"</span>, <span class="st">"LONGITUDE"</span>])</span>
+<span id="cb1-8"><a href="#cb1-8" tabindex="-1" aria-label="code-block-1-8"></a></span>
+<span id="cb1-9"><a href="#cb1-9" tabindex="-1" aria-label="code-block-1-9"></a>robbery <span class="op">=</span> gpd.GeoDataFrame(</span>
+<span id="cb1-10"><a href="#cb1-10" tabindex="-1" aria-label="code-block-1-10"></a>    robbery,</span>
+<span id="cb1-11"><a href="#cb1-11" tabindex="-1" aria-label="code-block-1-11"></a>    geometry<span class="op">=</span>gpd.points_from_xy(robbery[<span class="st">"LONGITUDE"</span>], robbery[<span class="st">"LATITUDE"</span>]),</span>
+<span id="cb1-12"><a href="#cb1-12" tabindex="-1" aria-label="code-block-1-12"></a>    crs<span class="op">=</span><span class="st">"EPSG:4326"</span>,</span>
+<span id="cb1-13"><a href="#cb1-13" tabindex="-1" aria-label="code-block-1-13"></a>).to_crs(epsg<span class="op">=</span><span class="dv">32616</span>)          <span class="co"># UTM zone 16N: x and y in meters</span></span>
+<span id="cb1-14"><a href="#cb1-14" tabindex="-1" aria-label="code-block-1-14"></a></span>
+<span id="cb1-15"><a href="#cb1-15" tabindex="-1" aria-label="code-block-1-15"></a>coords <span class="op">=</span> np.column_stack([robbery.geometry.x, robbery.geometry.y])</span></code></pre>
 </div>
-<p>Visualize the raw points:</p>
+<p>Latitude and longitude are angles. One degree of longitude in Chicago
+is about 85 km while one degree of latitude is about 111 km, so
+distances in degrees are distorted. Always reproject first.</p>
+</section><section><h2 class="section-heading" id="dbscan-density-based-hotspots">2. DBSCAN: density based hotspots<a class="anchor" aria-label="anchor" href="#dbscan-density-based-hotspots"></a>
+</h2>
+<hr class="half-width">
 <div class="codewrapper sourceCode" id="cb2">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" tabindex="-1" aria-label="code-block-2-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" tabindex="-1" aria-label="code-block-2-1"></a><span class="im">from</span> sklearn.cluster <span class="im">import</span> DBSCAN</span>
 <span id="cb2-2"><a href="#cb2-2" tabindex="-1" aria-label="code-block-2-2"></a></span>
-<span id="cb2-3"><a href="#cb2-3" tabindex="-1" aria-label="code-block-2-3"></a>plt.scatter(df.lon, df.lat, s<span class="op">=</span><span class="dv">10</span>)</span>
-<span id="cb2-4"><a href="#cb2-4" tabindex="-1" aria-label="code-block-2-4"></a>plt.title(<span class="st">"Raw Spatial Points"</span>)</span>
-<span id="cb2-5"><a href="#cb2-5" tabindex="-1" aria-label="code-block-2-5"></a>plt.xlabel(<span class="st">"Longitude"</span>)</span>
-<span id="cb2-6"><a href="#cb2-6" tabindex="-1" aria-label="code-block-2-6"></a>plt.ylabel(<span class="st">"Latitude"</span>)</span>
-<span id="cb2-7"><a href="#cb2-7" tabindex="-1" aria-label="code-block-2-7"></a>plt.show()</span></code></pre>
+<span id="cb2-3"><a href="#cb2-3" tabindex="-1" aria-label="code-block-2-3"></a>db <span class="op">=</span> DBSCAN(eps<span class="op">=</span><span class="dv">1000</span>, min_samples<span class="op">=</span><span class="dv">50</span>).fit(coords)   <span class="co"># eps in meters</span></span>
+<span id="cb2-4"><a href="#cb2-4" tabindex="-1" aria-label="code-block-2-4"></a>robbery[<span class="st">"dbscan"</span>] <span class="op">=</span> db.labels_                       <span class="co"># -1 means noise</span></span></code></pre>
 </div>
-<p>This simple scatterplot helps identify whether your data already
-looks clustered.</p>
-</section><section><h2 class="section-heading" id="k-means-clustering">2. K-Means Clustering<a class="anchor" aria-label="anchor" href="#k-means-clustering"></a>
+<p>A point with at least <code>min_samples</code> neighbors within
+<code>eps</code> meters is a core point; nearby core points form a
+cluster. Choose <code>eps</code> with a k-distance plot (see notebook
+4b).</p>
+</section><section><h2 class="section-heading" id="hdbscan-no-radius-needed">3. HDBSCAN: no radius needed<a class="anchor" aria-label="anchor" href="#hdbscan-no-radius-needed"></a>
 </h2>
 <hr class="half-width">
-<p>K-Means is the simplest clustering algorithm. It works best when:</p>
-<ul>
-<li><p>You know the number of clusters you want</p></li>
-<li><p>Clusters are roughly circular</p></li>
-<li><p>Points are evenly distributed</p></li>
-</ul>
 <div class="codewrapper sourceCode" id="cb3">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" tabindex="-1" aria-label="code-block-3-1"></a><span class="im">from</span> sklearn.cluster <span class="im">import</span> KMeans</span>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" tabindex="-1" aria-label="code-block-3-1"></a><span class="im">from</span> sklearn.cluster <span class="im">import</span> HDBSCAN</span>
 <span id="cb3-2"><a href="#cb3-2" tabindex="-1" aria-label="code-block-3-2"></a></span>
-<span id="cb3-3"><a href="#cb3-3" tabindex="-1" aria-label="code-block-3-3"></a>coords <span class="op">=</span> df[[<span class="st">'lon'</span>, <span class="st">'lat'</span>]]</span>
-<span id="cb3-4"><a href="#cb3-4" tabindex="-1" aria-label="code-block-3-4"></a>kmeans <span class="op">=</span> KMeans(n_clusters<span class="op">=</span><span class="dv">4</span>, random_state<span class="op">=</span><span class="dv">42</span>)</span>
-<span id="cb3-5"><a href="#cb3-5" tabindex="-1" aria-label="code-block-3-5"></a>df[<span class="st">'kmeans_label'</span>] <span class="op">=</span> kmeans.fit_predict(coords)</span></code></pre>
+<span id="cb3-3"><a href="#cb3-3" tabindex="-1" aria-label="code-block-3-3"></a>robbery[<span class="st">"hdbscan"</span>] <span class="op">=</span> HDBSCAN(min_cluster_size<span class="op">=</span><span class="dv">50</span>, min_samples<span class="op">=</span><span class="dv">10</span>).fit_predict(coords)</span></code></pre>
 </div>
-<p>Visualize results:</p>
+</section><section><h2 class="section-heading" id="k-means-zones">4. K-Means: zones<a class="anchor" aria-label="anchor" href="#k-means-zones"></a>
+</h2>
+<hr class="half-width">
 <div class="codewrapper sourceCode" id="cb4">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" tabindex="-1" aria-label="code-block-4-1"></a>plt.scatter(df.lon, df.lat, c<span class="op">=</span>df.kmeans_label, cmap<span class="op">=</span><span class="st">'tab10'</span>)</span>
-<span id="cb4-2"><a href="#cb4-2" tabindex="-1" aria-label="code-block-4-2"></a>plt.title(<span class="st">"K-Means Clustering"</span>)</span>
-<span id="cb4-3"><a href="#cb4-3" tabindex="-1" aria-label="code-block-4-3"></a>plt.show()</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" tabindex="-1" aria-label="code-block-4-1"></a><span class="im">from</span> sklearn.cluster <span class="im">import</span> KMeans</span>
+<span id="cb4-2"><a href="#cb4-2" tabindex="-1" aria-label="code-block-4-2"></a></span>
+<span id="cb4-3"><a href="#cb4-3" tabindex="-1" aria-label="code-block-4-3"></a>robbery[<span class="st">"kmeans"</span>] <span class="op">=</span> KMeans(n_clusters<span class="op">=</span><span class="dv">6</span>, n_init<span class="op">=</span><span class="dv">10</span>, random_state<span class="op">=</span><span class="dv">42</span>).fit_predict(coords)</span></code></pre>
 </div>
-</section><section><h2 class="section-heading" id="hierarchical-clustering">3. Hierarchical Clustering<a class="anchor" aria-label="anchor" href="#hierarchical-clustering"></a>
+</section><section><h2 class="section-heading" id="hierarchical-clustering-and-the-dendrogram">5. Hierarchical clustering and the dendrogram<a class="anchor" aria-label="anchor" href="#hierarchical-clustering-and-the-dendrogram"></a>
 </h2>
 <hr class="half-width">
-<p>Hierarchical clustering builds clusters step-by-step. It is useful
-when:</p>
-<ul>
-<li><p>You want a dendrogram</p></li>
-<li><p>You don’t know the number of clusters beforehand</p></li>
-<li><p>Clusters may have irregular shapes</p></li>
-</ul>
-<p>Example:</p>
 <div class="codewrapper sourceCode" id="cb5">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" tabindex="-1" aria-label="code-block-5-1"></a><span class="im">from</span> sklearn.cluster <span class="im">import</span> AgglomerativeClustering</span>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" tabindex="-1" aria-label="code-block-5-1"></a><span class="im">from</span> scipy.cluster.hierarchy <span class="im">import</span> linkage, dendrogram, fcluster</span>
 <span id="cb5-2"><a href="#cb5-2" tabindex="-1" aria-label="code-block-5-2"></a></span>
-<span id="cb5-3"><a href="#cb5-3" tabindex="-1" aria-label="code-block-5-3"></a>agg <span class="op">=</span> AgglomerativeClustering(n_clusters<span class="op">=</span><span class="dv">4</span>)</span>
-<span id="cb5-4"><a href="#cb5-4" tabindex="-1" aria-label="code-block-5-4"></a>df[<span class="st">'hier_label'</span>] <span class="op">=</span> agg.fit_predict(coords)</span></code></pre>
+<span id="cb5-3"><a href="#cb5-3" tabindex="-1" aria-label="code-block-5-3"></a>sample <span class="op">=</span> robbery.sample(<span class="dv">2000</span>, random_state<span class="op">=</span><span class="dv">1</span>)        <span class="co"># hierarchical is slow on large data</span></span>
+<span id="cb5-4"><a href="#cb5-4" tabindex="-1" aria-label="code-block-5-4"></a>tree <span class="op">=</span> linkage(np.column_stack([sample.geometry.x, sample.geometry.y]), method<span class="op">=</span><span class="st">"ward"</span>)</span>
+<span id="cb5-5"><a href="#cb5-5" tabindex="-1" aria-label="code-block-5-5"></a>dendrogram(tree, truncate_mode<span class="op">=</span><span class="st">"lastp"</span>, p<span class="op">=</span><span class="dv">20</span>, no_labels<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb5-6"><a href="#cb5-6" tabindex="-1" aria-label="code-block-5-6"></a>sample[<span class="st">"hier"</span>] <span class="op">=</span> fcluster(tree, t<span class="op">=</span><span class="dv">6</span>, criterion<span class="op">=</span><span class="st">"maxclust"</span>)</span></code></pre>
 </div>
-<p>Plot:</p>
-<div class="codewrapper sourceCode" id="cb6">
-<h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" tabindex="-1" aria-label="code-block-6-1"></a>plt.scatter(df.lon, df.lat, c<span class="op">=</span>df.hier_label, cmap<span class="op">=</span><span class="st">'viridis'</span>)</span>
-<span id="cb6-2"><a href="#cb6-2" tabindex="-1" aria-label="code-block-6-2"></a>plt.title(<span class="st">"Hierarchical Clustering"</span>)</span>
-<span id="cb6-3"><a href="#cb6-3" tabindex="-1" aria-label="code-block-6-3"></a>plt.show()</span></code></pre>
-</div>
-</section><section><h2 class="section-heading" id="dbscan-density-based-clustering">4. DBSCAN: Density-Based Clustering<a class="anchor" aria-label="anchor" href="#dbscan-density-based-clustering"></a>
-</h2>
-<hr class="half-width">
-<p>DBSCAN is ideal for spatial datasets because:</p>
-<ul>
-<li><p>It finds clusters of any shape</p></li>
-<li><p>It identifies noise points</p></li>
-<li><p>It does not require the number of clusters in advance</p></li>
-</ul>
-<p>Example:</p>
-<div class="codewrapper sourceCode" id="cb7">
-<h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" tabindex="-1" aria-label="code-block-7-1"></a><span class="im">from</span> sklearn.cluster <span class="im">import</span> DBSCAN</span>
-<span id="cb7-2"><a href="#cb7-2" tabindex="-1" aria-label="code-block-7-2"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
-<span id="cb7-3"><a href="#cb7-3" tabindex="-1" aria-label="code-block-7-3"></a></span>
-<span id="cb7-4"><a href="#cb7-4" tabindex="-1" aria-label="code-block-7-4"></a>epsilon <span class="op">=</span> <span class="fl">0.01</span>   <span class="co"># distance threshold</span></span>
-<span id="cb7-5"><a href="#cb7-5" tabindex="-1" aria-label="code-block-7-5"></a>db <span class="op">=</span> DBSCAN(eps<span class="op">=</span>epsilon, min_samples<span class="op">=</span><span class="dv">5</span>).fit(coords)</span>
-<span id="cb7-6"><a href="#cb7-6" tabindex="-1" aria-label="code-block-7-6"></a></span>
-<span id="cb7-7"><a href="#cb7-7" tabindex="-1" aria-label="code-block-7-7"></a>df[<span class="st">'dbscan_label'</span>] <span class="op">=</span> db.labels_</span></code></pre>
-</div>
-<p>Points labeled <code>-1</code> are noise (outliers).</p>
-<p>Plot:</p>
-<div class="codewrapper sourceCode" id="cb8">
-<h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" tabindex="-1" aria-label="code-block-8-1"></a>plt.scatter(df.lon, df.lat, c<span class="op">=</span>df.dbscan_label, cmap<span class="op">=</span><span class="st">'Accent'</span>)</span>
-<span id="cb8-2"><a href="#cb8-2" tabindex="-1" aria-label="code-block-8-2"></a>plt.title(<span class="st">"DBSCAN Spatial Clusters"</span>)</span>
-<span id="cb8-3"><a href="#cb8-3" tabindex="-1" aria-label="code-block-8-3"></a>plt.show()</span></code></pre>
-</div>
-<div id="challenge1" class="callout challenge">
+<p>Plot any result with
+<code>robbery.plot(column="dbscan", categorical=True, markersize=1)</code>.</p>
+<div id="challenge-1-k-means-or-dbscan" class="callout challenge">
 <div class="callout-square">
 <i class="callout-icon" data-feather="zap"></i>
 </div>
 <span class="callout-header">Challenge</span>
-<div class="callout-inner">
-<h3 class="callout-title">Challenge</h3>
+<div id="challenge-1-k-means-or-dbscan" class="callout-inner">
+<h3 class="callout-title">Challenge 1: K-Means or DBSCAN?</h3>
 <div class="callout-content">
-<p>Challenge 1: Exploring Your Own Dataset</p>
-<p>Using the examples above:</p>
-<ol style="list-style-type: decimal">
-<li><p>Load your own set of spatial coordinates</p></li>
-<li><p>Apply K-Means and DBSCAN</p></li>
-<li><p>Compare the results</p></li>
-</ol>
-<p>Which method performs better, and why?</p>
+<p>Map the K-Means and DBSCAN results side by side. Which one would you
+use to report “robbery hotspots” to a city council, and why?</p>
 </div>
 </div>
 </div>
@@ -1771,35 +1357,25 @@ when:</p>
 </button>
 <div id="collapseSolution1" class="accordion-collapse collapse" aria-labelledby="headingSolution1" data-bs-parent="#accordionSolution1">
 <div class="accordion-body">
-<p>Example Interpretation</p>
-<ul>
-<li><p>K-Means finds evenly divided clusters</p></li>
-<li><p>DBSCAN finds natural geographic groups and labels
-outliers</p></li>
-<li><p>For irregular spatial patterns, DBSCAN usually performs
-better</p></li>
-</ul>
+<p>DBSCAN (or HDBSCAN). K-Means assigns every robbery to a zone, even
+isolated ones, so its “clusters” cover the whole city. DBSCAN keeps only
+dense areas and labels scattered points as noise, which is what a
+hotspot means.</p>
 </div>
 </div>
 </div>
 </div>
-<div id="challenge2" class="callout challenge">
+<div id="challenge-2-adjusting-dbscan" class="callout challenge">
 <div class="callout-square">
 <i class="callout-icon" data-feather="zap"></i>
 </div>
 <span class="callout-header">Challenge</span>
-<div class="callout-inner">
-<h3 class="callout-title">Challenge<em> (continued)</em>
-</h3>
+<div id="challenge-2-adjusting-dbscan" class="callout-inner">
+<h3 class="callout-title">Challenge 2: Adjusting DBSCAN</h3>
 <div class="callout-content">
-<p>Challenge 2: Adjusting DBSCAN Sensitivity</p>
-<p>Try changing the <code>eps</code> parameter:</p>
-<div class="codewrapper sourceCode" id="cb9">
-<h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" tabindex="-1" aria-label="code-block-9-1"></a>DBSCAN(eps<span class="op">=</span><span class="dv">500</span>, min_samples<span class="op">=</span><span class="dv">5</span>) <span class="co"># eps is in meters</span></span>
-<span id="cb9-2"><a href="#cb9-2" tabindex="-1" aria-label="code-block-9-2"></a>DBSCAN(eps<span class="op">=</span><span class="dv">1000</span>,  min_samples<span class="op">=</span><span class="dv">5</span>)</span></code></pre>
-</div>
+<p>Run DBSCAN with <code>eps=500</code> and <code>eps=1500</code>
+(meters). How do the number of clusters and the share of noise points
+change?</p>
 </div>
 </div>
 </div>
@@ -1810,8 +1386,16 @@ better</p></li>
 </button>
 <div id="collapseSolution2" class="accordion-collapse collapse" aria-labelledby="headingSolution2" data-bs-parent="#accordionSolution2">
 <div class="accordion-body">
-<p>Larger <code>eps</code> creates larger clusters. Smaller
-<code>eps</code> creates more clusters and more noise points.</p>
+<div class="codewrapper sourceCode" id="cb6">
+<h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" tabindex="-1" aria-label="code-block-6-1"></a><span class="cf">for</span> eps <span class="kw">in</span> [<span class="dv">500</span>, <span class="dv">1500</span>]:</span>
+<span id="cb6-2"><a href="#cb6-2" tabindex="-1" aria-label="code-block-6-2"></a>    labels <span class="op">=</span> DBSCAN(eps<span class="op">=</span>eps, min_samples<span class="op">=</span><span class="dv">50</span>).fit(coords).labels_</span>
+<span id="cb6-3"><a href="#cb6-3" tabindex="-1" aria-label="code-block-6-3"></a>    <span class="bu">print</span>(eps, labels.<span class="bu">max</span>() <span class="op">+</span> <span class="dv">1</span>, <span class="st">"clusters"</span>, <span class="ss">f"</span><span class="sc">{</span>(labels <span class="op">==</span> <span class="op">-</span><span class="dv">1</span>)<span class="sc">.</span>mean()<span class="sc">:.0%}</span><span class="ss"> noise"</span>)</span></code></pre>
+</div>
+<p>A smaller <code>eps</code> gives more, smaller clusters and more
+noise. A larger <code>eps</code> merges clusters into a few large
+ones.</p>
 </div>
 </div>
 </div>
@@ -1819,12 +1403,16 @@ better</p></li>
 </section><section><h2 class="section-heading" id="math">Math<a class="anchor" aria-label="anchor" href="#math"></a>
 </h2>
 <hr class="half-width">
-<p>DBSCAN uses density to define clusters. Its key idea:</p>
-<p>A point belongs to a cluster if it has at least
-<code>min_samples</code> neighbors within a distance <code>ε</code>:</p>
-<p><code>$\text{density} = \frac{\text{neighbors}}{\pi \varepsilon^2}$</code></p>
-<p>Higher density regions form clusters; low density points become
-noise.</p>
+<p>DBSCAN looks at the <strong>neighborhood</strong> of each point <span class="math inline">\(p\)</span>: all points within distance <span class="math inline">\(\varepsilon\)</span> (<code>eps</code>). If that
+neighborhood holds at least <code>min_samples</code> points, <span class="math inline">\(p\)</span> is a <strong>core point</strong>. Core
+points within <span class="math inline">\(\varepsilon\)</span> of each
+other join the same cluster, along with the border points near them.
+Every other point is <strong>noise</strong>.</p>
+<p>K-Means instead chooses <span class="math inline">\(k\)</span>
+centers <span class="math inline">\(\mu_1, \dots, \mu_k\)</span> that
+minimize the total squared distance <span class="math inline">\(\sum_i
+\lVert x_i - \mu_{c(i)} \rVert^2\)</span>, where <span class="math inline">\(c(i)\)</span> is the center closest to point <span class="math inline">\(x_i\)</span>. This total is the
+<strong>inertia</strong> used in the elbow plot.</p>
 <div id="keypoints1" class="callout keypoints">
 <div class="callout-square">
 <i class="callout-icon" data-feather="key"></i>
@@ -1833,49 +1421,63 @@ noise.</p>
 <div class="callout-inner">
 <div class="callout-content">
 <ul>
-<li><p>Spatial clustering groups geographic points into meaningful
-patterns</p></li>
-<li><p>K-Means is simple but assumes circular clusters</p></li>
-<li><p>Hierarchical clustering builds clusters step-wise</p></li>
-<li><p>DBSCAN is best for irregular shapes and detecting noise</p></li>
-<li><p>Always visualize your clusters to interpret them
-correctly</p></li>
+<li>Reproject to meters before clustering so distances are real</li>
+<li>DBSCAN and HDBSCAN find dense hotspots of any shape and label
+scattered points as noise</li>
+<li>K-Means splits all points into k round zones; choose k with the
+elbow method</li>
+<li>Hierarchical clustering shows how groups merge, but is slow on large
+datasets</li>
+<li>Pick the method that matches your question: hotspots or zones</li>
 </ul>
 </div>
 </div>
 </div>
-</section><div class="section level1">
-<h1 id="module-overview">Module Overview<a class="anchor" aria-label="anchor" href="#module-overview"></a>
-</h1>
+</section><section><h2 class="section-heading" id="notebooks">Notebooks<a class="anchor" aria-label="anchor" href="#notebooks"></a>
+</h2>
+<hr class="half-width">
 <table class="table">
 <colgroup>
-<col width="14%">
-<col width="85%">
+<col width="33%">
+<col width="33%">
+<col width="33%">
 </colgroup>
 <thead><tr>
-<th>Lesson</th>
-<th>Overview</th>
+<th>Level</th>
+<th>Notebook</th>
+<th>What you will do</th>
 </tr></thead>
 <tbody>
 <tr>
-<td><a href="https://colab.research.google.com/github/SpatialTurn/DataCollection-Notebooks/blob/main/Census/spatialclustering.ipynb" target="_blank" class="external-link">Beginner</a></td>
-<td>Introduction to Spatial Clustering using Crime Datasets.</td>
+<td>Beginner</td>
+<td><a href="https://colab.research.google.com/github/SpatialTurn/DataCollection-Notebooks/blob/main/DataAnalysis/04a_Exploring_Crime_Points.ipynb" target="_blank" class="external-link">4a.
+Exploring Crime Points</a></td>
+<td>Summarize Chicago crimes and turn them into points in meters</td>
 </tr>
 <tr>
-<td><a href="">Advanced</a></td>
-<td>(to be added)</td>
+<td>Intermediate</td>
+<td><a href="https://colab.research.google.com/github/SpatialTurn/DataCollection-Notebooks/blob/main/DataAnalysis/04b_DBSCAN_and_HDBSCAN.ipynb" target="_blank" class="external-link">4b.
+DBSCAN and HDBSCAN</a></td>
+<td>Choose <code>eps</code>, find robbery hotspots and compare with
+HDBSCAN</td>
+</tr>
+<tr>
+<td>Advanced</td>
+<td><a href="https://colab.research.google.com/github/SpatialTurn/DataCollection-Notebooks/blob/main/DataAnalysis/04c_KMeans_and_Comparing_Methods.ipynb" target="_blank" class="external-link">4c.
+K-Means and Comparing Methods</a></td>
+<td>Use the elbow method, a dendrogram and a side by side
+comparison</td>
 </tr>
 </tbody>
 </table>
 <!--
 Place links that you need to refer to multiple times across pages here. Delete
 any links that you are not going to use.
- -->
-</div></section><section id="aio-ndvi"><p>Content from <a href="ndvi.html">NDVI Analysis</a></p>
+ --></section></section><section id="aio-ndvi"><p>Content from <a href="ndvi.html">NDVI Analysis</a></p>
 <hr>
-<p>Last updated on 2025-12-05 |
+<p>Last updated on 2026-10-17 |
 
-        <a href="https://github.com/carpentries/workbench-template-md/edit/main/episodes/ndvi.md" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
+        <a href="https://github.com/SpatialTurn/DataAnalysis/edit/main/episodes/ndvi.md" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
 <div class="text-end">
           <button role="button" aria-pressed="false" tabindex="0" id="expand-code" class="pull-right" data-expand="Expand All Solutions " data-collapse="Collapse All Solutions "> Expand All Solutions <i aria-hidden="true" data-feather="plus"></i></button>
         </div>
@@ -1888,9 +1490,8 @@ any links that you are not going to use.
 <h3 class="card-title">Questions</h3>
 <ul>
 <li>What is NDVI and why is it useful?</li>
-<li>How do we calculate NDVI from Landsat imagery?</li>
-<li>How do we load and visualize raster data in Python?</li>
-<li>How can we classify and map greenness using NDVI?</li>
+<li>How do we read Landsat bands and compute NDVI in Python?</li>
+<li>How can we classify NDVI into land cover groups?</li>
 </ul>
 </div>
 </div>
@@ -1900,192 +1501,133 @@ any links that you are not going to use.
 <div class="inner bordered">
 <h3 class="card-title">Objectives</h3>
 <ul>
-<li>Understand NDVI and the spectral bands needed to compute it</li>
-<li>Learn to read geospatial raster files using rasterio</li>
-<li>Calculate NDVI using Red &amp; NIR bands from Landsat</li>
-<li>Visualize NDVI as a map with color gradients</li>
-<li>Create a simple vegetation classification from NDVI values</li>
+<li>Explain why vegetation is bright in near infrared and dark in
+red</li>
+<li>Read raster bands with <code>rasterio</code> and convert them to
+surface reflectance</li>
+<li>Compute, map and save NDVI as a GeoTIFF</li>
+<li>Classify NDVI with thresholds and summarize area by class</li>
 </ul>
 </div>
 </div>
 </div>
 </div>
 </div>
-<section><h2 class="section-heading" id="why-is-ndvi-important">Why is NDVI Important?<a class="anchor" aria-label="anchor" href="#why-is-ndvi-important"></a>
+<section><h2 class="section-heading" id="why-ndvi">Why NDVI?<a class="anchor" aria-label="anchor" href="#why-ndvi"></a>
 </h2>
 <hr class="half-width">
-<p>NDVI is one of the most widely used vegetation indices in remote
-sensing because it provides a simple yet powerful way to assess plant
-health and landscape greenness over large areas. Healthy vegetation
-strongly reflects Near-Infrared (NIR) light and absorbs Red light for
-photosynthesis — NDVI takes advantage of this behavior to quantify
-vegetation vigor.</p>
-<div class="section level3">
-<h3 id="what-ndvi-helps-us-understand">What NDVI Helps Us Understand<a class="anchor" aria-label="anchor" href="#what-ndvi-helps-us-understand"></a>
-</h3>
-<ul>
-<li>Crop health and agricultural productivity<br>
-</li>
-<li>Drought severity and water stress<br>
-</li>
-<li>Forest cover and vegetation density<br>
-</li>
-<li>Urban expansion and land use change<br>
-</li>
-<li>Seasonal phenology (spring green-up, fall senescence)<br>
-</li>
-<li>Disaster monitoring (wildfire burn severity, storm damage)</li>
-</ul>
-</div>
-<div class="section level3">
-<h3 id="why-researchers-use-ndvi">Why Researchers Use NDVI<a class="anchor" aria-label="anchor" href="#why-researchers-use-ndvi"></a>
-</h3>
-<ul>
-<li>It is <strong>easy to compute</strong> from satellite imagery<br>
-</li>
-<li>Works across multiple sensors (Landsat, Sentinel-2, MODIS,
-etc.)<br>
-</li>
-<li>Allows <strong>temporal comparison</strong> (year-to-year vegetation
-trends)<br>
-</li>
-<li>Useful for <strong>ecosystem monitoring &amp; climate change
-studies</strong><br>
-</li>
-<li>Enables <strong>land cover classification</strong> and biomass
-estimation<br>
-</li>
-<li>Supports <strong>decision-making in agriculture and
-forestry</strong>
-</li>
-</ul>
-</div>
-<div class="section level3">
-<h3 id="ndvi-interpretation-at-a-glance">NDVI Interpretation at a Glance<a class="anchor" aria-label="anchor" href="#ndvi-interpretation-at-a-glance"></a>
-</h3>
+<p>Healthy leaves absorb red light for photosynthesis and strongly
+reflect near infrared (NIR) light. The <strong>Normalized Difference
+Vegetation Index (NDVI)</strong> uses that contrast to measure greenness
+from satellite images. It is easy to compute, works with most sensors
+(Landsat, Sentinel-2, MODIS), and is used for crop monitoring, drought,
+urban green space and land cover change.</p>
 <table class="table">
 <thead><tr>
-<th>NDVI Range</th>
-<th>Interpretation</th>
-<th>Example Areas</th>
+<th>NDVI</th>
+<th>Typical surface</th>
 </tr></thead>
 <tbody>
 <tr>
-<td>-1 to 0</td>
-<td>Water, snow, clouds, barren</td>
-<td>Lakes, rivers</td>
+<td>below 0</td>
+<td>Water, snow, clouds</td>
 </tr>
 <tr>
-<td>0–0.2</td>
-<td>Bare soil, built-up land</td>
-<td>Urban areas, deserts</td>
+<td>0 to 0.2</td>
+<td>Bare soil, buildings, roads</td>
 </tr>
 <tr>
-<td>0.2–0.5</td>
-<td>Moderate vegetation</td>
-<td>Grasslands, shrubs</td>
+<td>0.2 to 0.4</td>
+<td>Sparse vegetation, grass, early crops</td>
 </tr>
 <tr>
-<td>&gt; 0.5</td>
+<td>above 0.4</td>
 <td>Dense, healthy vegetation</td>
-<td>Forests, croplands</td>
 </tr>
 </tbody>
 </table>
-<p>NDVI is therefore a foundation metric in environmental science —
-enabling researchers, planners, and ecologists to <strong>visualize
-vegetation patterns, track change through time, and make data-driven
-decisions about land and resources.</strong></p>
-<p>In this lesson, we will compute NDVI for Indiana using Landsat bands
-and generate maps with Python.</p>
+<p>The notebooks use one Landsat scene over Indiana (Collection 2
+Level-2 surface reflectance). For Landsat 8 and 9, <strong>Band 4 is
+red</strong> and <strong>Band 5 is NIR</strong>.</p>
 
-</div>
-</section><section><h2 class="section-heading" id="installing-required-libraries">1. Installing Required Libraries<a class="anchor" aria-label="anchor" href="#installing-required-libraries"></a>
+</section><section><h2 class="section-heading" id="read-the-bands-and-convert-to-reflectance">1. Read the bands and convert to reflectance<a class="anchor" aria-label="anchor" href="#read-the-bands-and-convert-to-reflectance"></a>
 </h2>
 <hr class="half-width">
 <div class="codewrapper sourceCode" id="cb1">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" tabindex="-1" aria-label="code-block-1-1"></a><span class="op">!</span>pip install rasterio matplotlib numpy</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" tabindex="-1" aria-label="code-block-1-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb1-2"><a href="#cb1-2" tabindex="-1" aria-label="code-block-1-2"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb1-3"><a href="#cb1-3" tabindex="-1" aria-label="code-block-1-3"></a><span class="im">import</span> rasterio</span>
+<span id="cb1-4"><a href="#cb1-4" tabindex="-1" aria-label="code-block-1-4"></a></span>
+<span id="cb1-5"><a href="#cb1-5" tabindex="-1" aria-label="code-block-1-5"></a><span class="cf">with</span> rasterio.<span class="bu">open</span>(<span class="st">"band4.TIF"</span>) <span class="im">as</span> src:</span>
+<span id="cb1-6"><a href="#cb1-6" tabindex="-1" aria-label="code-block-1-6"></a>    red <span class="op">=</span> src.read(<span class="dv">1</span>).astype(<span class="st">"float32"</span>)</span>
+<span id="cb1-7"><a href="#cb1-7" tabindex="-1" aria-label="code-block-1-7"></a>    profile <span class="op">=</span> src.profile</span>
+<span id="cb1-8"><a href="#cb1-8" tabindex="-1" aria-label="code-block-1-8"></a><span class="cf">with</span> rasterio.<span class="bu">open</span>(<span class="st">"band5.TIF"</span>) <span class="im">as</span> src:</span>
+<span id="cb1-9"><a href="#cb1-9" tabindex="-1" aria-label="code-block-1-9"></a>    nir <span class="op">=</span> src.read(<span class="dv">1</span>).astype(<span class="st">"float32"</span>)</span>
+<span id="cb1-10"><a href="#cb1-10" tabindex="-1" aria-label="code-block-1-10"></a></span>
+<span id="cb1-11"><a href="#cb1-11" tabindex="-1" aria-label="code-block-1-11"></a>red[red <span class="op">==</span> <span class="dv">0</span>] <span class="op">=</span> np.nan          <span class="co"># 0 = outside the scene</span></span>
+<span id="cb1-12"><a href="#cb1-12" tabindex="-1" aria-label="code-block-1-12"></a>nir[nir <span class="op">==</span> <span class="dv">0</span>] <span class="op">=</span> np.nan</span>
+<span id="cb1-13"><a href="#cb1-13" tabindex="-1" aria-label="code-block-1-13"></a></span>
+<span id="cb1-14"><a href="#cb1-14" tabindex="-1" aria-label="code-block-1-14"></a><span class="co"># Level-2 values are stored as integers; this converts them to reflectance (0 to 1)</span></span>
+<span id="cb1-15"><a href="#cb1-15" tabindex="-1" aria-label="code-block-1-15"></a>red <span class="op">=</span> np.clip(red <span class="op">*</span> <span class="fl">0.0000275</span> <span class="op">-</span> <span class="fl">0.2</span>, <span class="dv">0</span>, <span class="dv">1</span>)</span>
+<span id="cb1-16"><a href="#cb1-16" tabindex="-1" aria-label="code-block-1-16"></a>nir <span class="op">=</span> np.clip(nir <span class="op">*</span> <span class="fl">0.0000275</span> <span class="op">-</span> <span class="fl">0.2</span>, <span class="dv">0</span>, <span class="dv">1</span>)</span></code></pre>
 </div>
-</section><section><h2 class="section-heading" id="import-dependencies">2. Import Dependencies<a class="anchor" aria-label="anchor" href="#import-dependencies"></a>
+</section><section><h2 class="section-heading" id="compute-and-map-ndvi">2. Compute and map NDVI<a class="anchor" aria-label="anchor" href="#compute-and-map-ndvi"></a>
 </h2>
 <hr class="half-width">
 <div class="codewrapper sourceCode" id="cb2">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" tabindex="-1" aria-label="code-block-2-1"></a><span class="im">import</span> rasterio</span>
-<span id="cb2-2"><a href="#cb2-2" tabindex="-1" aria-label="code-block-2-2"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
-<span id="cb2-3"><a href="#cb2-3" tabindex="-1" aria-label="code-block-2-3"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" tabindex="-1" aria-label="code-block-2-1"></a>ndvi <span class="op">=</span> (nir <span class="op">-</span> red) <span class="op">/</span> (nir <span class="op">+</span> red)</span>
+<span id="cb2-2"><a href="#cb2-2" tabindex="-1" aria-label="code-block-2-2"></a></span>
+<span id="cb2-3"><a href="#cb2-3" tabindex="-1" aria-label="code-block-2-3"></a>plt.imshow(ndvi, cmap<span class="op">=</span><span class="st">"RdYlGn"</span>, vmin<span class="op">=-</span><span class="fl">0.2</span>, vmax<span class="op">=</span><span class="fl">0.8</span>)</span>
+<span id="cb2-4"><a href="#cb2-4" tabindex="-1" aria-label="code-block-2-4"></a>plt.colorbar(label<span class="op">=</span><span class="st">"NDVI"</span>)</span>
+<span id="cb2-5"><a href="#cb2-5" tabindex="-1" aria-label="code-block-2-5"></a>plt.title(<span class="st">"NDVI, Landsat scene over Indiana"</span>)</span>
+<span id="cb2-6"><a href="#cb2-6" tabindex="-1" aria-label="code-block-2-6"></a>plt.show()</span></code></pre>
 </div>
-</section><section><h2 class="section-heading" id="load-landsat-red-and-nir-bands">3. Load Landsat RED and NIR Bands<a class="anchor" aria-label="anchor" href="#load-landsat-red-and-nir-bands"></a>
+</section><section><h2 class="section-heading" id="save-ndvi-as-a-geotiff">3. Save NDVI as a GeoTIFF<a class="anchor" aria-label="anchor" href="#save-ndvi-as-a-geotiff"></a>
 </h2>
 <hr class="half-width">
-<p>Make sure your directory contains Landsat <code>.TIF</code> files
-(Band 4 = Red, Band 5 = NIR).</p>
 <div class="codewrapper sourceCode" id="cb3">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" tabindex="-1" aria-label="code-block-3-1"></a>red <span class="op">=</span> rasterio.<span class="bu">open</span>(<span class="st">"LC08_L1TP_red.tif"</span>)</span>
-<span id="cb3-2"><a href="#cb3-2" tabindex="-1" aria-label="code-block-3-2"></a>nir <span class="op">=</span> rasterio.<span class="bu">open</span>(<span class="st">"LC08_L1TP_nir.tif"</span>)</span>
-<span id="cb3-3"><a href="#cb3-3" tabindex="-1" aria-label="code-block-3-3"></a></span>
-<span id="cb3-4"><a href="#cb3-4" tabindex="-1" aria-label="code-block-3-4"></a>red_band <span class="op">=</span> red.read(<span class="dv">1</span>).astype(<span class="st">'float32'</span>)</span>
-<span id="cb3-5"><a href="#cb3-5" tabindex="-1" aria-label="code-block-3-5"></a>nir_band <span class="op">=</span> nir.read(<span class="dv">1</span>).astype(<span class="st">'float32'</span>)</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" tabindex="-1" aria-label="code-block-3-1"></a>profile.update(dtype<span class="op">=</span><span class="st">"float32"</span>, count<span class="op">=</span><span class="dv">1</span>, nodata<span class="op">=</span>np.nan)</span>
+<span id="cb3-2"><a href="#cb3-2" tabindex="-1" aria-label="code-block-3-2"></a><span class="cf">with</span> rasterio.<span class="bu">open</span>(<span class="st">"ndvi.tif"</span>, <span class="st">"w"</span>, <span class="op">**</span>profile) <span class="im">as</span> dst:</span>
+<span id="cb3-3"><a href="#cb3-3" tabindex="-1" aria-label="code-block-3-3"></a>    dst.write(ndvi.astype(<span class="st">"float32"</span>), <span class="dv">1</span>)</span></code></pre>
 </div>
-<p>Plot a band to inspect:</p>
+<p>The saved file keeps the scene’s location, so it lines up in
+QGIS.</p>
+</section><section><h2 class="section-heading" id="classify-ndvi">4. Classify NDVI<a class="anchor" aria-label="anchor" href="#classify-ndvi"></a>
+</h2>
+<hr class="half-width">
+<p><code>np.digitize</code> gives each pixel a class number.
+<strong>Three</strong> break values make <strong>four</strong> classes,
+so we need four colors.</p>
 <div class="codewrapper sourceCode" id="cb4">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" tabindex="-1" aria-label="code-block-4-1"></a>plt.imshow(red_band, cmap<span class="op">=</span><span class="st">'Reds'</span>)</span>
-<span id="cb4-2"><a href="#cb4-2" tabindex="-1" aria-label="code-block-4-2"></a>plt.title(<span class="st">"Red Band"</span>)</span>
-<span id="cb4-3"><a href="#cb4-3" tabindex="-1" aria-label="code-block-4-3"></a>plt.colorbar()</span>
-<span id="cb4-4"><a href="#cb4-4" tabindex="-1" aria-label="code-block-4-4"></a>plt.show()</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" tabindex="-1" aria-label="code-block-4-1"></a><span class="im">from</span> matplotlib.colors <span class="im">import</span> ListedColormap</span>
+<span id="cb4-2"><a href="#cb4-2" tabindex="-1" aria-label="code-block-4-2"></a></span>
+<span id="cb4-3"><a href="#cb4-3" tabindex="-1" aria-label="code-block-4-3"></a>classes <span class="op">=</span> np.digitize(ndvi, [<span class="dv">0</span>, <span class="fl">0.2</span>, <span class="fl">0.4</span>]).astype(<span class="st">"float32"</span>)   <span class="co"># 0, 1, 2, 3</span></span>
+<span id="cb4-4"><a href="#cb4-4" tabindex="-1" aria-label="code-block-4-4"></a>classes[np.isnan(ndvi)] <span class="op">=</span> np.nan</span>
+<span id="cb4-5"><a href="#cb4-5" tabindex="-1" aria-label="code-block-4-5"></a></span>
+<span id="cb4-6"><a href="#cb4-6" tabindex="-1" aria-label="code-block-4-6"></a>colors <span class="op">=</span> [<span class="st">"#2b83ba"</span>, <span class="st">"#d7a26b"</span>, <span class="st">"#a6d96a"</span>, <span class="st">"#1a9641"</span>]   <span class="co"># water, bare, sparse, dense</span></span>
+<span id="cb4-7"><a href="#cb4-7" tabindex="-1" aria-label="code-block-4-7"></a>plt.imshow(classes[::<span class="dv">4</span>, ::<span class="dv">4</span>], cmap<span class="op">=</span>ListedColormap(colors), vmin<span class="op">=</span><span class="dv">0</span>, vmax<span class="op">=</span><span class="dv">3</span>,</span>
+<span id="cb4-8"><a href="#cb4-8" tabindex="-1" aria-label="code-block-4-8"></a>           interpolation<span class="op">=</span><span class="st">"nearest"</span>)    <span class="co"># every 4th pixel keeps the plot fast</span></span>
+<span id="cb4-9"><a href="#cb4-9" tabindex="-1" aria-label="code-block-4-9"></a>plt.title(<span class="st">"NDVI classes"</span>)</span>
+<span id="cb4-10"><a href="#cb4-10" tabindex="-1" aria-label="code-block-4-10"></a>plt.show()</span></code></pre>
 </div>
-</section><section><h2 class="section-heading" id="calculate-ndvi">4. Calculate NDVI<a class="anchor" aria-label="anchor" href="#calculate-ndvi"></a>
-</h2>
-<hr class="half-width">
-<div class="codewrapper sourceCode" id="cb5">
-<h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" tabindex="-1" aria-label="code-block-5-1"></a>ndvi <span class="op">=</span> (nir_band <span class="op">-</span> red_band) <span class="op">/</span> (nir_band <span class="op">+</span> red_band)</span></code></pre>
-</div>
-<p>Visualize NDVI:</p>
-<div class="codewrapper sourceCode" id="cb6">
-<h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" tabindex="-1" aria-label="code-block-6-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">7</span>,<span class="dv">6</span>))</span>
-<span id="cb6-2"><a href="#cb6-2" tabindex="-1" aria-label="code-block-6-2"></a>plt.imshow(ndvi, cmap<span class="op">=</span><span class="st">'YlGn'</span>)</span>
-<span id="cb6-3"><a href="#cb6-3" tabindex="-1" aria-label="code-block-6-3"></a>plt.colorbar(label<span class="op">=</span><span class="st">"NDVI Value"</span>)</span>
-<span id="cb6-4"><a href="#cb6-4" tabindex="-1" aria-label="code-block-6-4"></a>plt.title(<span class="st">"NDVI Map of Indiana"</span>)</span>
-<span id="cb6-5"><a href="#cb6-5" tabindex="-1" aria-label="code-block-6-5"></a>plt.show()</span></code></pre>
-</div>
-</section><section><h2 class="section-heading" id="classify-ndvi-into-vegetation-categories">5. Classify NDVI into Vegetation Categories<a class="anchor" aria-label="anchor" href="#classify-ndvi-into-vegetation-categories"></a>
-</h2>
-<hr class="half-width">
-<div class="codewrapper sourceCode" id="cb7">
-<h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" tabindex="-1" aria-label="code-block-7-1"></a>ndvi_class <span class="op">=</span> np.digitize(ndvi, bins<span class="op">=</span>[<span class="dv">0</span>, <span class="fl">0.2</span>, <span class="fl">0.5</span>])</span>
-<span id="cb7-2"><a href="#cb7-2" tabindex="-1" aria-label="code-block-7-2"></a></span>
-<span id="cb7-3"><a href="#cb7-3" tabindex="-1" aria-label="code-block-7-3"></a><span class="co"># 0 = water/barren, 1 = low vegetation, 2 = dense vegetation</span></span>
-<span id="cb7-4"><a href="#cb7-4" tabindex="-1" aria-label="code-block-7-4"></a>colors <span class="op">=</span> [<span class="st">'blue'</span>, <span class="st">'yellow'</span>, <span class="st">'green'</span>]</span>
-<span id="cb7-5"><a href="#cb7-5" tabindex="-1" aria-label="code-block-7-5"></a>plt.imshow(ndvi_class, cmap<span class="op">=</span>plt.matplotlib.colors.ListedColormap(colors))</span>
-<span id="cb7-6"><a href="#cb7-6" tabindex="-1" aria-label="code-block-7-6"></a>plt.title(<span class="st">"NDVI Vegetation Classification"</span>)</span>
-<span id="cb7-7"><a href="#cb7-7" tabindex="-1" aria-label="code-block-7-7"></a>plt.show()</span></code></pre>
-</div>
-<div id="challenge-1-try-it-yourself" class="callout challenge">
+<div id="challenge-1-five-classes" class="callout challenge">
 <div class="callout-square">
 <i class="callout-icon" data-feather="zap"></i>
 </div>
 <span class="callout-header">Challenge</span>
-<div id="challenge-1-try-it-yourself" class="callout-inner">
-<h3 class="callout-title">Challenge 1 — Try It Yourself</h3>
+<div id="challenge-1-five-classes" class="callout-inner">
+<h3 class="callout-title">Challenge 1: Five classes</h3>
 <div class="callout-content">
-<ul>
-<li><p>Change the NDVI color map (cmap)</p></li>
-<li><p>Classify NDVI into four categories instead of three</p></li>
-<li><p>Add labels or legends to your final map</p></li>
-</ul>
+<p>Classify NDVI into five classes with breaks
+<code>[0, 0.1, 0.2, 0.3]</code>. How many colors do you need?</p>
 </div>
 </div>
 </div>
@@ -2094,37 +1636,34 @@ and generate maps with Python.</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution1" aria-expanded="false" aria-controls="collapseSolution1">
   <h4 class="accordion-header" id="headingSolution1"> Show me the solution </h4>
 </button>
-<div id="collapseSolution1" class="accordion-collapse collapse" data-bs-parent="#accordionSolution1" aria-labelledby="headingSolution1">
+<div id="collapseSolution1" class="accordion-collapse collapse" aria-labelledby="headingSolution1" data-bs-parent="#accordionSolution1">
 <div class="accordion-body">
-<div class="codewrapper sourceCode" id="cb8">
+<p>Four breaks make five classes, so you need five colors and
+<code>vmax=4</code>.</p>
+<div class="codewrapper sourceCode" id="cb5">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" tabindex="-1" aria-label="code-block-8-1"></a>bins <span class="op">=</span> [<span class="dv">0</span>, <span class="fl">0.2</span>, <span class="fl">0.4</span>, <span class="fl">0.6</span>]</span>
-<span id="cb8-2"><a href="#cb8-2" tabindex="-1" aria-label="code-block-8-2"></a>ndvi_class <span class="op">=</span> np.digitize(ndvi, bins<span class="op">=</span>bins)</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" tabindex="-1" aria-label="code-block-5-1"></a>classes <span class="op">=</span> np.digitize(ndvi, [<span class="dv">0</span>, <span class="fl">0.1</span>, <span class="fl">0.2</span>, <span class="fl">0.3</span>]).astype(<span class="st">"float32"</span>)</span>
+<span id="cb5-2"><a href="#cb5-2" tabindex="-1" aria-label="code-block-5-2"></a>classes[np.isnan(ndvi)] <span class="op">=</span> np.nan</span>
+<span id="cb5-3"><a href="#cb5-3" tabindex="-1" aria-label="code-block-5-3"></a>colors <span class="op">=</span> [<span class="st">"#2b83ba"</span>, <span class="st">"#d7a26b"</span>, <span class="st">"#fdae61"</span>, <span class="st">"#a6d96a"</span>, <span class="st">"#1a9641"</span>]</span>
+<span id="cb5-4"><a href="#cb5-4" tabindex="-1" aria-label="code-block-5-4"></a>plt.imshow(classes[::<span class="dv">4</span>, ::<span class="dv">4</span>], cmap<span class="op">=</span>ListedColormap(colors), vmin<span class="op">=</span><span class="dv">0</span>, vmax<span class="op">=</span><span class="dv">4</span>,</span>
+<span id="cb5-5"><a href="#cb5-5" tabindex="-1" aria-label="code-block-5-5"></a>           interpolation<span class="op">=</span><span class="st">"nearest"</span>)</span>
+<span id="cb5-6"><a href="#cb5-6" tabindex="-1" aria-label="code-block-5-6"></a>plt.show()</span></code></pre>
 </div>
 </div>
 </div>
 </div>
 </div>
-<div id="challenge-2-mask-water-pixels" class="callout challenge">
+<div id="challenge-2-mask-water" class="callout challenge">
 <div class="callout-square">
 <i class="callout-icon" data-feather="zap"></i>
 </div>
 <span class="callout-header">Challenge</span>
-<div id="challenge-2-mask-water-pixels" class="callout-inner">
-<h3 class="callout-title">Challenge 2 — Mask Water Pixels</h3>
+<div id="challenge-2-mask-water" class="callout-inner">
+<h3 class="callout-title">Challenge 2: Mask water</h3>
 <div class="callout-content">
-<p>Use NDVI to mask water (&lt;0):</p>
-<div class="codewrapper sourceCode" id="cb9">
-<h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" tabindex="-1" aria-label="code-block-9-1"></a>water_mask <span class="op">=</span> ndvi <span class="op">&lt;</span> <span class="dv">0</span></span>
-<span id="cb9-2"><a href="#cb9-2" tabindex="-1" aria-label="code-block-9-2"></a>ndvi_water_removed <span class="op">=</span> np.where(water_mask, np.nan, ndvi)</span>
-<span id="cb9-3"><a href="#cb9-3" tabindex="-1" aria-label="code-block-9-3"></a></span>
-<span id="cb9-4"><a href="#cb9-4" tabindex="-1" aria-label="code-block-9-4"></a>plt.imshow(ndvi_water_removed, cmap<span class="op">=</span><span class="st">'YlGn'</span>)</span>
-<span id="cb9-5"><a href="#cb9-5" tabindex="-1" aria-label="code-block-9-5"></a>plt.title(<span class="st">"NDVI with Water Masked"</span>)</span>
-<span id="cb9-6"><a href="#cb9-6" tabindex="-1" aria-label="code-block-9-6"></a>plt.show()</span></code></pre>
-</div>
+<p>Replace NDVI values below 0 with <code>np.nan</code> and map the
+result. What is the mean NDVI of land only?</p>
 </div>
 </div>
 </div>
@@ -2133,9 +1672,18 @@ and generate maps with Python.</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution2" aria-expanded="false" aria-controls="collapseSolution2">
   <h4 class="accordion-header" id="headingSolution2"> Show me the solution </h4>
 </button>
-<div id="collapseSolution2" class="accordion-collapse collapse" data-bs-parent="#accordionSolution2" aria-labelledby="headingSolution2">
+<div id="collapseSolution2" class="accordion-collapse collapse" aria-labelledby="headingSolution2" data-bs-parent="#accordionSolution2">
 <div class="accordion-body">
-<p>Water regions become transparent/ignored in the plot.</p>
+<div class="codewrapper sourceCode" id="cb6">
+<h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" tabindex="-1" aria-label="code-block-6-1"></a>ndvi_land <span class="op">=</span> np.where(ndvi <span class="op">&lt;</span> <span class="dv">0</span>, np.nan, ndvi)</span>
+<span id="cb6-2"><a href="#cb6-2" tabindex="-1" aria-label="code-block-6-2"></a>plt.imshow(ndvi_land[::<span class="dv">4</span>, ::<span class="dv">4</span>], cmap<span class="op">=</span><span class="st">"YlGn"</span>, vmin<span class="op">=</span><span class="dv">0</span>, vmax<span class="op">=</span><span class="fl">0.8</span>)</span>
+<span id="cb6-3"><a href="#cb6-3" tabindex="-1" aria-label="code-block-6-3"></a>plt.show()</span>
+<span id="cb6-4"><a href="#cb6-4" tabindex="-1" aria-label="code-block-6-4"></a><span class="bu">print</span>(np.nanmean(ndvi_land))</span></code></pre>
+</div>
+<p>Masked pixels are left blank on the map and ignored by
+<code>np.nanmean</code>.</p>
 </div>
 </div>
 </div>
@@ -2147,19 +1695,21 @@ and generate maps with Python.</p>
 <span class="callout-header">Callout</span>
 <div class="callout-inner">
 <div class="callout-content">
-<p>NDVI is affected by seasonality, cloud cover, and atmospheric
-effects. Always check metadata to ensure you’re comparing compatible
-scenes.</p>
+<p>NDVI changes with the seasons, clouds and the atmosphere. Compare
+scenes from the same time of year, and use surface reflectance (Level-2)
+products rather than raw Level-1 values when possible.</p>
 </div>
 </div>
 </div>
 </section><section><h2 class="section-heading" id="math">Math<a class="anchor" aria-label="anchor" href="#math"></a>
 </h2>
 <hr class="half-width">
-<p>NDVI uses reflectance difference between two bands:</p>
-<p><code>NDVI = (NIR - RED)/(NIR + RED)</code></p>
-<p>NIR increases with vegetation health — higher NDVI = greener
-land.</p>
+<p><span class="math display">\[
+NDVI = \frac{NIR - Red}{NIR + Red}
+\]</span></p>
+<p>NDVI ranges from -1 to +1. Healthy vegetation has high NIR and low
+red reflectance, which pushes NDVI toward +1. Water reflects more red
+than NIR, so its NDVI is negative.</p>
 <div id="keypoints1" class="callout keypoints">
 <div class="callout-square">
 <i class="callout-icon" data-feather="key"></i>
@@ -2168,45 +1718,59 @@ land.</p>
 <div class="callout-inner">
 <div class="callout-content">
 <ul>
-<li><p>NDVI uses Red &amp; NIR reflectance from satellite
-imagery</p></li>
-<li><p>Landsat Band 4 = Red, Band 5 = NIR for NDVI</p></li>
-<li><p>NDVI ranges from -1 (water) to +1 (healthy vegetation)</p></li>
-<li><p>Python tools: rasterio, numpy, matplotlib</p></li>
-<li><p>NDVI maps reveal vegetation patterns visually and
-quantitatively</p></li>
+<li>NDVI compares NIR and red reflectance; for Landsat 8 and 9 these are
+bands 5 and 4</li>
+<li>Convert Level-2 values to reflectance
+(<code>value * 0.0000275 - 0.2</code>) before computing NDVI</li>
+<li>
+<code>rasterio</code> reads and writes rasters; reuse the input
+<code>profile</code> when saving</li>
+<li>
+<code>np.digitize</code> turns NDVI into classes; n breaks give n +
+1 classes</li>
 </ul>
 </div>
 </div>
 </div>
-</section><div class="section level1">
-<h1 id="module-overview">Module Overview<a class="anchor" aria-label="anchor" href="#module-overview"></a>
-</h1>
+</section><section><h2 class="section-heading" id="notebooks">Notebooks<a class="anchor" aria-label="anchor" href="#notebooks"></a>
+</h2>
+<hr class="half-width">
 <table class="table">
 <colgroup>
-<col width="14%">
-<col width="85%">
+<col width="33%">
+<col width="33%">
+<col width="33%">
 </colgroup>
 <thead><tr>
-<th>Lesson</th>
-<th>Overview</th>
+<th>Level</th>
+<th>Notebook</th>
+<th>What you will do</th>
 </tr></thead>
 <tbody>
 <tr>
-<td><a href="https://colab.research.google.com/github/SpatialTurn/DataCollection-Notebooks/blob/main/Census/NDVI_Indiana.ipynb" target="_blank" class="external-link">Beginner</a></td>
-<td>Introduction to NDVI using LANDSAT Dataset.</td>
+<td>Beginner</td>
+<td><a href="https://colab.research.google.com/github/SpatialTurn/DataCollection-Notebooks/blob/main/DataAnalysis/05a_Computing_NDVI.ipynb" target="_blank" class="external-link">5a.
+Computing NDVI from Landsat</a></td>
+<td>Read bands, convert to reflectance, map NDVI and save a GeoTIFF</td>
 </tr>
 <tr>
-<td><a href="">Advanced</a></td>
-<td>(to be added)</td>
+<td>Intermediate</td>
+<td><a href="https://colab.research.google.com/github/SpatialTurn/DataCollection-Notebooks/blob/main/DataAnalysis/05b_Classifying_NDVI.ipynb" target="_blank" class="external-link">5b.
+Classifying NDVI</a></td>
+<td>Group NDVI into classes, map them and measure area per class</td>
+</tr>
+<tr>
+<td>Advanced</td>
+<td><a href="https://colab.research.google.com/github/SpatialTurn/DataCollection-Notebooks/blob/main/DataAnalysis/05c_Image_Classification_Advanced.ipynb" target="_blank" class="external-link">5c.
+Image Classification with Machine Learning</a></td>
+<td>True color image, K-Means and Random Forest classification</td>
 </tr>
 </tbody>
 </table>
 <!--
 Place links that you need to refer to multiple times across pages here. Delete
 any links that you are not going to use.
- -->
-</div></section>
+ --></section></section>
 </div>
     </main>
 </div>
@@ -2219,14 +1783,14 @@ any links that you are not going to use.
         <p>This lesson is subject to the <a href="CODE_OF_CONDUCT.html">Code of Conduct</a></p>
         <p>
 
-        <a href="https://github.com/carpentries/workbench-template-md/edit/main/README.md" class="external-link">Edit on GitHub</a>
+        <a href="https://github.com/SpatialTurn/DataAnalysis/edit/main/README.md" class="external-link">Edit on GitHub</a>
 
 	
-        | <a href="https://github.com/carpentries/workbench-template-md/blob/main/CONTRIBUTING.md" class="external-link">Contributing</a>
-        | <a href="https://github.com/carpentries/workbench-template-md/" class="external-link">Source</a></p>
+        | <a href="https://github.com/SpatialTurn/DataAnalysis/blob/main/CONTRIBUTING.md" class="external-link">Contributing</a>
+        | <a href="https://github.com/SpatialTurn/DataAnalysis/" class="external-link">Source</a></p>
         <p>
         <a href="citation.html">Cite</a>
-        | <a href="mailto:team@carpentries.org">Contact</a> | <a href="https://carpentries.org/about/" class="external-link">About</a></p>
+        | <a href="mailto:ilindsay@purdue.edu">Contact</a> | <a href="https://carpentries.org/about/" class="external-link">About</a></p>
 		</div>
 		<div class="col-md-6">
 
@@ -2246,18 +1810,18 @@ any links that you are not going to use.
     {
   "@context": "https://schema.org",
   "@type": "LearningResource",
-  "@id": "https://carpentries.github.io/workbench-template-md/aio.html",
+  "@id": "https://SpatialTurn.github.io/DataAnalysis/aio.html",
   "inLanguage": "en",
   "dct:conformsTo": "https://bioschemas.org/profiles/LearningResource/1.0-RELEASE",
   "description": "A Carpentries Lesson teaching foundational data and coding skills to researchers worldwide",
-  "keywords": "software, data, lesson, The Carpentries",
+  "keywords": "GIS, Python, spatial analysis, geocoding, network analysis, PySAL, clustering, NDVI, social science",
   "name": "All in One View",
   "creativeWorkStatus": "active",
-  "url": "https://carpentries.github.io/workbench-template-md/aio.html",
-  "identifier": "https://carpentries.github.io/workbench-template-md/aio.html",
-  "dateCreated": "2026-06-13",
-  "dateModified": "2026-10-13",
-  "datePublished": "2026-10-13"
+  "url": "https://SpatialTurn.github.io/DataAnalysis/aio.html",
+  "identifier": "https://SpatialTurn.github.io/DataAnalysis/aio.html",
+  "dateCreated": "2025-07-23",
+  "dateModified": "2026-10-17",
+  "datePublished": "2026-10-17"
 }
 
   </script><script>

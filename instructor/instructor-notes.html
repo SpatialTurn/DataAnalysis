@@ -3,7 +3,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta charset="utf-8">
-<title>Lesson Title: Instructor Notes</title>
+<title>GIS Data Analysis for Social Scientists: Instructor Notes</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <script src="../assets/themetoggle.js"></script><link rel="stylesheet" type="text/css" href="../assets/styles.css">
 <script src="../assets/scripts.js" type="text/javascript"></script><!-- mathjax --><!-- NOTE: https://docs.mathjax.org/en/latest/output/mathml.html#mathml-support --><!-- Changes from V2 to V4: https://mathjax.github.io/MathJax-demos-web/convert-configuration/convert-configuration.html
@@ -41,15 +41,15 @@
     <div class="col-md-8">
       <div class="large-logo">
         <a href="index.html">
-        <img id="incubator-logo" alt="Lesson Description" src="../assets/images/incubator-logo.svg"></a>
+        <img id="incubator-logo" alt="GIS Data Analysis for Social Scientists" src="../assets/images/incubator-logo.svg"></a>
 
-        <span class="badge text-bg-danger">
-          <abbr title="This lesson is in the pre-alpha phase, which means that it is in early development, but has not yet been taught.">
+        <span class="badge text-bg-warning">
+          <abbr title="This lesson is in the alpha phase, which means that it has been taught once and lesson authors are iterating on feedback.">
             <a href="https://docs.carpentries.org/resources/curriculum/lesson-life-cycle.html" class="external-link alert-link">
-              <i aria-hidden="true" class="icon" data-feather="alert-octagon" style="border-radius: 5px"></i>
-              Pre-Alpha
+              <i aria-hidden="true" class="icon" data-feather="alert-triangle" style="border-radius: 5px"></i>
+              Alpha
             </a>
-            <span class="visually-hidden">This lesson is in the pre-alpha phase, which means that it is in early development, but has not yet been taught.</span>
+            <span class="visually-hidden">This lesson is in the alpha phase, which means that it has been taught once and lesson authors are iterating on feedback.</span>
           </abbr>
         </span>
 
@@ -100,10 +100,10 @@
     </button>
     <div class="nav-logo">
       <a href="index.html">
-      <img class="small-logo" alt="Lesson Description" src="../assets/images/incubator-logo-sm.svg"></a>
+      <img class="small-logo" alt="GIS Data Analysis for Social Scientists" src="../assets/images/incubator-logo-sm.svg"></a>
     </div>
     <div class="lesson-title-md">
-      Lesson Title
+      GIS Data Analysis for Social Scientists
     </div>
     <div class="search-icon-sm">
       <!-- TODO: do not show until we have search
@@ -114,7 +114,7 @@
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
 <li class="nav-item">
           <span class="lesson-title">
-            Lesson Title
+            GIS Data Analysis for Social Scientists
           </span>
         </li>
         <li class="nav-item">
@@ -245,7 +245,7 @@
 <div class="accordion accordion-flush" id="accordionFlush2">
   <div class="accordion-item">
     <div class="accordion-header" id="flush-heading2">
-        <a href="introduction.html">1. Census Geocoding</a>
+        <a href="introduction.html">1. Geocoding and Adding Spatial Context</a>
     </div>
 <!--/div.accordion-header-->
 
@@ -269,7 +269,7 @@
 <div class="accordion accordion-flush" id="accordionFlush4">
   <div class="accordion-item">
     <div class="accordion-header" id="flush-heading4">
-        <a href="pysal.html">3. Spatial Analysis</a>
+        <a href="pysal.html">3. Spatial Autocorrelation with PySAL</a>
     </div>
 <!--/div.accordion-header-->
 
@@ -377,48 +377,205 @@
         <h1>Instructor Notes</h1>
         
 
-<p>This is a placeholder file. Please add content here.</p>
+<section><h2 class="section-heading" id="overall-approach">Overall approach<a class="anchor" aria-label="anchor" href="#overall-approach"></a>
+</h2>
+<hr class="half-width">
+<ul>
+<li>Each episode page gives the concept and a short code walkthrough.
+The hands-on work happens in the three linked Colab notebooks (Beginner,
+Intermediate, Advanced), each about 20 to 30 minutes.</li>
+<li>In a 90 minute session, teach the episode page and the Beginner
+notebook together, then let learners continue with the Intermediate
+notebook. Treat Advanced notebooks as take home material.</li>
+<li>Ask everyone to <strong>Save a copy in Drive</strong> before running
+anything. Most “lost work” questions come from editing the read only
+original.</li>
+<li>Notebooks were last tested (October 2026) with OSMnx 2.1,
+scikit-learn 1.9, rasterio 1.5, libpysal 4.15 and esda 2.10. OSMnx 2.0
+removed <code>geometries_from_place</code> and <code>utils_graph</code>;
+older tutorials online still use them.</li>
+</ul></section><section><h2 class="section-heading" id="episode-by-episode">Episode by episode<a class="anchor" aria-label="anchor" href="#episode-by-episode"></a>
+</h2>
+<hr class="half-width">
+<div class="section level3">
+<h3 id="geocoding-and-adding-spatial-context">Geocoding and Adding Spatial Context<a class="anchor" aria-label="anchor" href="#geocoding-and-adding-spatial-context"></a>
+</h3>
+<ul>
+<li>The Census Geocoder is free and needs no key, but only covers U.S.
+addresses.</li>
+<li>One museum address (an intersection) fails on purpose. Use it to
+discuss address quality.</li>
+<li>Nominatim (used in notebooks 1b and 1c) allows one request per
+second. In a room of 30 people sharing one network, requests may be
+throttled; ask learners to wait and rerun.</li>
+<li>Raise privacy: geocoding personal addresses creates sensitive
+location data.</li>
+</ul>
+</div>
+<div class="section level3">
+<h3 id="network-analysis">Network Analysis<a class="anchor" aria-label="anchor" href="#network-analysis"></a>
+</h3>
+<ul>
+<li>Draw a small graph (four intersections, five roads) before any
+code.</li>
+<li>
+<code>ox.nearest_nodes(G, X=lon, Y=lat)</code> takes
+<strong>longitude first</strong>. This is the most common bug.</li>
+<li>
+<code>add_edge_speeds(G, fallback=40)</code> fills in road types
+with no speed data. Mention that speeds are estimates from OSM tags, not
+real traffic.</li>
+<li>Downloading the network can take up to a minute. Start it, then
+explain nodes and edges.</li>
+</ul>
+</div>
+<div class="section level3">
+<h3 id="spatial-autocorrelation-with-pysal">Spatial Autocorrelation with PySAL<a class="anchor" aria-label="anchor" href="#spatial-autocorrelation-with-pysal"></a>
+</h3>
+<ul>
+<li>Learners need a Census API key. Ask them to request it
+<strong>before</strong> the session; it arrives by email.</li>
+<li>Spatial weights are the hardest idea. Use the chess analogy and a 3
+by 3 grid on the board.</li>
+<li>Stress the p-value filter on LISA maps. Without it, many “hotspots”
+are noise.</li>
+<li>Results depend on the units used (counties vs tracts): a good
+discussion point on the modifiable areal unit problem.</li>
+</ul>
+</div>
+<div class="section level3">
+<h3 id="spatial-clustering">Spatial Clustering<a class="anchor" aria-label="anchor" href="#spatial-clustering"></a>
+</h3>
+<ul>
+<li>The key lesson is to <strong>reproject before clustering</strong>.
+Show that <code>eps=1000</code> means 1,000 meters only after
+<code>to_crs(epsg=32616)</code>.</li>
+<li>Crime data reflects reporting and policing as well as crime. Discuss
+this before showing maps.</li>
+<li>HDBSCAN now ships with scikit-learn
+(<code>sklearn.cluster.HDBSCAN</code>); the separate
+<code>hdbscan</code> package is not needed.</li>
+</ul>
+</div>
+<div class="section level3">
+<h3 id="ndvi-analysis">NDVI Analysis<a class="anchor" aria-label="anchor" href="#ndvi-analysis"></a>
+</h3>
+<ul>
+<li>Start the band downloads (about 90 MB each) before explaining
+NDVI.</li>
+<li>The provided bands are Landsat Collection 2 <strong>Level-2</strong>
+surface reflectance. They must be scaled with
+<code>value * 0.0000275 - 0.2</code> before computing NDVI.</li>
+<li>Full resolution images have about 60 million pixels. The notebooks
+plot every 4th pixel (<code>array[::4, ::4]</code>) so Colab does not
+run out of memory.</li>
+<li>The Random Forest example uses stand in labels from NDVI rules, so
+its near perfect accuracy is not realistic. Point this out, and show how
+real training polygons would be drawn in QGIS.</li>
+</ul>
+</div>
+</section><section><h2 class="section-heading" id="common-problems">Common problems<a class="anchor" aria-label="anchor" href="#common-problems"></a>
+</h2>
+<hr class="half-width">
+<table class="table">
+<colgroup>
+<col width="33%">
+<col width="33%">
+<col width="33%">
+</colgroup>
+<thead><tr>
+<th>Symptom</th>
+<th>Likely cause</th>
+<th>Fix</th>
+</tr></thead>
+<tbody>
+<tr>
+<td><code>NameError: name 'x' is not defined</code></td>
+<td>A cell was skipped</td>
+<td><strong>Runtime &gt; Run before</strong></td>
+</tr>
+<tr>
+<td><code>FileNotFoundError</code></td>
+<td>The download cell did not run</td>
+<td>Run the <code>!wget</code> cell again</td>
+</tr>
+<tr>
+<td>
+<code>ModuleNotFoundError: osmnx</code> (or <code>libpysal</code>,
+<code>rasterio</code>)</td>
+<td>The <code>!pip install</code> cell did not run</td>
+<td>Run it, then rerun the imports</td>
+</tr>
+<tr>
+<td>Geocoder or OSM timeout</td>
+<td>Free server busy or rate limited</td>
+<td>Wait a minute and rerun</td>
+</tr>
+<tr>
+<td>
+<code>KeyError</code> or HTTP 400 from the Census API</td>
+<td>Key missing, mistyped or not yet activated</td>
+<td>Check the key and the activation email</td>
+</tr>
+<tr>
+<td>Colab session crashed</td>
+<td>Out of memory on a large raster</td>
+<td>
+<strong>Runtime &gt; Restart session</strong>, then rerun</td>
+</tr>
+</tbody>
+</table>
 <!--
 Place links that you need to refer to multiple times across pages here. Delete
 any links that you are not going to use.
- -->
-
-
-      <section id="aggregate-instructor-notes"><section id="introduction"><h2 class="section-heading"><a href="introduction.html">Census GeocodingModule Overview<a class="anchor" aria-label="anchor" href="#module-overview"></a></a></h2>
+ --></section><section id="aggregate-instructor-notes"><section id="introduction"><h2 class="section-heading"><a href="introduction.html">Geocoding and Adding Spatial Context</a></h2>
 <hr class="half-width">
 <h3 id="introduction-headingInstructor1">
 <a href="introduction.html#headingInstructor1">Instructor Note</a><a class="anchor" aria-label="anchor" href="#introduction-headingInstructor1"></a>
 </h3>
-<p>Emphasize ethical use of geocoding services and rate limits. Remind
-learners that geocoding accuracy varies by location and data
-quality.</p>
+<p>Stress responsible use of free services: one request per second for
+Nominatim, and no bulk geocoding of personal addresses without
+considering privacy. Remind learners that match rates depend heavily on
+address quality.</p>
 <hr>
-<br></section><section id="networkanalysis"><h2 class="section-heading"><a href="networkanalysis.html">Network AnalysisModule Overview<a class="anchor" aria-label="anchor" href="#module-overview"></a></a></h2>
-<hr class="half-width"></section><section id="pysal"><h2 class="section-heading"><a href="pysal.html">Spatial AnalysisModule Overview<a class="anchor" aria-label="anchor" href="#module-overview"></a></a></h2>
+<br></section><section id="networkanalysis"><h2 class="section-heading"><a href="networkanalysis.html">Network Analysis</a></h2>
+<hr class="half-width">
+<h3 id="networkanalysis-headingInstructor1">
+<a href="networkanalysis.html#headingInstructor1">Instructor Note</a><a class="anchor" aria-label="anchor" href="#networkanalysis-headingInstructor1"></a>
+</h3>
+<p>Draw a small graph on the board (four intersections, five roads)
+before showing any code. Learners grasp <code>nearest_nodes</code> and
+<code>shortest_path</code> much faster once they can picture nodes and
+edges. Note that <code>nearest_nodes</code> takes longitude first.</p>
+<hr>
+<br></section><section id="pysal"><h2 class="section-heading"><a href="pysal.html">Spatial Autocorrelation with PySAL</a></h2>
 <hr class="half-width">
 <h3 id="pysal-headingInstructor1">
 <a href="pysal.html#headingInstructor1">Instructor Note</a><a class="anchor" aria-label="anchor" href="#pysal-headingInstructor1"></a>
 </h3>
-<p>Learners may struggle initially with spatial weights (rook, queen,
-k-nearest). Spend extra time walking through simple diagrams before
-showing code.</p>
+<p>Spatial weights are the hardest idea here. Use the chess analogy
+(Rook moves straight, Queen also moves diagonally) and draw a 3 by 3
+grid before showing code. Also stress that an unfiltered LISA map
+(without the p-value cutoff) shows many false hotspots.</p>
 <hr>
-<br></section><section id="cluster"><h2 class="section-heading"><a href="cluster.html">Spatial ClusteringModule Overview<a class="anchor" aria-label="anchor" href="#module-overview"></a></a></h2>
+<br></section><section id="cluster"><h2 class="section-heading"><a href="cluster.html">Spatial Clustering</a></h2>
 <hr class="half-width">
 <h3 id="cluster-headingInstructor1">
 <a href="cluster.html#headingInstructor1">Instructor Note</a><a class="anchor" aria-label="anchor" href="#cluster-headingInstructor1"></a>
 </h3>
-<p>Learners may need extra time understanding the differences between
-clustering algorithms. Consider pausing after each method and showing
-multiple visualizations.</p>
+<p>The most common mistake is clustering raw latitude and longitude.
+Show what <code>eps=1000</code> means in meters versus degrees before
+running DBSCAN. Pause after each method and compare maps side by
+side.</p>
 <hr>
-<br></section><section id="ndvi"><h2 class="section-heading"><a href="ndvi.html">NDVI AnalysisModule Overview<a class="anchor" aria-label="anchor" href="#module-overview"></a></a></h2>
+<br></section><section id="ndvi"><h2 class="section-heading"><a href="ndvi.html">NDVI Analysis</a></h2>
 <hr class="half-width">
 <h3 id="ndvi-headingInstructor1">
 <a href="ndvi.html#headingInstructor1">Instructor Note</a><a class="anchor" aria-label="anchor" href="#ndvi-headingInstructor1"></a>
 </h3>
-<p>Pause after NDVI formula — ensure learners understand band meanings
-and data types.</p>
+<p>Pause after the formula and make sure learners know which band is
+which. The band files are large (about 90 MB each); start the downloads
+before explaining NDVI.</p>
 <hr>
 <br></section></section>
 </div>
@@ -433,14 +590,14 @@ and data types.</p>
         <p>This lesson is subject to the <a href="CODE_OF_CONDUCT.html">Code of Conduct</a></p>
         <p>
 
-        <a href="https://github.com/carpentries/workbench-template-md/edit/main/README.md" class="external-link">Edit on GitHub</a>
+        <a href="https://github.com/SpatialTurn/DataAnalysis/edit/main/README.md" class="external-link">Edit on GitHub</a>
 
 	
-        | <a href="https://github.com/carpentries/workbench-template-md/blob/main/CONTRIBUTING.md" class="external-link">Contributing</a>
-        | <a href="https://github.com/carpentries/workbench-template-md/" class="external-link">Source</a></p>
+        | <a href="https://github.com/SpatialTurn/DataAnalysis/blob/main/CONTRIBUTING.md" class="external-link">Contributing</a>
+        | <a href="https://github.com/SpatialTurn/DataAnalysis/" class="external-link">Source</a></p>
         <p>
         <a href="../citation.html">Cite</a>
-        | <a href="mailto:team@carpentries.org">Contact</a> | <a href="https://carpentries.org/about/" class="external-link">About</a></p>
+        | <a href="mailto:ilindsay@purdue.edu">Contact</a> | <a href="https://carpentries.org/about/" class="external-link">About</a></p>
 		</div>
 		<div class="col-md-6">
 
@@ -460,18 +617,18 @@ and data types.</p>
     {
   "@context": "https://schema.org",
   "@type": "LearningResource",
-  "@id": "https://carpentries.github.io/workbench-template-md/instructor/instructor-notes.html",
+  "@id": "https://SpatialTurn.github.io/DataAnalysis/instructor/instructor-notes.html",
   "inLanguage": "en",
   "dct:conformsTo": "https://bioschemas.org/profiles/LearningResource/1.0-RELEASE",
   "description": "A Carpentries Lesson teaching foundational data and coding skills to researchers worldwide",
-  "keywords": "software, data, lesson, The Carpentries",
+  "keywords": "GIS, Python, spatial analysis, geocoding, network analysis, PySAL, clustering, NDVI, social science",
   "name": "Instructor Notes",
   "creativeWorkStatus": "active",
-  "url": "https://carpentries.github.io/workbench-template-md/instructor/instructor-notes.html",
-  "identifier": "https://carpentries.github.io/workbench-template-md/instructor/instructor-notes.html",
-  "dateCreated": "2026-06-13",
-  "dateModified": "2026-10-13",
-  "datePublished": "2026-10-13"
+  "url": "https://SpatialTurn.github.io/DataAnalysis/instructor/instructor-notes.html",
+  "identifier": "https://SpatialTurn.github.io/DataAnalysis/instructor/instructor-notes.html",
+  "dateCreated": "2025-07-23",
+  "dateModified": "2026-10-17",
+  "datePublished": "2026-10-17"
 }
 
   </script><script>
