@@ -8,6 +8,9 @@ title: 'Instructor Notes'
   the three linked Colab notebooks (Beginner, Intermediate, Advanced), each about 20 to 30 minutes.
 - In a 90 minute session, teach the episode page and the Beginner notebook together, then let
   learners continue with the Intermediate notebook. Treat Advanced notebooks as take home material.
+- Each episode has a theory part (concepts, assumptions, interpretation and pitfalls) and a code part.
+  The third challenge in each episode is conceptual and works well as a pair discussion while a slow
+  cell runs.
 - Ask everyone to **Save a copy in Drive** before running anything. Most "lost work" questions
   come from editing the read only original.
 - Notebooks were last tested (October 2026) with OSMnx 2.1, scikit-learn 1.9, rasterio 1.5,

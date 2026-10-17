@@ -32,4 +32,8 @@ notebooks were renumbered (`02a` became `01a`, and so on).
 
 The Landsat bands are 85 to 95 MB each, under GitHub's 100 MB file limit.
 
+The diagrams named `da_*.png` in `episodes/` (October 2026) were drawn with Python
+(`SpatialTurn_build_scripts/figure_builders/da_figures.py`); the clustering points are synthetic and the
+spectral curves are illustrative. Each has a `-dark` copy for the site's dark mode.
+
 Contact: ilindsay@purdue.edu
