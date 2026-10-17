@@ -12,14 +12,14 @@ single idea.
 
 | Episode | Question it answers | Python tools |
 |---|---|---|
-| Geocoding and Adding Spatial Context | How do I turn addresses into points and add nearby features? | `requests`, `geopandas`, `osmnx`, `geopy` |
 | Network Analysis | How far is it by road, and how long does it take? | `osmnx`, `networkx` |
 | Spatial Autocorrelation with PySAL | Are similar values clustered, and where? | `libpysal`, `esda`, `splot` |
 | Spatial Clustering | Where do points concentrate into hotspots? | `scikit-learn`, `scipy` |
 | NDVI Analysis | How green is the landscape in a satellite image? | `rasterio`, `numpy`, `scikit-learn` |
 
-The episodes can be taken in any order, though Geocoding and Network Analysis work well together,
-and Spatial Clustering builds lightly on ideas from PySAL.
+The episodes can be taken in any order, though Spatial Clustering builds lightly on ideas from PySAL.
+Geocoding (turning addresses into points and downloading OpenStreetMap features) is taught in the
+[Data Collection module](https://spatialturn.github.io/DataCollection/geocoding.html) and is good preparation for Network Analysis.
 
 ::::::::::::::::::::::::::::::::::::::::::: prereq
 

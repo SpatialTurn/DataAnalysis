@@ -10,8 +10,8 @@ The lesson is built with [The Carpentries Workbench](https://carpentries.github.
 
 | Folder | Contents |
 |---|---|
-| `episodes/` | The five lesson pages shown on the website |
-| `notebooks/` | The 15 Google Colab notebooks linked from the episodes (`01a` to `05c`) |
+| `episodes/` | The four lesson pages shown on the website |
+| `notebooks/` | The 12 Google Colab notebooks linked from the episodes (`01a` to `04c`) |
 | `data/` | Data the notebooks read directly from GitHub into memory |
 | `learners/`, `instructors/` | Setup, glossary and instructor notes |
 
@@ -21,11 +21,14 @@ and read data from `https://raw.githubusercontent.com/SpatialTurn/DataAnalysis/m
 
 | Episode file | Topic | Notebooks | Data |
 |---|---|---|---|
-| `introduction.md` | Geocoding and adding spatial context | `01a` to `01c` | `data/museums.txt`, OpenStreetMap |
-| `networkanalysis.md` | Network analysis | `02a` to `02c` | OpenStreetMap |
-| `pysal.md` | Spatial autocorrelation with PySAL | `03a` to `03c` | Census API and boundary files (learner's own API key) |
-| `cluster.md` | Spatial clustering | `04a` to `04c` | `data/CrimesChicago20220225.csv` |
-| `ndvi.md` | NDVI analysis | `05a` to `05c` | `data/landsat/band2.TIF` to `band5.TIF` |
+| `networkanalysis.md` | Network analysis | `01a` to `01c` | OpenStreetMap |
+| `pysal.md` | Spatial autocorrelation with PySAL | `02a` to `02c` | Census API and boundary files (learner's own API key) |
+| `cluster.md` | Spatial clustering | `03a` to `03c` | `data/CrimesChicago20220225.csv` |
+| `ndvi.md` | NDVI analysis | `04a` to `04c` | `data/landsat/band2.TIF` to `band5.TIF` |
+
+In October 2026 the geocoding episode (`introduction.md`, notebooks `01a` to `01c` and `data/museums.txt`)
+moved to the [Data Collection module](https://github.com/SpatialTurn/DataCollection), and the remaining
+notebooks were renumbered (`02a` became `01a`, and so on).
 
 The Landsat bands are 85 to 95 MB each, under GitHub's 100 MB file limit.
 

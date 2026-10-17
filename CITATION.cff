@@ -24,16 +24,14 @@ authors:
     affiliation: "Purdue University Libraries and School of Information"
 abstract: >-
   A beginner friendly lesson on spatial analysis in Python using Google Colab,
-  written for social scientists. It covers geocoding addresses and adding
-  OpenStreetMap context, road network analysis and travel time, spatial
-  autocorrelation with PySAL, spatial clustering of point data, and NDVI from
-  Landsat imagery. Each episode links to three short notebooks that read their
+  written for social scientists. It covers road network analysis and travel
+  time, spatial autocorrelation with PySAL, spatial clustering of point data,
+  and NDVI from Landsat imagery. Each episode links to three short notebooks that read their
   data directly from the web.
 keywords:
   - GIS
   - Python
   - spatial analysis
-  - geocoding
   - network analysis
   - PySAL
   - clustering

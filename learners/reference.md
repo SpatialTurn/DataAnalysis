@@ -5,8 +5,8 @@ title: 'Reference'
 ## Glossary
 
 API (Application Programming Interface)
-:   A web address that returns data to a program instead of a web page. The Census Geocoder and the
-    Census data API are examples.
+:   A web address that returns data to a program instead of a web page. The Census data API and the
+    Overpass API are examples.
 
 Census tract
 :   A small statistical area defined by the U.S. Census Bureau, usually with 1,200 to 8,000 people.
@@ -21,10 +21,6 @@ DBSCAN
 
 Edge
 :   In a network, a connection between two nodes. In a road network, a road segment.
-
-Geocoding
-:   Converting a text location, such as an address, into coordinates. **Reverse geocoding** goes from
-    coordinates back to an address.
 
 GeoDataFrame
 :   A `pandas` DataFrame with a `geometry` column, provided by GeoPandas.
@@ -92,5 +88,4 @@ Vector data
 - [PySAL](https://pysal.org/) (libpysal, esda, splot)
 - [scikit-learn clustering](https://scikit-learn.org/stable/modules/clustering.html)
 - [rasterio](https://rasterio.readthedocs.io/)
-- [U.S. Census Geocoder](https://geocoding.geo.census.gov/geocoder/)
 - [OpenStreetMap Map Features](https://wiki.openstreetmap.org/wiki/Map_features)

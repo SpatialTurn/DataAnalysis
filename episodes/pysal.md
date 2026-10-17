@@ -154,6 +154,6 @@ large when neighbors are on the same side of the mean.
 
 | Level | Notebook | What you will do |
 |---|---|---|
-| Beginner | <a href="https://colab.research.google.com/github/SpatialTurn/DataAnalysis/blob/main/notebooks/03a_Spatial_Weights_Neighbors.ipynb" target="_blank">3a. What Is a Neighbor? Spatial Weights</a> | Load Indiana counties and compare Rook, Queen and KNN neighbors |
-| Intermediate | <a href="https://colab.research.google.com/github/SpatialTurn/DataAnalysis/blob/main/notebooks/03b_Global_Morans_I.ipynb" target="_blank">3b. Global Moran's I</a> | Test whether median age is clustered and read the Moran scatterplot |
-| Advanced | <a href="https://colab.research.google.com/github/SpatialTurn/DataAnalysis/blob/main/notebooks/03c_Local_Morans_I_Hotspots.ipynb" target="_blank">3c. Local Moran's I and Hotspots</a> | Map significant clusters for counties, then for Marion County tracts |
+| Beginner | <a href="https://colab.research.google.com/github/SpatialTurn/DataAnalysis/blob/main/notebooks/02a_Spatial_Weights_Neighbors.ipynb" target="_blank">2a. What Is a Neighbor? Spatial Weights</a> | Load Indiana counties and compare Rook, Queen and KNN neighbors |
+| Intermediate | <a href="https://colab.research.google.com/github/SpatialTurn/DataAnalysis/blob/main/notebooks/02b_Global_Morans_I.ipynb" target="_blank">2b. Global Moran's I</a> | Test whether median age is clustered and read the Moran scatterplot |
+| Advanced | <a href="https://colab.research.google.com/github/SpatialTurn/DataAnalysis/blob/main/notebooks/02c_Local_Morans_I_Hotspots.ipynb" target="_blank">2c. Local Moran's I and Hotspots</a> | Map significant clusters for counties, then for Marion County tracts |
