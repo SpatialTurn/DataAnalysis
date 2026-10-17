@@ -245,7 +245,7 @@
 <div class="accordion accordion-flush" id="accordionFlush2">
   <div class="accordion-item">
     <div class="accordion-header" id="flush-heading2">
-        <a href="introduction.html">1. Geocoding and Adding Spatial Context</a>
+        <a href="networkanalysis.html">1. Network Analysis</a>
     </div>
 <!--/div.accordion-header-->
 
@@ -257,7 +257,7 @@
 <div class="accordion accordion-flush" id="accordionFlush3">
   <div class="accordion-item">
     <div class="accordion-header" id="flush-heading3">
-        <a href="networkanalysis.html">2. Network Analysis</a>
+        <a href="pysal.html">2. Spatial Autocorrelation with PySAL</a>
     </div>
 <!--/div.accordion-header-->
 
@@ -269,7 +269,7 @@
 <div class="accordion accordion-flush" id="accordionFlush4">
   <div class="accordion-item">
     <div class="accordion-header" id="flush-heading4">
-        <a href="pysal.html">3. Spatial Autocorrelation with PySAL</a>
+        <a href="cluster.html">3. Spatial Clustering</a>
     </div>
 <!--/div.accordion-header-->
 
@@ -281,19 +281,7 @@
 <div class="accordion accordion-flush" id="accordionFlush5">
   <div class="accordion-item">
     <div class="accordion-header" id="flush-heading5">
-        <a href="cluster.html">4. Spatial Clustering</a>
-    </div>
-<!--/div.accordion-header-->
-
-  </div>
-<!--/div.accordion-item-->
-</div>
-<!--/div.accordion-flush-->
-
-<div class="accordion accordion-flush" id="accordionFlush6">
-  <div class="accordion-item">
-    <div class="accordion-header" id="flush-heading6">
-        <a href="ndvi.html">5. NDVI Analysis</a>
+        <a href="ndvi.html">4. NDVI Analysis</a>
     </div>
 <!--/div.accordion-header-->
 
@@ -376,298 +364,7 @@
     <main id="main-content" class="main-content"><div class="container lesson-content">
         <h1>All in One View</h1>
         
-<section id="aio-introduction"><p>Content from <a href="introduction.html">Geocoding and Adding Spatial Context</a></p>
-<hr>
-<p>Last updated on 2026-10-17 |
-
-        <a href="https://github.com/SpatialTurn/DataAnalysis/edit/main/episodes/introduction.md" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
-<p>Estimated time: <i aria-hidden="true" data-feather="clock"></i> 70 minutes</p>
-<div class="text-end">
-          <button role="button" aria-pressed="false" tabindex="0" id="expand-code" class="pull-right" data-expand="Expand All Solutions " data-collapse="Collapse All Solutions "> Expand All Solutions <i aria-hidden="true" data-feather="plus"></i></button>
-        </div>
-<div class="overview card">
-<h2 class="card-header">Overview</h2>
-<div class="row g-0">
-<div class="col-md-4">
-<div class="card-body">
-<div class="inner">
-<h3 class="card-title">Questions</h3>
-<ul>
-<li>What is geocoding, and why do social scientists need it?</li>
-<li>How do we turn a list of addresses into points on a map?</li>
-<li>How can OpenStreetMap add context such as stores, schools or
-parks?</li>
-</ul>
-</div>
-</div>
-</div>
-<div class="col-md-8">
-<div class="card-body">
-<div class="inner bordered">
-<h3 class="card-title">Objectives</h3>
-<ul>
-<li>Geocode U.S. addresses with the free U.S. Census Geocoder</li>
-<li>Check match rates and find addresses that failed</li>
-<li>Turn coordinates into a GeoDataFrame and map it</li>
-<li>Download features from OpenStreetMap by tag</li>
-<li>Handle rate limits and ambiguous place names when geocoding many
-places</li>
-</ul>
-</div>
-</div>
-</div>
-</div>
-</div>
-<section><h2 class="section-heading" id="why-geocoding-matters">Why geocoding matters<a class="anchor" aria-label="anchor" href="#why-geocoding-matters"></a>
-</h2>
-<hr class="half-width">
-<p>Most social science data has a location written as text: a survey
-respondent’s address, a list of clinics, a business directory.
-<strong>Geocoding</strong> turns that text into latitude and longitude
-so the data can be mapped and analyzed spatially.</p>
-<table class="table">
-<thead><tr>
-<th>Input (text)</th>
-<th>Output (coordinates)</th>
-</tr></thead>
-<tbody><tr>
-<td><code>1600 Pennsylvania Ave NW, Washington, DC 20500</code></td>
-<td>38.8977, -77.0365</td>
-</tr></tbody>
-</table>
-<p>Once your data are points, you can combine them with
-<strong>OpenStreetMap (OSM)</strong> layers. Census data tells you
-<em>who</em> lives in an area; OSM tells you <em>what is there</em>
-(stores, schools, transit). Together they support access studies, public
-health work and planning research.</p>
-<div id="accordionInstructor1" class="accordion instructor-note accordion-flush">
-<div class="accordion-item">
-<button class="accordion-button instructor-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseInstructor1" aria-expanded="false" aria-controls="collapseInstructor1">
-  <h3 class="accordion-header" id="headingInstructor1">  <div class="note-square"><i aria-hidden="true" class="callout-icon" data-feather="edit-2"></i></div> Instructor Note </h3>
-</button>
-<div id="collapseInstructor1" class="accordion-collapse collapse" data-bs-parent="#accordionInstructor1" aria-labelledby="headingInstructor1">
-<div class="accordion-body">
-<p>Stress responsible use of free services: one request per second for
-Nominatim, and no bulk geocoding of personal addresses without
-considering privacy. Remind learners that match rates depend heavily on
-address quality.</p>
-</div>
-</div>
-</div>
-</div>
-</section><section><h2 class="section-heading" id="geocode-one-address-with-the-census-geocoder">1. Geocode one address with the Census Geocoder<a class="anchor" aria-label="anchor" href="#geocode-one-address-with-the-census-geocoder"></a>
-</h2>
-<hr class="half-width">
-<div class="codewrapper sourceCode" id="cb1">
-<h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" tabindex="-1" aria-label="code-block-1-1"></a><span class="im">import</span> requests</span>
-<span id="cb1-2"><a href="#cb1-2" tabindex="-1" aria-label="code-block-1-2"></a></span>
-<span id="cb1-3"><a href="#cb1-3" tabindex="-1" aria-label="code-block-1-3"></a><span class="kw">def</span> get_coordinates(address):</span>
-<span id="cb1-4"><a href="#cb1-4" tabindex="-1" aria-label="code-block-1-4"></a>    reply <span class="op">=</span> requests.get(</span>
-<span id="cb1-5"><a href="#cb1-5" tabindex="-1" aria-label="code-block-1-5"></a>        <span class="st">"https://geocoding.geo.census.gov/geocoder/locations/onelineaddress"</span>,</span>
-<span id="cb1-6"><a href="#cb1-6" tabindex="-1" aria-label="code-block-1-6"></a>        params<span class="op">=</span>{<span class="st">"address"</span>: address, <span class="st">"benchmark"</span>: <span class="st">"Public_AR_Current"</span>, <span class="st">"format"</span>: <span class="st">"json"</span>},</span>
-<span id="cb1-7"><a href="#cb1-7" tabindex="-1" aria-label="code-block-1-7"></a>        timeout<span class="op">=</span><span class="dv">30</span>,</span>
-<span id="cb1-8"><a href="#cb1-8" tabindex="-1" aria-label="code-block-1-8"></a>    )</span>
-<span id="cb1-9"><a href="#cb1-9" tabindex="-1" aria-label="code-block-1-9"></a>    matches <span class="op">=</span> reply.json()[<span class="st">"result"</span>][<span class="st">"addressMatches"</span>]</span>
-<span id="cb1-10"><a href="#cb1-10" tabindex="-1" aria-label="code-block-1-10"></a>    <span class="cf">if</span> matches:</span>
-<span id="cb1-11"><a href="#cb1-11" tabindex="-1" aria-label="code-block-1-11"></a>        point <span class="op">=</span> matches[<span class="dv">0</span>][<span class="st">"coordinates"</span>]</span>
-<span id="cb1-12"><a href="#cb1-12" tabindex="-1" aria-label="code-block-1-12"></a>        <span class="cf">return</span> point[<span class="st">"y"</span>], point[<span class="st">"x"</span>]   <span class="co"># latitude, longitude</span></span>
-<span id="cb1-13"><a href="#cb1-13" tabindex="-1" aria-label="code-block-1-13"></a>    <span class="cf">return</span> <span class="va">None</span>, <span class="va">None</span></span>
-<span id="cb1-14"><a href="#cb1-14" tabindex="-1" aria-label="code-block-1-14"></a></span>
-<span id="cb1-15"><a href="#cb1-15" tabindex="-1" aria-label="code-block-1-15"></a>get_coordinates(<span class="st">"101 N Grant St, West Lafayette, IN 47906"</span>)</span></code></pre>
-</div>
-</section><section><h2 class="section-heading" id="geocode-a-list-and-turn-it-into-map-points">2. Geocode a list and turn it into map points<a class="anchor" aria-label="anchor" href="#geocode-a-list-and-turn-it-into-map-points"></a>
-</h2>
-<hr class="half-width">
-<div class="codewrapper sourceCode" id="cb2">
-<h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" tabindex="-1" aria-label="code-block-2-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
-<span id="cb2-2"><a href="#cb2-2" tabindex="-1" aria-label="code-block-2-2"></a><span class="im">import</span> geopandas <span class="im">as</span> gpd</span>
-<span id="cb2-3"><a href="#cb2-3" tabindex="-1" aria-label="code-block-2-3"></a></span>
-<span id="cb2-4"><a href="#cb2-4" tabindex="-1" aria-label="code-block-2-4"></a><span class="co"># pandas reads the file straight from its web address into memory</span></span>
-<span id="cb2-5"><a href="#cb2-5" tabindex="-1" aria-label="code-block-2-5"></a>museums_url <span class="op">=</span> <span class="st">"https://raw.githubusercontent.com/SpatialTurn/DataAnalysis/main/data/museums.txt"</span></span>
-<span id="cb2-6"><a href="#cb2-6" tabindex="-1" aria-label="code-block-2-6"></a>museums <span class="op">=</span> pd.read_csv(museums_url, sep<span class="op">=</span><span class="st">"</span><span class="ch">\t</span><span class="st">"</span>, header<span class="op">=</span><span class="va">None</span>, names<span class="op">=</span>[<span class="st">"Name"</span>, <span class="st">"Address"</span>])</span>
-<span id="cb2-7"><a href="#cb2-7" tabindex="-1" aria-label="code-block-2-7"></a>results <span class="op">=</span> museums[<span class="st">"Address"</span>].<span class="bu">apply</span>(get_coordinates)</span>
-<span id="cb2-8"><a href="#cb2-8" tabindex="-1" aria-label="code-block-2-8"></a>museums[<span class="st">"Latitude"</span>] <span class="op">=</span> [lat <span class="cf">for</span> lat, lon <span class="kw">in</span> results]</span>
-<span id="cb2-9"><a href="#cb2-9" tabindex="-1" aria-label="code-block-2-9"></a>museums[<span class="st">"Longitude"</span>] <span class="op">=</span> [lon <span class="cf">for</span> lat, lon <span class="kw">in</span> results]</span>
-<span id="cb2-10"><a href="#cb2-10" tabindex="-1" aria-label="code-block-2-10"></a></span>
-<span id="cb2-11"><a href="#cb2-11" tabindex="-1" aria-label="code-block-2-11"></a>matched <span class="op">=</span> museums.dropna(subset<span class="op">=</span>[<span class="st">"Latitude"</span>])</span>
-<span id="cb2-12"><a href="#cb2-12" tabindex="-1" aria-label="code-block-2-12"></a>points <span class="op">=</span> gpd.GeoDataFrame(</span>
-<span id="cb2-13"><a href="#cb2-13" tabindex="-1" aria-label="code-block-2-13"></a>    matched,</span>
-<span id="cb2-14"><a href="#cb2-14" tabindex="-1" aria-label="code-block-2-14"></a>    geometry<span class="op">=</span>gpd.points_from_xy(matched[<span class="st">"Longitude"</span>], matched[<span class="st">"Latitude"</span>]),</span>
-<span id="cb2-15"><a href="#cb2-15" tabindex="-1" aria-label="code-block-2-15"></a>    crs<span class="op">=</span><span class="st">"EPSG:4326"</span>,     <span class="co"># latitude and longitude</span></span>
-<span id="cb2-16"><a href="#cb2-16" tabindex="-1" aria-label="code-block-2-16"></a>)</span>
-<span id="cb2-17"><a href="#cb2-17" tabindex="-1" aria-label="code-block-2-17"></a>points.explore(tooltip<span class="op">=</span><span class="st">"Name"</span>, tiles<span class="op">=</span><span class="st">"Esri.WorldGrayCanvas"</span>)</span></code></pre>
-</div>
-<p><code>tiles="Esri.WorldGrayCanvas"</code> sets a light grey
-background map. Some popular backgrounds do not work inside Colab: the
-default OpenStreetMap one shows “403 Access blocked” and CARTO shows
-“API key required”.</p>
-<p>Always check the rows that did not match
-(<code>museums[museums["Latitude"].isna()]</code>). Missing street
-numbers, typos, and places absent from the Census address database
-(campuses, parks, large landmarks) are the usual causes. Campus
-addresses such as “610 Purdue Mall” fail for this reason.</p>
-</section><section><h2 class="section-heading" id="add-context-from-openstreetmap">3. Add context from OpenStreetMap<a class="anchor" aria-label="anchor" href="#add-context-from-openstreetmap"></a>
-</h2>
-<hr class="half-width">
-<p>OSM features are described by <strong>tags</strong> such as
-<code>shop=supermarket</code> or <code>amenity=school</code> (see the <a href="https://wiki.openstreetmap.org/wiki/Map_features" class="external-link">Map Features
-list</a>).</p>
-<div class="codewrapper sourceCode" id="cb3">
-<h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" tabindex="-1" aria-label="code-block-3-1"></a><span class="im">import</span> osmnx <span class="im">as</span> ox</span>
-<span id="cb3-2"><a href="#cb3-2" tabindex="-1" aria-label="code-block-3-2"></a></span>
-<span id="cb3-3"><a href="#cb3-3" tabindex="-1" aria-label="code-block-3-3"></a>stores <span class="op">=</span> ox.features_from_place(<span class="st">"West Lafayette, Indiana, USA"</span>, tags<span class="op">=</span>{<span class="st">"shop"</span>: <span class="st">"supermarket"</span>})</span>
-<span id="cb3-4"><a href="#cb3-4" tabindex="-1" aria-label="code-block-3-4"></a>stores <span class="op">=</span> stores.reset_index()[[<span class="st">"name"</span>, <span class="st">"geometry"</span>]]</span>
-<span id="cb3-5"><a href="#cb3-5" tabindex="-1" aria-label="code-block-3-5"></a>stores[<span class="st">"geometry"</span>] <span class="op">=</span> stores.geometry.representative_point()   <span class="co"># polygons to points</span></span>
-<span id="cb3-6"><a href="#cb3-6" tabindex="-1" aria-label="code-block-3-6"></a>stores.explore(tooltip<span class="op">=</span><span class="st">"name"</span>, color<span class="op">=</span><span class="st">"green"</span>, tiles<span class="op">=</span><span class="st">"Esri.WorldGrayCanvas"</span>)</span></code></pre>
-</div>
-</section><section><h2 class="section-heading" id="measure-what-is-nearby">4. Measure what is nearby<a class="anchor" aria-label="anchor" href="#measure-what-is-nearby"></a>
-</h2>
-<hr class="half-width">
-<p>To count features within a distance, first <strong>reproject to
-meters</strong>. Buffers on latitude and longitude would be measured in
-degrees.</p>
-<div class="codewrapper sourceCode" id="cb4">
-<h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" tabindex="-1" aria-label="code-block-4-1"></a>lat, lon <span class="op">=</span> get_coordinates(<span class="st">"101 N Grant St, West Lafayette, IN 47906"</span>)</span>
-<span id="cb4-2"><a href="#cb4-2" tabindex="-1" aria-label="code-block-4-2"></a>campus <span class="op">=</span> gpd.GeoDataFrame(geometry<span class="op">=</span>gpd.points_from_xy([lon], [lat]), crs<span class="op">=</span><span class="st">"EPSG:4326"</span>)</span>
-<span id="cb4-3"><a href="#cb4-3" tabindex="-1" aria-label="code-block-4-3"></a></span>
-<span id="cb4-4"><a href="#cb4-4" tabindex="-1" aria-label="code-block-4-4"></a>campus_m <span class="op">=</span> campus.to_crs(epsg<span class="op">=</span><span class="dv">5070</span>)      <span class="co"># USA Contiguous Albers, units are meters</span></span>
-<span id="cb4-5"><a href="#cb4-5" tabindex="-1" aria-label="code-block-4-5"></a>stores_m <span class="op">=</span> stores.to_crs(epsg<span class="op">=</span><span class="dv">5070</span>)</span>
-<span id="cb4-6"><a href="#cb4-6" tabindex="-1" aria-label="code-block-4-6"></a></span>
-<span id="cb4-7"><a href="#cb4-7" tabindex="-1" aria-label="code-block-4-7"></a>one_mile <span class="op">=</span> campus_m.<span class="bu">buffer</span>(<span class="dv">1600</span>).iloc[<span class="dv">0</span>]          <span class="co"># circle with a 1 mile (1,600 m) radius</span></span>
-<span id="cb4-8"><a href="#cb4-8" tabindex="-1" aria-label="code-block-4-8"></a>stores_m[stores_m.within(one_mile)]               <span class="co"># supermarkets within 1 mile of campus</span></span></code></pre>
-</div>
-<div id="challenge-1-query-a-different-osm-feature" class="callout challenge">
-<div class="callout-square">
-<i class="callout-icon" data-feather="zap"></i>
-</div>
-<span class="callout-header">Challenge</span>
-<div id="challenge-1-query-a-different-osm-feature" class="callout-inner">
-<h3 class="callout-title">Challenge 1: Query a different OSM
-feature</h3>
-<div class="callout-content">
-<p>Download schools (<code>amenity=school</code>) or parks
-(<code>leisure=park</code>) for West Lafayette and map them.</p>
-</div>
-</div>
-</div>
-<div id="accordionSolution1" class="accordion challenge-accordion accordion-flush">
-<div class="accordion-item">
-<button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution1" aria-expanded="false" aria-controls="collapseSolution1">
-  <h4 class="accordion-header" id="headingSolution1"> Show me the solution </h4>
-</button>
-<div id="collapseSolution1" class="accordion-collapse collapse" data-bs-parent="#accordionSolution1" aria-labelledby="headingSolution1">
-<div class="accordion-body">
-<div class="codewrapper sourceCode" id="cb5">
-<h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" tabindex="-1" aria-label="code-block-5-1"></a>parks <span class="op">=</span> ox.features_from_place(<span class="st">"West Lafayette, Indiana, USA"</span>, tags<span class="op">=</span>{<span class="st">"leisure"</span>: <span class="st">"park"</span>})</span>
-<span id="cb5-2"><a href="#cb5-2" tabindex="-1" aria-label="code-block-5-2"></a>parks.explore(color<span class="op">=</span><span class="st">"darkgreen"</span>, tiles<span class="op">=</span><span class="st">"Esri.WorldGrayCanvas"</span>)</span></code></pre>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div id="challenge-2-why-did-it-fail" class="callout challenge">
-<div class="callout-square">
-<i class="callout-icon" data-feather="zap"></i>
-</div>
-<span class="callout-header">Challenge</span>
-<div id="challenge-2-why-did-it-fail" class="callout-inner">
-<h3 class="callout-title">Challenge 2: Why did it fail?</h3>
-<div class="callout-content">
-<p>The National Gallery of Art is listed as
-<code>Constitution Ave NW, Washington, DC 20565</code>. Why does the
-Census Geocoder fail on it, and how would you fix it?</p>
-</div>
-</div>
-</div>
-<div id="accordionSolution2" class="accordion challenge-accordion accordion-flush">
-<div class="accordion-item">
-<button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution2" aria-expanded="false" aria-controls="collapseSolution2">
-  <h4 class="accordion-header" id="headingSolution2"> Show me the solution </h4>
-</button>
-<div id="collapseSolution2" class="accordion-collapse collapse" data-bs-parent="#accordionSolution2" aria-labelledby="headingSolution2">
-<div class="accordion-body">
-<p>There is no street number, so the geocoder cannot place it on the
-street. The gallery sits at a corner, and the Census Geocoder
-understands intersections written with <code>&amp;</code>:
-<code>6th St &amp; Constitution Ave NW, Washington, DC 20565</code>
-gives a match.</p>
-<p>Some complete addresses still fail because they are not in the Census
-address database (in this list, the Philadelphia Museum of Art). For
-those, try another geocoder such as Nominatim (notebook 1c).</p>
-</div>
-</div>
-</div>
-</div>
-<div id="keypoints1" class="callout keypoints">
-<div class="callout-square">
-<i class="callout-icon" data-feather="key"></i>
-</div>
-<span class="callout-header">Key Points</span>
-<div class="callout-inner">
-<div class="callout-content">
-<ul>
-<li>Geocoding converts text addresses into coordinates</li>
-<li>The U.S. Census Geocoder is free and works best with complete U.S.
-street addresses</li>
-<li>Always check match rates and inspect failed addresses</li>
-<li>OpenStreetMap tags (<code>key=value</code>) let you download context
-layers such as stores or schools</li>
-<li>Reproject to a meter based CRS before buffering or measuring
-distance</li>
-</ul>
-</div>
-</div>
-</div>
-</section><section><h2 class="section-heading" id="notebooks">Notebooks<a class="anchor" aria-label="anchor" href="#notebooks"></a>
-</h2>
-<hr class="half-width">
-<p>Work through these in order. Each one opens in Google Colab.</p>
-<table class="table">
-<colgroup>
-<col width="33%">
-<col width="33%">
-<col width="33%">
-</colgroup>
-<thead><tr>
-<th>Level</th>
-<th>Notebook</th>
-<th>What you will do</th>
-</tr></thead>
-<tbody>
-<tr>
-<td>Beginner</td>
-<td><a href="https://colab.research.google.com/github/SpatialTurn/DataAnalysis/blob/main/notebooks/01a_Geocoding_Addresses.ipynb" target="_blank" class="external-link">1a.
-Geocoding Addresses</a></td>
-<td>Geocode museum addresses with the Census Geocoder and map them</td>
-</tr>
-<tr>
-<td>Intermediate</td>
-<td><a href="https://colab.research.google.com/github/SpatialTurn/DataAnalysis/blob/main/notebooks/01b_Finding_Places_with_OSM.ipynb" target="_blank" class="external-link">1b.
-Finding Places with OpenStreetMap</a></td>
-<td>Download supermarkets by tag and reverse geocode a point</td>
-</tr>
-<tr>
-<td>Advanced</td>
-<td><a href="https://colab.research.google.com/github/SpatialTurn/DataAnalysis/blob/main/notebooks/01c_Batch_Geocoding_and_Ambiguous_Names.ipynb" target="_blank" class="external-link">1c.
-Batch Geocoding and Ambiguous Names</a></td>
-<td>Geocode many places politely and resolve names like Springfield</td>
-</tr>
-</tbody>
-</table>
-<!--
-Links listed here can be reused across pages as [text][name].
-Add reference-style links below as needed.
---></section></section><section id="aio-networkanalysis"><p>Content from <a href="networkanalysis.html">Network Analysis</a></p>
+<section id="aio-networkanalysis"><p>Content from <a href="networkanalysis.html">Network Analysis</a></p>
 <hr>
 <p>Last updated on 2026-10-17 |
 
@@ -724,8 +421,26 @@ river may be a 6 km drive. Network analysis measures distance
 once added, a speed and travel time)</li>
 </ul>
 <p>Common uses include food and health care access, emergency response
-times, and transportation planning. The Food Desert case study in this
-curriculum is built on these steps.</p>
+times, and transportation planning.</p>
+<div id="the-same-analysis-in-qgis" class="callout">
+<div class="callout-square">
+<i class="callout-icon" data-feather="bell"></i>
+</div>
+<span class="callout-header">Callout</span>
+<div id="the-same-analysis-in-qgis" class="callout-inner">
+<h3 class="callout-title">The same analysis in QGIS</h3>
+<div class="callout-content">
+<p>The Case Studies module’s <a href="https://spatialturn.github.io/CaseStudyFoodDesert/grocery-network.html" class="external-link">grocery
+access case study</a> measures shortest paths and service areas to
+supermarkets in Lafayette and West Lafayette with QGIS’s network tools,
+without writing code. Doing both is a good way to see what OSMnx does
+behind the scenes.</p>
+<p>If you have not used OpenStreetMap tags before, the Data Collection
+module’s <a href="https://spatialturn.github.io/DataCollection/geocoding.html" class="external-link">Geocoding
+episode</a> introduces them.</p>
+</div>
+</div>
+</div>
 <div id="accordionInstructor1" class="accordion instructor-note accordion-flush">
 <div class="accordion-item">
 <button class="accordion-button instructor-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseInstructor1" aria-expanded="false" aria-controls="collapseInstructor1">
@@ -917,19 +632,19 @@ access studies</li>
 <tbody>
 <tr>
 <td>Beginner</td>
-<td><a href="https://colab.research.google.com/github/SpatialTurn/DataAnalysis/blob/main/notebooks/02a_Road_Networks_Basics.ipynb" target="_blank" class="external-link">2a.
+<td><a href="https://colab.research.google.com/github/SpatialTurn/DataAnalysis/blob/main/notebooks/01a_Road_Networks_Basics.ipynb" target="_blank" class="external-link">1a.
 Road Networks: Nodes and Edges</a></td>
 <td>Download, plot, inspect and save a road network</td>
 </tr>
 <tr>
 <td>Intermediate</td>
-<td><a href="https://colab.research.google.com/github/SpatialTurn/DataAnalysis/blob/main/notebooks/02b_Shortest_Paths_and_Travel_Time.ipynb" target="_blank" class="external-link">2b.
+<td><a href="https://colab.research.google.com/github/SpatialTurn/DataAnalysis/blob/main/notebooks/01b_Shortest_Paths_and_Travel_Time.ipynb" target="_blank" class="external-link">1b.
 Shortest Paths and Travel Time</a></td>
 <td>Route between two points and map travel time across the city</td>
 </tr>
 <tr>
 <td>Advanced</td>
-<td><a href="https://colab.research.google.com/github/SpatialTurn/DataAnalysis/blob/main/notebooks/02c_Travel_Time_to_Stores.ipynb" target="_blank" class="external-link">2c.
+<td><a href="https://colab.research.google.com/github/SpatialTurn/DataAnalysis/blob/main/notebooks/01c_Travel_Time_to_Stores.ipynb" target="_blank" class="external-link">1c.
 Travel Time to Grocery Stores</a></td>
 <td>Route from every OSM grocery store to the town center</td>
 </tr>
@@ -1204,20 +919,20 @@ always filter by p-value</li>
 <tbody>
 <tr>
 <td>Beginner</td>
-<td><a href="https://colab.research.google.com/github/SpatialTurn/DataAnalysis/blob/main/notebooks/03a_Spatial_Weights_Neighbors.ipynb" target="_blank" class="external-link">3a.
+<td><a href="https://colab.research.google.com/github/SpatialTurn/DataAnalysis/blob/main/notebooks/02a_Spatial_Weights_Neighbors.ipynb" target="_blank" class="external-link">2a.
 What Is a Neighbor? Spatial Weights</a></td>
 <td>Load Indiana counties and compare Rook, Queen and KNN neighbors</td>
 </tr>
 <tr>
 <td>Intermediate</td>
-<td><a href="https://colab.research.google.com/github/SpatialTurn/DataAnalysis/blob/main/notebooks/03b_Global_Morans_I.ipynb" target="_blank" class="external-link">3b.
+<td><a href="https://colab.research.google.com/github/SpatialTurn/DataAnalysis/blob/main/notebooks/02b_Global_Morans_I.ipynb" target="_blank" class="external-link">2b.
 Global Moran’s I</a></td>
 <td>Test whether median age is clustered and read the Moran
 scatterplot</td>
 </tr>
 <tr>
 <td>Advanced</td>
-<td><a href="https://colab.research.google.com/github/SpatialTurn/DataAnalysis/blob/main/notebooks/03c_Local_Morans_I_Hotspots.ipynb" target="_blank" class="external-link">3c.
+<td><a href="https://colab.research.google.com/github/SpatialTurn/DataAnalysis/blob/main/notebooks/02c_Local_Morans_I_Hotspots.ipynb" target="_blank" class="external-link">2c.
 Local Moran’s I and Hotspots</a></td>
 <td>Map significant clusters for counties, then for Marion County
 tracts</td>
@@ -1325,7 +1040,7 @@ on robbery.</p>
 <button class="accordion-button instructor-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseInstructor1" aria-expanded="false" aria-controls="collapseInstructor1">
   <h3 class="accordion-header" id="headingInstructor1">  <div class="note-square"><i aria-hidden="true" class="callout-icon" data-feather="edit-2"></i></div> Instructor Note </h3>
 </button>
-<div id="collapseInstructor1" class="accordion-collapse collapse" aria-labelledby="headingInstructor1" data-bs-parent="#accordionInstructor1">
+<div id="collapseInstructor1" class="accordion-collapse collapse" data-bs-parent="#accordionInstructor1" aria-labelledby="headingInstructor1">
 <div class="accordion-body">
 <p>The most common mistake is clustering raw latitude and longitude.
 Show what <code>eps=1000</code> means in meters versus degrees before
@@ -1375,7 +1090,7 @@ distances in degrees are distorted. Always reproject first.</p>
 <p>A point with at least <code>min_samples</code> neighbors within
 <code>eps</code> meters is a core point; nearby core points form a
 cluster. Choose <code>eps</code> with a k-distance plot (see notebook
-4b).</p>
+3b).</p>
 </section><section><h2 class="section-heading" id="hdbscan-no-radius-needed">3. HDBSCAN: no radius needed<a class="anchor" aria-label="anchor" href="#hdbscan-no-radius-needed"></a>
 </h2>
 <hr class="half-width">
@@ -1429,7 +1144,7 @@ use to report “robbery hotspots” to a city council, and why?</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution1" aria-expanded="false" aria-controls="collapseSolution1">
   <h4 class="accordion-header" id="headingSolution1"> Show me the solution </h4>
 </button>
-<div id="collapseSolution1" class="accordion-collapse collapse" aria-labelledby="headingSolution1" data-bs-parent="#accordionSolution1">
+<div id="collapseSolution1" class="accordion-collapse collapse" data-bs-parent="#accordionSolution1" aria-labelledby="headingSolution1">
 <div class="accordion-body">
 <p>DBSCAN (or HDBSCAN). K-Means assigns every robbery to a zone, even
 isolated ones, so its “clusters” cover the whole city. DBSCAN keeps only
@@ -1458,7 +1173,7 @@ change?</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution2" aria-expanded="false" aria-controls="collapseSolution2">
   <h4 class="accordion-header" id="headingSolution2"> Show me the solution </h4>
 </button>
-<div id="collapseSolution2" class="accordion-collapse collapse" aria-labelledby="headingSolution2" data-bs-parent="#accordionSolution2">
+<div id="collapseSolution2" class="accordion-collapse collapse" data-bs-parent="#accordionSolution2" aria-labelledby="headingSolution2">
 <div class="accordion-body">
 <div class="codewrapper sourceCode" id="cb6">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -1524,20 +1239,20 @@ datasets</li>
 <tbody>
 <tr>
 <td>Beginner</td>
-<td><a href="https://colab.research.google.com/github/SpatialTurn/DataAnalysis/blob/main/notebooks/04a_Exploring_Crime_Points.ipynb" target="_blank" class="external-link">4a.
+<td><a href="https://colab.research.google.com/github/SpatialTurn/DataAnalysis/blob/main/notebooks/03a_Exploring_Crime_Points.ipynb" target="_blank" class="external-link">3a.
 Exploring Crime Points</a></td>
 <td>Summarize Chicago crimes and turn them into points in meters</td>
 </tr>
 <tr>
 <td>Intermediate</td>
-<td><a href="https://colab.research.google.com/github/SpatialTurn/DataAnalysis/blob/main/notebooks/04b_DBSCAN_and_HDBSCAN.ipynb" target="_blank" class="external-link">4b.
+<td><a href="https://colab.research.google.com/github/SpatialTurn/DataAnalysis/blob/main/notebooks/03b_DBSCAN_and_HDBSCAN.ipynb" target="_blank" class="external-link">3b.
 DBSCAN and HDBSCAN</a></td>
 <td>Choose <code>eps</code>, find robbery hotspots and compare with
 HDBSCAN</td>
 </tr>
 <tr>
 <td>Advanced</td>
-<td><a href="https://colab.research.google.com/github/SpatialTurn/DataAnalysis/blob/main/notebooks/04c_KMeans_and_Comparing_Methods.ipynb" target="_blank" class="external-link">4c.
+<td><a href="https://colab.research.google.com/github/SpatialTurn/DataAnalysis/blob/main/notebooks/03c_KMeans_and_Comparing_Methods.ipynb" target="_blank" class="external-link">3c.
 K-Means and Comparing Methods</a></td>
 <td>Use the elbow method, a dendrogram and a side by side
 comparison</td>
@@ -1841,19 +1556,19 @@ bands 5 and 4</li>
 <tbody>
 <tr>
 <td>Beginner</td>
-<td><a href="https://colab.research.google.com/github/SpatialTurn/DataAnalysis/blob/main/notebooks/05a_Computing_NDVI.ipynb" target="_blank" class="external-link">5a.
+<td><a href="https://colab.research.google.com/github/SpatialTurn/DataAnalysis/blob/main/notebooks/04a_Computing_NDVI.ipynb" target="_blank" class="external-link">4a.
 Computing NDVI from Landsat</a></td>
 <td>Read bands, convert to reflectance, map NDVI and save a GeoTIFF</td>
 </tr>
 <tr>
 <td>Intermediate</td>
-<td><a href="https://colab.research.google.com/github/SpatialTurn/DataAnalysis/blob/main/notebooks/05b_Classifying_NDVI.ipynb" target="_blank" class="external-link">5b.
+<td><a href="https://colab.research.google.com/github/SpatialTurn/DataAnalysis/blob/main/notebooks/04b_Classifying_NDVI.ipynb" target="_blank" class="external-link">4b.
 Classifying NDVI</a></td>
 <td>Group NDVI into classes, map them and measure area per class</td>
 </tr>
 <tr>
 <td>Advanced</td>
-<td><a href="https://colab.research.google.com/github/SpatialTurn/DataAnalysis/blob/main/notebooks/05c_Image_Classification_Advanced.ipynb" target="_blank" class="external-link">5c.
+<td><a href="https://colab.research.google.com/github/SpatialTurn/DataAnalysis/blob/main/notebooks/04c_Image_Classification_Advanced.ipynb" target="_blank" class="external-link">4c.
 Image Classification with Machine Learning</a></td>
 <td>True color image, K-Means and Random Forest classification</td>
 </tr>
@@ -1906,7 +1621,7 @@ Add reference-style links below as needed.
   "inLanguage": "en",
   "dct:conformsTo": "https://bioschemas.org/profiles/LearningResource/1.0-RELEASE",
   "description": "A Carpentries Lesson teaching foundational data and coding skills to researchers worldwide",
-  "keywords": "GIS, Python, spatial analysis, geocoding, network analysis, PySAL, clustering, NDVI, social science",
+  "keywords": "GIS, Python, spatial analysis, network analysis, PySAL, clustering, NDVI, social science",
   "name": "All in One View",
   "creativeWorkStatus": "active",
   "url": "https://SpatialTurn.github.io/DataAnalysis/instructor/aio.html",

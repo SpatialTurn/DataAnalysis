@@ -209,7 +209,7 @@
 <div class="accordion accordion-flush" id="accordionFlush2">
   <div class="accordion-item">
     <div class="accordion-header" id="flush-heading2">
-        <a href="introduction.html">1. Geocoding and Adding Spatial Context</a>
+        <a href="networkanalysis.html">1. Network Analysis</a>
     </div><!--/div.accordion-header-->
 
   </div><!--/div.accordion-item-->
@@ -218,7 +218,7 @@
 <div class="accordion accordion-flush" id="accordionFlush3">
   <div class="accordion-item">
     <div class="accordion-header" id="flush-heading3">
-        <a href="networkanalysis.html">2. Network Analysis</a>
+        <a href="pysal.html">2. Spatial Autocorrelation with PySAL</a>
     </div><!--/div.accordion-header-->
 
   </div><!--/div.accordion-item-->
@@ -227,7 +227,7 @@
 <div class="accordion accordion-flush" id="accordionFlush4">
   <div class="accordion-item">
     <div class="accordion-header" id="flush-heading4">
-        <a href="pysal.html">3. Spatial Autocorrelation with PySAL</a>
+        <a href="cluster.html">3. Spatial Clustering</a>
     </div><!--/div.accordion-header-->
 
   </div><!--/div.accordion-item-->
@@ -236,16 +236,7 @@
 <div class="accordion accordion-flush" id="accordionFlush5">
   <div class="accordion-item">
     <div class="accordion-header" id="flush-heading5">
-        <a href="cluster.html">4. Spatial Clustering</a>
-    </div><!--/div.accordion-header-->
-
-  </div><!--/div.accordion-item-->
-</div><!--/div.accordion-flush-->
-
-<div class="accordion accordion-flush" id="accordionFlush6">
-  <div class="accordion-item">
-    <div class="accordion-header" id="flush-heading6">
-        <a href="ndvi.html">5. NDVI Analysis</a>
+        <a href="ndvi.html">4. NDVI Analysis</a>
     </div><!--/div.accordion-header-->
 
   </div><!--/div.accordion-item-->
@@ -307,11 +298,11 @@
         <!-- START: inst/pkgdown/templates/content-syllabus.html -->
   <div class="col-xl-8 col-lg-12 primary-content">
     <nav class="lesson-content mx-md-4" aria-label="Next Chapter"><!-- content for small screens --><div class="d-block d-sm-block d-md-none">
-        <a class="chapter-link float-end" href="../instructor/introduction.html" rel="next">Next<i aria-hidden="true" class="small-arrow" data-feather="arrow-right"></i></a>
+        <a class="chapter-link float-end" href="../instructor/networkanalysis.html" rel="next">Next<i aria-hidden="true" class="small-arrow" data-feather="arrow-right"></i></a>
       </div>
       <!-- content for large screens -->
       <div class="d-none d-sm-none d-md-block">
-        <a class="chapter-link float-end" href="../instructor/introduction.html" rel="next">Next: Geocoding and Adding Spatial Context... <i aria-hidden="true" class="small-arrow" data-feather="arrow-right"></i></a>
+        <a class="chapter-link float-end" href="../instructor/networkanalysis.html" rel="next">Next: Network Analysis... <i aria-hidden="true" class="small-arrow" data-feather="arrow-right"></i></a>
       </div>
     </nav><main id="main-content" class="main-content"><h1 class="schedule-heading">Summary and Schedule</h1>
       
@@ -326,13 +317,7 @@ notebook takes about 20 to 30 minutes and covers a single idea.</p>
 <table class="table"><colgroup><col width="33%"><col width="33%"><col width="33%"></colgroup><thead><tr><th>Episode</th>
 <th>Question it answers</th>
 <th>Python tools</th>
-</tr></thead><tbody><tr><td>Geocoding and Adding Spatial Context</td>
-<td>How do I turn addresses into points and add nearby features?</td>
-<td>
-<code>requests</code>, <code>geopandas</code>, <code>osmnx</code>,
-<code>geopy</code>
-</td>
-</tr><tr><td>Network Analysis</td>
+</tr></thead><tbody><tr><td>Network Analysis</td>
 <td>How far is it by road, and how long does it take?</td>
 <td>
 <code>osmnx</code>, <code>networkx</code>
@@ -353,9 +338,10 @@ notebook takes about 20 to 30 minutes and covers a single idea.</p>
 <code>rasterio</code>, <code>numpy</code>,
 <code>scikit-learn</code>
 </td>
-</tr></tbody></table><p>The episodes can be taken in any order, though Geocoding and Network
-Analysis work well together, and Spatial Clustering builds lightly on
-ideas from PySAL.</p>
+</tr></tbody></table><p>The episodes can be taken in any order, though Spatial Clustering
+builds lightly on ideas from PySAL. Geocoding (turning addresses into
+points and downloading OpenStreetMap features) is taught in the <a href="https://spatialturn.github.io/DataCollection/geocoding.html" class="external-link">Data
+Collection module</a> and is good preparation for Network Analysis.</p>
 <div id="prerequisites" class="callout prereq">
 <div class="callout-square">
 <i class="callout-icon" data-feather="check"></i>
@@ -388,18 +374,7 @@ Add reference-style links below as needed.
 <span class="visually-hidden">Duration: </span>00h 00m
 </td>
 <td>
- 1. <a href="introduction.html">Geocoding and Adding Spatial Context</a>
-</td>
-<td>
-What is geocoding, and why do social scientists need it?<br>How do we
-turn a list of addresses into points on a map?<br>How can OpenStreetMap
-add context such as stores, schools or parks?
-</td>
-</tr><tr><td>
-<span class="visually-hidden">Duration: </span>01h 10m
-</td>
-<td>
- 2. <a href="networkanalysis.html">Network Analysis</a>
+ 1. <a href="networkanalysis.html">Network Analysis</a>
 </td>
 <td>
 How can a road map be represented as a graph?<br>How do we download and
@@ -407,10 +382,10 @@ visualize road networks from OpenStreetMap?<br>How do we find the
 shortest route and measure travel time?
 </td>
 </tr><tr><td>
-<span class="visually-hidden">Duration: </span>02h 20m
+<span class="visually-hidden">Duration: </span>01h 10m
 </td>
 <td>
- 3. <a href="pysal.html">Spatial Autocorrelation with PySAL</a>
+ 2. <a href="pysal.html">Spatial Autocorrelation with PySAL</a>
 </td>
 <td>
 What does it mean for data to be spatially autocorrelated?<br>How do we
@@ -418,10 +393,10 @@ tell the computer which places are neighbors?<br>How do Global and
 Local Moran’s I measure and locate clustering?
 </td>
 </tr><tr><td>
-<span class="visually-hidden">Duration: </span>03h 30m
+<span class="visually-hidden">Duration: </span>02h 20m
 </td>
 <td>
- 4. <a href="cluster.html">Spatial Clustering</a>
+ 3. <a href="cluster.html">Spatial Clustering</a>
 </td>
 <td>
 What is spatial clustering and when is it useful?<br>Why must
@@ -429,10 +404,10 @@ coordinates be in meters before clustering?<br>How do K-Means,
 hierarchical clustering, DBSCAN and HDBSCAN differ?
 </td>
 </tr><tr><td>
-<span class="visually-hidden">Duration: </span>04h 40m
+<span class="visually-hidden">Duration: </span>03h 30m
 </td>
 <td>
- 5. <a href="ndvi.html">NDVI Analysis</a>
+ 4. <a href="ndvi.html">NDVI Analysis</a>
 </td>
 <td>
 What is NDVI and why is it useful?<br>How do we read Landsat bands and
@@ -440,7 +415,7 @@ compute NDVI in Python?<br>How can we classify NDVI into land cover
 groups?
 </td>
 </tr><tr><td>
-<span class="visually-hidden">Duration: </span>05h 50m
+<span class="visually-hidden">Duration: </span>04h 40m
 </td>
 <td>
 Finish
@@ -507,11 +482,7 @@ same way.</p>
 <table class="table"><colgroup><col width="33%"><col width="33%"><col width="33%"></colgroup><thead><tr><th>Episode</th>
 <th>Data</th>
 <th>Source</th>
-</tr></thead><tbody><tr><td>Geocoding</td>
-<td>15 museum addresses (<code>museums.txt</code>); live OpenStreetMap
-features</td>
-<td>This project; OpenStreetMap</td>
-</tr><tr><td>Network Analysis</td>
+</tr></thead><tbody><tr><td>Network Analysis</td>
 <td>Road network of West Lafayette, Indiana</td>
 <td>OpenStreetMap, through OSMnx</td>
 </tr><tr><td>PySAL</td>
@@ -546,11 +517,11 @@ Links listed here can be reused across pages as [text][name].
 Add reference-style links below as needed.
 -->
 </section></section></main><nav class="bottom-pagination mx-md-4" aria-label="Next Chapter"><!-- content for small screens --><div class="d-block d-sm-block d-md-none">
-        <a class="chapter-link float-end" href="../instructor/introduction.html" rel="next">Next<i aria-hidden="true" class="small-arrow" data-feather="arrow-right"></i></a>
+        <a class="chapter-link float-end" href="../instructor/networkanalysis.html" rel="next">Next<i aria-hidden="true" class="small-arrow" data-feather="arrow-right"></i></a>
       </div>
       <!-- content for large screens -->
       <div class="d-none d-sm-none d-md-block">
-        <a class="chapter-link float-end" href="../instructor/introduction.html" rel="next">Next: Geocoding and Adding Spatial Context... <i aria-hidden="true" class="small-arrow" data-feather="arrow-right"></i></a>
+        <a class="chapter-link float-end" href="../instructor/networkanalysis.html" rel="next">Next: Network Analysis... <i aria-hidden="true" class="small-arrow" data-feather="arrow-right"></i></a>
       </div>
     </nav></div>
 <!-- END  : inst/pkgdown/templates/content-syllabus.html -->
@@ -590,7 +561,7 @@ Add reference-style links below as needed.
   "inLanguage": "en",
   "dct:conformsTo": "https://bioschemas.org/profiles/LearningResource/1.0-RELEASE",
   "description": "A Carpentries Lesson teaching foundational data and coding skills to researchers worldwide",
-  "keywords": "GIS, Python, spatial analysis, geocoding, network analysis, PySAL, clustering, NDVI, social science",
+  "keywords": "GIS, Python, spatial analysis, network analysis, PySAL, clustering, NDVI, social science",
   "name": "GIS Data Analysis for Social Scientists",
   "creativeWorkStatus": "active",
   "url": "https://SpatialTurn.github.io/DataAnalysis/instructor/index.html",

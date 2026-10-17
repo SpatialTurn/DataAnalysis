@@ -245,7 +245,7 @@
 <div class="accordion accordion-flush" id="accordionFlush2">
   <div class="accordion-item">
     <div class="accordion-header" id="flush-heading2">
-        <a href="introduction.html">1. Geocoding and Adding Spatial Context</a>
+        <a href="networkanalysis.html">1. Network Analysis</a>
     </div>
 <!--/div.accordion-header-->
 
@@ -257,7 +257,7 @@
 <div class="accordion accordion-flush" id="accordionFlush3">
   <div class="accordion-item">
     <div class="accordion-header" id="flush-heading3">
-        <a href="networkanalysis.html">2. Network Analysis</a>
+        <a href="pysal.html">2. Spatial Autocorrelation with PySAL</a>
     </div>
 <!--/div.accordion-header-->
 
@@ -269,7 +269,7 @@
 <div class="accordion accordion-flush" id="accordionFlush4">
   <div class="accordion-item">
     <div class="accordion-header" id="flush-heading4">
-        <a href="pysal.html">3. Spatial Autocorrelation with PySAL</a>
+        <a href="cluster.html">3. Spatial Clustering</a>
     </div>
 <!--/div.accordion-header-->
 
@@ -281,19 +281,7 @@
 <div class="accordion accordion-flush" id="accordionFlush5">
   <div class="accordion-item">
     <div class="accordion-header" id="flush-heading5">
-        <a href="cluster.html">4. Spatial Clustering</a>
-    </div>
-<!--/div.accordion-header-->
-
-  </div>
-<!--/div.accordion-item-->
-</div>
-<!--/div.accordion-flush-->
-
-<div class="accordion accordion-flush" id="accordionFlush6">
-  <div class="accordion-item">
-    <div class="accordion-header" id="flush-heading6">
-        <a href="ndvi.html">5. NDVI Analysis</a>
+        <a href="ndvi.html">4. NDVI Analysis</a>
     </div>
 <!--/div.accordion-header-->
 
@@ -398,29 +386,14 @@ older tutorials online still use them.</li>
 </h2>
 <hr class="half-width">
 <div class="section level3">
-<h3 id="geocoding-and-adding-spatial-context">Geocoding and Adding Spatial Context<a class="anchor" aria-label="anchor" href="#geocoding-and-adding-spatial-context"></a>
-</h3>
-<ul>
-<li>The Census Geocoder is free and needs no key, but only covers U.S.
-addresses in its database. Campus addresses (for example “610 Purdue
-Mall”) return no match; the notebooks use 101 N Grant St (Purdue
-Memorial Union) instead.</li>
-<li>Two museums fail: the National Gallery (no street number; fixable as
-an intersection) and the Philadelphia Museum of Art (not in the Census
-database). Use them to discuss address quality.</li>
-<li>Nominatim (used in notebooks 1b and 1c) allows one request per
-second. In a room of 30 people sharing one network, requests may be
-throttled; ask learners to wait and rerun.</li>
-<li>Raise privacy: geocoding personal addresses creates sensitive
-location data.</li>
-</ul>
-</div>
-<div class="section level3">
 <h3 id="network-analysis">Network Analysis<a class="anchor" aria-label="anchor" href="#network-analysis"></a>
 </h3>
 <ul>
 <li>Draw a small graph (four intersections, five roads) before any
 code.</li>
+<li>The Case Studies module’s grocery access case study does the same
+kind of analysis in QGIS, without code. It is a good follow-up, or an
+alternative for groups that prefer a GUI.</li>
 <li>
 <code>ox.nearest_nodes(G, X=lon, Y=lat)</code> takes
 <strong>longitude first</strong>. This is the most common bug.</li>
@@ -514,7 +487,7 @@ real training polygons would be drawn in QGIS.</li>
 <td>Run it, then rerun the imports</td>
 </tr>
 <tr>
-<td>Geocoder or OSM timeout</td>
+<td>OpenStreetMap download times out</td>
 <td>Free server busy or rate limited</td>
 <td>Wait a minute and rerun</td>
 </tr>
@@ -533,13 +506,6 @@ points</td>
 </td>
 </tr>
 <tr>
-<td>Census Geocoder returns <code>(None, None)</code>
-</td>
-<td>Address not in the Census database (campus addresses such as “610
-Purdue Mall”)</td>
-<td>Use a building’s street address, or Nominatim</td>
-</tr>
-<tr>
 <td>Colab session crashed</td>
 <td>Out of memory on a large raster</td>
 <td>
@@ -550,17 +516,7 @@ Purdue Mall”)</td>
 <!--
 Links listed here can be reused across pages as [text][name].
 Add reference-style links below as needed.
---></section><section id="aggregate-instructor-notes"><section id="introduction"><h2 class="section-heading"><a href="introduction.html">Geocoding and Adding Spatial Context</a></h2>
-<hr class="half-width">
-<h3 id="introduction-headingInstructor1">
-<a href="introduction.html#headingInstructor1">Instructor Note</a><a class="anchor" aria-label="anchor" href="#introduction-headingInstructor1"></a>
-</h3>
-<p>Stress responsible use of free services: one request per second for
-Nominatim, and no bulk geocoding of personal addresses without
-considering privacy. Remind learners that match rates depend heavily on
-address quality.</p>
-<hr>
-<br></section><section id="networkanalysis"><h2 class="section-heading"><a href="networkanalysis.html">Network Analysis</a></h2>
+--></section><section id="aggregate-instructor-notes"><section id="networkanalysis"><h2 class="section-heading"><a href="networkanalysis.html">Network Analysis</a></h2>
 <hr class="half-width">
 <h3 id="networkanalysis-headingInstructor1">
 <a href="networkanalysis.html#headingInstructor1">Instructor Note</a><a class="anchor" aria-label="anchor" href="#networkanalysis-headingInstructor1"></a>
@@ -643,7 +599,7 @@ the reading cell takes a few seconds.</p>
   "inLanguage": "en",
   "dct:conformsTo": "https://bioschemas.org/profiles/LearningResource/1.0-RELEASE",
   "description": "A Carpentries Lesson teaching foundational data and coding skills to researchers worldwide",
-  "keywords": "GIS, Python, spatial analysis, geocoding, network analysis, PySAL, clustering, NDVI, social science",
+  "keywords": "GIS, Python, spatial analysis, network analysis, PySAL, clustering, NDVI, social science",
   "name": "Instructor Notes",
   "creativeWorkStatus": "active",
   "url": "https://SpatialTurn.github.io/DataAnalysis/instructor/instructor-notes.html",
