@@ -70,7 +70,9 @@ get_coordinates("610 Purdue Mall, West Lafayette, IN 47907")
 import pandas as pd
 import geopandas as gpd
 
-museums = pd.read_csv("museums.txt", sep="\t", header=None, names=["Name", "Address"])
+# pandas reads the file straight from its web address into memory
+museums_url = "https://raw.githubusercontent.com/SpatialTurn/DataCollection-Notebooks/main/Census/museums.txt"
+museums = pd.read_csv(museums_url, sep="\t", header=None, names=["Name", "Address"])
 results = museums["Address"].apply(get_coordinates)
 museums["Latitude"] = [lat for lat, lon in results]
 museums["Longitude"] = [lon for lat, lon in results]
