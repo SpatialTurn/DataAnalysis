@@ -1,285 +1,175 @@
 ---
 title: "Spatial Clustering"
-teaching: 100
-exercises: 1
+teaching: 50
+exercises: 20
 ---
 
-:::::::::::::::::::::::::::::::::::::: questions 
+:::::::::::::::::::::::::::::::::::::: questions
 
-- What is spatial clustering and why do we use it?
-- How can we perform basic clustering on geographic point data?
-- How do algorithms like K-Means, Hierarchical Clustering, and DBSCAN differ?
+- What is spatial clustering and when is it useful?
+- Why must coordinates be in meters before clustering?
+- How do K-Means, hierarchical clustering, DBSCAN and HDBSCAN differ?
 
 ::::::::::::::::::::::::::::::::::::::::::::::::
 
 ::::::::::::::::::::::::::::::::::::: objectives
 
-- Understand the concept of spatial clustering
-- Learn how to prepare point data for clustering
-- Apply K-Means, Hierarchical Clustering, and DBSCAN in Python
-- Visualize clustering results on simple scatterplots and maps
+- Prepare point data for clustering by reprojecting to a meter based CRS
+- Find dense hotspots with DBSCAN and HDBSCAN and recognize noise points
+- Divide points into zones with K-Means and choose k with the elbow method
+- Choose a clustering method that fits the research question
 
 ::::::::::::::::::::::::::::::::::::::::::::::::
 
-## Why is Spatial Clustering Important?
+## Why spatial clustering?
 
-Spatial clustering is a core method in geospatial analysis for identifying how
-points, people, places, or events are distributed across space. Instead of treating
-data as isolated observations, clustering helps us detect **patterns**, revealing
-where concentrations or groupings occur — and just as importantly, where they do not.
+Clustering finds groups of points that sit close together: crime hotspots, disease outbreaks,
+clusters of archaeological finds, or concentrations of businesses. It turns thousands of points into
+a few areas you can describe and compare.
 
-Clustering allows us to transform large sets of point data into meaningful spatial
-insights that can guide research, decision-making, and planning.
+| Method | You choose | Noise points? | Best for |
+|---|---|---|---|
+| K-Means | Number of clusters (k) | No, every point is assigned | Dividing an area into zones |
+| Hierarchical | Number of clusters or a cut height | No | Seeing structure at several scales (small datasets) |
+| DBSCAN | Search radius (`eps`) and `min_samples` | Yes | Hotspots of any shape at a known distance |
+| HDBSCAN | `min_cluster_size` | Yes | Hotspots with varying density |
 
-### What Spatial Clustering Helps Us Understand
-
-* Where events or features form geographic **hotspots**
-* How points group based on proximity or similarity
-* Regions of high vs. low density
-* Patterns of distribution — clustered, dispersed, or random?
-* Spatial relationships in social, environmental, or urban data
-* Location-based trends that maps alone may not reveal
-
-### Why Analysts Use Spatial Clustering
-
-- Reduces **complex spatial datasets** into interpretable groups  
-- Helps detect clusters in public health (disease outbreaks), crime, ecology, and more  
-- Identifies **emerging hotspots** for management or intervention  
-- Useful for **urban planning, environmental monitoring, and archaeology**  
-- Works well as a first step for further spatial statistics (PySAL, regression, AI)  
-- Enables classification, prediction, and pattern recognition in large datasets  
-
-### Clustering at a Glance
-
-| Method | Strength | Best For |
-|---|---|---|
-| K-Means | Simple, fast | Well-separated, circular clusters |
-| Hierarchical | Dendrogram visualization | Multi-scale grouping, unknown k values |
-| DBSCAN | Finds irregular shapes + noise | Spatial hotspots and natural patterns |
-
-Spatial clustering is often the **first analytical step** when exploring point
-distribution. It moves the analysis beyond visual mapping — showing not only where
-points are located, but how spatial processes shape them.
-
-
-## Introduction
-
-Spatial clustering is a core method used in geography, archaeology, ecology, and
-urban studies. It helps identify *patterns* in the spatial distribution of points—such
-as hotspots of crime, clusters of archaeological artifacts, or regions with similar
-environmental characteristics.
-
-This beginner tutorial walks you through the fundamentals of spatial clustering
-using a simple dataset of geographic coordinates. The workflow is entirely in
-Python, following the structure used in your uploaded notebook.
-
-We will cover:
-
-- Loading and exploring point data  
-- Preparing coordinates for clustering  
-- Running three clustering algorithms  
-- Visualizing the results  
-
-All examples use standard Python libraries:  
-`pandas`, `geopandas`, `matplotlib`, `sklearn`, and `scipy`.
+The notebooks use about 200,000 crime reports from the
+[Chicago Data Portal](https://data.cityofchicago.org/) and focus on robbery.
 
 :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::: instructor
 
-Learners may need extra time understanding the differences between clustering
-algorithms. Consider pausing after each method and showing multiple visualizations.
+The most common mistake is clustering raw latitude and longitude. Show what `eps=1000` means in
+meters versus degrees before running DBSCAN. Pause after each method and compare maps side by side.
 
 ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 
-## 1. Loading Spatial Point Data
-
-Spatial clustering typically starts with a set of point locations. A minimal example:
+## 1. Load points and reproject to meters
 
 ```python
 import pandas as pd
+import geopandas as gpd
+import numpy as np
 
-df = pd.read_csv("points.csv")   # contains lon, lat
-df.head()
+crimes = pd.read_csv("CrimesChicago20220225.csv")
+crimes.columns = crimes.columns.str.strip()
+robbery = crimes[crimes["PRIMARY DESCRIPTION"] == "ROBBERY"].dropna(subset=["LATITUDE", "LONGITUDE"])
+
+robbery = gpd.GeoDataFrame(
+    robbery,
+    geometry=gpd.points_from_xy(robbery["LONGITUDE"], robbery["LATITUDE"]),
+    crs="EPSG:4326",
+).to_crs(epsg=32616)          # UTM zone 16N: x and y in meters
+
+coords = np.column_stack([robbery.geometry.x, robbery.geometry.y])
 ```
 
-Visualize the raw points:
+Latitude and longitude are angles. One degree of longitude in Chicago is about 85 km while one
+degree of latitude is about 111 km, so distances in degrees are distorted. Always reproject first.
+
+## 2. DBSCAN: density based hotspots
 
 ```python
-import matplotlib.pyplot as plt
+from sklearn.cluster import DBSCAN
 
-plt.scatter(df.lon, df.lat, s=10)
-plt.title("Raw Spatial Points")
-plt.xlabel("Longitude")
-plt.ylabel("Latitude")
-plt.show()
+db = DBSCAN(eps=1000, min_samples=50).fit(coords)   # eps in meters
+robbery["dbscan"] = db.labels_                       # -1 means noise
 ```
 
-This simple scatterplot helps identify whether your data already looks clustered.
+A point with at least `min_samples` neighbors within `eps` meters is a core point; nearby core
+points form a cluster. Choose `eps` with a k-distance plot (see notebook 4b).
 
+## 3. HDBSCAN: no radius needed
 
-## 2. K-Means Clustering
+```python
+from sklearn.cluster import HDBSCAN
 
-K-Means is the simplest clustering algorithm.
-It works best when:
+robbery["hdbscan"] = HDBSCAN(min_cluster_size=50, min_samples=10).fit_predict(coords)
+```
 
-- You know the number of clusters you want
-
-- Clusters are roughly circular
-
-- Points are evenly distributed
+## 4. K-Means: zones
 
 ```python
 from sklearn.cluster import KMeans
 
-coords = df[['lon', 'lat']]
-kmeans = KMeans(n_clusters=4, random_state=42)
-df['kmeans_label'] = kmeans.fit_predict(coords)
+robbery["kmeans"] = KMeans(n_clusters=6, n_init=10, random_state=42).fit_predict(coords)
 ```
 
-Visualize results:
+## 5. Hierarchical clustering and the dendrogram
 
 ```python
-plt.scatter(df.lon, df.lat, c=df.kmeans_label, cmap='tab10')
-plt.title("K-Means Clustering")
-plt.show()
+from scipy.cluster.hierarchy import linkage, dendrogram, fcluster
+
+sample = robbery.sample(2000, random_state=1)        # hierarchical is slow on large data
+tree = linkage(np.column_stack([sample.geometry.x, sample.geometry.y]), method="ward")
+dendrogram(tree, truncate_mode="lastp", p=20, no_labels=True)
+sample["hier"] = fcluster(tree, t=6, criterion="maxclust")
 ```
 
-## 3. Hierarchical Clustering
+Plot any result with `robbery.plot(column="dbscan", categorical=True, markersize=1)`.
 
+:::::::::::::::::::::::::::::::::::: challenge
 
-Hierarchical clustering builds clusters step-by-step.
-It is useful when:
+## Challenge 1: K-Means or DBSCAN?
 
-- You want a dendrogram
-
-- You don’t know the number of clusters beforehand
-
-- Clusters may have irregular shapes
-
-Example:
-
-
-```python
-from sklearn.cluster import AgglomerativeClustering
-
-agg = AgglomerativeClustering(n_clusters=4)
-df['hier_label'] = agg.fit_predict(coords)
-```
-
-Plot:
-
-```python
-plt.scatter(df.lon, df.lat, c=df.hier_label, cmap='viridis')
-plt.title("Hierarchical Clustering")
-plt.show()
-```
-
-
-## 4. DBSCAN: Density-Based Clustering
-
-DBSCAN is ideal for spatial datasets because:
-
-- It finds clusters of any shape
-
-- It identifies noise points
-
-- It does not require the number of clusters in advance
-
-Example:
-
-
-```python
-from sklearn.cluster import DBSCAN
-import numpy as np
-
-epsilon = 0.01   # distance threshold
-db = DBSCAN(eps=epsilon, min_samples=5).fit(coords)
-
-df['dbscan_label'] = db.labels_
-
-```
-
-Points labeled `-1` are noise (outliers).
-
-Plot:
-```python
-plt.scatter(df.lon, df.lat, c=df.dbscan_label, cmap='Accent')
-plt.title("DBSCAN Spatial Clusters")
-plt.show()
-```
-
-::::::::::::::::::::::::::::::::::::: challenge
-
-Challenge 1: Exploring Your Own Dataset
-
-Using the examples above:
-
-1. Load your own set of spatial coordinates
-
-2. Apply K-Means and DBSCAN
-
-3. Compare the results
-
-Which method performs better, and why?
+Map the K-Means and DBSCAN results side by side. Which one would you use to report
+"robbery hotspots" to a city council, and why?
 
 :::::::::::::::::::::::: solution
 
-Example Interpretation
-
-* K-Means finds evenly divided clusters
-
-* DBSCAN finds natural geographic groups and labels outliers
-
-* For irregular spatial patterns, DBSCAN usually performs better
+DBSCAN (or HDBSCAN). K-Means assigns every robbery to a zone, even isolated ones, so its "clusters"
+cover the whole city. DBSCAN keeps only dense areas and labels scattered points as noise, which is
+what a hotspot means.
 
 :::::::::::::::::::::::::::::::::
+::::::::::::::::::::::::::::::::::::::::::::::::
 
+:::::::::::::::::::::::::::::::::::: challenge
 
-Challenge 2: Adjusting DBSCAN Sensitivity
+## Challenge 2: Adjusting DBSCAN
 
-Try changing the `eps` parameter:
-
-```python
-DBSCAN(eps=500, min_samples=5) # eps is in meters
-DBSCAN(eps=1000,  min_samples=5)
-```
+Run DBSCAN with `eps=500` and `eps=1500` (meters). How do the number of clusters and the share of
+noise points change?
 
 :::::::::::::::::::::::: solution
 
-Larger `eps` creates larger clusters.
-Smaller `eps` creates more clusters and more noise points.
+```python
+for eps in [500, 1500]:
+    labels = DBSCAN(eps=eps, min_samples=50).fit(coords).labels_
+    print(eps, labels.max() + 1, "clusters", f"{(labels == -1).mean():.0%} noise")
+```
+
+A smaller `eps` gives more, smaller clusters and more noise. A larger `eps` merges clusters into a
+few large ones.
 
 :::::::::::::::::::::::::::::::::
 ::::::::::::::::::::::::::::::::::::::::::::::::
 
 ## Math
 
-DBSCAN uses density to define clusters. Its key idea:
+DBSCAN looks at the **neighborhood** of each point $p$: all points within distance $\varepsilon$
+(`eps`). If that neighborhood holds at least `min_samples` points, $p$ is a **core point**.
+Core points within $\varepsilon$ of each other join the same cluster, along with the border points
+near them. Every other point is **noise**.
 
-A point belongs to a cluster if it has at least `min_samples` neighbors within a
-distance `ε`:
-
-`$\text{density} = \frac{\text{neighbors}}{\pi \varepsilon^2}$`
-
-Higher density regions form clusters; low density points become noise.
+K-Means instead chooses $k$ centers $\mu_1, \dots, \mu_k$ that minimize the total squared distance
+$\sum_i \lVert x_i - \mu_{c(i)} \rVert^2$, where $c(i)$ is the center closest to point $x_i$.
+This total is the **inertia** used in the elbow plot.
 
 ::::::::::::::::::::::::::::::::::::: keypoints
 
-* Spatial clustering groups geographic points into meaningful patterns
-
-* K-Means is simple but assumes circular clusters
-
-* Hierarchical clustering builds clusters step-wise
-
-* DBSCAN is best for irregular shapes and detecting noise
-
-* Always visualize your clusters to interpret them correctly
+- Reproject to meters before clustering so distances are real
+- DBSCAN and HDBSCAN find dense hotspots of any shape and label scattered points as noise
+- K-Means splits all points into k round zones; choose k with the elbow method
+- Hierarchical clustering shows how groups merge, but is slow on large datasets
+- Pick the method that matches your question: hotspots or zones
 
 ::::::::::::::::::::::::::::::::::::::::::::::::
 
+## Notebooks
 
-# Module Overview
-
-| Lesson            | Overview                                                                                                   |
-|-------------------|------------------------------------------------------------------------------------------------------------|
-| <a href="https://colab.research.google.com/github/SpatialTurn/DataCollection-Notebooks/blob/main/Census/spatialclustering.ipynb" target="_blank">Beginner</a> | Introduction to Spatial Clustering using Crime Datasets. |
-| [Advanced]()  |  (to be added) |
+| Level | Notebook | What you will do |
+|---|---|---|
+| Beginner | <a href="https://colab.research.google.com/github/SpatialTurn/DataCollection-Notebooks/blob/main/DataAnalysis/04a_Exploring_Crime_Points.ipynb" target="_blank">4a. Exploring Crime Points</a> | Summarize Chicago crimes and turn them into points in meters |
+| Intermediate | <a href="https://colab.research.google.com/github/SpatialTurn/DataCollection-Notebooks/blob/main/DataAnalysis/04b_DBSCAN_and_HDBSCAN.ipynb" target="_blank">4b. DBSCAN and HDBSCAN</a> | Choose `eps`, find robbery hotspots and compare with HDBSCAN |
+| Advanced | <a href="https://colab.research.google.com/github/SpatialTurn/DataCollection-Notebooks/blob/main/DataAnalysis/04c_KMeans_and_Comparing_Methods.ipynb" target="_blank">4c. K-Means and Comparing Methods</a> | Use the elbow method, a dendrogram and a side by side comparison |

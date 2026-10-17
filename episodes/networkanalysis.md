@@ -1,190 +1,152 @@
 ---
 title: "Network Analysis"
-teaching: 100
-exercises: 2
+teaching: 50
+exercises: 20
 ---
 
 :::::::::::::::::::::::::::::::::::::: questions
 
-- How do we download and visualize road networks with OSM data?
-- What is a graph network and how is it represented in Python?
-- How can we compute shortest paths and network distances?
+- How can a road map be represented as a graph?
+- How do we download and visualize road networks from OpenStreetMap?
+- How do we find the shortest route and measure travel time?
 
 ::::::::::::::::::::::::::::::::::::::::::::::::
 
 ::::::::::::::::::::::::::::::::::::: objectives
 
-- Learn how to retrieve OpenStreetMap road data using OSMnx
-- Convert road networks into graphs for routing and analysis
-- Visualize networks and shortest paths on a map
-- Compute route distances and travel time across a network
+- Explain nodes and edges in a road network
+- Download a drivable network with OSMnx and inspect it as GeoDataFrames
+- Compute shortest paths by distance and by travel time
+- Measure travel time from many locations to one point, the basis of an access study
 
 ::::::::::::::::::::::::::::::::::::::::::::::::
 
-## Overview
-This tutorial provides a practical introduction to performing road network analysis using Python, focusing on analyzing road networks in a specified area (e.g., West Lafayette, Indiana) to study food deserts. It uses libraries such as `networkx`, `osmnx`, `folium`, `pandas`, `geopandas`, and `matplotlib` to fetch, visualize, and analyze road networks, compute centroid nodes, and calculate the shortest path based on travel time. The tutorial also applies this analysis to food accessibility data in Indiana.
+## Why network analysis?
 
-The coordinates of grocery stores in Indiana were fetched using OpenStreetMap (OSM). Network analysis is used to calculate distances and times from grocery store locations to the center of areas of interest, considering factors such as the number of supermarkets, income, and vehicle accessibility. Distances are classified as good (around 1 mile) or low-accessible (over 5 miles), depending on rural or urban settings. Low Income and Low Access maps were created for each census tract in Indiana and compared to the USDA food desert dataset.
+Straight line distance is misleading: a store 1 km away across a river may be a 6 km drive.
+Network analysis measures distance **along roads**, which is how people actually travel.
 
-#### Why Network Analysis for Food Deserts?
-1. **Mapping Accessibility**: Models connections between grocery stores and transportation systems to identify areas with limited healthy food access due to distance or lack of transportation.
-2. **Area Development**: Helps improve accessibility and quality of life in underserved regions.
-3. **Promotes Equity**: Highlights disparities to create solutions for equitable access to nutritious food.
-4. **Optimization of Resources**: Ensures equal distribution of resources for all individuals.
+Road networks are stored as **graphs**:
 
-#### Environment Setup
-Libraries imported for this tutorial:
-- `osmnx`: Fetches and processes OpenStreetMap road network data.
-- `networkx`: Performs graph-based computations, such as shortest path calculations.
-- `folium`: Enables interactive map visualizations.
-- `geopandas` and `shapely`: Handle geospatial data and geometry operations.
-- `matplotlib`: Generates static plots, including network visualization.
-- `geopy`: Calculates geodesic distances for spatial analysis.
+- **Nodes** are intersections and dead ends
+- **Edges** are road segments, each with a length (and, once added, a speed and travel time)
 
-#### Data Acquisition
-The road network for West Lafayette, Indiana, is fetched using `ox.graph.from_place("West Lafayette, Indiana", network_type="drive")`, retrieving the drivable road network from OpenStreetMap as a graph (nodes as intersections, edges as road segments). The graph can be saved as a GraphML file (e.g., `westlafayette_indiana_network.graphml`) using `ox.save_graphml` to avoid redundant downloads. This can be adapted for any U.S. area with a single line of code.
+Common uses include food and health care access, emergency response times, and transportation
+planning. The Food Desert case study in this curriculum is built on these steps.
 
-#### Applications
-- **Urban Planning**: Analyzing road connectivity and accessibility in cities.
-- **Transportation Studies**: Optimizing routes based on travel time or distance.
-- **Geospatial Analysis**: Studying spatial relationships in infrastructure networks.
-- **Emergency Response**: Identifying the fastest routes for first responders.
+:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::: instructor
 
-#### Visualization
-A folium map example shows a blue star indicating the centroid of West Lafayette to a random point (green flag), with the shortest path marked by a red line/polygon.
+Draw a small graph on the board (four intersections, five roads) before showing any code.
+Learners grasp `nearest_nodes` and `shortest_path` much faster once they can picture nodes and edges.
+Note that `nearest_nodes` takes longitude first.
 
-#### Limitations
-- **Data Dependency**: Relies on OpenStreetMap data, which may vary in quality or availability by region.
-- **Performance**: Large networks may require significant computational resources for fetching and processing.
+::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 
+## 1. Download a road network
 
-## Introduction
-
-Network analysis allows us to study movement, connectivity, and accessibility across
-geographic space. Roads, sidewalks, rivers, power lines, and transit systems can be
-modeled as **graphs**, where intersections are *nodes* and paths are *edges*.
-
-This lesson demonstrates how to:
-
-1. Download a road network using **OSMnx**
-2. Convert it into a **graph using NetworkX**
-3. Visualize the network
-4. Run **shortest path routing** between two locations
-
----
-
-## 1. Install Required Libraries
-
-```python
-!pip install osmnx networkx matplotlib
-```
-
-## 2. Import Libraries 
 ```python
 import osmnx as ox
 import networkx as nx
-import matplotlib.pyplot as plt
+
+G = ox.graph_from_place("West Lafayette, Indiana, USA", network_type="drive")
+print(G.number_of_nodes(), "nodes,", G.number_of_edges(), "edges")
+ox.plot_graph(G, node_size=5, edge_color="gray", bgcolor="white")
 ```
 
-## 3. Download a Road Network from OpenStreetMap
-```python
-place = "West Lafayette, Indiana, USA"
+`network_type` can also be `"walk"` or `"bike"`. Save the graph with `ox.save_graphml(G, "wl.graphml")`
+so you do not download it again.
 
-G = ox.graph_from_place(place, network_type="drive")
-```
-Visualize network:
-```python
-fig, ax = ox.plot_graph(G, node_size=5, edge_color="gray")
-```
+## 2. Look at nodes and edges as tables
 
-## 4. Convert the Graph to Nodes and Edges GeoDataFrames
 ```python
 nodes, edges = ox.graph_to_gdfs(G)
-nodes.head(), edges.head()
-```
-Plot edges alone:
-```python
-edges.plot(figsize=(8,6), linewidth=0.8)
-plt.title("Road Network")
-plt.show()
+edges[["name", "highway", "length"]].head()    # length is in meters
 ```
 
-## 5. Find Shortest Route Between Two Points
-Choose two coordinates manually or by clicking on a map.
+## 3. Add speeds and travel times
+
 ```python
-orig = ox.distance.nearest_nodes(G, -86.9145, 40.4253)  # lon, lat
-dest = ox.distance.nearest_nodes(G, -86.9079, 40.4268)
-```
-Calculate shortest path:
-```python
-route = nx.shortest_path(G, orig, dest, weight="length")
-```
-Plot route:
-```python
-ox.plot_graph_route(G, route, route_color="red")
+G = ox.add_edge_speeds(G, fallback=40)   # km/h used where a road type has no speed data
+G = ox.add_edge_travel_times(G)          # adds travel_time in seconds to every edge
 ```
 
-::::::::::::::::::::::::::::::::::::: challenge
+## 4. Find the shortest route between two points
 
-Challenge 1 — Try Your Own Route
+```python
+start = ox.nearest_nodes(G, X=-86.9112, Y=40.4247)   # longitude, latitude
+end = ox.nearest_nodes(G, X=-86.9290, Y=40.4580)
 
-* Pick any two points in a city of your choice.
-* Compute and visualize the shortest path between them.
+route = ox.shortest_path(G, start, end, weight="travel_time")
+ox.plot_graph_route(G, route, route_color="red", node_size=0)
+```
+
+## 5. Measure the route
+
+```python
+route_edges = ox.routing.route_to_gdf(G, route)
+print(round(route_edges["length"].sum() / 1000, 2), "km")
+print(round(route_edges["travel_time"].sum() / 60, 1), "minutes")
+```
+
+:::::::::::::::::::::::::::::::::::: challenge
+
+## Challenge 1: Shortest or fastest?
+
+Compute the route between the same two points with `weight="length"` and with
+`weight="travel_time"`. Are they the same route? Which is longer in kilometers?
 
 :::::::::::::::::::::::: solution
+
 ```python
-orig = ox.distance.nearest_nodes(G, lon1, lat1)
-dest = ox.distance.nearest_nodes(G, lon2, lat2)
-route = nx.shortest_path(G, orig, dest, weight="length")
-ox.plot_graph_route(G, route)
+for w in ["length", "travel_time"]:
+    e = ox.routing.route_to_gdf(G, ox.shortest_path(G, start, end, weight=w))
+    print(w, round(e["length"].sum() / 1000, 2), "km",
+          round(e["travel_time"].sum() / 60, 1), "min")
 ```
+
+The fastest route often uses faster main roads and can be a little longer in distance.
+
 :::::::::::::::::::::::::::::::::
+::::::::::::::::::::::::::::::::::::::::::::::::
 
-Challenge 2 — Estimate Travel Distance
+:::::::::::::::::::::::::::::::::::: challenge
 
-Using your computed route, calculate the total path length:
-```python
-total_length = sum(
-    ox.utils_graph.get_route_edge_attributes(G, route, "length")
-)
-print("Route length (meters):", total_length)
-```
+## Challenge 2: Travel time to everywhere
+
+Use `nx.single_source_dijkstra_path_length(G, start, weight="travel_time")` to get the travel time
+from `start` to every node. What is the longest drive time (in minutes) within the city?
+
 :::::::::::::::::::::::: solution
-Convert meters → km:
+
 ```python
-print(total_length/1000, "km")
+times = nx.single_source_dijkstra_path_length(G, start, weight="travel_time")
+print(round(max(times.values()) / 60, 1), "minutes")
 ```
+
 :::::::::::::::::::::::::::::::::
 ::::::::::::::::::::::::::::::::::::::::::::::::
 
 ## Math
 
-A network is represented as a graph:
-
-G = (V,E)
-
-Where:
-
-* V = set of nodes (intersections)
-* E = edges (roads)
-
-Shortest path = minimum weighted path across `E`.
+A network is a graph $G = (V, E)$, where $V$ is the set of nodes (intersections) and $E$ the set of
+edges (road segments). Each edge $e$ has a weight $w_e$, such as length or travel time.
+The shortest path between two nodes is the route whose total weight $\sum_{e \in \text{route}} w_e$
+is smallest. OSMnx finds it with Dijkstra's algorithm.
 
 ::::::::::::::::::::::::::::::::::::: keypoints
 
-* OSMnx simplifies downloading and converting OSM road networks
-
-* Graphs model movement and connectivity in space
-
-* NetworkX allows shortest path and routing analysis
-
-* Visualization helps interpret accessibility patterns
+- Road networks are graphs of nodes (intersections) and edges (road segments)
+- `ox.graph_from_place` downloads OpenStreetMap roads for any named place
+- `add_edge_speeds` and `add_edge_travel_times` let you route by time instead of distance
+- `nearest_nodes` (longitude first), `shortest_path` and `route_to_gdf` cover most routing tasks
+- Network distance is more realistic than straight line distance for access studies
 
 ::::::::::::::::::::::::::::::::::::::::::::::::
 
-# Module Overview
+## Notebooks
 
-| Lesson            | Overview                                                                                                   |
-|-------------------|------------------------------------------------------------------------------------------------------------|
-| <a href="https://colab.research.google.com/github/SpatialTurn/DataCollection-Notebooks/blob/main/Census/Network_Analysis_Tutorial.ipynb" target="_blank">Beginner</a> | Introduction to Network Analysis and color coding distances. |
-| <a href="https://colab.research.google.com/github/SpatialTurn/DataCollection-Notebooks/blob/main/Census/OSM_Network_Tutorial.ipynb" target="_blank">Advanced</a>  |  Obtains coordinates from OSM and uses centroid analysis to calculate distances and travel times for multiple points of interests. |
+| Level | Notebook | What you will do |
+|---|---|---|
+| Beginner | <a href="https://colab.research.google.com/github/SpatialTurn/DataCollection-Notebooks/blob/main/DataAnalysis/02a_Road_Networks_Basics.ipynb" target="_blank">2a. Road Networks: Nodes and Edges</a> | Download, plot, inspect and save a road network |
+| Intermediate | <a href="https://colab.research.google.com/github/SpatialTurn/DataCollection-Notebooks/blob/main/DataAnalysis/02b_Shortest_Paths_and_Travel_Time.ipynb" target="_blank">2b. Shortest Paths and Travel Time</a> | Route between two points and map travel time across the city |
+| Advanced | <a href="https://colab.research.google.com/github/SpatialTurn/DataCollection-Notebooks/blob/main/DataAnalysis/02c_Travel_Time_to_Stores.ipynb" target="_blank">2c. Travel Time to Grocery Stores</a> | Route from every OSM grocery store to the town center |

@@ -2,53 +2,63 @@
 title: Setup
 ---
 
-FIXME: Setup instructions live in this document. Please specify the tools and
-the data sets the Learner needs to have installed.
+Everything in this module runs in **Google Colab**, a free online notebook service. You do not need
+to install Python or any GIS software on your computer.
 
-## Data Sets
+## What you need
 
-<!--
-FIXME: place any data you want learners to use in `episodes/data` and then use
-       a relative link ( [data zip file](data/lesson-data.zip) ) to provide a
-       link to it, replacing the example.com link.
--->
-Download the [data zip file](https://example.com/FIXME) and unzip it to your Desktop
+- A Google account
+- A web browser (Chrome, Firefox, Edge or Safari)
+- For the **Spatial Autocorrelation with PySAL** episode only: a free Census API key.
+  Request one at <https://api.census.gov/data/key_signup.html>; it arrives by email within a few minutes.
 
-## Software Setup
+## Opening a notebook
 
-::::::::::::::::::::::::::::::::::::::: discussion
+1. Click a notebook link in the **Notebooks** table at the end of any episode. It opens in Colab.
+2. Click **File > Save a copy in Drive**. Your own copy keeps your changes; the original stays read only.
+3. Run cells from top to bottom. Click a cell and press **Shift + Enter**, or click the play button
+   to its left.
+4. The first time you run a cell, Colab may warn that the notebook was not written by Google.
+   Click **Run anyway**.
 
-### Details
+::::::::::::::::::::::::::::::::::::::::::: callout
 
-Setup for different systems can be presented in dropdown menus via a `spoiler`
-tag. They will join to this discussion block, so you can give a general overview
-of the software used in this lesson here and fill out the individual operating
-systems (and potentially add more, e.g. online setup) in the solutions blocks.
+### Colab tips
+
+- **Run cells in order.** Most errors come from skipping a cell, for example the one that downloads data.
+- **Start over cleanly** with **Runtime > Restart session and run all**.
+- **Files disappear** when the session ends. To keep an output (such as `ndvi.tif`), open the Files panel
+  on the left, right click the file and choose **Download**.
+- Cells that start with `!pip install` add libraries Colab does not include by default.
+  They take a few seconds and only need to run once per session.
 
 :::::::::::::::::::::::::::::::::::::::::::::::::::
 
-:::::::::::::::: spoiler
+## Data
 
-### Windows
+You do not need to download anything in advance. Each notebook downloads its own data:
 
-Use PuTTY
+| Episode | Data | Source |
+|---|---|---|
+| Geocoding | 15 museum addresses (`museums.txt`); live OpenStreetMap features | This project; OpenStreetMap |
+| Network Analysis | Road network of West Lafayette, Indiana | OpenStreetMap, through OSMnx |
+| PySAL | Indiana counties and Marion County tracts, ACS 2023 5-year estimates | U.S. Census Bureau API and cartographic boundary files |
+| Spatial Clustering | One year of Chicago crime reports (`CrimesChicago20220225.csv`) | Chicago Data Portal |
+| NDVI | Landsat 8/9 Collection 2 Level-2 bands over Indiana (`band2.TIF` to `band5.TIF`) | USGS |
 
-::::::::::::::::::::::::
+The Landsat bands are about 90 MB each, so the NDVI downloads take a minute or two.
 
-:::::::::::::::: spoiler
+## Working offline or on your own computer (optional)
 
-### MacOS
+If you prefer to run the notebooks locally, install [Anaconda](https://www.anaconda.com/download)
+and create an environment with the libraries used in this module:
 
-Use Terminal.app
+```bash
+conda create -n spatialturn -c conda-forge python=3.11 geopandas osmnx rasterio libpysal esda splot mapclassify scikit-learn folium geopy jupyterlab
+conda activate spatialturn
+jupyter lab
+```
 
-::::::::::::::::::::::::
-
-
-:::::::::::::::: spoiler
-
-### Linux
-
-Use Terminal
-
-::::::::::::::::::::::::
-
+Then download a notebook from GitHub (**File > Download > Download .ipynb** in Colab) and open it in JupyterLab.
+Lines starting with `!wget` need the `wget` program; on Windows, download those files by hand from the
+[DataCollection-Notebooks repository](https://github.com/SpatialTurn/DataCollection-Notebooks).

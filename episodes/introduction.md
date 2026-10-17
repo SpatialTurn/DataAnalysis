@@ -1,237 +1,169 @@
 ---
-title: "Census Geocoding"
-teaching: 100
-exercises: 2
+title: "Geocoding and Adding Spatial Context"
+teaching: 50
+exercises: 20
 ---
 
 :::::::::::::::::::::::::::::::::::::: questions
 
-- What is geocoding and why is it essential for census analysis??
-- How can we convert addresses into spatial coordinates?
-- How do we combine census data with OpenStreetMap features?
-- How can spatial context improve demographic analysis?
+- What is geocoding, and why do social scientists need it?
+- How do we turn a list of addresses into points on a map?
+- How can OpenStreetMap add context such as stores, schools or parks?
 
 ::::::::::::::::::::::::::::::::::::::::::::::::
 
 ::::::::::::::::::::::::::::::::::::: objectives
 
-- Understand what geocoding is and how it works
-- Convert address-based census data into geographic coordinates
-- Query OpenStreetMap (OSM) features using Python
-- Combine census points with OSM layers for spatial analysis
-- Visualize geocoded census data alongside urban infrastructure
+- Geocode U.S. addresses with the free U.S. Census Geocoder
+- Check match rates and find addresses that failed
+- Turn coordinates into a GeoDataFrame and map it
+- Download features from OpenStreetMap by tag
+- Handle rate limits and ambiguous place names when geocoding many places
 
 ::::::::::::::::::::::::::::::::::::::::::::::::
 
-## Introduction
+## Why geocoding matters
 
-Census and demographic datasets are often **non-spatial** — they exist as tables
-containing addresses, place names, or administrative units. To analyze these data
-geographically, we must first **geocode** them: converting text-based locations
-into latitude and longitude coordinates.
+Most social science data has a location written as text: a survey respondent's address, a list of
+clinics, a business directory. **Geocoding** turns that text into latitude and longitude so the data
+can be mapped and analyzed spatially.
 
-Once census data are geocoded, they can be enriched with contextual information
-from **OpenStreetMap (OSM)**, such as roads, buildings, parks, schools, or hospitals.
-This enables deeper spatial insights into population distribution, accessibility,
-and urban structure.
+| Input (text) | Output (coordinates) |
+|---|---|
+| `1600 Pennsylvania Ave NW, Washington, DC 20500` | 38.8977, -77.0365 |
 
-In this lesson, you will learn how to:
-
-1. Geocode address-based census data
-2. Convert results into spatial objects
-3. Query OpenStreetMap features
-4. Visualize census data in its geographic context
+Once your data are points, you can combine them with **OpenStreetMap (OSM)** layers. Census data
+tells you *who* lives in an area; OSM tells you *what is there* (stores, schools, transit).
+Together they support access studies, public health work and planning research.
 
 :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::: instructor
 
-Emphasize ethical use of geocoding services and rate limits. Remind learners that
-geocoding accuracy varies by location and data quality.
+Stress responsible use of free services: one request per second for Nominatim, and no bulk
+geocoding of personal addresses without considering privacy. Remind learners that match rates
+depend heavily on address quality.
 
 ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 
-## Why Census Geocoding Matters ?
-
-Census data becomes far more powerful when location is explicitly included.
-Geocoding allows researchers to move from spreadsheets to spatial insight.
-
-### What Census Geocoding Helps Us Understand
-
-* Population distribution and density patterns  
-* Access to services (schools, hospitals, transit, parks)  
-* Spatial inequality and environmental justice  
-* Urban growth and land-use change  
-* Neighborhood-level demographic trends  
-* Relationships between people and infrastructure  
-
-### Why Researchers Combine Census Data with OSM
-
-- Census data provides **who and what**
-- OpenStreetMap provides **where and how**
-- Together, they enable:
-  - Accessibility studies
-  - Urban planning analysis
-  - Public health assessments
-  - Infrastructure equity evaluations
-  - Place-based policy analysis
-
-Geocoding transforms census data from static tables into **spatial evidence**.
-
-## 1. Installing Required Libraries
+## 1. Geocode one address with the Census Geocoder
 
 ```python
-!pip install geopandas geopy osmnx matplotlib
+import requests
+
+def get_coordinates(address):
+    reply = requests.get(
+        "https://geocoding.geo.census.gov/geocoder/locations/onelineaddress",
+        params={"address": address, "benchmark": "Public_AR_Current", "format": "json"},
+        timeout=30,
+    )
+    matches = reply.json()["result"]["addressMatches"]
+    if matches:
+        point = matches[0]["coordinates"]
+        return point["y"], point["x"]   # latitude, longitude
+    return None, None
+
+get_coordinates("610 Purdue Mall, West Lafayette, IN 47907")
 ```
 
-## 2. Load Census Data or Address Data
+## 2. Geocode a list and turn it into map points
 
-```python 
+```python
 import pandas as pd
-
-df = pd.read_csv("census_addresses.csv")
-df.head()
-```
-This dataset should contain an address column (e.g., street, city, state).
-
-
-## 3. Geocode Addresses Using `Nominatim`
-
-```python
-from geopy.geocoders import Nominatim
-
-geolocator = Nominatim(user_agent="census_geocoding_tutorial")
-
-def geocode_address(address):
-    try:
-        location = geolocator.geocode(address)
-        return location.latitude, location.longitude
-    except:
-        return None, None
-
-df["lat"], df["lon"] = zip(*df["address"].apply(geocode_address))
-```
-*Note: Geocoding services may return None for incomplete or ambiguous addresses.*
-
-## 4. Convert to a GeoDataFrame
-
-```python
 import geopandas as gpd
 
-gdf = gpd.GeoDataFrame(
-    df,
-    geometry=gpd.points_from_xy(df.lon, df.lat),
-    crs="EPSG:4326"
+museums = pd.read_csv("museums.txt", sep="\t", header=None, names=["Name", "Address"])
+results = museums["Address"].apply(get_coordinates)
+museums["Latitude"] = [lat for lat, lon in results]
+museums["Longitude"] = [lon for lat, lon in results]
+
+matched = museums.dropna(subset=["Latitude"])
+points = gpd.GeoDataFrame(
+    matched,
+    geometry=gpd.points_from_xy(matched["Longitude"], matched["Latitude"]),
+    crs="EPSG:4326",     # latitude and longitude
 )
-
-gdf.head()
-```
-Plot the geocoded points:
-
-```python
-gdf.plot(figsize=(6,6), color="red")
+points.explore(tooltip="Name")
 ```
 
-## 5. Query OpenStreetMap Features
-OpenStreetMap provides free, global geographic data.
+Always check the rows that did not match (`museums[museums["Latitude"].isna()]`). Incomplete or
+landmark style addresses are the usual cause.
 
-Example: download buildings in a city.
+## 3. Add context from OpenStreetMap
+
+OSM features are described by **tags** such as `shop=supermarket` or `amenity=school`
+(see the [Map Features list](https://wiki.openstreetmap.org/wiki/Map_features)).
+
 ```python
 import osmnx as ox
 
-place = "Lafayette, Indiana, USA"
-
-buildings = ox.geometries_from_place(
-    place,
-    tags={"building": True}
-)
-```
-Plot buildings with census points:
-```python
-ax = buildings.plot(color="lightgray", figsize=(8,6))
-gdf.plot(ax=ax, color="red", markersize=10)
+stores = ox.features_from_place("West Lafayette, Indiana, USA", tags={"shop": "supermarket"})
+stores = stores.reset_index()[["name", "geometry"]]
+stores["geometry"] = stores.geometry.representative_point()   # polygons to points
+stores.explore(tooltip="name", color="green")
 ```
 
-## 6. Adding Spatial Context to Census Data
-You can buffer census points to analyze nearby features.
-```python
-gdf_buffer = gdf.copy()
-gdf_buffer["geometry"] = gdf_buffer.geometry.buffer(200)  # meters (after projection)
-```
-Spatial join example:
-```python
-join = gpd.sjoin(buildings, gdf_buffer, predicate="within")
-join.head()
-```
-This links buildings to nearby census locations.
+## 4. Measure what is nearby
 
+To count features within a distance, first **reproject to meters**. Buffers on latitude and
+longitude would be measured in degrees.
+
+```python
+lat, lon = get_coordinates("610 Purdue Mall, West Lafayette, IN 47907")
+campus = gpd.GeoDataFrame(geometry=gpd.points_from_xy([lon], [lat]), crs="EPSG:4326")
+
+campus_m = campus.to_crs(epsg=5070)      # USA Contiguous Albers, units are meters
+stores_m = stores.to_crs(epsg=5070)
+
+one_mile = campus_m.buffer(1600).iloc[0]          # circle with a 1 mile (1,600 m) radius
+stores_m[stores_m.within(one_mile)]               # supermarkets within 1 mile of campus
+```
 
 :::::::::::::::::::::::::::::::::::: challenge
 
-Challenge 1 — Query a Different OSM Feature
+## Challenge 1: Query a different OSM feature
 
-Choose one:
-
-* Roads → `{"highway": True}`
-
-* Schools → `{"amenity": "school"}`
-
-* Parks → `{"leisure": "park"}`
-
-Plot the feature with census points.
+Download schools (`amenity=school`) or parks (`leisure=park`) for West Lafayette and map them.
 
 :::::::::::::::::::::::: solution
+
 ```python
-parks = ox.geometries_from_place(place, tags={"leisure": "park"})
-parks.plot()
+parks = ox.features_from_place("West Lafayette, Indiana, USA", tags={"leisure": "park"})
+parks.explore(color="darkgreen")
 ```
-:::::::::::::::::::::::::::::::::
-
-Challenge 2 — Accessibility Analysis
-
-For each census point:
-
-* Create a buffer
-
-* Count how many buildings fall inside
-
-* Interpret spatial differences
-
-:::::::::::::::::::::::: solution
-
-Higher counts suggest higher accessibility or density.
 
 :::::::::::::::::::::::::::::::::
 ::::::::::::::::::::::::::::::::::::::::::::::::
 
-## Math
-Geocoding transforms a text location `L` into coordinates (x,y)
+:::::::::::::::::::::::::::::::::::: challenge
 
-Spatial joins evaluate relationships between geometries:
+## Challenge 2: Why did it fail?
 
-* within
-* intersects
-* contains
-These operations allow census attributes to be analyzed spatially. 
+One museum in the list is written as `10th St. & Constitution Ave. NW, Washington, DC 20560`.
+Why might the Census Geocoder fail on it, and how would you fix it?
+
+:::::::::::::::::::::::: solution
+
+The geocoder expects a numbered street address, not an intersection. Rewriting it as
+`1000 Madison Dr NW, Washington, DC 20560` gives a match.
+
+:::::::::::::::::::::::::::::::::
+::::::::::::::::::::::::::::::::::::::::::::::::
 
 ::::::::::::::::::::::::::::::::::::: keypoints
 
-* Geocoding converts census addresses into spatial coordinates
-
-* GeoPandas enables spatial operations on tabular data
-
-* OpenStreetMap provides rich contextual geographic layers
-
-* Combining census + OSM reveals spatial patterns and inequality
-
-* Spatial context transforms demographic data into actionable insight
+- Geocoding converts text addresses into coordinates
+- The U.S. Census Geocoder is free and works best with complete U.S. street addresses
+- Always check match rates and inspect failed addresses
+- OpenStreetMap tags (`key=value`) let you download context layers such as stores or schools
+- Reproject to a meter based CRS before buffering or measuring distance
 
 ::::::::::::::::::::::::::::::::::::::::::::::::
 
+## Notebooks
 
+Work through these in order. Each one opens in Google Colab.
 
-# Module Overview
-
-| Lesson            | Overview                                                                                                   |
-|-------------------|------------------------------------------------------------------------------------------------------------|
-| <a href="https://colab.research.google.com/github/SpatialTurn/DataCollection-Notebooks/blob/main/Census/Address_based_geocode.ipynb" target="_blank">Beginner</a>  | Introduction to Address Geocoding |
-| <a href="https://colab.research.google.com/github/SpatialTurn/DataCollection-Notebooks/blob/main/Census/OSM_Query_intermediate.ipynb" target="_blank">Intermediate</a>  | Introduction to OSM Overpass API |
-| <a href="https://colab.research.google.com/github/SpatialTurn/DataCollection-Notebooks/blob/main/Census/batchgeocoding.ipynb" target="_blank">Advanced</a>  | Introduction to Advanced Batch-Geocoding |
+| Level | Notebook | What you will do |
+|---|---|---|
+| Beginner | <a href="https://colab.research.google.com/github/SpatialTurn/DataCollection-Notebooks/blob/main/DataAnalysis/01a_Geocoding_Addresses.ipynb" target="_blank">1a. Geocoding Addresses</a> | Geocode museum addresses with the Census Geocoder and map them |
+| Intermediate | <a href="https://colab.research.google.com/github/SpatialTurn/DataCollection-Notebooks/blob/main/DataAnalysis/01b_Finding_Places_with_OSM.ipynb" target="_blank">1b. Finding Places with OpenStreetMap</a> | Download supermarkets by tag and reverse geocode a point |
+| Advanced | <a href="https://colab.research.google.com/github/SpatialTurn/DataCollection-Notebooks/blob/main/DataAnalysis/01c_Batch_Geocoding_and_Ambiguous_Names.ipynb" target="_blank">1c. Batch Geocoding and Ambiguous Names</a> | Geocode many places politely and resolve names like Springfield |
