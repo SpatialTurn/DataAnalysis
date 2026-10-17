@@ -81,7 +81,7 @@ transit network, not the driving one, and the two can give very different answer
 
 ## The same analysis in QGIS
 
-The Case Studies module's [grocery access case study](https://spatialturn.github.io/CaseStudyFoodDesert/grocery-network.html) measures
+The Case Studies module's [grocery access case study](https://spatialturn.github.io/CaseStudies/grocery-network.html) measures
 shortest paths and service areas to supermarkets in Lafayette and West Lafayette with QGIS's network
 tools, without writing code. Doing both is a good way to see what OSMnx does behind the scenes.
 
