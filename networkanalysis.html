@@ -219,11 +219,16 @@
     <div id="flush-collapsecurrent" class="accordion-collapse collapse show" data-bs-parent="#accordionFlushcurrent">
       <div class="accordion-body">
         <ul><li><a href="#why-network-analysis">Why network analysis?</a></li>
+<li><a href="#thinking-in-graphs">Thinking in graphs</a></li>
+<li><a href="#choosing-the-network-type">Choosing the network type</a></li>
 <li><a href="#download-a-road-network">1. Download a road network</a></li>
 <li><a href="#look-at-nodes-and-edges-as-tables">2. Look at nodes and edges as tables</a></li>
 <li><a href="#add-speeds-and-travel-times">3. Add speeds and travel times</a></li>
 <li><a href="#find-the-shortest-route-between-two-points">4. Find the shortest route between two points</a></li>
 <li><a href="#measure-the-route">5. Measure the route</a></li>
+<li><a href="#from-routes-to-access">From routes to access</a></li>
+<li><a href="#getting-on-and-off-the-network">Getting on and off the network</a></li>
+<li><a href="#assumptions-and-pitfalls">Assumptions and pitfalls</a></li>
 <li><a href="#math">Math</a></li>
 <li><a href="#notebooks">Notebooks</a></li>
         </ul></div><!--/div.accordion-body-->
@@ -354,6 +359,8 @@
 <li>How do we download and visualize road networks from
 OpenStreetMap?</li>
 <li>How do we find the shortest route and measure travel time?</li>
+<li>How do routes turn into measures of access, and what can go
+wrong?</li>
 </ul></div>
 </div>
 </div>
@@ -367,6 +374,8 @@ GeoDataFrames</li>
 <li>Compute shortest paths by distance and by travel time</li>
 <li>Measure travel time from many locations to one point, the basis of
 an access study</li>
+<li>Choose a network type and an access measure that fit the research
+question, and recognize the assumptions behind them</li>
 </ul></div>
 </div>
 </div>
@@ -384,6 +393,70 @@ river may be a 6 km drive. Network analysis measures distance
 once added, a speed and travel time)</li>
 </ul><p>Common uses include food and health care access, emergency response
 times, and transportation planning.</p>
+<figure><img src="da_network_graph.png" alt="Diagram of a small road network with eight intersections (nodes), the start A, the end B and six numbered ones, joined by road segments (edges), each labeled with its length in meters. A one-way street is drawn with an arrow. A dashed gray bracket under the network marks the straight-line distance from A to B, 700 meters. A thick orange line follows the edges from A to B along the shortest route, labeled network route, 1,150 meters, because a river with only one bridge forces a detour." class="figure mx-auto d-block"><div class="figcaption">A small road network drawn as a graph.</div>
+</figure></section><section><h2 class="section-heading" id="thinking-in-graphs">Thinking in graphs<a class="anchor" aria-label="anchor" href="#thinking-in-graphs"></a></h2>
+<hr class="half-width"><p>A graph is a simple idea: a set of points (<strong>nodes</strong>)
+and the connections between them (<strong>edges</strong>). In a road
+network, nodes are intersections and dead ends, and each edge is the
+stretch of road between two of them. Everything else is stored as
+<strong>attributes</strong> of the edges:</p>
+<table class="table"><colgroup><col width="33%"><col width="33%"><col width="33%"></colgroup><thead><tr><th>Edge attribute</th>
+<th>Example</th>
+<th>Used for</th>
+</tr></thead><tbody><tr><td><code>length</code></td>
+<td>212.4 (meters)</td>
+<td>Shortest path by distance</td>
+</tr><tr><td><code>highway</code></td>
+<td>
+<code>residential</code>, <code>primary</code>
+</td>
+<td>Road type, and a default speed</td>
+</tr><tr><td><code>maxspeed</code></td>
+<td><code>30 mph</code></td>
+<td>Travel time, where speed limits are mapped</td>
+</tr><tr><td><code>oneway</code></td>
+<td><code>True</code></td>
+<td>Which directions can be traveled</td>
+</tr><tr><td><code>travel_time</code></td>
+<td>18.3 (seconds)</td>
+<td>Fastest path, once added</td>
+</tr></tbody></table><p>Three details matter for analysis:</p>
+<ul><li>
+<strong>Direction.</strong> Streets can be one-way, so OSMnx stores
+roads as a <strong>directed</strong> graph: a two-way street is two
+edges, one in each direction. The route from A to B can therefore differ
+from the route from B to A.</li>
+<li>
+<strong>Weights.</strong> The “shortest” path depends on what each
+edge costs. With <code>length</code> as the weight you get the shortest
+route; with <code>travel_time</code> you get the fastest. You can also
+build your own weights, for example a walking cost that penalizes steep
+or busy roads.</li>
+<li>
+<strong>Simplification.</strong> OpenStreetMap draws a curving road
+with many small points. OSMnx removes the points that are not
+intersections, so each node is a real decision point and each edge keeps
+its full curved shape and length.</li>
+</ul></section><section><h2 class="section-heading" id="choosing-the-network-type">Choosing the network type<a class="anchor" aria-label="anchor" href="#choosing-the-network-type"></a></h2>
+<hr class="half-width"><p>The <code>network_type</code> argument decides which roads and paths
+are kept:</p>
+<table class="table"><colgroup><col width="33%"><col width="33%"><col width="33%"></colgroup><thead><tr><th><code>network_type</code></th>
+<th>Includes</th>
+<th>Direction</th>
+</tr></thead><tbody><tr><td><code>"drive"</code></td>
+<td>Public roads open to cars</td>
+<td>One-way rules apply</td>
+</tr><tr><td><code>"walk"</code></td>
+<td>Streets and paths pedestrians can use, including footpaths where
+they are mapped; no motorways</td>
+<td>Every edge can be walked both ways</td>
+</tr><tr><td><code>"bike"</code></td>
+<td>Streets and paths where cycling is allowed</td>
+<td>One-way rules apply</td>
+</tr></tbody></table><p>Pick the network that matches the people you study. A household
+without a car experiences the walking or transit network, not the
+driving one, and the two can give very different answers about
+access.</p>
 <div id="the-same-analysis-in-qgis" class="callout">
 <div class="callout-square">
 <i class="callout-icon" data-feather="bell"></i>
@@ -468,7 +541,7 @@ Are they the same route? Which is longer in kilometers?</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution1" aria-expanded="false" aria-controls="collapseSolution1">
   <h4 class="accordion-header" id="headingSolution1"> Show me the solution </h4>
 </button>
-<div id="collapseSolution1" class="accordion-collapse collapse" data-bs-parent="#accordionSolution1" aria-labelledby="headingSolution1">
+<div id="collapseSolution1" class="accordion-collapse collapse" aria-labelledby="headingSolution1" data-bs-parent="#accordionSolution1">
 <div class="accordion-body">
 <div class="codewrapper sourceCode" id="cb6">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -504,7 +577,7 @@ the longest drive time (in minutes) within the city?</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution2" aria-expanded="false" aria-controls="collapseSolution2">
   <h4 class="accordion-header" id="headingSolution2"> Show me the solution </h4>
 </button>
-<div id="collapseSolution2" class="accordion-collapse collapse" data-bs-parent="#accordionSolution2" aria-labelledby="headingSolution2">
+<div id="collapseSolution2" class="accordion-collapse collapse" aria-labelledby="headingSolution2" data-bs-parent="#accordionSolution2">
 <div class="accordion-body">
 <div class="codewrapper sourceCode" id="cb7">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -513,6 +586,119 @@ the longest drive time (in minutes) within the city?</p>
 <span id="cb7-2"><a href="#cb7-2" tabindex="-1" aria-label="code-block-7-2"></a><span class="bu">print</span>(<span class="bu">round</span>(<span class="bu">max</span>(times.values()) <span class="op">/</span> <span class="dv">60</span>, <span class="dv">1</span>), <span class="st">"minutes"</span>)</span></code></pre>
 </div>
 </div>
+</div>
+</div>
+</div>
+</section><section><h2 class="section-heading" id="from-routes-to-access">From routes to access<a class="anchor" aria-label="anchor" href="#from-routes-to-access"></a></h2>
+<hr class="half-width"><p>A single route answers “how far is it from here to there?”. Access
+studies ask a broader question: <strong>how easily can people reach the
+things they need?</strong> Network analysis supports several common
+measures:</p>
+<table class="table"><colgroup><col width="33%"><col width="33%"><col width="33%"></colgroup><thead><tr><th>Measure</th>
+<th>Question</th>
+<th>Built from</th>
+</tr></thead><tbody><tr><td><strong>Nearest facility</strong></td>
+<td>How far, or how long, is it to the closest store, clinic or
+school?</td>
+<td>Paths from each home or neighborhood to every facility, keeping the
+minimum</td>
+</tr><tr><td><strong>Cumulative opportunities</strong></td>
+<td>How many jobs or stores can be reached within 15 minutes?</td>
+<td>Travel times from each origin, counting the destinations under a
+threshold</td>
+</tr><tr><td><strong>Service area (isochrone)</strong></td>
+<td>Which streets or areas lie within 10 minutes of a facility?</td>
+<td>Travel times outward from the facility (Challenge 2 is the start of
+one)</td>
+</tr><tr><td><strong>Origin-destination matrix</strong></td>
+<td>What is the travel time between every origin and every
+destination?</td>
+<td>Paths for every pair; the basis of the measures above and of gravity
+models</td>
+</tr></tbody></table><p>Notebook 1c builds a nearest facility measure for grocery stores.</p>
+</section><section><h2 class="section-heading" id="getting-on-and-off-the-network">Getting on and off the network<a class="anchor" aria-label="anchor" href="#getting-on-and-off-the-network"></a></h2>
+<hr class="half-width"><p>Homes, stores and clinics are not nodes. Before routing, each
+location is <strong>snapped</strong> to the nearest node with
+<code>ox.nearest_nodes</code>. This works well in a dense street grid,
+but check the snapping distance when places are far from a road, such as
+a store in a large parking lot or a rural farm. The route starts at the
+snapped node, not at the front door, and a point can snap to a road on
+the wrong side of a river or highway.</p>
+<div class="codewrapper sourceCode" id="cb8">
+<h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" tabindex="-1" aria-label="code-block-8-1"></a>node, dist <span class="op">=</span> ox.nearest_nodes(G, X<span class="op">=-</span><span class="fl">86.9112</span>, Y<span class="op">=</span><span class="fl">40.4247</span>, return_dist<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb8-2"><a href="#cb8-2" tabindex="-1" aria-label="code-block-8-2"></a><span class="bu">print</span>(node, <span class="bu">round</span>(dist), <span class="st">"meters from the network"</span>)   <span class="co"># flag large distances</span></span></code></pre>
+</div>
+<p><code>return_dist</code> reports the distance in the units of the
+graph. A graph from <code>graph_from_place</code> is in latitude and
+longitude, where OSMnx measures this distance in meters along the
+Earth’s surface.</p>
+</section><section><h2 class="section-heading" id="assumptions-and-pitfalls">Assumptions and pitfalls<a class="anchor" aria-label="anchor" href="#assumptions-and-pitfalls"></a></h2>
+<hr class="half-width"><p>A network result is only as good as the network and the assumptions
+behind it:</p>
+<ul><li>
+<strong>Speeds are estimates.</strong> <code>add_edge_speeds</code>
+uses mapped speed limits, the average speed of other roads of the same
+type, or the <code>fallback</code> value. It ignores traffic, traffic
+lights and turns, so real drive times are usually longer, especially at
+rush hour.</li>
+<li>
+<strong>The map may be incomplete.</strong> OpenStreetMap is very
+good in most U.S. cities, but it can miss footpaths, new roads or turn
+restrictions. Look at the network before trusting it.</li>
+<li>
+<strong>Edge effects.</strong> A network downloaded for one city
+stops at the city limits. Trips that leave the city and come back, and
+stores just outside it, are missed. Download a larger area than your
+study area (for example with <code>ox.graph_from_point</code> and a
+generous <code>dist</code>, or <code>ox.graph_from_polygon</code> with a
+buffered boundary), then analyze only the origins inside the study
+area.</li>
+<li>
+<strong>Mode and time of day.</strong> A driving network says
+nothing about buses, schedules or sidewalks. Public transit needs
+timetable data (GTFS) and dedicated tools.</li>
+<li>
+<strong>Distance is not the whole story.</strong> Cost, safety,
+opening hours and quality of service also shape real access.</li>
+</ul><div id="challenge-3-which-network-which-measure" class="callout challenge">
+<div class="callout-square">
+<i class="callout-icon" data-feather="zap"></i>
+</div>
+<span class="callout-header">Challenge</span>
+<div id="challenge-3-which-network-which-measure" class="callout-inner">
+<h3 class="callout-title">Challenge 3: Which network, which
+measure?</h3>
+<div class="callout-content">
+<p>A health department asks you to find neighborhoods where older adults
+without cars live more than 20 minutes from a pharmacy. Which
+<code>network_type</code> would you use, which access measure, and what
+would you set or check before trusting the result?</p>
+</div>
+</div>
+</div>
+<div id="accordionSolution3" class="accordion challenge-accordion accordion-flush">
+<div class="accordion-item">
+<button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution3" aria-expanded="false" aria-controls="collapseSolution3">
+  <h4 class="accordion-header" id="headingSolution3"> Show me the solution </h4>
+</button>
+<div id="collapseSolution3" class="accordion-collapse collapse" aria-labelledby="headingSolution3" data-bs-parent="#accordionSolution3">
+<div class="accordion-body">
+<ul><li>The <strong>walking</strong> network
+(<code>network_type="walk"</code>), because the people in question do
+not drive. Ideally you would add public transit as well.</li>
+<li>A <strong>nearest facility</strong> measure: the walking time from
+each neighborhood to the closest pharmacy, flagged where it is above 20
+minutes.</li>
+<li>OSMnx speeds are for cars, so set a walking speed yourself, for
+example <code>G.edges[u, v, k]["travel_time"] = length / speed</code>,
+with a speed in meters per second. Older adults often walk more slowly
+than the 4 to 5 km/h usually assumed.</li>
+<li>Check that the pharmacy list is complete, download the network
+beyond the neighborhoods to avoid edge effects, and check the snapping
+distances of homes and pharmacies.</li>
+</ul></div>
 </div>
 </div>
 </div>
@@ -525,6 +711,12 @@ has a weight <span class="math inline">\(w_e\)</span>, such as length or
 travel time. The shortest path between two nodes is the route whose
 total weight <span class="math inline">\(\sum_{e \in \text{route}}
 w_e\)</span> is smallest. OSMnx finds it with Dijkstra’s algorithm.</p>
+<p>Dijkstra’s algorithm works outward from the start like a ripple. It
+keeps the best known cost to every node, always settles the unvisited
+node with the lowest cost next, and then updates the costs of that
+node’s neighbors. When the destination is settled, its cost is final.
+This only works when every weight is zero or positive, which is true for
+lengths and travel times.</p>
 <div id="keypoints1" class="callout keypoints">
 <div class="callout-square">
 <i class="callout-icon" data-feather="key"></i>
@@ -546,6 +738,11 @@ let you route by time instead of distance</li>
 routing tasks</li>
 <li>Network distance is more realistic than straight line distance for
 access studies</li>
+<li>Match the network type to the people you study, and choose an access
+measure (nearest facility, cumulative opportunities, service area) that
+fits the question</li>
+<li>Check snapping distances and edge effects, and remember that speeds
+are estimates without traffic</li>
 </ul></div>
 </div>
 </div>

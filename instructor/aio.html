@@ -369,7 +369,7 @@
 <p>Last updated on 2026-10-17 |
 
         <a href="https://github.com/SpatialTurn/DataAnalysis/edit/main/episodes/networkanalysis.md" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
-<p>Estimated time: <i aria-hidden="true" data-feather="clock"></i> 70 minutes</p>
+<p>Estimated time: <i aria-hidden="true" data-feather="clock"></i> 85 minutes</p>
 <div class="text-end">
           <button role="button" aria-pressed="false" tabindex="0" id="expand-code" class="pull-right" data-expand="Expand All Solutions " data-collapse="Collapse All Solutions "> Expand All Solutions <i aria-hidden="true" data-feather="plus"></i></button>
         </div>
@@ -385,6 +385,8 @@
 <li>How do we download and visualize road networks from
 OpenStreetMap?</li>
 <li>How do we find the shortest route and measure travel time?</li>
+<li>How do routes turn into measures of access, and what can go
+wrong?</li>
 </ul>
 </div>
 </div>
@@ -400,6 +402,8 @@ GeoDataFrames</li>
 <li>Compute shortest paths by distance and by travel time</li>
 <li>Measure travel time from many locations to one point, the basis of
 an access study</li>
+<li>Choose a network type and an access measure that fit the research
+question, and recognize the assumptions behind them</li>
 </ul>
 </div>
 </div>
@@ -422,6 +426,113 @@ once added, a speed and travel time)</li>
 </ul>
 <p>Common uses include food and health care access, emergency response
 times, and transportation planning.</p>
+<figure><img src="../da_network_graph.png" alt="Diagram of a small road network with eight intersections (nodes), the start A, the end B and six numbered ones, joined by road segments (edges), each labeled with its length in meters. A one-way street is drawn with an arrow. A dashed gray bracket under the network marks the straight-line distance from A to B, 700 meters. A thick orange line follows the edges from A to B along the shortest route, labeled network route, 1,150 meters, because a river with only one bridge forces a detour." class="figure mx-auto d-block"><div class="figcaption">A small road network drawn as a graph.</div>
+</figure></section><section><h2 class="section-heading" id="thinking-in-graphs">Thinking in graphs<a class="anchor" aria-label="anchor" href="#thinking-in-graphs"></a>
+</h2>
+<hr class="half-width">
+<p>A graph is a simple idea: a set of points (<strong>nodes</strong>)
+and the connections between them (<strong>edges</strong>). In a road
+network, nodes are intersections and dead ends, and each edge is the
+stretch of road between two of them. Everything else is stored as
+<strong>attributes</strong> of the edges:</p>
+<table class="table">
+<colgroup>
+<col width="33%">
+<col width="33%">
+<col width="33%">
+</colgroup>
+<thead><tr>
+<th>Edge attribute</th>
+<th>Example</th>
+<th>Used for</th>
+</tr></thead>
+<tbody>
+<tr>
+<td><code>length</code></td>
+<td>212.4 (meters)</td>
+<td>Shortest path by distance</td>
+</tr>
+<tr>
+<td><code>highway</code></td>
+<td>
+<code>residential</code>, <code>primary</code>
+</td>
+<td>Road type, and a default speed</td>
+</tr>
+<tr>
+<td><code>maxspeed</code></td>
+<td><code>30 mph</code></td>
+<td>Travel time, where speed limits are mapped</td>
+</tr>
+<tr>
+<td><code>oneway</code></td>
+<td><code>True</code></td>
+<td>Which directions can be traveled</td>
+</tr>
+<tr>
+<td><code>travel_time</code></td>
+<td>18.3 (seconds)</td>
+<td>Fastest path, once added</td>
+</tr>
+</tbody>
+</table>
+<p>Three details matter for analysis:</p>
+<ul>
+<li>
+<strong>Direction.</strong> Streets can be one-way, so OSMnx stores
+roads as a <strong>directed</strong> graph: a two-way street is two
+edges, one in each direction. The route from A to B can therefore differ
+from the route from B to A.</li>
+<li>
+<strong>Weights.</strong> The “shortest” path depends on what each
+edge costs. With <code>length</code> as the weight you get the shortest
+route; with <code>travel_time</code> you get the fastest. You can also
+build your own weights, for example a walking cost that penalizes steep
+or busy roads.</li>
+<li>
+<strong>Simplification.</strong> OpenStreetMap draws a curving road
+with many small points. OSMnx removes the points that are not
+intersections, so each node is a real decision point and each edge keeps
+its full curved shape and length.</li>
+</ul></section><section><h2 class="section-heading" id="choosing-the-network-type">Choosing the network type<a class="anchor" aria-label="anchor" href="#choosing-the-network-type"></a>
+</h2>
+<hr class="half-width">
+<p>The <code>network_type</code> argument decides which roads and paths
+are kept:</p>
+<table class="table">
+<colgroup>
+<col width="33%">
+<col width="33%">
+<col width="33%">
+</colgroup>
+<thead><tr>
+<th><code>network_type</code></th>
+<th>Includes</th>
+<th>Direction</th>
+</tr></thead>
+<tbody>
+<tr>
+<td><code>"drive"</code></td>
+<td>Public roads open to cars</td>
+<td>One-way rules apply</td>
+</tr>
+<tr>
+<td><code>"walk"</code></td>
+<td>Streets and paths pedestrians can use, including footpaths where
+they are mapped; no motorways</td>
+<td>Every edge can be walked both ways</td>
+</tr>
+<tr>
+<td><code>"bike"</code></td>
+<td>Streets and paths where cycling is allowed</td>
+<td>One-way rules apply</td>
+</tr>
+</tbody>
+</table>
+<p>Pick the network that matches the people you study. A household
+without a car experiences the walking or transit network, not the
+driving one, and the two can give very different answers about
+access.</p>
 <div id="the-same-analysis-in-qgis" class="callout">
 <div class="callout-square">
 <i class="callout-icon" data-feather="bell"></i>
@@ -446,7 +557,7 @@ episode</a> introduces them.</p>
 <button class="accordion-button instructor-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseInstructor1" aria-expanded="false" aria-controls="collapseInstructor1">
   <h3 class="accordion-header" id="headingInstructor1">  <div class="note-square"><i aria-hidden="true" class="callout-icon" data-feather="edit-2"></i></div> Instructor Note </h3>
 </button>
-<div id="collapseInstructor1" class="accordion-collapse collapse" data-bs-parent="#accordionInstructor1" aria-labelledby="headingInstructor1">
+<div id="collapseInstructor1" class="accordion-collapse collapse" aria-labelledby="headingInstructor1" data-bs-parent="#accordionInstructor1">
 <div class="accordion-body">
 <p>Draw a small graph on the board (four intersections, five roads)
 before showing any code. Learners grasp <code>nearest_nodes</code> and
@@ -530,7 +641,7 @@ Are they the same route? Which is longer in kilometers?</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution1" aria-expanded="false" aria-controls="collapseSolution1">
   <h4 class="accordion-header" id="headingSolution1"> Show me the solution </h4>
 </button>
-<div id="collapseSolution1" class="accordion-collapse collapse" data-bs-parent="#accordionSolution1" aria-labelledby="headingSolution1">
+<div id="collapseSolution1" class="accordion-collapse collapse" aria-labelledby="headingSolution1" data-bs-parent="#accordionSolution1">
 <div class="accordion-body">
 <div class="codewrapper sourceCode" id="cb6">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -566,7 +677,7 @@ the longest drive time (in minutes) within the city?</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution2" aria-expanded="false" aria-controls="collapseSolution2">
   <h4 class="accordion-header" id="headingSolution2"> Show me the solution </h4>
 </button>
-<div id="collapseSolution2" class="accordion-collapse collapse" data-bs-parent="#accordionSolution2" aria-labelledby="headingSolution2">
+<div id="collapseSolution2" class="accordion-collapse collapse" aria-labelledby="headingSolution2" data-bs-parent="#accordionSolution2">
 <div class="accordion-body">
 <div class="codewrapper sourceCode" id="cb7">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -574,6 +685,148 @@ the longest drive time (in minutes) within the city?</p>
 <pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" tabindex="-1" aria-label="code-block-7-1"></a>times <span class="op">=</span> nx.single_source_dijkstra_path_length(G, start, weight<span class="op">=</span><span class="st">"travel_time"</span>)</span>
 <span id="cb7-2"><a href="#cb7-2" tabindex="-1" aria-label="code-block-7-2"></a><span class="bu">print</span>(<span class="bu">round</span>(<span class="bu">max</span>(times.values()) <span class="op">/</span> <span class="dv">60</span>, <span class="dv">1</span>), <span class="st">"minutes"</span>)</span></code></pre>
 </div>
+</div>
+</div>
+</div>
+</div>
+</section><section><h2 class="section-heading" id="from-routes-to-access">From routes to access<a class="anchor" aria-label="anchor" href="#from-routes-to-access"></a>
+</h2>
+<hr class="half-width">
+<p>A single route answers “how far is it from here to there?”. Access
+studies ask a broader question: <strong>how easily can people reach the
+things they need?</strong> Network analysis supports several common
+measures:</p>
+<table class="table">
+<colgroup>
+<col width="33%">
+<col width="33%">
+<col width="33%">
+</colgroup>
+<thead><tr>
+<th>Measure</th>
+<th>Question</th>
+<th>Built from</th>
+</tr></thead>
+<tbody>
+<tr>
+<td><strong>Nearest facility</strong></td>
+<td>How far, or how long, is it to the closest store, clinic or
+school?</td>
+<td>Paths from each home or neighborhood to every facility, keeping the
+minimum</td>
+</tr>
+<tr>
+<td><strong>Cumulative opportunities</strong></td>
+<td>How many jobs or stores can be reached within 15 minutes?</td>
+<td>Travel times from each origin, counting the destinations under a
+threshold</td>
+</tr>
+<tr>
+<td><strong>Service area (isochrone)</strong></td>
+<td>Which streets or areas lie within 10 minutes of a facility?</td>
+<td>Travel times outward from the facility (Challenge 2 is the start of
+one)</td>
+</tr>
+<tr>
+<td><strong>Origin-destination matrix</strong></td>
+<td>What is the travel time between every origin and every
+destination?</td>
+<td>Paths for every pair; the basis of the measures above and of gravity
+models</td>
+</tr>
+</tbody>
+</table>
+<p>Notebook 1c builds a nearest facility measure for grocery stores.</p>
+</section><section><h2 class="section-heading" id="getting-on-and-off-the-network">Getting on and off the network<a class="anchor" aria-label="anchor" href="#getting-on-and-off-the-network"></a>
+</h2>
+<hr class="half-width">
+<p>Homes, stores and clinics are not nodes. Before routing, each
+location is <strong>snapped</strong> to the nearest node with
+<code>ox.nearest_nodes</code>. This works well in a dense street grid,
+but check the snapping distance when places are far from a road, such as
+a store in a large parking lot or a rural farm. The route starts at the
+snapped node, not at the front door, and a point can snap to a road on
+the wrong side of a river or highway.</p>
+<div class="codewrapper sourceCode" id="cb8">
+<h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" tabindex="-1" aria-label="code-block-8-1"></a>node, dist <span class="op">=</span> ox.nearest_nodes(G, X<span class="op">=-</span><span class="fl">86.9112</span>, Y<span class="op">=</span><span class="fl">40.4247</span>, return_dist<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb8-2"><a href="#cb8-2" tabindex="-1" aria-label="code-block-8-2"></a><span class="bu">print</span>(node, <span class="bu">round</span>(dist), <span class="st">"meters from the network"</span>)   <span class="co"># flag large distances</span></span></code></pre>
+</div>
+<p><code>return_dist</code> reports the distance in the units of the
+graph. A graph from <code>graph_from_place</code> is in latitude and
+longitude, where OSMnx measures this distance in meters along the
+Earth’s surface.</p>
+</section><section><h2 class="section-heading" id="assumptions-and-pitfalls">Assumptions and pitfalls<a class="anchor" aria-label="anchor" href="#assumptions-and-pitfalls"></a>
+</h2>
+<hr class="half-width">
+<p>A network result is only as good as the network and the assumptions
+behind it:</p>
+<ul>
+<li>
+<strong>Speeds are estimates.</strong> <code>add_edge_speeds</code>
+uses mapped speed limits, the average speed of other roads of the same
+type, or the <code>fallback</code> value. It ignores traffic, traffic
+lights and turns, so real drive times are usually longer, especially at
+rush hour.</li>
+<li>
+<strong>The map may be incomplete.</strong> OpenStreetMap is very
+good in most U.S. cities, but it can miss footpaths, new roads or turn
+restrictions. Look at the network before trusting it.</li>
+<li>
+<strong>Edge effects.</strong> A network downloaded for one city
+stops at the city limits. Trips that leave the city and come back, and
+stores just outside it, are missed. Download a larger area than your
+study area (for example with <code>ox.graph_from_point</code> and a
+generous <code>dist</code>, or <code>ox.graph_from_polygon</code> with a
+buffered boundary), then analyze only the origins inside the study
+area.</li>
+<li>
+<strong>Mode and time of day.</strong> A driving network says
+nothing about buses, schedules or sidewalks. Public transit needs
+timetable data (GTFS) and dedicated tools.</li>
+<li>
+<strong>Distance is not the whole story.</strong> Cost, safety,
+opening hours and quality of service also shape real access.</li>
+</ul>
+<div id="challenge-3-which-network-which-measure" class="callout challenge">
+<div class="callout-square">
+<i class="callout-icon" data-feather="zap"></i>
+</div>
+<span class="callout-header">Challenge</span>
+<div id="challenge-3-which-network-which-measure" class="callout-inner">
+<h3 class="callout-title">Challenge 3: Which network, which
+measure?</h3>
+<div class="callout-content">
+<p>A health department asks you to find neighborhoods where older adults
+without cars live more than 20 minutes from a pharmacy. Which
+<code>network_type</code> would you use, which access measure, and what
+would you set or check before trusting the result?</p>
+</div>
+</div>
+</div>
+<div id="accordionSolution3" class="accordion challenge-accordion accordion-flush">
+<div class="accordion-item">
+<button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution3" aria-expanded="false" aria-controls="collapseSolution3">
+  <h4 class="accordion-header" id="headingSolution3"> Show me the solution </h4>
+</button>
+<div id="collapseSolution3" class="accordion-collapse collapse" aria-labelledby="headingSolution3" data-bs-parent="#accordionSolution3">
+<div class="accordion-body">
+<ul>
+<li>The <strong>walking</strong> network
+(<code>network_type="walk"</code>), because the people in question do
+not drive. Ideally you would add public transit as well.</li>
+<li>A <strong>nearest facility</strong> measure: the walking time from
+each neighborhood to the closest pharmacy, flagged where it is above 20
+minutes.</li>
+<li>OSMnx speeds are for cars, so set a walking speed yourself, for
+example <code>G.edges[u, v, k]["travel_time"] = length / speed</code>,
+with a speed in meters per second. Older adults often walk more slowly
+than the 4 to 5 km/h usually assumed.</li>
+<li>Check that the pharmacy list is complete, download the network
+beyond the neighborhoods to avoid edge effects, and check the snapping
+distances of homes and pharmacies.</li>
+</ul>
 </div>
 </div>
 </div>
@@ -589,6 +842,12 @@ has a weight <span class="math inline">\(w_e\)</span>, such as length or
 travel time. The shortest path between two nodes is the route whose
 total weight <span class="math inline">\(\sum_{e \in \text{route}}
 w_e\)</span> is smallest. OSMnx finds it with Dijkstra’s algorithm.</p>
+<p>Dijkstra’s algorithm works outward from the start like a ripple. It
+keeps the best known cost to every node, always settles the unvisited
+node with the lowest cost next, and then updates the costs of that
+node’s neighbors. When the destination is settled, its cost is final.
+This only works when every weight is zero or positive, which is true for
+lengths and travel times.</p>
 <div id="keypoints1" class="callout keypoints">
 <div class="callout-square">
 <i class="callout-icon" data-feather="key"></i>
@@ -611,6 +870,11 @@ let you route by time instead of distance</li>
 routing tasks</li>
 <li>Network distance is more realistic than straight line distance for
 access studies</li>
+<li>Match the network type to the people you study, and choose an access
+measure (nearest facility, cumulative opportunities, service area) that
+fits the question</li>
+<li>Check snapping distances and edge effects, and remember that speeds
+are estimates without traffic</li>
 </ul>
 </div>
 </div>
@@ -658,7 +922,7 @@ Add reference-style links below as needed.
 <p>Last updated on 2026-10-17 |
 
         <a href="https://github.com/SpatialTurn/DataAnalysis/edit/main/episodes/pysal.md" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
-<p>Estimated time: <i aria-hidden="true" data-feather="clock"></i> 70 minutes</p>
+<p>Estimated time: <i aria-hidden="true" data-feather="clock"></i> 85 minutes</p>
 <div class="text-end">
           <button role="button" aria-pressed="false" tabindex="0" id="expand-code" class="pull-right" data-expand="Expand All Solutions " data-collapse="Collapse All Solutions "> Expand All Solutions <i aria-hidden="true" data-feather="plus"></i></button>
         </div>
@@ -674,6 +938,7 @@ Add reference-style links below as needed.
 <li>How do we tell the computer which places are neighbors?</li>
 <li>How do Global and Local Moran’s I measure and locate
 clustering?</li>
+<li>What choices and pitfalls affect the results?</li>
 </ul>
 </div>
 </div>
@@ -689,6 +954,8 @@ PySAL</li>
 <li>Read a Moran scatterplot</li>
 <li>Map statistically significant hotspots and coldspots with Local
 Moran’s I (LISA)</li>
+<li>Explain permutation tests, multiple testing and the modifiable areal
+unit problem</li>
 </ul>
 </div>
 </div>
@@ -738,12 +1005,90 @@ Library) provides the standard tools.</p>
 <p>In this episode we use 2023 American Community Survey data for
 Indiana counties, loaded with a Census API key (see the Census data
 session for how to get one).</p>
+</section><section><h2 class="section-heading" id="why-it-matters">Why it matters<a class="anchor" aria-label="anchor" href="#why-it-matters"></a>
+</h2>
+<hr class="half-width">
+<p>Spatial autocorrelation is both a problem and a finding.</p>
+<ul>
+<li>
+<strong>A problem for standard statistics.</strong> Regression and
+t-tests assume that each observation adds new, independent information.
+When neighbors are similar, Indiana’s 92 counties carry less independent
+information than 92 random draws, so standard errors come out too small
+and results look more significant than they are. Spatial regression
+models (in PySAL’s <code>spreg</code> package) correct for this.</li>
+<li>
+<strong>A finding in itself.</strong> Clustering says something
+about the process behind the data: people with similar incomes sort into
+similar neighborhoods, diseases spread to nearby places, and policies
+spill across borders. Mapping where clusters are is often the first step
+of a spatial study.</li>
+</ul></section><section><h2 class="section-heading" id="spatial-weights-who-is-a-neighbor">Spatial weights: who is a neighbor?<a class="anchor" aria-label="anchor" href="#spatial-weights-who-is-a-neighbor"></a>
+</h2>
+<hr class="half-width">
+<p>Before PySAL can compare a place with its neighbors, you must say who
+the neighbors are. This is the <strong>spatial weights matrix</strong>
+<span class="math inline">\(W\)</span>: a table with one row and one
+column per place, where <span class="math inline">\(w_{ij}\)</span> is
+not zero when <span class="math inline">\(j\)</span> is a neighbor of
+<span class="math inline">\(i\)</span>.</p>
+<figure><img src="../da_spatial_weights.png" alt="Three panels. Left, Rook contiguity: a 5 by 5 grid of square cells with the center cell in dark orange and the four cells sharing an edge with it (above, below, left and right) in light orange. Middle, Queen contiguity: the same grid with the eight surrounding cells, including the diagonal corners, in light orange. Right, K-nearest neighbors with k equal to 4: scattered points of uneven spacing, one dark orange point joined by lines to its four closest points; the number of neighbors is always four, however near or far they are." class="figure mx-auto d-block"><div class="figcaption">Three ways to define neighbors.</div>
+</figure><table class="table">
+<colgroup>
+<col width="33%">
+<col width="33%">
+<col width="33%">
+</colgroup>
+<thead><tr>
+<th>Type</th>
+<th>Neighbors are</th>
+<th>Good for</th>
+</tr></thead>
+<tbody>
+<tr>
+<td><strong>Rook contiguity</strong></td>
+<td>Polygons that share an edge</td>
+<td>Regular polygons and grids</td>
+</tr>
+<tr>
+<td><strong>Queen contiguity</strong></td>
+<td>Polygons that share an edge or a corner</td>
+<td>Most polygon data, such as counties or tracts (the usual
+default)</td>
+</tr>
+<tr>
+<td><strong>K-nearest neighbors (KNN)</strong></td>
+<td>The k closest centers</td>
+<td>Points, or polygons of very different sizes; every place gets
+exactly k neighbors</td>
+</tr>
+<tr>
+<td><strong>Distance band</strong></td>
+<td>Every place within a set distance</td>
+<td>Points, when “near” has a natural distance</td>
+</tr>
+</tbody>
+</table>
+<p>Two more ideas come up constantly:</p>
+<ul>
+<li>
+<strong>Row standardization</strong>
+(<code>w.transform = "R"</code>) divides each row by the number of
+neighbors, so each place’s weights sum to 1. A county with eight
+neighbors and a county with three are then treated alike, and
+multiplying the weights by the data gives the <strong>spatial
+lag</strong>: the average value of each place’s neighbors.</li>
+<li>
+<strong>Islands</strong> are places with no neighbors under a
+contiguity rule, such as an island county. PySAL warns about them. Drop
+them, or give them neighbors with a KNN or distance rule.</li>
+</ul>
 <div id="accordionInstructor1" class="accordion instructor-note accordion-flush">
 <div class="accordion-item">
 <button class="accordion-button instructor-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseInstructor1" aria-expanded="false" aria-controls="collapseInstructor1">
   <h3 class="accordion-header" id="headingInstructor1">  <div class="note-square"><i aria-hidden="true" class="callout-icon" data-feather="edit-2"></i></div> Instructor Note </h3>
 </button>
-<div id="collapseInstructor1" class="accordion-collapse collapse" aria-labelledby="headingInstructor1" data-bs-parent="#accordionInstructor1">
+<div id="collapseInstructor1" class="accordion-collapse collapse" data-bs-parent="#accordionInstructor1" aria-labelledby="headingInstructor1">
 <div class="accordion-body">
 <p>Spatial weights are the hardest idea here. Use the chess analogy
 (Rook moves straight, Queen also moves diagonally) and draw a 3 by 3
@@ -793,22 +1138,81 @@ together</li>
 <pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" tabindex="-1" aria-label="code-block-3-1"></a><span class="im">from</span> splot.esda <span class="im">import</span> moran_scatterplot</span>
 <span id="cb3-2"><a href="#cb3-2" tabindex="-1" aria-label="code-block-3-2"></a>moran_scatterplot(mi, aspect_equal<span class="op">=</span><span class="va">True</span>)</span></code></pre>
 </div>
-</section><section><h2 class="section-heading" id="local-morans-i-lisa">3. Local Moran’s I (LISA)<a class="anchor" aria-label="anchor" href="#local-morans-i-lisa"></a>
-</h2>
-<hr class="half-width">
+<div class="section level3">
+<h3 id="reading-the-moran-scatterplot">Reading the Moran scatterplot<a class="anchor" aria-label="anchor" href="#reading-the-moran-scatterplot"></a>
+</h3>
+<p>The scatterplot puts each county’s value on the x axis and its
+<strong>spatial lag</strong> (the average of its neighbors) on the y
+axis, both standardized so that 0 is the mean.</p>
+<ul>
+<li>The slope of the fitted line equals Moran’s I (with row standardized
+weights).</li>
+<li>The four quadrants are the categories that LISA uses below: top
+right <strong>High-High</strong> (a high value among high neighbors),
+bottom left <strong>Low-Low</strong>, top left <strong>Low-High</strong>
+(a low value among high neighbors) and bottom right
+<strong>High-Low</strong>.</li>
+<li>Points far from the line are places that do not fit the overall
+pattern, and are worth a closer look.</li>
+</ul>
+<p>You can compute the spatial lag yourself:</p>
 <div class="codewrapper sourceCode" id="cb4">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" tabindex="-1" aria-label="code-block-4-1"></a><span class="im">from</span> esda.moran <span class="im">import</span> Moran_Local</span>
-<span id="cb4-2"><a href="#cb4-2" tabindex="-1" aria-label="code-block-4-2"></a><span class="im">from</span> splot.esda <span class="im">import</span> lisa_cluster</span>
-<span id="cb4-3"><a href="#cb4-3" tabindex="-1" aria-label="code-block-4-3"></a></span>
-<span id="cb4-4"><a href="#cb4-4" tabindex="-1" aria-label="code-block-4-4"></a>lisa <span class="op">=</span> Moran_Local(counties[<span class="st">"median_age"</span>], w_queen, permutations<span class="op">=</span><span class="dv">999</span>, seed<span class="op">=</span><span class="dv">42</span>)</span>
-<span id="cb4-5"><a href="#cb4-5" tabindex="-1" aria-label="code-block-4-5"></a>lisa_cluster(lisa, counties, p<span class="op">=</span><span class="fl">0.05</span>)     <span class="co"># only significant counties are colored</span></span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" tabindex="-1" aria-label="code-block-4-1"></a><span class="im">from</span> libpysal.weights <span class="im">import</span> lag_spatial</span>
+<span id="cb4-2"><a href="#cb4-2" tabindex="-1" aria-label="code-block-4-2"></a>counties[<span class="st">"lag_median_age"</span>] <span class="op">=</span> lag_spatial(w_queen, counties[<span class="st">"median_age"</span>])   <span class="co"># neighbors' average</span></span></code></pre>
+</div>
+</div>
+<div class="section level3">
+<h3 id="could-it-be-chance-permutation-tests">Could it be chance? Permutation tests<a class="anchor" aria-label="anchor" href="#could-it-be-chance-permutation-tests"></a>
+</h3>
+<p>PySAL tests significance by <strong>permutation</strong>. It shuffles
+the values randomly among the places, for example 999 times, recomputes
+I for each shuffled map, and counts how often a shuffled map is at least
+as extreme as the real one. The pseudo p-value is</p>
+<p><span class="math display">\[
+p = \frac{M + 1}{R + 1}
+\]</span></p>
+<p>where <span class="math inline">\(M\)</span> is the number of
+shuffled maps at least as extreme as the observed one and <span class="math inline">\(R\)</span> is the number of permutations. With 999
+permutations the smallest possible p-value is 0.001. Because the
+shuffles are random, p-values can change slightly from run to run;
+<code>Moran_Local</code> accepts a <code>seed</code> so that results are
+repeatable.</p>
+</div>
+</section><section><h2 class="section-heading" id="local-morans-i-lisa">3. Local Moran’s I (LISA)<a class="anchor" aria-label="anchor" href="#local-morans-i-lisa"></a>
+</h2>
+<hr class="half-width">
+<div class="codewrapper sourceCode" id="cb5">
+<h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" tabindex="-1" aria-label="code-block-5-1"></a><span class="im">from</span> esda.moran <span class="im">import</span> Moran_Local</span>
+<span id="cb5-2"><a href="#cb5-2" tabindex="-1" aria-label="code-block-5-2"></a><span class="im">from</span> splot.esda <span class="im">import</span> lisa_cluster</span>
+<span id="cb5-3"><a href="#cb5-3" tabindex="-1" aria-label="code-block-5-3"></a></span>
+<span id="cb5-4"><a href="#cb5-4" tabindex="-1" aria-label="code-block-5-4"></a>lisa <span class="op">=</span> Moran_Local(counties[<span class="st">"median_age"</span>], w_queen, permutations<span class="op">=</span><span class="dv">999</span>, seed<span class="op">=</span><span class="dv">42</span>)</span>
+<span id="cb5-5"><a href="#cb5-5" tabindex="-1" aria-label="code-block-5-5"></a>lisa_cluster(lisa, counties, p<span class="op">=</span><span class="fl">0.05</span>)     <span class="co"># only significant counties are colored</span></span></code></pre>
 </div>
 <p>Labels: <strong>High-High</strong> (hotspot),
 <strong>Low-Low</strong> (coldspot), <strong>High-Low</strong> and
 <strong>Low-High</strong> (outliers), and <strong>Not
 significant</strong>.</p>
+<div class="section level3">
+<h3 id="local-results-need-care">Local results need care<a class="anchor" aria-label="anchor" href="#local-results-need-care"></a>
+</h3>
+<p>Local Moran’s I runs one test per place: 92 tests for Indiana
+counties, and hundreds or thousands for tracts. With a cutoff of p &lt;
+0.05, about 1 place in 20 would look significant even on a completely
+random map. To be careful:</p>
+<ul>
+<li>use a stricter cutoff, such as <code>p=0.01</code>;</li>
+<li>apply a <strong>False Discovery Rate</strong> (FDR) correction,
+which lowers the cutoff according to the number of tests;</li>
+<li>treat significant clusters as places to investigate, not as
+proof.</li>
+</ul>
+<p>Getis-Ord Gi* (<code>esda.G_Local</code>) is another common hotspot
+statistic. It finds clusters of high or low values but does not separate
+outliers the way LISA does.</p>
 <div id="challenge-1-rook-or-queen" class="callout challenge">
 <div class="callout-square">
 <i class="callout-icon" data-feather="zap"></i>
@@ -828,7 +1232,7 @@ Why can Queen never have fewer neighbors than Rook?</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution1" aria-expanded="false" aria-controls="collapseSolution1">
   <h4 class="accordion-header" id="headingSolution1"> Show me the solution </h4>
 </button>
-<div id="collapseSolution1" class="accordion-collapse collapse" aria-labelledby="headingSolution1" data-bs-parent="#accordionSolution1">
+<div id="collapseSolution1" class="accordion-collapse collapse" data-bs-parent="#accordionSolution1" aria-labelledby="headingSolution1">
 <div class="accordion-body">
 <p>Queen counts every county that shares an edge (like Rook)
 <strong>plus</strong> any that only touch at a corner. So it always
@@ -855,17 +1259,80 @@ Then make its LISA map.</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution2" aria-expanded="false" aria-controls="collapseSolution2">
   <h4 class="accordion-header" id="headingSolution2"> Show me the solution </h4>
 </button>
-<div id="collapseSolution2" class="accordion-collapse collapse" aria-labelledby="headingSolution2" data-bs-parent="#accordionSolution2">
+<div id="collapseSolution2" class="accordion-collapse collapse" data-bs-parent="#accordionSolution2" aria-labelledby="headingSolution2">
 <div class="accordion-body">
-<div class="codewrapper sourceCode" id="cb5">
+<div class="codewrapper sourceCode" id="cb6">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" tabindex="-1" aria-label="code-block-5-1"></a>mi2 <span class="op">=</span> Moran(counties[<span class="st">"pct_asian"</span>], w_queen, permutations<span class="op">=</span><span class="dv">999</span>)</span>
-<span id="cb5-2"><a href="#cb5-2" tabindex="-1" aria-label="code-block-5-2"></a><span class="bu">print</span>(mi2.I, mi2.p_sim)</span>
-<span id="cb5-3"><a href="#cb5-3" tabindex="-1" aria-label="code-block-5-3"></a>lisa_cluster(Moran_Local(counties[<span class="st">"pct_asian"</span>], w_queen, seed<span class="op">=</span><span class="dv">42</span>), counties, p<span class="op">=</span><span class="fl">0.05</span>)</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" tabindex="-1" aria-label="code-block-6-1"></a>mi2 <span class="op">=</span> Moran(counties[<span class="st">"pct_asian"</span>], w_queen, permutations<span class="op">=</span><span class="dv">999</span>)</span>
+<span id="cb6-2"><a href="#cb6-2" tabindex="-1" aria-label="code-block-6-2"></a><span class="bu">print</span>(mi2.I, mi2.p_sim)</span>
+<span id="cb6-3"><a href="#cb6-3" tabindex="-1" aria-label="code-block-6-3"></a>lisa_cluster(Moran_Local(counties[<span class="st">"pct_asian"</span>], w_queen, seed<span class="op">=</span><span class="dv">42</span>), counties, p<span class="op">=</span><span class="fl">0.05</span>)</span></code></pre>
 </div>
 <p>A positive I with p below 0.05 means clustering. High-High counties
 usually sit around large cities and universities.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section><section><h2 class="section-heading" id="pitfalls">Pitfalls<a class="anchor" aria-label="anchor" href="#pitfalls"></a>
+</h2>
+<hr class="half-width">
+<ul>
+<li>
+<strong>The modifiable areal unit problem (MAUP).</strong> Results
+change with the units. The same people aggregated to counties, tracts or
+ZIP codes can show different clusters, or none. State the units you used
+and, if you can, check another.</li>
+<li>
+<strong>Small numbers.</strong> Rates and estimates for places with
+small populations swing widely by chance and can create false hotspots.
+American Community Survey estimates for small areas also have large
+margins of error. Look at population sizes and margins of error before
+interpreting a cluster.</li>
+<li>
+<strong>Edge effects.</strong> Places on the edge of the study area,
+such as border counties, have fewer neighbors, so their local statistics
+rest on less information.</li>
+<li>
+<strong>The weights are a choice.</strong> Rook, Queen and KNN can
+give different answers. Try more than one; robust patterns survive the
+change.</li>
+<li>
+<strong>Clustering is not causation.</strong> A High-High cluster of
+median age says where older populations are, not why.</li>
+</ul>
+<div id="challenge-3-an-outlier-tract" class="callout challenge">
+<div class="callout-square">
+<i class="callout-icon" data-feather="zap"></i>
+</div>
+<span class="callout-header">Challenge</span>
+<div id="challenge-3-an-outlier-tract" class="callout-inner">
+<h3 class="callout-title">Challenge 3: An outlier tract</h3>
+<div class="callout-content">
+<p>A LISA map of median household income for Marion County tracts shows
+one tract labeled <strong>High-Low</strong>. What does that label mean,
+and what could explain it? What would you check before writing about
+it?</p>
+</div>
+</div>
+</div>
+<div id="accordionSolution3" class="accordion challenge-accordion accordion-flush">
+<div class="accordion-item">
+<button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution3" aria-expanded="false" aria-controls="collapseSolution3">
+  <h4 class="accordion-header" id="headingSolution3"> Show me the solution </h4>
+</button>
+<div id="collapseSolution3" class="accordion-collapse collapse" data-bs-parent="#accordionSolution3" aria-labelledby="headingSolution3">
+<div class="accordion-body">
+<p>High-Low means the tract’s income is well above the mean while its
+neighbors’ average is below the mean, and the difference is unlikely to
+be chance under the permutation test. It could be a new upscale
+development, a gentrifying area, or an affluent enclave next to
+lower-income neighborhoods. It could also be a statistical artifact:
+check the tract’s population and the estimate’s margin of error, because
+a small tract with a large margin of error can produce an extreme value
+by chance. With hundreds of tracts, also remember that about 1 in 20 can
+be significant at p &lt; 0.05 by chance alone.</p>
 </div>
 </div>
 </div>
@@ -898,6 +1365,10 @@ map</li>
 chance</li>
 <li>Local Moran’s I (LISA) locates hotspots, coldspots and outliers;
 always filter by p-value</li>
+<li>Many local tests produce false positives; use stricter cutoffs or
+FDR, and treat clusters as leads</li>
+<li>Results depend on the units (MAUP), the weights, small populations
+and edges of the study area</li>
 </ul>
 </div>
 </div>
@@ -947,7 +1418,7 @@ Add reference-style links below as needed.
 <p>Last updated on 2026-10-17 |
 
         <a href="https://github.com/SpatialTurn/DataAnalysis/edit/main/episodes/cluster.md" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
-<p>Estimated time: <i aria-hidden="true" data-feather="clock"></i> 70 minutes</p>
+<p>Estimated time: <i aria-hidden="true" data-feather="clock"></i> 85 minutes</p>
 <div class="text-end">
           <button role="button" aria-pressed="false" tabindex="0" id="expand-code" class="pull-right" data-expand="Expand All Solutions " data-collapse="Collapse All Solutions "> Expand All Solutions <i aria-hidden="true" data-feather="plus"></i></button>
         </div>
@@ -963,6 +1434,7 @@ Add reference-style links below as needed.
 <li>Why must coordinates be in meters before clustering?</li>
 <li>How do K-Means, hierarchical clustering, DBSCAN and HDBSCAN
 differ?</li>
+<li>When is a cluster of points really a hotspot?</li>
 </ul>
 </div>
 </div>
@@ -979,6 +1451,10 @@ points</li>
 <li>Divide points into zones with K-Means and choose k with the elbow
 method</li>
 <li>Choose a clustering method that fits the research question</li>
+<li>Explain how each method works, what it assumes, and how to choose
+its parameters</li>
+<li>Recognize the population at risk, data collection effects and other
+pitfalls in hotspot maps</li>
 </ul>
 </div>
 </div>
@@ -1035,6 +1511,29 @@ areas you can describe and compare.</p>
 </table>
 <p>The notebooks use about 200,000 crime reports from the <a href="https://data.cityofchicago.org/" class="external-link">Chicago Data Portal</a> and focus
 on robbery.</p>
+<figure><img src="../da_clustering.png" alt="Three panels of the same synthetic points: three dense groups of different sizes and shapes, one of them long and curved, plus scattered points across the whole area. Left, K-Means with k equal to 3: every point is colored, the area is split into three regions, and the scattered points are assigned to the nearest group. Middle, DBSCAN: the three dense groups are colored, the curved group is kept whole, and the scattered points are gray noise. Right, a close-up explaining DBSCAN with a circle of radius eps around points: core points with at least five points inside a circle of radius eps, a border point inside a core point's circle but with few neighbors of its own, and an isolated noise point." class="figure mx-auto d-block"><div class="figcaption">K-Means and DBSCAN on the same points.</div>
+</figure></section><section><h2 class="section-heading" id="points-patterns-and-the-population-at-risk">Points, patterns and the population at risk<a class="anchor" aria-label="anchor" href="#points-patterns-and-the-population-at-risk"></a>
+</h2>
+<hr class="half-width">
+<p>Clustering looks for places where <strong>events</strong> (robberies,
+disease cases, archaeological finds) are concentrated. It is related to,
+but different from, the previous episode: spatial autocorrelation asks
+whether <strong>values attached to areas</strong> (such as median age by
+county) are similar among neighbors.</p>
+<p>Before calling a cluster a “hotspot”, ask what you are comparing it
+with. Events happen where people are: a busy downtown has more robberies
+than a quiet suburb partly because far more people pass through it. A
+dense cluster of points may reflect the <strong>population at
+risk</strong> rather than an unusually high risk. Common ways to handle
+this are to compare with a background (rates per resident or per
+visitor, or a control set of points such as all reported crimes), or to
+aggregate the points to areas and analyze rates with the methods from
+the PySAL episode.</p>
+<p>How the data were collected shapes them too. Crime reports reflect
+reporting and policing as well as crime itself, and the Chicago portal
+shows locations at the <strong>block level only</strong> to protect
+victims’ privacy, so many reports share exactly the same
+coordinates.</p>
 <div id="accordionInstructor1" class="accordion instructor-note accordion-flush">
 <div class="accordion-item">
 <button class="accordion-button instructor-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseInstructor1" aria-expanded="false" aria-controls="collapseInstructor1">
@@ -1126,6 +1625,97 @@ cluster. Choose <code>eps</code> with a k-distance plot (see notebook
 </div>
 <p>Plot any result with
 <code>robbery.plot(column="dbscan", categorical=True, markersize=1)</code>.</p>
+</section><section><h2 class="section-heading" id="how-the-methods-work">How the methods work<a class="anchor" aria-label="anchor" href="#how-the-methods-work"></a>
+</h2>
+<hr class="half-width">
+<div class="section level3">
+<h3 id="dbscan">DBSCAN<a class="anchor" aria-label="anchor" href="#dbscan"></a>
+</h3>
+<p>DBSCAN (Density-Based Spatial Clustering of Applications with Noise)
+sorts every point into one of three kinds:</p>
+<ul>
+<li>a <strong>core point</strong> has at least <code>min_samples</code>
+points (counting itself) within <code>eps</code>;</li>
+<li>a <strong>border point</strong> lies within <code>eps</code> of a
+core point but does not have enough neighbors of its own;</li>
+<li>a <strong>noise point</strong> is neither, and gets the label
+<code>-1</code>.</li>
+</ul>
+<p>Core points that are within <code>eps</code> of each other join the
+same cluster, so clusters can take any shape, following a river or a
+commercial street.</p>
+<p><strong>Choosing <code>eps</code>.</strong> Make a <strong>k-distance
+plot</strong>: for every point, find the distance to its k-th nearest
+neighbor (with k equal to <code>min_samples</code>), sort those
+distances and plot them. Most points sit on a flat part of the curve;
+where the curve bends sharply upward (the “knee”), points start to be
+isolated. The distance at the knee is a good first choice for
+<code>eps</code>.</p>
+<div class="codewrapper sourceCode" id="cb6">
+<h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" tabindex="-1" aria-label="code-block-6-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb6-2"><a href="#cb6-2" tabindex="-1" aria-label="code-block-6-2"></a><span class="im">from</span> sklearn.neighbors <span class="im">import</span> NearestNeighbors</span>
+<span id="cb6-3"><a href="#cb6-3" tabindex="-1" aria-label="code-block-6-3"></a></span>
+<span id="cb6-4"><a href="#cb6-4" tabindex="-1" aria-label="code-block-6-4"></a>k <span class="op">=</span> <span class="dv">50</span>                                                    <span class="co"># same as min_samples</span></span>
+<span id="cb6-5"><a href="#cb6-5" tabindex="-1" aria-label="code-block-6-5"></a>dist, _ <span class="op">=</span> NearestNeighbors(n_neighbors<span class="op">=</span>k).fit(coords).kneighbors(coords)</span>
+<span id="cb6-6"><a href="#cb6-6" tabindex="-1" aria-label="code-block-6-6"></a>plt.plot(np.sort(dist[:, <span class="op">-</span><span class="dv">1</span>]))</span>
+<span id="cb6-7"><a href="#cb6-7" tabindex="-1" aria-label="code-block-6-7"></a>plt.ylabel(<span class="ss">f"distance to neighbor </span><span class="sc">{</span>k<span class="sc">}</span><span class="ss"> (m)"</span>)</span>
+<span id="cb6-8"><a href="#cb6-8" tabindex="-1" aria-label="code-block-6-8"></a>plt.xlabel(<span class="st">"points, sorted"</span>)</span>
+<span id="cb6-9"><a href="#cb6-9" tabindex="-1" aria-label="code-block-6-9"></a>plt.show()</span></code></pre>
+</div>
+<p><strong>Choosing <code>min_samples</code>.</strong> Larger values ask
+for denser clusters and label more points as noise. With thousands of
+points, values in the tens are common; with a few hundred, try 5 to
+10.</p>
+<p>DBSCAN’s weakness is that one <code>eps</code> applies to the whole
+map, so it cannot find both a tight downtown cluster and a looser
+suburban one at the same time.</p>
+</div>
+<div class="section level3">
+<h3 id="hdbscan">HDBSCAN<a class="anchor" aria-label="anchor" href="#hdbscan"></a>
+</h3>
+<p>HDBSCAN (Hierarchical DBSCAN) avoids choosing <code>eps</code>. In
+effect it tries every value of <code>eps</code> at once, builds a tree
+of how clusters split apart as the distance shrinks, and keeps the
+clusters that last over a wide range of distances (the most
+<strong>stable</strong> ones). You set <code>min_cluster_size</code>,
+the smallest group worth calling a cluster. It finds clusters of
+different densities, labels noise as <code>-1</code>, and reports how
+strongly each point belongs to its cluster
+(<code>probabilities_</code>).</p>
+</div>
+<div class="section level3">
+<h3 id="k-means">K-Means<a class="anchor" aria-label="anchor" href="#k-means"></a>
+</h3>
+<p>K-Means places k centers, assigns every point to its nearest center,
+moves each center to the mean of its points, and repeats until nothing
+changes. It assumes clusters that are roughly round and of similar size,
+and it assigns <strong>every</strong> point, so outliers pull the
+centers toward them. The result depends on where the centers start;
+<code>n_init=10</code> runs ten starts and keeps the best one.</p>
+<p>To choose k, plot the <strong>inertia</strong> (the total squared
+distance from points to their centers) for k = 2, 3, 4 and so on, and
+look for the elbow where adding clusters stops helping much. The
+<strong>silhouette score</strong>
+(<code>sklearn.metrics.silhouette_score</code>, from -1 to 1) measures
+how well each point fits its own cluster compared with the next nearest
+one; higher is better. On large datasets, compute it on a sample with
+<code>sample_size=2000</code>.</p>
+</div>
+<div class="section level3">
+<h3 id="hierarchical-clustering">Hierarchical clustering<a class="anchor" aria-label="anchor" href="#hierarchical-clustering"></a>
+</h3>
+<p>Agglomerative hierarchical clustering starts with every point as its
+own cluster and repeatedly merges the two closest clusters. The
+<strong>linkage</strong> rule defines “closest”: single linkage (the
+nearest pair of points, which tends to make long chains), complete
+linkage (the farthest pair), average linkage, or <strong>Ward</strong>
+(the merge that adds the least variance, which makes compact clusters).
+In the dendrogram, the height of each join is the distance at which two
+groups merge; cutting the tree at a height gives the clusters. Memory
+use grows with the square of the number of points, which is why the
+example uses a sample.</p>
 <div id="challenge-1-k-means-or-dbscan" class="callout challenge">
 <div class="callout-square">
 <i class="callout-icon" data-feather="zap"></i>
@@ -1175,17 +1765,92 @@ change?</p>
 </button>
 <div id="collapseSolution2" class="accordion-collapse collapse" data-bs-parent="#accordionSolution2" aria-labelledby="headingSolution2">
 <div class="accordion-body">
-<div class="codewrapper sourceCode" id="cb6">
+<div class="codewrapper sourceCode" id="cb7">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" tabindex="-1" aria-label="code-block-6-1"></a><span class="cf">for</span> eps <span class="kw">in</span> [<span class="dv">500</span>, <span class="dv">1500</span>]:</span>
-<span id="cb6-2"><a href="#cb6-2" tabindex="-1" aria-label="code-block-6-2"></a>    labels <span class="op">=</span> DBSCAN(eps<span class="op">=</span>eps, min_samples<span class="op">=</span><span class="dv">50</span>).fit(coords).labels_</span>
-<span id="cb6-3"><a href="#cb6-3" tabindex="-1" aria-label="code-block-6-3"></a>    <span class="bu">print</span>(eps, labels.<span class="bu">max</span>() <span class="op">+</span> <span class="dv">1</span>, <span class="st">"clusters"</span>, <span class="ss">f"</span><span class="sc">{</span>(labels <span class="op">==</span> <span class="op">-</span><span class="dv">1</span>)<span class="sc">.</span>mean()<span class="sc">:.0%}</span><span class="ss"> noise"</span>)</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" tabindex="-1" aria-label="code-block-7-1"></a><span class="cf">for</span> eps <span class="kw">in</span> [<span class="dv">500</span>, <span class="dv">1500</span>]:</span>
+<span id="cb7-2"><a href="#cb7-2" tabindex="-1" aria-label="code-block-7-2"></a>    labels <span class="op">=</span> DBSCAN(eps<span class="op">=</span>eps, min_samples<span class="op">=</span><span class="dv">50</span>).fit(coords).labels_</span>
+<span id="cb7-3"><a href="#cb7-3" tabindex="-1" aria-label="code-block-7-3"></a>    <span class="bu">print</span>(eps, labels.<span class="bu">max</span>() <span class="op">+</span> <span class="dv">1</span>, <span class="st">"clusters"</span>, <span class="ss">f"</span><span class="sc">{</span>(labels <span class="op">==</span> <span class="op">-</span><span class="dv">1</span>)<span class="sc">.</span>mean()<span class="sc">:.0%}</span><span class="ss"> noise"</span>)</span></code></pre>
 </div>
 <p>A smaller <code>eps</code> gives more, smaller clusters and more
 noise. A larger <code>eps</code> merges clusters into a few large
 ones.</p>
 </div>
+</div>
+</div>
+</div>
+</div>
+</section><section><h2 class="section-heading" id="pitfalls">Pitfalls<a class="anchor" aria-label="anchor" href="#pitfalls"></a>
+</h2>
+<hr class="half-width">
+<ul>
+<li>
+<strong>Degrees instead of meters.</strong> Always reproject first
+(Section 1).</li>
+<li>
+<strong>Duplicate locations.</strong> Block-level coordinates put
+many reports on the same spot. Every duplicate counts as a neighbor,
+which can make an area look denser than it is.</li>
+<li>
+<strong>Parameters shape the result.</strong> Report
+<code>eps</code>, <code>min_samples</code>,
+<code>min_cluster_size</code> or k, and check how the map changes with
+other values (Challenge 2).</li>
+<li>
+<strong>No significance test.</strong> Unlike LISA, these methods do
+not test whether a cluster could arise by chance. Comparing with random
+points, or using a scan statistic, is needed for that.</li>
+<li>
+<strong>Edges.</strong> Points near the edge of the study area, such
+as the city limits or the Lake Michigan shore, have fewer
+neighbors.</li>
+<li>
+<strong>Consequences.</strong> Hotspot maps can stigmatize
+neighborhoods and influence where police patrol, which in turn produces
+more reports in the same places.</li>
+</ul>
+<div id="challenge-3-reading-a-k-distance-plot" class="callout challenge">
+<div class="callout-square">
+<i class="callout-icon" data-feather="zap"></i>
+</div>
+<span class="callout-header">Challenge</span>
+<div id="challenge-3-reading-a-k-distance-plot" class="callout-inner">
+<h3 class="callout-title">Challenge 3: Reading a k-distance plot</h3>
+<div class="callout-content">
+<p>Your k-distance plot (k = 50) stays fairly flat up to about 800 m and
+then rises steeply. Which <code>eps</code> would you try first? What
+would happen with <code>eps=200</code> or <code>eps=3000</code>?</p>
+</div>
+</div>
+</div>
+<div id="accordionSolution3" class="accordion challenge-accordion accordion-flush">
+<div class="accordion-item">
+<button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution3" aria-expanded="false" aria-controls="collapseSolution3">
+  <h4 class="accordion-header" id="headingSolution3"> Show me the solution </h4>
+</button>
+<div id="collapseSolution3" class="accordion-collapse collapse" data-bs-parent="#accordionSolution3" aria-labelledby="headingSolution3">
+<div class="accordion-body">
+<p>Start with an <code>eps</code> of about 800 m, at the knee of the
+curve. With <code>eps=200</code>, few points have 50 neighbors that
+close, so most points become noise and only the very densest spots
+remain as small clusters. With <code>eps=3000</code>, almost every point
+is a core point, so clusters merge into one or a few very large ones
+that cover much of the city and say little about hotspots.</p>
+</div>
+</div>
+</div>
+</div>
+<div id="hotspot-or-crowd" class="callout discussion">
+<div class="callout-square">
+<i class="callout-icon" data-feather="message-circle"></i>
+</div>
+<span class="callout-header">Discussion</span>
+<div id="hotspot-or-crowd" class="callout-inner">
+<h3 class="callout-title">Hotspot or crowd?</h3>
+<div class="callout-content">
+<p>DBSCAN finds a large robbery cluster in the Loop, Chicago’s downtown.
+Is the Loop a dangerous place, or just a crowded one? What extra data
+would help you decide?</p>
 </div>
 </div>
 </div>
@@ -1218,6 +1883,10 @@ elbow method</li>
 <li>Hierarchical clustering shows how groups merge, but is slow on large
 datasets</li>
 <li>Pick the method that matches your question: hotspots or zones</li>
+<li>Choose <code>eps</code> with a k-distance plot and k with the elbow
+method or silhouette score</li>
+<li>A dense cluster may reflect the population at risk, duplicate
+locations or reporting, not high risk</li>
 </ul>
 </div>
 </div>
@@ -1267,7 +1936,7 @@ Add reference-style links below as needed.
 <p>Last updated on 2026-10-17 |
 
         <a href="https://github.com/SpatialTurn/DataAnalysis/edit/main/episodes/ndvi.md" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
-<p>Estimated time: <i aria-hidden="true" data-feather="clock"></i> 70 minutes</p>
+<p>Estimated time: <i aria-hidden="true" data-feather="clock"></i> 85 minutes</p>
 <div class="text-end">
           <button role="button" aria-pressed="false" tabindex="0" id="expand-code" class="pull-right" data-expand="Expand All Solutions " data-collapse="Collapse All Solutions "> Expand All Solutions <i aria-hidden="true" data-feather="plus"></i></button>
         </div>
@@ -1282,6 +1951,7 @@ Add reference-style links below as needed.
 <li>What is NDVI and why is it useful?</li>
 <li>How do we read Landsat bands and compute NDVI in Python?</li>
 <li>How can we classify NDVI into land cover groups?</li>
+<li>What affects NDVI values, and how should they be interpreted?</li>
 </ul>
 </div>
 </div>
@@ -1297,6 +1967,10 @@ red</li>
 surface reflectance</li>
 <li>Compute, map and save NDVI as a GeoTIFF</li>
 <li>Classify NDVI with thresholds and summarize area by class</li>
+<li>Describe spectral signatures, image processing levels and
+resolution</li>
+<li>Recognize the limits of NDVI (season, clouds, saturation, mixed
+pixels) when comparing places and dates</li>
 </ul>
 </div>
 </div>
@@ -1339,12 +2013,120 @@ urban green space and land cover change.</p>
 <p>The notebooks use one Landsat scene over Indiana (Collection 2
 Level-2 surface reflectance). For Landsat 8 and 9, <strong>Band 4 is
 red</strong> and <strong>Band 5 is NIR</strong>.</p>
+</section><section><h2 class="section-heading" id="how-satellites-see-vegetation">How satellites see vegetation<a class="anchor" aria-label="anchor" href="#how-satellites-see-vegetation"></a>
+</h2>
+<hr class="half-width">
+<p>A satellite sensor measures how much sunlight each patch of ground
+reflects in several <strong>bands</strong>, narrow ranges of wavelength.
+The share of light reflected is the <strong>reflectance</strong>, from 0
+(all absorbed) to 1 (all reflected). Each kind of surface has a typical
+pattern of reflectance across wavelengths, its <strong>spectral
+signature</strong>.</p>
+<figure><img src="../da_spectral_signatures.png" alt="Line chart of reflectance (0 to 0.5) against wavelength (0.4 to 1.0 micrometers), with illustrative curves. Green vegetation is low in blue and red, with a small bump in green, then rises steeply after about 0.7 micrometers to about 0.45 in the near infrared. Bare soil rises gently from about 0.1 to 0.3. Water is low everywhere and falls to almost 0 in the near infrared. Two shaded bands mark Landsat 8 and 9 Band 4 (red, about 0.64 to 0.67 micrometers) and Band 5 (near infrared, about 0.85 to 0.88 micrometers). Labels give the resulting NDVI: vegetation 0.83, soil 0.15, water minus 0.55." class="figure mx-auto d-block"><div class="figcaption">Spectral signatures of vegetation, soil and
+water.</div>
+</figure><ul>
+<li>
+<strong>Healthy vegetation</strong> absorbs most red and blue light,
+because chlorophyll uses it for photosynthesis, and reflects a little
+more green, which is why leaves look green. In the near infrared, just
+beyond what our eyes can see, the internal structure of leaves scatters
+light strongly, so reflectance jumps to 0.3 to 0.5.</li>
+<li>
+<strong>Bare soil and pavement</strong> reflect a moderate amount,
+rising gently with wavelength, so red and NIR are similar.</li>
+<li>
+<strong>Water</strong> absorbs nearly all NIR light, so it is dark
+in that band.</li>
+</ul>
+<p>NDVI uses the steep rise between red and NIR (the <strong>red
+edge</strong>) that only vegetation shows.</p>
+</section><section><h2 class="section-heading" id="why-a-normalized-difference">Why a normalized difference?<a class="anchor" aria-label="anchor" href="#why-a-normalized-difference"></a>
+</h2>
+<hr class="half-width">
+<p>The plain difference, NIR minus red, already separates vegetation
+from other surfaces, but it also changes with the brightness of the
+scene: the sun angle, slopes facing toward or away from the sun, and
+thin haze. Dividing by NIR plus red cancels much of that brightness
+effect and keeps every value between -1 and +1, so NDVI from different
+places and dates is easier to compare.</p>
+</section><section><h2 class="section-heading" id="from-pixels-to-reflectance">From pixels to reflectance<a class="anchor" aria-label="anchor" href="#from-pixels-to-reflectance"></a>
+</h2>
+<hr class="half-width">
+<p>Landsat images are distributed at different <strong>processing
+levels</strong>:</p>
+<table class="table">
+<colgroup>
+<col width="33%">
+<col width="33%">
+<col width="33%">
+</colgroup>
+<thead><tr>
+<th>Product</th>
+<th>What the values are</th>
+<th>Use</th>
+</tr></thead>
+<tbody>
+<tr>
+<td>Level-1</td>
+<td>Digital numbers (DN): calibrated sensor counts, still affected by
+the atmosphere</td>
+<td>Needs conversion before indices are compared</td>
+</tr>
+<tr>
+<td>Level-2 surface reflectance</td>
+<td>Reflectance corrected for the atmosphere, stored as integers</td>
+<td>Ready for NDVI after applying the scale and offset</td>
+</tr>
+</tbody>
+</table>
+<p>Collection 2 Level-2 values are stored as integers to save space;
+multiplying by 0.0000275 and adding -0.2 turns them back into
+reflectance. The value 0 marks pixels outside the scene. Level-2
+products also include a <code>QA_PIXEL</code> band that flags clouds,
+cloud shadows, snow and water. Masking the flagged pixels before
+analysis stops a cloud from being counted as bare ground.</p>
+<p><strong>Resolution</strong> describes how much detail an image
+holds:</p>
+<table class="table">
+<colgroup>
+<col width="33%">
+<col width="33%">
+<col width="33%">
+</colgroup>
+<thead><tr>
+<th></th>
+<th>Landsat 8 and 9</th>
+<th>Sentinel-2</th>
+</tr></thead>
+<tbody>
+<tr>
+<td>Pixel size (red and NIR)</td>
+<td>30 m</td>
+<td>10 m</td>
+</tr>
+<tr>
+<td>Red and NIR bands</td>
+<td>Bands 4 and 5</td>
+<td>Bands 4 and 8</td>
+</tr>
+<tr>
+<td>Revisit</td>
+<td>16 days per satellite, 8 days with both</td>
+<td>About 5 days with both satellites</td>
+</tr>
+<tr>
+<td>Archive</td>
+<td>Landsat images since 1972 (this sensor design since 2013)</td>
+<td>Since 2015</td>
+</tr>
+</tbody>
+</table>
 <div id="accordionInstructor1" class="accordion instructor-note accordion-flush">
 <div class="accordion-item">
 <button class="accordion-button instructor-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseInstructor1" aria-expanded="false" aria-controls="collapseInstructor1">
   <h3 class="accordion-header" id="headingInstructor1">  <div class="note-square"><i aria-hidden="true" class="callout-icon" data-feather="edit-2"></i></div> Instructor Note </h3>
 </button>
-<div id="collapseInstructor1" class="accordion-collapse collapse" data-bs-parent="#accordionInstructor1" aria-labelledby="headingInstructor1">
+<div id="collapseInstructor1" class="accordion-collapse collapse" aria-labelledby="headingInstructor1" data-bs-parent="#accordionInstructor1">
 <div class="accordion-body">
 <p>Pause after the formula and make sure learners know which band is
 which. Each band is about 90 MB and is read from GitHub into memory, so
@@ -1443,7 +2225,7 @@ so we need four colors.</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution1" aria-expanded="false" aria-controls="collapseSolution1">
   <h4 class="accordion-header" id="headingSolution1"> Show me the solution </h4>
 </button>
-<div id="collapseSolution1" class="accordion-collapse collapse" data-bs-parent="#accordionSolution1" aria-labelledby="headingSolution1">
+<div id="collapseSolution1" class="accordion-collapse collapse" aria-labelledby="headingSolution1" data-bs-parent="#accordionSolution1">
 <div class="accordion-body">
 <p>Four breaks make five classes, so you need five colors and
 <code>vmax=4</code>.</p>
@@ -1479,7 +2261,7 @@ result. What is the mean NDVI of land only?</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution2" aria-expanded="false" aria-controls="collapseSolution2">
   <h4 class="accordion-header" id="headingSolution2"> Show me the solution </h4>
 </button>
-<div id="collapseSolution2" class="accordion-collapse collapse" data-bs-parent="#accordionSolution2" aria-labelledby="headingSolution2">
+<div id="collapseSolution2" class="accordion-collapse collapse" aria-labelledby="headingSolution2" data-bs-parent="#accordionSolution2">
 <div class="accordion-body">
 <div class="codewrapper sourceCode" id="cb6">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -1491,6 +2273,95 @@ result. What is the mean NDVI of land only?</p>
 </div>
 <p>Masked pixels are left blank on the map and ignored by
 <code>np.nanmean</code>.</p>
+</div>
+</div>
+</div>
+</div>
+</section><section><h2 class="section-heading" id="interpreting-ndvi-carefully">Interpreting NDVI carefully<a class="anchor" aria-label="anchor" href="#interpreting-ndvi-carefully"></a>
+</h2>
+<hr class="half-width">
+<ul>
+<li>
+<strong>Thresholds depend on place and season.</strong> The table at
+the top is a rule of thumb. A dry grassland in August and a corn field
+in July can differ widely. Check thresholds against a true color image
+or a field visit.</li>
+<li>
+<strong>Saturation.</strong> In dense forest and crops, NDVI levels
+off around 0.8 to 0.9 and stops responding to further increases in leaf
+area.</li>
+<li>
+<strong>Soil background.</strong> Where vegetation is sparse, the
+soil underneath strongly affects NDVI. The Soil Adjusted Vegetation
+Index (SAVI) and the Enhanced Vegetation Index (EVI) were designed to
+reduce soil and atmospheric effects.</li>
+<li>
+<strong>Mixed pixels.</strong> A 30 m pixel in a city can contain a
+tree, a roof and a road. Its NDVI is a blend, so small green spaces such
+as street trees and yards are underestimated.</li>
+<li>
+<strong>Clouds and shadows</strong> lower NDVI and can be mistaken
+for bare ground or water.</li>
+</ul></section><section><h2 class="section-heading" id="comparing-dates-change-detection">Comparing dates: change detection<a class="anchor" aria-label="anchor" href="#comparing-dates-change-detection"></a>
+</h2>
+<hr class="half-width">
+<p>Subtracting NDVI from two dates (for example
+<code>ndvi_2024 - ndvi_2014</code>) maps where vegetation was gained or
+lost. Use scenes from the <strong>same time of year</strong>, because
+crops and trees change through the seasons (their
+<strong>phenology</strong>), and use the same processing level, ideally
+from the same or a cross-calibrated sensor. Small differences of a few
+hundredths are within the noise; look for large, coherent changes.</p>
+</section><section><h2 class="section-heading" id="from-thresholds-to-classification">From thresholds to classification<a class="anchor" aria-label="anchor" href="#from-thresholds-to-classification"></a>
+</h2>
+<hr class="half-width">
+<p>Thresholding NDVI (Section 4) is the simplest way to classify land
+cover. Notebook 4c goes further:</p>
+<ul>
+<li>
+<strong>Unsupervised classification</strong> (K-Means) groups pixels
+with similar values across several bands; you name the groups
+afterwards.</li>
+<li>
+<strong>Supervised classification</strong> (Random Forest) learns
+from training samples you label, such as polygons of known forest, water
+and buildings, and then predicts every pixel. It needs good training
+data and an <strong>accuracy assessment</strong>: compare the
+predictions with reference points that were not used for training, and
+summarize the agreement in a confusion matrix.</li>
+</ul>
+<div id="challenge-3-ndvi-by-hand" class="callout challenge">
+<div class="callout-square">
+<i class="callout-icon" data-feather="zap"></i>
+</div>
+<span class="callout-header">Challenge</span>
+<div id="challenge-3-ndvi-by-hand" class="callout-inner">
+<h3 class="callout-title">Challenge 3: NDVI by hand</h3>
+<div class="callout-content">
+<p>Compute NDVI for three pixels and say what each one probably is:</p>
+<ol style="list-style-type: decimal">
+<li>red = 0.08, NIR = 0.40</li>
+<li>red = 0.20, NIR = 0.24</li>
+<li>red = 0.06, NIR = 0.03</li>
+</ol>
+</div>
+</div>
+</div>
+<div id="accordionSolution3" class="accordion challenge-accordion accordion-flush">
+<div class="accordion-item">
+<button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution3" aria-expanded="false" aria-controls="collapseSolution3">
+  <h4 class="accordion-header" id="headingSolution3"> Show me the solution </h4>
+</button>
+<div id="collapseSolution3" class="accordion-collapse collapse" aria-labelledby="headingSolution3" data-bs-parent="#accordionSolution3">
+<div class="accordion-body">
+<ol style="list-style-type: decimal">
+<li>(0.40 - 0.08) / (0.40 + 0.08) = 0.32 / 0.48 = <strong>0.67</strong>:
+dense, healthy vegetation</li>
+<li>(0.24 - 0.20) / (0.24 + 0.20) = 0.04 / 0.44 = <strong>0.09</strong>:
+bare soil, a road or a roof</li>
+<li>(0.03 - 0.06) / (0.03 + 0.06) = -0.03 / 0.09 =
+<strong>-0.33</strong>: water</li>
+</ol>
 </div>
 </div>
 </div>
@@ -1535,6 +2406,10 @@ bands 5 and 4</li>
 <li>
 <code>np.digitize</code> turns NDVI into classes; n breaks give n +
 1 classes</li>
+<li>Vegetation’s spectral signature (low red, high NIR) is what NDVI
+measures; normalizing reduces brightness effects</li>
+<li>Interpret NDVI with care: thresholds vary, dense canopies saturate,
+pixels mix, and clouds and seasons change the values</li>
 </ul>
 </div>
 </div>

@@ -237,11 +237,14 @@
     <div id="flush-collapsecurrent" class="accordion-collapse collapse show" data-bs-parent="#accordionFlushcurrent">
       <div class="accordion-body">
         <ul><li><a href="#why-spatial-clustering">Why spatial clustering?</a></li>
+<li><a href="#points-patterns-and-the-population-at-risk">Points, patterns and the population at risk</a></li>
 <li><a href="#load-points-and-reproject-to-meters">1. Load points and reproject to meters</a></li>
 <li><a href="#dbscan-density-based-hotspots">2. DBSCAN: density based hotspots</a></li>
 <li><a href="#hdbscan-no-radius-needed">3. HDBSCAN: no radius needed</a></li>
 <li><a href="#k-means-zones">4. K-Means: zones</a></li>
 <li><a href="#hierarchical-clustering-and-the-dendrogram">5. Hierarchical clustering and the dendrogram</a></li>
+<li><a href="#how-the-methods-work">How the methods work</a></li>
+<li><a href="#pitfalls">Pitfalls</a></li>
 <li><a href="#math">Math</a></li>
 <li><a href="#notebooks">Notebooks</a></li>
         </ul></div><!--/div.accordion-body-->
@@ -354,6 +357,7 @@
 <li>Why must coordinates be in meters before clustering?</li>
 <li>How do K-Means, hierarchical clustering, DBSCAN and HDBSCAN
 differ?</li>
+<li>When is a cluster of points really a hotspot?</li>
 </ul></div>
 </div>
 </div>
@@ -368,6 +372,10 @@ points</li>
 <li>Divide points into zones with K-Means and choose k with the elbow
 method</li>
 <li>Choose a clustering method that fits the research question</li>
+<li>Explain how each method works, what it assumes, and how to choose
+its parameters</li>
+<li>Recognize the population at risk, data collection effects and other
+pitfalls in hotspot maps</li>
 </ul></div>
 </div>
 </div>
@@ -401,6 +409,27 @@ areas you can describe and compare.</p>
 <td>Hotspots with varying density</td>
 </tr></tbody></table><p>The notebooks use about 200,000 crime reports from the <a href="https://data.cityofchicago.org/" class="external-link">Chicago Data Portal</a> and focus
 on robbery.</p>
+<figure><img src="da_clustering.png" alt="Three panels of the same synthetic points: three dense groups of different sizes and shapes, one of them long and curved, plus scattered points across the whole area. Left, K-Means with k equal to 3: every point is colored, the area is split into three regions, and the scattered points are assigned to the nearest group. Middle, DBSCAN: the three dense groups are colored, the curved group is kept whole, and the scattered points are gray noise. Right, a close-up explaining DBSCAN with a circle of radius eps around points: core points with at least five points inside a circle of radius eps, a border point inside a core point's circle but with few neighbors of its own, and an isolated noise point." class="figure mx-auto d-block"><div class="figcaption">K-Means and DBSCAN on the same points.</div>
+</figure></section><section><h2 class="section-heading" id="points-patterns-and-the-population-at-risk">Points, patterns and the population at risk<a class="anchor" aria-label="anchor" href="#points-patterns-and-the-population-at-risk"></a></h2>
+<hr class="half-width"><p>Clustering looks for places where <strong>events</strong> (robberies,
+disease cases, archaeological finds) are concentrated. It is related to,
+but different from, the previous episode: spatial autocorrelation asks
+whether <strong>values attached to areas</strong> (such as median age by
+county) are similar among neighbors.</p>
+<p>Before calling a cluster a “hotspot”, ask what you are comparing it
+with. Events happen where people are: a busy downtown has more robberies
+than a quiet suburb partly because far more people pass through it. A
+dense cluster of points may reflect the <strong>population at
+risk</strong> rather than an unusually high risk. Common ways to handle
+this are to compare with a background (rates per resident or per
+visitor, or a control set of points such as all reported crimes), or to
+aggregate the points to areas and analyze rates with the methods from
+the PySAL episode.</p>
+<p>How the data were collected shapes them too. Crime reports reflect
+reporting and policing as well as crime itself, and the Chicago portal
+shows locations at the <strong>block level only</strong> to protect
+victims’ privacy, so many reports share exactly the same
+coordinates.</p>
 
 </section><section><h2 class="section-heading" id="load-points-and-reproject-to-meters">1. Load points and reproject to meters<a class="anchor" aria-label="anchor" href="#load-points-and-reproject-to-meters"></a></h2>
 <hr class="half-width"><div class="codewrapper sourceCode" id="cb1">
@@ -468,6 +497,89 @@ cluster. Choose <code>eps</code> with a k-distance plot (see notebook
 </div>
 <p>Plot any result with
 <code>robbery.plot(column="dbscan", categorical=True, markersize=1)</code>.</p>
+</section><section><h2 class="section-heading" id="how-the-methods-work">How the methods work<a class="anchor" aria-label="anchor" href="#how-the-methods-work"></a></h2>
+<hr class="half-width"><div class="section level3">
+<h3 id="dbscan">DBSCAN<a class="anchor" aria-label="anchor" href="#dbscan"></a></h3>
+<p>DBSCAN (Density-Based Spatial Clustering of Applications with Noise)
+sorts every point into one of three kinds:</p>
+<ul><li>a <strong>core point</strong> has at least <code>min_samples</code>
+points (counting itself) within <code>eps</code>;</li>
+<li>a <strong>border point</strong> lies within <code>eps</code> of a
+core point but does not have enough neighbors of its own;</li>
+<li>a <strong>noise point</strong> is neither, and gets the label
+<code>-1</code>.</li>
+</ul><p>Core points that are within <code>eps</code> of each other join the
+same cluster, so clusters can take any shape, following a river or a
+commercial street.</p>
+<p><strong>Choosing <code>eps</code>.</strong> Make a <strong>k-distance
+plot</strong>: for every point, find the distance to its k-th nearest
+neighbor (with k equal to <code>min_samples</code>), sort those
+distances and plot them. Most points sit on a flat part of the curve;
+where the curve bends sharply upward (the “knee”), points start to be
+isolated. The distance at the knee is a good first choice for
+<code>eps</code>.</p>
+<div class="codewrapper sourceCode" id="cb6">
+<h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" tabindex="-1" aria-label="code-block-6-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb6-2"><a href="#cb6-2" tabindex="-1" aria-label="code-block-6-2"></a><span class="im">from</span> sklearn.neighbors <span class="im">import</span> NearestNeighbors</span>
+<span id="cb6-3"><a href="#cb6-3" tabindex="-1" aria-label="code-block-6-3"></a></span>
+<span id="cb6-4"><a href="#cb6-4" tabindex="-1" aria-label="code-block-6-4"></a>k <span class="op">=</span> <span class="dv">50</span>                                                    <span class="co"># same as min_samples</span></span>
+<span id="cb6-5"><a href="#cb6-5" tabindex="-1" aria-label="code-block-6-5"></a>dist, _ <span class="op">=</span> NearestNeighbors(n_neighbors<span class="op">=</span>k).fit(coords).kneighbors(coords)</span>
+<span id="cb6-6"><a href="#cb6-6" tabindex="-1" aria-label="code-block-6-6"></a>plt.plot(np.sort(dist[:, <span class="op">-</span><span class="dv">1</span>]))</span>
+<span id="cb6-7"><a href="#cb6-7" tabindex="-1" aria-label="code-block-6-7"></a>plt.ylabel(<span class="ss">f"distance to neighbor </span><span class="sc">{</span>k<span class="sc">}</span><span class="ss"> (m)"</span>)</span>
+<span id="cb6-8"><a href="#cb6-8" tabindex="-1" aria-label="code-block-6-8"></a>plt.xlabel(<span class="st">"points, sorted"</span>)</span>
+<span id="cb6-9"><a href="#cb6-9" tabindex="-1" aria-label="code-block-6-9"></a>plt.show()</span></code></pre>
+</div>
+<p><strong>Choosing <code>min_samples</code>.</strong> Larger values ask
+for denser clusters and label more points as noise. With thousands of
+points, values in the tens are common; with a few hundred, try 5 to
+10.</p>
+<p>DBSCAN’s weakness is that one <code>eps</code> applies to the whole
+map, so it cannot find both a tight downtown cluster and a looser
+suburban one at the same time.</p>
+</div>
+<div class="section level3">
+<h3 id="hdbscan">HDBSCAN<a class="anchor" aria-label="anchor" href="#hdbscan"></a></h3>
+<p>HDBSCAN (Hierarchical DBSCAN) avoids choosing <code>eps</code>. In
+effect it tries every value of <code>eps</code> at once, builds a tree
+of how clusters split apart as the distance shrinks, and keeps the
+clusters that last over a wide range of distances (the most
+<strong>stable</strong> ones). You set <code>min_cluster_size</code>,
+the smallest group worth calling a cluster. It finds clusters of
+different densities, labels noise as <code>-1</code>, and reports how
+strongly each point belongs to its cluster
+(<code>probabilities_</code>).</p>
+</div>
+<div class="section level3">
+<h3 id="k-means">K-Means<a class="anchor" aria-label="anchor" href="#k-means"></a></h3>
+<p>K-Means places k centers, assigns every point to its nearest center,
+moves each center to the mean of its points, and repeats until nothing
+changes. It assumes clusters that are roughly round and of similar size,
+and it assigns <strong>every</strong> point, so outliers pull the
+centers toward them. The result depends on where the centers start;
+<code>n_init=10</code> runs ten starts and keeps the best one.</p>
+<p>To choose k, plot the <strong>inertia</strong> (the total squared
+distance from points to their centers) for k = 2, 3, 4 and so on, and
+look for the elbow where adding clusters stops helping much. The
+<strong>silhouette score</strong>
+(<code>sklearn.metrics.silhouette_score</code>, from -1 to 1) measures
+how well each point fits its own cluster compared with the next nearest
+one; higher is better. On large datasets, compute it on a sample with
+<code>sample_size=2000</code>.</p>
+</div>
+<div class="section level3">
+<h3 id="hierarchical-clustering">Hierarchical clustering<a class="anchor" aria-label="anchor" href="#hierarchical-clustering"></a></h3>
+<p>Agglomerative hierarchical clustering starts with every point as its
+own cluster and repeatedly merges the two closest clusters. The
+<strong>linkage</strong> rule defines “closest”: single linkage (the
+nearest pair of points, which tends to make long chains), complete
+linkage (the farthest pair), average linkage, or <strong>Ward</strong>
+(the merge that adds the least variance, which makes compact clusters).
+In the dendrogram, the height of each join is the distance at which two
+groups merge; cutting the tree at a height gives the clusters. Memory
+use grows with the square of the number of points, which is why the
+example uses a sample.</p>
 <div id="challenge-1-k-means-or-dbscan" class="callout challenge">
 <div class="callout-square">
 <i class="callout-icon" data-feather="zap"></i>
@@ -517,17 +629,88 @@ change?</p>
 </button>
 <div id="collapseSolution2" class="accordion-collapse collapse" data-bs-parent="#accordionSolution2" aria-labelledby="headingSolution2">
 <div class="accordion-body">
-<div class="codewrapper sourceCode" id="cb6">
+<div class="codewrapper sourceCode" id="cb7">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" tabindex="-1" aria-label="code-block-6-1"></a><span class="cf">for</span> eps <span class="kw">in</span> [<span class="dv">500</span>, <span class="dv">1500</span>]:</span>
-<span id="cb6-2"><a href="#cb6-2" tabindex="-1" aria-label="code-block-6-2"></a>    labels <span class="op">=</span> DBSCAN(eps<span class="op">=</span>eps, min_samples<span class="op">=</span><span class="dv">50</span>).fit(coords).labels_</span>
-<span id="cb6-3"><a href="#cb6-3" tabindex="-1" aria-label="code-block-6-3"></a>    <span class="bu">print</span>(eps, labels.<span class="bu">max</span>() <span class="op">+</span> <span class="dv">1</span>, <span class="st">"clusters"</span>, <span class="ss">f"</span><span class="sc">{</span>(labels <span class="op">==</span> <span class="op">-</span><span class="dv">1</span>)<span class="sc">.</span>mean()<span class="sc">:.0%}</span><span class="ss"> noise"</span>)</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" tabindex="-1" aria-label="code-block-7-1"></a><span class="cf">for</span> eps <span class="kw">in</span> [<span class="dv">500</span>, <span class="dv">1500</span>]:</span>
+<span id="cb7-2"><a href="#cb7-2" tabindex="-1" aria-label="code-block-7-2"></a>    labels <span class="op">=</span> DBSCAN(eps<span class="op">=</span>eps, min_samples<span class="op">=</span><span class="dv">50</span>).fit(coords).labels_</span>
+<span id="cb7-3"><a href="#cb7-3" tabindex="-1" aria-label="code-block-7-3"></a>    <span class="bu">print</span>(eps, labels.<span class="bu">max</span>() <span class="op">+</span> <span class="dv">1</span>, <span class="st">"clusters"</span>, <span class="ss">f"</span><span class="sc">{</span>(labels <span class="op">==</span> <span class="op">-</span><span class="dv">1</span>)<span class="sc">.</span>mean()<span class="sc">:.0%}</span><span class="ss"> noise"</span>)</span></code></pre>
 </div>
 <p>A smaller <code>eps</code> gives more, smaller clusters and more
 noise. A larger <code>eps</code> merges clusters into a few large
 ones.</p>
 </div>
+</div>
+</div>
+</div>
+</div>
+</section><section><h2 class="section-heading" id="pitfalls">Pitfalls<a class="anchor" aria-label="anchor" href="#pitfalls"></a></h2>
+<hr class="half-width"><ul><li>
+<strong>Degrees instead of meters.</strong> Always reproject first
+(Section 1).</li>
+<li>
+<strong>Duplicate locations.</strong> Block-level coordinates put
+many reports on the same spot. Every duplicate counts as a neighbor,
+which can make an area look denser than it is.</li>
+<li>
+<strong>Parameters shape the result.</strong> Report
+<code>eps</code>, <code>min_samples</code>,
+<code>min_cluster_size</code> or k, and check how the map changes with
+other values (Challenge 2).</li>
+<li>
+<strong>No significance test.</strong> Unlike LISA, these methods do
+not test whether a cluster could arise by chance. Comparing with random
+points, or using a scan statistic, is needed for that.</li>
+<li>
+<strong>Edges.</strong> Points near the edge of the study area, such
+as the city limits or the Lake Michigan shore, have fewer
+neighbors.</li>
+<li>
+<strong>Consequences.</strong> Hotspot maps can stigmatize
+neighborhoods and influence where police patrol, which in turn produces
+more reports in the same places.</li>
+</ul><div id="challenge-3-reading-a-k-distance-plot" class="callout challenge">
+<div class="callout-square">
+<i class="callout-icon" data-feather="zap"></i>
+</div>
+<span class="callout-header">Challenge</span>
+<div id="challenge-3-reading-a-k-distance-plot" class="callout-inner">
+<h3 class="callout-title">Challenge 3: Reading a k-distance plot</h3>
+<div class="callout-content">
+<p>Your k-distance plot (k = 50) stays fairly flat up to about 800 m and
+then rises steeply. Which <code>eps</code> would you try first? What
+would happen with <code>eps=200</code> or <code>eps=3000</code>?</p>
+</div>
+</div>
+</div>
+<div id="accordionSolution3" class="accordion challenge-accordion accordion-flush">
+<div class="accordion-item">
+<button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution3" aria-expanded="false" aria-controls="collapseSolution3">
+  <h4 class="accordion-header" id="headingSolution3"> Show me the solution </h4>
+</button>
+<div id="collapseSolution3" class="accordion-collapse collapse" data-bs-parent="#accordionSolution3" aria-labelledby="headingSolution3">
+<div class="accordion-body">
+<p>Start with an <code>eps</code> of about 800 m, at the knee of the
+curve. With <code>eps=200</code>, few points have 50 neighbors that
+close, so most points become noise and only the very densest spots
+remain as small clusters. With <code>eps=3000</code>, almost every point
+is a core point, so clusters merge into one or a few very large ones
+that cover much of the city and say little about hotspots.</p>
+</div>
+</div>
+</div>
+</div>
+<div id="hotspot-or-crowd" class="callout discussion">
+<div class="callout-square">
+<i class="callout-icon" data-feather="message-circle"></i>
+</div>
+<span class="callout-header">Discussion</span>
+<div id="hotspot-or-crowd" class="callout-inner">
+<h3 class="callout-title">Hotspot or crowd?</h3>
+<div class="callout-content">
+<p>DBSCAN finds a large robbery cluster in the Loop, Chicago’s downtown.
+Is the Loop a dangerous place, or just a crowded one? What extra data
+would help you decide?</p>
 </div>
 </div>
 </div>
@@ -557,6 +740,10 @@ elbow method</li>
 <li>Hierarchical clustering shows how groups merge, but is slow on large
 datasets</li>
 <li>Pick the method that matches your question: hotspots or zones</li>
+<li>Choose <code>eps</code> with a k-distance plot and k with the elbow
+method or silhouette score</li>
+<li>A dense cluster may reflect the population at risk, duplicate
+locations or reporting, not high risk</li>
 </ul></div>
 </div>
 </div>

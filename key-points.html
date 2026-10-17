@@ -379,6 +379,11 @@ let you route by time instead of distance</li>
 routing tasks</li>
 <li>Network distance is more realistic than straight line distance for
 access studies</li>
+<li>Match the network type to the people you study, and choose an access
+measure (nearest facility, cumulative opportunities, service area) that
+fits the question</li>
+<li>Check snapping distances and edge effects, and remember that speeds
+are estimates without traffic</li>
 </ul></section><section id="pysal"><h2 class="section-heading"><a href="pysal.html">Spatial Autocorrelation with PySAL</a></h2>
 <hr class="half-width">
 <ul>
@@ -390,6 +395,10 @@ map</li>
 chance</li>
 <li>Local Moran’s I (LISA) locates hotspots, coldspots and outliers;
 always filter by p-value</li>
+<li>Many local tests produce false positives; use stricter cutoffs or
+FDR, and treat clusters as leads</li>
+<li>Results depend on the units (MAUP), the weights, small populations
+and edges of the study area</li>
 </ul></section><section id="cluster"><h2 class="section-heading"><a href="cluster.html">Spatial Clustering</a></h2>
 <hr class="half-width">
 <ul>
@@ -401,6 +410,10 @@ elbow method</li>
 <li>Hierarchical clustering shows how groups merge, but is slow on large
 datasets</li>
 <li>Pick the method that matches your question: hotspots or zones</li>
+<li>Choose <code>eps</code> with a k-distance plot and k with the elbow
+method or silhouette score</li>
+<li>A dense cluster may reflect the population at risk, duplicate
+locations or reporting, not high risk</li>
 </ul></section><section id="ndvi"><h2 class="section-heading"><a href="ndvi.html">NDVI Analysis</a></h2>
 <hr class="half-width">
 <ul>
@@ -414,6 +427,10 @@ bands 5 and 4</li>
 <li>
 <code>np.digitize</code> turns NDVI into classes; n breaks give n +
 1 classes</li>
+<li>Vegetation’s spectral signature (low red, high NIR) is what NDVI
+measures; normalizing reduces brightness effects</li>
+<li>Interpret NDVI with care: thresholds vary, dense canopies saturate,
+pixels mix, and clouds and seasons change the values</li>
 </ul></section>
 </div>
     </main>
