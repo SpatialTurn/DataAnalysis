@@ -44,7 +44,6 @@ You never need to download data. Every notebook reads its data straight from the
 
 | Episode | Data | Source |
 |---|---|---|
-| Geocoding | 15 museum addresses (`museums.txt`); live OpenStreetMap features | This project; OpenStreetMap |
 | Network Analysis | Road network of West Lafayette, Indiana | OpenStreetMap, through OSMnx |
 | PySAL | Indiana counties and Marion County tracts, ACS 2023 5-year estimates | U.S. Census Bureau API and cartographic boundary files |
 | Spatial Clustering | One year of Chicago crime reports (`CrimesChicago20220225.csv`) | Chicago Data Portal |

@@ -16,20 +16,11 @@ title: 'Instructor Notes'
 
 ## Episode by episode
 
-### Geocoding and Adding Spatial Context
-
-- The Census Geocoder is free and needs no key, but only covers U.S. addresses in its database.
-  Campus addresses (for example "610 Purdue Mall") return no match; the notebooks use
-  101 N Grant St (Purdue Memorial Union) instead.
-- Two museums fail: the National Gallery (no street number; fixable as an intersection) and the
-  Philadelphia Museum of Art (not in the Census database). Use them to discuss address quality.
-- Nominatim (used in notebooks 1b and 1c) allows one request per second. In a room of 30 people sharing
-  one network, requests may be throttled; ask learners to wait and rerun.
-- Raise privacy: geocoding personal addresses creates sensitive location data.
-
 ### Network Analysis
 
 - Draw a small graph (four intersections, five roads) before any code.
+- The Case Studies module's grocery access case study does the same kind of analysis in QGIS, without
+  code. It is a good follow-up, or an alternative for groups that prefer a GUI.
 - `ox.nearest_nodes(G, X=lon, Y=lat)` takes **longitude first**. This is the most common bug.
 - `add_edge_speeds(G, fallback=40)` fills in road types with no speed data. Mention that speeds are
   estimates from OSM tags, not real traffic.
@@ -69,8 +60,7 @@ title: 'Instructor Notes'
 | `NameError: name 'x' is not defined` | A cell was skipped | **Runtime > Run before** |
 | `HTTPError` or a timeout while reading data | Network hiccup reading from GitHub or the Census site | Rerun the cell |
 | `ModuleNotFoundError: osmnx` (or `libpysal`, `rasterio`) | The `!pip install` cell did not run | Run it, then rerun the imports |
-| Geocoder or OSM timeout | Free server busy or rate limited | Wait a minute and rerun |
+| OpenStreetMap download times out | Free server busy or rate limited | Wait a minute and rerun |
 | `KeyError` or HTTP 400 from the Census API | Key missing, mistyped or not yet activated | Check the key and the activation email |
 | Map shows "403 Access blocked" or "API key required" behind the points | OpenStreetMap and CARTO tiles do not work inside Colab | Add `tiles="Esri.WorldGrayCanvas"` to `.explore()` |
-| Census Geocoder returns `(None, None)` | Address not in the Census database (campus addresses such as "610 Purdue Mall") | Use a building's street address, or Nominatim |
 | Colab session crashed | Out of memory on a large raster | **Runtime > Restart session**, then rerun |

@@ -180,6 +180,6 @@ toward +1. Water reflects more red than NIR, so its NDVI is negative.
 
 | Level | Notebook | What you will do |
 |---|---|---|
-| Beginner | <a href="https://colab.research.google.com/github/SpatialTurn/DataAnalysis/blob/main/notebooks/05a_Computing_NDVI.ipynb" target="_blank">5a. Computing NDVI from Landsat</a> | Read bands, convert to reflectance, map NDVI and save a GeoTIFF |
-| Intermediate | <a href="https://colab.research.google.com/github/SpatialTurn/DataAnalysis/blob/main/notebooks/05b_Classifying_NDVI.ipynb" target="_blank">5b. Classifying NDVI</a> | Group NDVI into classes, map them and measure area per class |
-| Advanced | <a href="https://colab.research.google.com/github/SpatialTurn/DataAnalysis/blob/main/notebooks/05c_Image_Classification_Advanced.ipynb" target="_blank">5c. Image Classification with Machine Learning</a> | True color image, K-Means and Random Forest classification |
+| Beginner | <a href="https://colab.research.google.com/github/SpatialTurn/DataAnalysis/blob/main/notebooks/04a_Computing_NDVI.ipynb" target="_blank">4a. Computing NDVI from Landsat</a> | Read bands, convert to reflectance, map NDVI and save a GeoTIFF |
+| Intermediate | <a href="https://colab.research.google.com/github/SpatialTurn/DataAnalysis/blob/main/notebooks/04b_Classifying_NDVI.ipynb" target="_blank">4b. Classifying NDVI</a> | Group NDVI into classes, map them and measure area per class |
+| Advanced | <a href="https://colab.research.google.com/github/SpatialTurn/DataAnalysis/blob/main/notebooks/04c_Image_Classification_Advanced.ipynb" target="_blank">4c. Image Classification with Machine Learning</a> | True color image, K-Means and Random Forest classification |

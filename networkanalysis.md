@@ -32,7 +32,20 @@ Road networks are stored as **graphs**:
 - **Edges** are road segments, each with a length (and, once added, a speed and travel time)
 
 Common uses include food and health care access, emergency response times, and transportation
-planning. The Food Desert case study in this curriculum is built on these steps.
+planning.
+
+::::::::::::::::::::::::::::::::::::: callout
+
+## The same analysis in QGIS
+
+The Case Studies module's [grocery access case study](https://spatialturn.github.io/CaseStudyFoodDesert/grocery-network.html) measures
+shortest paths and service areas to supermarkets in Lafayette and West Lafayette with QGIS's network
+tools, without writing code. Doing both is a good way to see what OSMnx does behind the scenes.
+
+If you have not used OpenStreetMap tags before, the Data Collection module's
+[Geocoding episode](https://spatialturn.github.io/DataCollection/geocoding.html) introduces them.
+
+::::::::::::::::::::::::::::::::::::::::::::::::
 
 :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::: instructor
 
@@ -146,6 +159,6 @@ is smallest. OSMnx finds it with Dijkstra's algorithm.
 
 | Level | Notebook | What you will do |
 |---|---|---|
-| Beginner | <a href="https://colab.research.google.com/github/SpatialTurn/DataAnalysis/blob/main/notebooks/02a_Road_Networks_Basics.ipynb" target="_blank">2a. Road Networks: Nodes and Edges</a> | Download, plot, inspect and save a road network |
-| Intermediate | <a href="https://colab.research.google.com/github/SpatialTurn/DataAnalysis/blob/main/notebooks/02b_Shortest_Paths_and_Travel_Time.ipynb" target="_blank">2b. Shortest Paths and Travel Time</a> | Route between two points and map travel time across the city |
-| Advanced | <a href="https://colab.research.google.com/github/SpatialTurn/DataAnalysis/blob/main/notebooks/02c_Travel_Time_to_Stores.ipynb" target="_blank">2c. Travel Time to Grocery Stores</a> | Route from every OSM grocery store to the town center |
+| Beginner | <a href="https://colab.research.google.com/github/SpatialTurn/DataAnalysis/blob/main/notebooks/01a_Road_Networks_Basics.ipynb" target="_blank">1a. Road Networks: Nodes and Edges</a> | Download, plot, inspect and save a road network |
+| Intermediate | <a href="https://colab.research.google.com/github/SpatialTurn/DataAnalysis/blob/main/notebooks/01b_Shortest_Paths_and_Travel_Time.ipynb" target="_blank">1b. Shortest Paths and Travel Time</a> | Route between two points and map travel time across the city |
+| Advanced | <a href="https://colab.research.google.com/github/SpatialTurn/DataAnalysis/blob/main/notebooks/01c_Travel_Time_to_Stores.ipynb" target="_blank">1c. Travel Time to Grocery Stores</a> | Route from every OSM grocery store to the town center |
