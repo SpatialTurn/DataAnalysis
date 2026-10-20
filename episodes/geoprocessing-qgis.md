@@ -158,8 +158,9 @@ Toolbox** open (**Processing > Toolbox**): its search box finds any tool by name
 
 ### Part 1: Load the layers from the web
 
-Use **Layer > Add Layer > Add Vector Layer**, **Source Type: Protocol: HTTP(S), cloud, etc.**, as in the
-Foundations QGIS episode, and add these three addresses:
+Use **Layer > Add Layer > Add Vector Layer**, **Source Type: Protocol: HTTP(S), cloud, etc.**, **Type:
+HTTP/HTTPS/FTP** (in QGIS 4 the Type list starts with cloud services, so check it), as in the Foundations QGIS
+episode, and add these three addresses:
 
 | Layer | Web address |
 |---|---|
