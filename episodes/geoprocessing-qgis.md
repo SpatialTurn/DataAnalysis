@@ -174,6 +174,16 @@ OpenStreetMap basemap underneath if you like.
 
 **Check:** 64 store points and one city polygon over Lafayette, 43 tracts covering Tippecanoe County.
 
+::::::::::::::::::::::::::::::::::::: callout
+
+### If QGIS asks you to choose a transformation
+
+When layers in latitude and longitude (EPSG:4326) are drawn in a project in UTM (EPSG:26916), QGIS may open a
+window that begins "Multiple operations are possible for converting coordinates". For this county any of the
+options is accurate to a few meters: keep the first (highlighted) one and click **OK**.
+
+::::::::::::::::::::::::::::::::::::::::::::::::
+
 ### Part 2: Reproject to meters
 
 1. Open **Vector > Data Management Tools > Reproject Layer** (or search the Processing Toolbox for it).
