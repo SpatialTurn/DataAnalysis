@@ -244,7 +244,7 @@
 <div class="accordion accordion-flush" id="accordionFlush2">
   <div class="accordion-item">
     <div class="accordion-header" id="flush-heading2">
-        <a href="networkanalysis.html">1. Network Analysis</a>
+        <a href="geoprocessing-python.html">1. Geoprocessing in Python</a>
     </div>
 <!--/div.accordion-header-->
 
@@ -256,7 +256,7 @@
 <div class="accordion accordion-flush" id="accordionFlush3">
   <div class="accordion-item">
     <div class="accordion-header" id="flush-heading3">
-        <a href="pysal.html">2. Spatial Autocorrelation with PySAL</a>
+        <a href="geoprocessing-qgis.html">2. Geoprocessing in QGIS</a>
     </div>
 <!--/div.accordion-header-->
 
@@ -268,7 +268,7 @@
 <div class="accordion accordion-flush" id="accordionFlush4">
   <div class="accordion-item">
     <div class="accordion-header" id="flush-heading4">
-        <a href="cluster.html">3. Spatial Clustering</a>
+        <a href="networkanalysis.html">3. Network Analysis</a>
     </div>
 <!--/div.accordion-header-->
 
@@ -280,7 +280,31 @@
 <div class="accordion accordion-flush" id="accordionFlush5">
   <div class="accordion-item">
     <div class="accordion-header" id="flush-heading5">
-        <a href="ndvi.html">4. NDVI Analysis</a>
+        <a href="pysal.html">4. Spatial Autocorrelation with PySAL</a>
+    </div>
+<!--/div.accordion-header-->
+
+  </div>
+<!--/div.accordion-item-->
+</div>
+<!--/div.accordion-flush-->
+
+<div class="accordion accordion-flush" id="accordionFlush6">
+  <div class="accordion-item">
+    <div class="accordion-header" id="flush-heading6">
+        <a href="cluster.html">5. Spatial Clustering</a>
+    </div>
+<!--/div.accordion-header-->
+
+  </div>
+<!--/div.accordion-item-->
+</div>
+<!--/div.accordion-flush-->
+
+<div class="accordion accordion-flush" id="accordionFlush7">
+  <div class="accordion-item">
+    <div class="accordion-header" id="flush-heading7">
+        <a href="ndvi.html">6. NDVI Analysis</a>
     </div>
 <!--/div.accordion-header-->
 
@@ -387,6 +411,29 @@ older tutorials online still use them.</li>
 </ul></section><section><h2 class="section-heading" id="episode-by-episode">Episode by episode<a class="anchor" aria-label="anchor" href="#episode-by-episode"></a>
 </h2>
 <hr class="half-width">
+<div class="section level3">
+<h3 id="geoprocessing-in-python-and-in-qgis">Geoprocessing in Python and in QGIS<a class="anchor" aria-label="anchor" href="#geoprocessing-in-python-and-in-qgis"></a>
+</h3>
+<ul>
+<li>The two episodes share their theory sections and use the same data,
+so a mixed group can split by tool after the theory and compare numbers
+at the end (17 supermarkets; tracts selected by intersect / within /
+centroid: 35 / 6 / 24; about 114,000 city residents by areal weighting,
+about 77,500 or 68% within 1 mile).</li>
+<li>The commonest failure is buffering a layer still in EPSG:4326. In
+QGIS the Buffer dialog then shows “degrees” and a warning sign; in
+Python GeoPandas prints a geographic CRS warning. Show both on
+purpose.</li>
+<li>QGIS: processing results are temporary layers. Learners who close
+QGIS lose them; remind them to use <strong>Make Permanent</strong> or
+save outputs to a GeoPackage if the session has a break.</li>
+<li>QGIS Buffer defaults to 5 segments; the episode uses 16 to match
+GeoPandas. With 5, sums differ by well under 1%.</li>
+<li>Challenge 3 (areal weighting on the Purdue tract) works well as a
+pair discussion and sets up the Raster Analysis episode (land cover as
+ancillary data).</li>
+</ul>
+</div>
 <div class="section level3">
 <h3 id="network-analysis">Network Analysis<a class="anchor" aria-label="anchor" href="#network-analysis"></a>
 </h3>
@@ -562,14 +609,14 @@ Add reference-style links below as needed.
   "inLanguage": "en",
   "dct:conformsTo": "https://bioschemas.org/profiles/LearningResource/1.0-RELEASE",
   "description": "A Carpentries Lesson teaching foundational data and coding skills to researchers worldwide",
-  "keywords": "GIS, Python, spatial analysis, network analysis, PySAL, clustering, NDVI, social science",
+  "keywords": "GIS, Python, QGIS, spatial analysis, geoprocessing, buffer, overlay, network analysis, PySAL, clustering, NDVI, social science",
   "name": "Instructor Notes",
   "creativeWorkStatus": "active",
   "url": "https://SpatialTurn.github.io/DataAnalysis/instructor-notes.html",
   "identifier": "https://SpatialTurn.github.io/DataAnalysis/instructor-notes.html",
   "dateCreated": "2025-07-23",
-  "dateModified": "2026-10-17",
-  "datePublished": "2026-10-17"
+  "dateModified": "2026-10-20",
+  "datePublished": "2026-10-20"
 }
 
   </script><script>

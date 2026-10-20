@@ -123,7 +123,7 @@
     <a id="search-button-nav" class="btn btn-primary" href="aio.html" role="button" aria-label="Search the All In One page">Search the All In One page</a>
   </div><!--/div.container-fluid -->
 </nav><aside class="col-md-12 lesson-progress"><div class="progress incubator">
-    <div class="progress-bar incubator" role="progressbar" style="width: 0%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" aria-label="Lesson Progress">0%</div>
+    <div class="progress-bar incubator" role="progressbar" style="width: 35%" aria-valuenow="35" aria-valuemin="0" aria-valuemax="100" aria-label="Lesson Progress">35%</div>
   </div>
 </aside><div class="container">
       <div class="row">
@@ -205,13 +205,31 @@
   </div><!--/div.accordion-item-->
 </div><!--/div.accordion-flush-->
 
+<div class="accordion accordion-flush" id="accordionFlush2">
+  <div class="accordion-item">
+    <div class="accordion-header" id="flush-heading2">
+        <a href="geoprocessing-python.html">1. Geoprocessing in Python</a>
+    </div><!--/div.accordion-header-->
+
+  </div><!--/div.accordion-item-->
+</div><!--/div.accordion-flush-->
+
+<div class="accordion accordion-flush" id="accordionFlush3">
+  <div class="accordion-item">
+    <div class="accordion-header" id="flush-heading3">
+        <a href="geoprocessing-qgis.html">2. Geoprocessing in QGIS</a>
+    </div><!--/div.accordion-header-->
+
+  </div><!--/div.accordion-item-->
+</div><!--/div.accordion-flush-->
+
 <div class="accordion accordion-flush" id="accordionFlushcurrent">
   <div class="accordion-item">
     <div class="accordion-header" id="flush-headingcurrent">
       <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapsecurrent" aria-expanded="true" aria-controls="flush-collapsecurrent">
         <span class="visually-hidden">Current Chapter</span>
         <span class="current-chapter">
-        1. Network Analysis
+        3. Network Analysis
         </span>
       </button>
     </div><!--/div.accordion-header-->
@@ -237,28 +255,28 @@
   </div><!--/div.accordion-item-->
 </div><!--/div.accordion-flush-->
 
-<div class="accordion accordion-flush" id="accordionFlush3">
-  <div class="accordion-item">
-    <div class="accordion-header" id="flush-heading3">
-        <a href="pysal.html">2. Spatial Autocorrelation with PySAL</a>
-    </div><!--/div.accordion-header-->
-
-  </div><!--/div.accordion-item-->
-</div><!--/div.accordion-flush-->
-
-<div class="accordion accordion-flush" id="accordionFlush4">
-  <div class="accordion-item">
-    <div class="accordion-header" id="flush-heading4">
-        <a href="cluster.html">3. Spatial Clustering</a>
-    </div><!--/div.accordion-header-->
-
-  </div><!--/div.accordion-item-->
-</div><!--/div.accordion-flush-->
-
 <div class="accordion accordion-flush" id="accordionFlush5">
   <div class="accordion-item">
     <div class="accordion-header" id="flush-heading5">
-        <a href="ndvi.html">4. NDVI Analysis</a>
+        <a href="pysal.html">4. Spatial Autocorrelation with PySAL</a>
+    </div><!--/div.accordion-header-->
+
+  </div><!--/div.accordion-item-->
+</div><!--/div.accordion-flush-->
+
+<div class="accordion accordion-flush" id="accordionFlush6">
+  <div class="accordion-item">
+    <div class="accordion-header" id="flush-heading6">
+        <a href="cluster.html">5. Spatial Clustering</a>
+    </div><!--/div.accordion-header-->
+
+  </div><!--/div.accordion-item-->
+</div><!--/div.accordion-flush-->
+
+<div class="accordion accordion-flush" id="accordionFlush7">
+  <div class="accordion-item">
+    <div class="accordion-header" id="flush-heading7">
+        <a href="ndvi.html">6. NDVI Analysis</a>
     </div><!--/div.accordion-header-->
 
   </div><!--/div.accordion-item-->
@@ -320,14 +338,14 @@
         <!-- START: inst/pkgdown/templates/content-instructor.html -->
   <div class="col-xl-8 col-lg-12 primary-content">
     <nav class="lesson-content mx-md-4" aria-label="Previous and Next Chapter Top"><!-- content for small screens --><div class="d-block d-sm-block d-md-none">
-        <a class="chapter-link" href="index.html" rel="prev"><i aria-hidden="true" class="small-arrow" data-feather="arrow-left"></i>Previous</a>
+        <a class="chapter-link" href="geoprocessing-qgis.html" rel="prev"><i aria-hidden="true" class="small-arrow" data-feather="arrow-left"></i>Previous</a>
         <a class="chapter-link float-end" href="pysal.html" rel="next">Next<i aria-hidden="true" class="small-arrow" data-feather="arrow-right"></i></a>
       </div>
       <!-- content for large screens -->
       <div class="d-none d-sm-none d-md-block">
-        <a class="chapter-link" href="index.html" rel="prev">
+        <a class="chapter-link" href="geoprocessing-qgis.html" rel="prev">
           <i aria-hidden="true" class="small-arrow" data-feather="arrow-left"></i>
-          Home
+          Previous: Geoprocessing in QGIS...
         </a>
         <a class="chapter-link float-end" href="pysal.html" rel="next">
           Next: Spatial Autocorrelation with PySAL...
@@ -336,7 +354,7 @@
       </div>
     </nav><main id="main-content" class="main-content"><div class="container lesson-content">
         <h1>Network Analysis</h1>
-        <p>Last updated on 2026-10-17 |
+        <p>Last updated on 2026-10-20 |
 
         <a href="https://github.com/SpatialTurn/DataAnalysis/edit/main/episodes/networkanalysis.md" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
 
@@ -541,7 +559,7 @@ Are they the same route? Which is longer in kilometers?</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution1" aria-expanded="false" aria-controls="collapseSolution1">
   <h4 class="accordion-header" id="headingSolution1"> Show me the solution </h4>
 </button>
-<div id="collapseSolution1" class="accordion-collapse collapse" aria-labelledby="headingSolution1" data-bs-parent="#accordionSolution1">
+<div id="collapseSolution1" class="accordion-collapse collapse" data-bs-parent="#accordionSolution1" aria-labelledby="headingSolution1">
 <div class="accordion-body">
 <div class="codewrapper sourceCode" id="cb6">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -577,7 +595,7 @@ the longest drive time (in minutes) within the city?</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution2" aria-expanded="false" aria-controls="collapseSolution2">
   <h4 class="accordion-header" id="headingSolution2"> Show me the solution </h4>
 </button>
-<div id="collapseSolution2" class="accordion-collapse collapse" aria-labelledby="headingSolution2" data-bs-parent="#accordionSolution2">
+<div id="collapseSolution2" class="accordion-collapse collapse" data-bs-parent="#accordionSolution2" aria-labelledby="headingSolution2">
 <div class="accordion-body">
 <div class="codewrapper sourceCode" id="cb7">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -615,7 +633,7 @@ one)</td>
 destination?</td>
 <td>Paths for every pair; the basis of the measures above and of gravity
 models</td>
-</tr></tbody></table><p>Notebook 1c builds a nearest facility measure for grocery stores.</p>
+</tr></tbody></table><p>Notebook 3c builds a nearest facility measure for grocery stores.</p>
 </section><section><h2 class="section-heading" id="getting-on-and-off-the-network">Getting on and off the network<a class="anchor" aria-label="anchor" href="#getting-on-and-off-the-network"></a></h2>
 <hr class="half-width"><p>Homes, stores and clinics are not nodes. Before routing, each
 location is <strong>snapped</strong> to the nearest node with
@@ -683,7 +701,7 @@ would you set or check before trusting the result?</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution3" aria-expanded="false" aria-controls="collapseSolution3">
   <h4 class="accordion-header" id="headingSolution3"> Show me the solution </h4>
 </button>
-<div id="collapseSolution3" class="accordion-collapse collapse" aria-labelledby="headingSolution3" data-bs-parent="#accordionSolution3">
+<div id="collapseSolution3" class="accordion-collapse collapse" data-bs-parent="#accordionSolution3" aria-labelledby="headingSolution3">
 <div class="accordion-body">
 <ul><li>The <strong>walking</strong> network
 (<code>network_type="walk"</code>), because the people in question do
@@ -751,15 +769,15 @@ are estimates without traffic</li>
 <th>Notebook</th>
 <th>What you will do</th>
 </tr></thead><tbody><tr><td>Beginner</td>
-<td><a href="https://colab.research.google.com/github/SpatialTurn/DataAnalysis/blob/main/notebooks/01a_Road_Networks_Basics.ipynb" target="_blank" class="external-link">1a.
+<td><a href="https://colab.research.google.com/github/SpatialTurn/DataAnalysis/blob/main/notebooks/03a_Road_Networks_Basics.ipynb" target="_blank" class="external-link">3a.
 Road Networks: Nodes and Edges</a></td>
 <td>Download, plot, inspect and save a road network</td>
 </tr><tr><td>Intermediate</td>
-<td><a href="https://colab.research.google.com/github/SpatialTurn/DataAnalysis/blob/main/notebooks/01b_Shortest_Paths_and_Travel_Time.ipynb" target="_blank" class="external-link">1b.
+<td><a href="https://colab.research.google.com/github/SpatialTurn/DataAnalysis/blob/main/notebooks/03b_Shortest_Paths_and_Travel_Time.ipynb" target="_blank" class="external-link">3b.
 Shortest Paths and Travel Time</a></td>
 <td>Route between two points and map travel time across the city</td>
 </tr><tr><td>Advanced</td>
-<td><a href="https://colab.research.google.com/github/SpatialTurn/DataAnalysis/blob/main/notebooks/01c_Travel_Time_to_Stores.ipynb" target="_blank" class="external-link">1c.
+<td><a href="https://colab.research.google.com/github/SpatialTurn/DataAnalysis/blob/main/notebooks/03c_Travel_Time_to_Stores.ipynb" target="_blank" class="external-link">3c.
 Travel Time to Grocery Stores</a></td>
 <td>Route from every OSM grocery store to the town center</td>
 </tr></tbody></table><!--
@@ -767,14 +785,14 @@ Links listed here can be reused across pages as [text][name].
 Add reference-style links below as needed.
 --></section></div> <!-- / div.lesson-content -->
     </main><!-- / main#main-content.main-content --><nav class="bottom-pagination mx-md-4" aria-label="Previous and Next Chapter Bottom"><div class="d-block d-sm-block d-md-none">
-        <a class="chapter-link" href="index.html"><i aria-hidden="true" class="small-arrow" data-feather="arrow-left"></i>Previous</a>
+        <a class="chapter-link" href="geoprocessing-qgis.html"><i aria-hidden="true" class="small-arrow" data-feather="arrow-left"></i>Previous</a>
         <a class="chapter-link float-end" href="pysal.html">Next<i aria-hidden="true" class="small-arrow" data-feather="arrow-right"></i></a>
       </div>
       <!-- content for large screens -->
       <div class="d-none d-sm-none d-md-block">
-        <a class="chapter-link" href="index.html" rel="prev">
+        <a class="chapter-link" href="geoprocessing-qgis.html" rel="prev">
           <i aria-hidden="true" class="small-arrow" data-feather="arrow-left"></i>
-          Home
+          Previous: Geoprocessing in QGIS...
         </a>
         <a class="chapter-link float-end" href="pysal.html" rel="next">
           Next: Spatial Autocorrelation with PySAL...
@@ -819,14 +837,14 @@ Add reference-style links below as needed.
   "inLanguage": "en",
   "dct:conformsTo": "https://bioschemas.org/profiles/LearningResource/1.0-RELEASE",
   "description": "A Carpentries Lesson teaching foundational data and coding skills to researchers worldwide",
-  "keywords": "GIS, Python, spatial analysis, network analysis, PySAL, clustering, NDVI, social science",
+  "keywords": "GIS, Python, QGIS, spatial analysis, geoprocessing, buffer, overlay, network analysis, PySAL, clustering, NDVI, social science",
   "name": "Network Analysis",
   "creativeWorkStatus": "active",
   "url": "https://SpatialTurn.github.io/DataAnalysis/networkanalysis.html",
   "identifier": "https://SpatialTurn.github.io/DataAnalysis/networkanalysis.html",
   "dateCreated": "2025-07-23",
-  "dateModified": "2026-10-17",
-  "datePublished": "2026-10-17"
+  "dateModified": "2026-10-20",
+  "datePublished": "2026-10-20"
 }
 
   </script><script>

@@ -123,7 +123,7 @@
     <a id="search-button-nav" class="btn btn-primary" href="aio.html" role="button" aria-label="Search the All In One page">Search the All In One page</a>
   </div><!--/div.container-fluid -->
 </nav><aside class="col-md-12 lesson-progress"><div class="progress incubator">
-    <div class="progress-bar incubator" role="progressbar" style="width: 75%" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" aria-label="Lesson Progress">75%</div>
+    <div class="progress-bar incubator" role="progressbar" style="width: 84%" aria-valuenow="84" aria-valuemin="0" aria-valuemax="100" aria-label="Lesson Progress">84%</div>
   </div>
 </aside><div class="container">
       <div class="row">
@@ -208,7 +208,7 @@
 <div class="accordion accordion-flush" id="accordionFlush2">
   <div class="accordion-item">
     <div class="accordion-header" id="flush-heading2">
-        <a href="networkanalysis.html">1. Network Analysis</a>
+        <a href="geoprocessing-python.html">1. Geoprocessing in Python</a>
     </div><!--/div.accordion-header-->
 
   </div><!--/div.accordion-item-->
@@ -217,7 +217,7 @@
 <div class="accordion accordion-flush" id="accordionFlush3">
   <div class="accordion-item">
     <div class="accordion-header" id="flush-heading3">
-        <a href="pysal.html">2. Spatial Autocorrelation with PySAL</a>
+        <a href="geoprocessing-qgis.html">2. Geoprocessing in QGIS</a>
     </div><!--/div.accordion-header-->
 
   </div><!--/div.accordion-item-->
@@ -226,7 +226,25 @@
 <div class="accordion accordion-flush" id="accordionFlush4">
   <div class="accordion-item">
     <div class="accordion-header" id="flush-heading4">
-        <a href="cluster.html">3. Spatial Clustering</a>
+        <a href="networkanalysis.html">3. Network Analysis</a>
+    </div><!--/div.accordion-header-->
+
+  </div><!--/div.accordion-item-->
+</div><!--/div.accordion-flush-->
+
+<div class="accordion accordion-flush" id="accordionFlush5">
+  <div class="accordion-item">
+    <div class="accordion-header" id="flush-heading5">
+        <a href="pysal.html">4. Spatial Autocorrelation with PySAL</a>
+    </div><!--/div.accordion-header-->
+
+  </div><!--/div.accordion-item-->
+</div><!--/div.accordion-flush-->
+
+<div class="accordion accordion-flush" id="accordionFlush6">
+  <div class="accordion-item">
+    <div class="accordion-header" id="flush-heading6">
+        <a href="cluster.html">5. Spatial Clustering</a>
     </div><!--/div.accordion-header-->
 
   </div><!--/div.accordion-item-->
@@ -238,7 +256,7 @@
       <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapsecurrent" aria-expanded="true" aria-controls="flush-collapsecurrent">
         <span class="visually-hidden">Current Chapter</span>
         <span class="current-chapter">
-        4. NDVI Analysis
+        6. NDVI Analysis
         </span>
       </button>
     </div><!--/div.accordion-header-->
@@ -336,7 +354,7 @@
       </div>
     </nav><main id="main-content" class="main-content"><div class="container lesson-content">
         <h1>NDVI Analysis</h1>
-        <p>Last updated on 2026-10-17 |
+        <p>Last updated on 2026-10-20 |
 
         <a href="https://github.com/SpatialTurn/DataAnalysis/edit/main/episodes/ndvi.md" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
 
@@ -549,7 +567,7 @@ so we need four colors.</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution1" aria-expanded="false" aria-controls="collapseSolution1">
   <h4 class="accordion-header" id="headingSolution1"> Show me the solution </h4>
 </button>
-<div id="collapseSolution1" class="accordion-collapse collapse" data-bs-parent="#accordionSolution1" aria-labelledby="headingSolution1">
+<div id="collapseSolution1" class="accordion-collapse collapse" aria-labelledby="headingSolution1" data-bs-parent="#accordionSolution1">
 <div class="accordion-body">
 <p>Four breaks make five classes, so you need five colors and
 <code>vmax=4</code>.</p>
@@ -585,7 +603,7 @@ result. What is the mean NDVI of land only?</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution2" aria-expanded="false" aria-controls="collapseSolution2">
   <h4 class="accordion-header" id="headingSolution2"> Show me the solution </h4>
 </button>
-<div id="collapseSolution2" class="accordion-collapse collapse" data-bs-parent="#accordionSolution2" aria-labelledby="headingSolution2">
+<div id="collapseSolution2" class="accordion-collapse collapse" aria-labelledby="headingSolution2" data-bs-parent="#accordionSolution2">
 <div class="accordion-body">
 <div class="codewrapper sourceCode" id="cb6">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -633,7 +651,7 @@ from the same or a cross-calibrated sensor. Small differences of a few
 hundredths are within the noise; look for large, coherent changes.</p>
 </section><section><h2 class="section-heading" id="from-thresholds-to-classification">From thresholds to classification<a class="anchor" aria-label="anchor" href="#from-thresholds-to-classification"></a></h2>
 <hr class="half-width"><p>Thresholding NDVI (Section 4) is the simplest way to classify land
-cover. Notebook 4c goes further:</p>
+cover. Notebook 6c goes further:</p>
 <ul><li>
 <strong>Unsupervised classification</strong> (K-Means) groups pixels
 with similar values across several bands; you name the groups
@@ -665,7 +683,7 @@ summarize the agreement in a confusion matrix.</li>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution3" aria-expanded="false" aria-controls="collapseSolution3">
   <h4 class="accordion-header" id="headingSolution3"> Show me the solution </h4>
 </button>
-<div id="collapseSolution3" class="accordion-collapse collapse" data-bs-parent="#accordionSolution3" aria-labelledby="headingSolution3">
+<div id="collapseSolution3" class="accordion-collapse collapse" aria-labelledby="headingSolution3" data-bs-parent="#accordionSolution3">
 <div class="accordion-body">
 <ol style="list-style-type: decimal"><li>(0.40 - 0.08) / (0.40 + 0.08) = 0.32 / 0.48 = <strong>0.67</strong>:
 dense, healthy vegetation</li>
@@ -726,15 +744,15 @@ pixels mix, and clouds and seasons change the values</li>
 <th>Notebook</th>
 <th>What you will do</th>
 </tr></thead><tbody><tr><td>Beginner</td>
-<td><a href="https://colab.research.google.com/github/SpatialTurn/DataAnalysis/blob/main/notebooks/04a_Computing_NDVI.ipynb" target="_blank" class="external-link">4a.
+<td><a href="https://colab.research.google.com/github/SpatialTurn/DataAnalysis/blob/main/notebooks/06a_Computing_NDVI.ipynb" target="_blank" class="external-link">6a.
 Computing NDVI from Landsat</a></td>
 <td>Read bands, convert to reflectance, map NDVI and save a GeoTIFF</td>
 </tr><tr><td>Intermediate</td>
-<td><a href="https://colab.research.google.com/github/SpatialTurn/DataAnalysis/blob/main/notebooks/04b_Classifying_NDVI.ipynb" target="_blank" class="external-link">4b.
+<td><a href="https://colab.research.google.com/github/SpatialTurn/DataAnalysis/blob/main/notebooks/06b_Classifying_NDVI.ipynb" target="_blank" class="external-link">6b.
 Classifying NDVI</a></td>
 <td>Group NDVI into classes, map them and measure area per class</td>
 </tr><tr><td>Advanced</td>
-<td><a href="https://colab.research.google.com/github/SpatialTurn/DataAnalysis/blob/main/notebooks/04c_Image_Classification_Advanced.ipynb" target="_blank" class="external-link">4c.
+<td><a href="https://colab.research.google.com/github/SpatialTurn/DataAnalysis/blob/main/notebooks/06c_Image_Classification_Advanced.ipynb" target="_blank" class="external-link">6c.
 Image Classification with Machine Learning</a></td>
 <td>True color image, K-Means and Random Forest classification</td>
 </tr></tbody></table><!--
@@ -794,14 +812,14 @@ Add reference-style links below as needed.
   "inLanguage": "en",
   "dct:conformsTo": "https://bioschemas.org/profiles/LearningResource/1.0-RELEASE",
   "description": "A Carpentries Lesson teaching foundational data and coding skills to researchers worldwide",
-  "keywords": "GIS, Python, spatial analysis, network analysis, PySAL, clustering, NDVI, social science",
+  "keywords": "GIS, Python, QGIS, spatial analysis, geoprocessing, buffer, overlay, network analysis, PySAL, clustering, NDVI, social science",
   "name": "NDVI Analysis",
   "creativeWorkStatus": "active",
   "url": "https://SpatialTurn.github.io/DataAnalysis/ndvi.html",
   "identifier": "https://SpatialTurn.github.io/DataAnalysis/ndvi.html",
   "dateCreated": "2025-07-23",
-  "dateModified": "2026-10-17",
-  "datePublished": "2026-10-17"
+  "dateModified": "2026-10-20",
+  "datePublished": "2026-10-20"
 }
 
   </script><script>

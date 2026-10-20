@@ -245,7 +245,7 @@
 <div class="accordion accordion-flush" id="accordionFlush2">
   <div class="accordion-item">
     <div class="accordion-header" id="flush-heading2">
-        <a href="networkanalysis.html">1. Network Analysis</a>
+        <a href="geoprocessing-python.html">1. Geoprocessing in Python</a>
     </div>
 <!--/div.accordion-header-->
 
@@ -257,7 +257,7 @@
 <div class="accordion accordion-flush" id="accordionFlush3">
   <div class="accordion-item">
     <div class="accordion-header" id="flush-heading3">
-        <a href="pysal.html">2. Spatial Autocorrelation with PySAL</a>
+        <a href="geoprocessing-qgis.html">2. Geoprocessing in QGIS</a>
     </div>
 <!--/div.accordion-header-->
 
@@ -269,7 +269,7 @@
 <div class="accordion accordion-flush" id="accordionFlush4">
   <div class="accordion-item">
     <div class="accordion-header" id="flush-heading4">
-        <a href="cluster.html">3. Spatial Clustering</a>
+        <a href="networkanalysis.html">3. Network Analysis</a>
     </div>
 <!--/div.accordion-header-->
 
@@ -281,7 +281,31 @@
 <div class="accordion accordion-flush" id="accordionFlush5">
   <div class="accordion-item">
     <div class="accordion-header" id="flush-heading5">
-        <a href="ndvi.html">4. NDVI Analysis</a>
+        <a href="pysal.html">4. Spatial Autocorrelation with PySAL</a>
+    </div>
+<!--/div.accordion-header-->
+
+  </div>
+<!--/div.accordion-item-->
+</div>
+<!--/div.accordion-flush-->
+
+<div class="accordion accordion-flush" id="accordionFlush6">
+  <div class="accordion-item">
+    <div class="accordion-header" id="flush-heading6">
+        <a href="cluster.html">5. Spatial Clustering</a>
+    </div>
+<!--/div.accordion-header-->
+
+  </div>
+<!--/div.accordion-item-->
+</div>
+<!--/div.accordion-flush-->
+
+<div class="accordion accordion-flush" id="accordionFlush7">
+  <div class="accordion-item">
+    <div class="accordion-header" id="flush-heading7">
+        <a href="ndvi.html">6. NDVI Analysis</a>
     </div>
 <!--/div.accordion-header-->
 
@@ -364,7 +388,37 @@
     <main id="main-content" class="main-content"><div class="container lesson-content">
         <h1>Key Points</h1>
         
-<section id="networkanalysis"><h2 class="section-heading"><a href="networkanalysis.html">Network Analysis</a></h2>
+<section id="geoprocessing-python"><h2 class="section-heading"><a href="geoprocessing-python.html">Geoprocessing in Python</a></h2>
+<hr class="half-width">
+<ul>
+<li>Project every layer to a CRS in meters (EPSG:26916 for Indiana)
+before buffering, measuring or overlaying</li>
+<li>Buffer draws zones, dissolve merges them, clip and intersect cut
+shapes, difference keeps what lies outside, and a nearest join finds the
+closest feature and its distance</li>
+<li>The spatial predicate (intersects, within, centroid within) changes
+which features are selected; report it</li>
+<li>Keep the original area before cutting, so areal weighting can split
+counts by area share</li>
+<li>Sum counts, never rates or medians; areal weighting assumes an even
+spread and straight lines are not travel</li>
+</ul></section><section id="geoprocessing-qgis"><h2 class="section-heading"><a href="geoprocessing-qgis.html">Geoprocessing in QGIS</a></h2>
+<hr class="half-width">
+<ul>
+<li>Reproject every layer to a CRS in meters (EPSG:26916 for Indiana)
+before buffering, measuring or overlaying; on-the-fly display does not
+change the data</li>
+<li>Buffer draws zones, Dissolve merges them, Clip and Intersection cut
+shapes, Difference keeps what lies outside, and Join attributes by
+nearest finds the closest feature and its distance</li>
+<li>The predicate in Select by Location (intersect, are within, centroid
+within) changes the answer; report it</li>
+<li>Store the original area before cutting, then use
+<code>area($geometry) / "tract_m2" * count</code> for areal
+weighting</li>
+<li>Sum counts, never rates or medians; processing results are temporary
+until you make them permanent</li>
+</ul></section><section id="networkanalysis"><h2 class="section-heading"><a href="networkanalysis.html">Network Analysis</a></h2>
 <hr class="half-width">
 <ul>
 <li>Road networks are graphs of nodes (intersections) and edges (road
@@ -477,14 +531,14 @@ pixels mix, and clouds and seasons change the values</li>
   "inLanguage": "en",
   "dct:conformsTo": "https://bioschemas.org/profiles/LearningResource/1.0-RELEASE",
   "description": "A Carpentries Lesson teaching foundational data and coding skills to researchers worldwide",
-  "keywords": "GIS, Python, spatial analysis, network analysis, PySAL, clustering, NDVI, social science",
+  "keywords": "GIS, Python, QGIS, spatial analysis, geoprocessing, buffer, overlay, network analysis, PySAL, clustering, NDVI, social science",
   "name": "Key Points",
   "creativeWorkStatus": "active",
   "url": "https://SpatialTurn.github.io/DataAnalysis/instructor/key-points.html",
   "identifier": "https://SpatialTurn.github.io/DataAnalysis/instructor/key-points.html",
   "dateCreated": "2025-07-23",
-  "dateModified": "2026-10-17",
-  "datePublished": "2026-10-17"
+  "dateModified": "2026-10-20",
+  "datePublished": "2026-10-20"
 }
 
   </script><script>

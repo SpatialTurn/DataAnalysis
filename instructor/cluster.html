@@ -123,7 +123,7 @@
     <a id="search-button-nav" class="btn btn-primary" href="../instructor/aio.html" role="button" aria-label="Search the All In One page">Search the All In One page</a>
   </div><!--/div.container-fluid -->
 </nav><aside class="col-md-12 lesson-progress"><div class="progress incubator">
-    <div class="progress-bar incubator" role="progressbar" style="width: 50%" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100" aria-label="Lesson Progress">50%</div>
+    <div class="progress-bar incubator" role="progressbar" style="width: 68%" aria-valuenow="68" aria-valuemin="0" aria-valuemax="100" aria-label="Lesson Progress">68%</div>
   </div>
 </aside><div class="container">
       <div class="row">
@@ -208,7 +208,7 @@
 <div class="accordion accordion-flush" id="accordionFlush2">
   <div class="accordion-item">
     <div class="accordion-header" id="flush-heading2">
-        <a href="networkanalysis.html">1. Network Analysis</a>
+        <a href="geoprocessing-python.html">1. Geoprocessing in Python</a>
     </div><!--/div.accordion-header-->
 
   </div><!--/div.accordion-item-->
@@ -217,7 +217,25 @@
 <div class="accordion accordion-flush" id="accordionFlush3">
   <div class="accordion-item">
     <div class="accordion-header" id="flush-heading3">
-        <a href="pysal.html">2. Spatial Autocorrelation with PySAL</a>
+        <a href="geoprocessing-qgis.html">2. Geoprocessing in QGIS</a>
+    </div><!--/div.accordion-header-->
+
+  </div><!--/div.accordion-item-->
+</div><!--/div.accordion-flush-->
+
+<div class="accordion accordion-flush" id="accordionFlush4">
+  <div class="accordion-item">
+    <div class="accordion-header" id="flush-heading4">
+        <a href="networkanalysis.html">3. Network Analysis</a>
+    </div><!--/div.accordion-header-->
+
+  </div><!--/div.accordion-item-->
+</div><!--/div.accordion-flush-->
+
+<div class="accordion accordion-flush" id="accordionFlush5">
+  <div class="accordion-item">
+    <div class="accordion-header" id="flush-heading5">
+        <a href="pysal.html">4. Spatial Autocorrelation with PySAL</a>
     </div><!--/div.accordion-header-->
 
   </div><!--/div.accordion-item-->
@@ -229,7 +247,7 @@
       <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapsecurrent" aria-expanded="true" aria-controls="flush-collapsecurrent">
         <span class="visually-hidden">Current Chapter</span>
         <span class="current-chapter">
-        3. Spatial Clustering
+        5. Spatial Clustering
         </span>
       </button>
     </div><!--/div.accordion-header-->
@@ -253,10 +271,10 @@
   </div><!--/div.accordion-item-->
 </div><!--/div.accordion-flush-->
 
-<div class="accordion accordion-flush" id="accordionFlush5">
+<div class="accordion accordion-flush" id="accordionFlush7">
   <div class="accordion-item">
-    <div class="accordion-header" id="flush-heading5">
-        <a href="ndvi.html">4. NDVI Analysis</a>
+    <div class="accordion-header" id="flush-heading7">
+        <a href="ndvi.html">6. NDVI Analysis</a>
     </div><!--/div.accordion-header-->
 
   </div><!--/div.accordion-item-->
@@ -334,7 +352,7 @@
       </div>
     </nav><main id="main-content" class="main-content"><div class="container lesson-content">
         <h1>Spatial Clustering</h1>
-        <p>Last updated on 2026-10-17 |
+        <p>Last updated on 2026-10-20 |
 
         <a href="https://github.com/SpatialTurn/DataAnalysis/edit/main/episodes/cluster.md" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
 
@@ -483,7 +501,7 @@ distances in degrees are distorted. Always reproject first.</p>
 <p>A point with at least <code>min_samples</code> neighbors within
 <code>eps</code> meters is a core point; nearby core points form a
 cluster. Choose <code>eps</code> with a k-distance plot (see notebook
-3b).</p>
+5b).</p>
 </section><section><h2 class="section-heading" id="hdbscan-no-radius-needed">3. HDBSCAN: no radius needed<a class="anchor" aria-label="anchor" href="#hdbscan-no-radius-needed"></a></h2>
 <hr class="half-width"><div class="codewrapper sourceCode" id="cb3">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -768,16 +786,16 @@ locations or reporting, not high risk</li>
 <th>Notebook</th>
 <th>What you will do</th>
 </tr></thead><tbody><tr><td>Beginner</td>
-<td><a href="https://colab.research.google.com/github/SpatialTurn/DataAnalysis/blob/main/notebooks/03a_Exploring_Crime_Points.ipynb" target="_blank" class="external-link">3a.
+<td><a href="https://colab.research.google.com/github/SpatialTurn/DataAnalysis/blob/main/notebooks/05a_Exploring_Crime_Points.ipynb" target="_blank" class="external-link">5a.
 Exploring Crime Points</a></td>
 <td>Summarize Chicago crimes and turn them into points in meters</td>
 </tr><tr><td>Intermediate</td>
-<td><a href="https://colab.research.google.com/github/SpatialTurn/DataAnalysis/blob/main/notebooks/03b_DBSCAN_and_HDBSCAN.ipynb" target="_blank" class="external-link">3b.
+<td><a href="https://colab.research.google.com/github/SpatialTurn/DataAnalysis/blob/main/notebooks/05b_DBSCAN_and_HDBSCAN.ipynb" target="_blank" class="external-link">5b.
 DBSCAN and HDBSCAN</a></td>
 <td>Choose <code>eps</code>, find robbery hotspots and compare with
 HDBSCAN</td>
 </tr><tr><td>Advanced</td>
-<td><a href="https://colab.research.google.com/github/SpatialTurn/DataAnalysis/blob/main/notebooks/03c_KMeans_and_Comparing_Methods.ipynb" target="_blank" class="external-link">3c.
+<td><a href="https://colab.research.google.com/github/SpatialTurn/DataAnalysis/blob/main/notebooks/05c_KMeans_and_Comparing_Methods.ipynb" target="_blank" class="external-link">5c.
 K-Means and Comparing Methods</a></td>
 <td>Use the elbow method, a dendrogram and a side by side
 comparison</td>
@@ -838,14 +856,14 @@ Add reference-style links below as needed.
   "inLanguage": "en",
   "dct:conformsTo": "https://bioschemas.org/profiles/LearningResource/1.0-RELEASE",
   "description": "A Carpentries Lesson teaching foundational data and coding skills to researchers worldwide",
-  "keywords": "GIS, Python, spatial analysis, network analysis, PySAL, clustering, NDVI, social science",
+  "keywords": "GIS, Python, QGIS, spatial analysis, geoprocessing, buffer, overlay, network analysis, PySAL, clustering, NDVI, social science",
   "name": "Spatial Clustering",
   "creativeWorkStatus": "active",
   "url": "https://SpatialTurn.github.io/DataAnalysis/instructor/cluster.html",
   "identifier": "https://SpatialTurn.github.io/DataAnalysis/instructor/cluster.html",
   "dateCreated": "2025-07-23",
-  "dateModified": "2026-10-17",
-  "datePublished": "2026-10-17"
+  "dateModified": "2026-10-20",
+  "datePublished": "2026-10-20"
 }
 
   </script><script>
