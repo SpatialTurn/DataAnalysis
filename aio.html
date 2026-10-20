@@ -1303,6 +1303,23 @@ Foundations episode on tables shows how that join is done. Add an
 OpenStreetMap basemap underneath if you like.</p>
 <p><strong>Check:</strong> 64 store points and one city polygon over
 Lafayette, 43 tracts covering Tippecanoe County.</p>
+<div id="if-qgis-asks-you-to-choose-a-transformation" class="callout">
+<div class="callout-square">
+<i class="callout-icon" data-feather="bell"></i>
+</div>
+<span class="callout-header">Callout</span>
+<div id="if-qgis-asks-you-to-choose-a-transformation" class="callout-inner">
+<h3 class="callout-title">If QGIS asks you to choose a
+transformation</h3>
+<div class="callout-content">
+<p>When layers in latitude and longitude (EPSG:4326) are drawn in a
+project in UTM (EPSG:26916), QGIS may open a window that begins
+“Multiple operations are possible for converting coordinates”. For this
+county any of the options is accurate to a few meters: keep the first
+(highlighted) one and click <strong>OK</strong>.</p>
+</div>
+</div>
+</div>
 </div>
 <div class="section level3">
 <h3 id="part-2-reproject-to-meters">Part 2: Reproject to meters<a class="anchor" aria-label="anchor" href="#part-2-reproject-to-meters"></a>
@@ -2386,6 +2403,23 @@ time; mixing data decades apart is not.</li>
 <p>These steps were checked in QGIS 4.0 (QGIS 3.34 and later are nearly
 identical). Save a new project in its own folder first; raster results
 are written there.</p>
+<div id="if-qgis-asks-you-to-choose-a-transformation" class="callout">
+<div class="callout-square">
+<i class="callout-icon" data-feather="bell"></i>
+</div>
+<span class="callout-header">Callout</span>
+<div id="if-qgis-asks-you-to-choose-a-transformation" class="callout-inner">
+<h3 class="callout-title">If QGIS asks you to choose a
+transformation</h3>
+<div class="callout-content">
+<p>When layers in latitude and longitude (EPSG:4326) are drawn in a
+project in UTM (EPSG:26916), QGIS may open a window that begins
+“Multiple operations are possible for converting coordinates”. For this
+county any of the options is accurate to a few meters: keep the first
+(highlighted) one and click <strong>OK</strong>.</p>
+</div>
+</div>
+</div>
 <div class="section level3">
 <h3 id="part-1-load-the-rasters-from-the-web">Part 1: Load the rasters from the web<a class="anchor" aria-label="anchor" href="#part-1-load-the-rasters-from-the-web"></a>
 </h3>
@@ -2553,7 +2587,7 @@ option.)</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution1" aria-expanded="false" aria-controls="collapseSolution1">
   <h4 class="accordion-header" id="headingSolution1"> Show me the solution </h4>
 </button>
-<div id="collapseSolution1" class="accordion-collapse collapse" aria-labelledby="headingSolution1" data-bs-parent="#accordionSolution1">
+<div id="collapseSolution1" class="accordion-collapse collapse" data-bs-parent="#accordionSolution1" aria-labelledby="headingSolution1">
 <div class="accordion-body">
 <p>Resample the <strong>land cover</strong> to <strong>30 m</strong>
 (the coarser resolution), with <strong>nearest neighbor</strong>
@@ -2583,7 +2617,7 @@ land lies below it? Is the answer sensitive to the threshold?</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution2" aria-expanded="false" aria-controls="collapseSolution2">
   <h4 class="accordion-header" id="headingSolution2"> Show me the solution </h4>
 </button>
-<div id="collapseSolution2" class="accordion-collapse collapse" aria-labelledby="headingSolution2" data-bs-parent="#accordionSolution2">
+<div id="collapseSolution2" class="accordion-collapse collapse" data-bs-parent="#accordionSolution2" aria-labelledby="headingSolution2">
 <div class="accordion-body">
 <p><code>"tippecanoe_dem@1" &lt; 175</code>, then the AND step: about
 <strong>15.3 km²</strong> (compared with 10.7 km² below 170 m). Five
@@ -2612,7 +2646,7 @@ statistic gives each?</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution3" aria-expanded="false" aria-controls="collapseSolution3">
   <h4 class="accordion-header" id="headingSolution3"> Show me the solution </h4>
 </button>
-<div id="collapseSolution3" class="accordion-collapse collapse" aria-labelledby="headingSolution3" data-bs-parent="#accordionSolution3">
+<div id="collapseSolution3" class="accordion-collapse collapse" data-bs-parent="#accordionSolution3" aria-labelledby="headingSolution3">
 <div class="accordion-body">
 <ol style="list-style-type: lower-alpha">
 <li>
@@ -3489,7 +3523,7 @@ Why can Queen never have fewer neighbors than Rook?</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution1" aria-expanded="false" aria-controls="collapseSolution1">
   <h4 class="accordion-header" id="headingSolution1"> Show me the solution </h4>
 </button>
-<div id="collapseSolution1" class="accordion-collapse collapse" data-bs-parent="#accordionSolution1" aria-labelledby="headingSolution1">
+<div id="collapseSolution1" class="accordion-collapse collapse" aria-labelledby="headingSolution1" data-bs-parent="#accordionSolution1">
 <div class="accordion-body">
 <p>Queen counts every county that shares an edge (like Rook)
 <strong>plus</strong> any that only touch at a corner. So it always
@@ -3516,7 +3550,7 @@ Then make its LISA map.</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution2" aria-expanded="false" aria-controls="collapseSolution2">
   <h4 class="accordion-header" id="headingSolution2"> Show me the solution </h4>
 </button>
-<div id="collapseSolution2" class="accordion-collapse collapse" data-bs-parent="#accordionSolution2" aria-labelledby="headingSolution2">
+<div id="collapseSolution2" class="accordion-collapse collapse" aria-labelledby="headingSolution2" data-bs-parent="#accordionSolution2">
 <div class="accordion-body">
 <div class="codewrapper sourceCode" id="cb6">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -3579,7 +3613,7 @@ it?</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution3" aria-expanded="false" aria-controls="collapseSolution3">
   <h4 class="accordion-header" id="headingSolution3"> Show me the solution </h4>
 </button>
-<div id="collapseSolution3" class="accordion-collapse collapse" data-bs-parent="#accordionSolution3" aria-labelledby="headingSolution3">
+<div id="collapseSolution3" class="accordion-collapse collapse" aria-labelledby="headingSolution3" data-bs-parent="#accordionSolution3">
 <div class="accordion-body">
 <p>High-Low means the tract’s income is well above the mean while its
 neighbors’ average is below the mean, and the difference is unlikely to
