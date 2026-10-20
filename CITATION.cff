@@ -31,7 +31,12 @@ abstract: >-
 keywords:
   - GIS
   - Python
+  - QGIS
   - spatial analysis
+  - geoprocessing
+  - raster analysis
+  - zonal statistics
+  - dasymetric mapping
   - network analysis
   - PySAL
   - clustering
