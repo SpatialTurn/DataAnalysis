@@ -10,8 +10,8 @@ The lesson is built with [The Carpentries Workbench](https://carpentries.github.
 
 | Folder | Contents |
 |---|---|
-| `episodes/` | The eight lesson pages shown on the website |
-| `notebooks/` | The 17 Google Colab notebooks linked from the episodes (`01a` to `06c`) |
+| `episodes/` | The four lesson pages shown on the website |
+| `notebooks/` | The 12 Google Colab notebooks linked from the episodes (`01a` to `04c`) |
 | `data/` | Data the notebooks read directly from GitHub into memory |
 | `learners/`, `instructors/` | Setup, glossary and instructor notes |
 
@@ -21,18 +21,15 @@ and read data from `https://raw.githubusercontent.com/SpatialTurn/DataAnalysis/m
 
 | Episode file | Topic | Notebooks | Data |
 |---|---|---|---|
-| `geoprocessing-python.md` | Geoprocessing in Python (intermediate) | `01a` to `01c` | Foundations and CaseStudies `data/` (Lafayette stores, city limits, Tippecanoe tracts with ACS 2024) |
-| `geoprocessing-qgis.md` | Geoprocessing in QGIS (intermediate, same data and results) | none | as above |
-| `raster-python.md` | Raster Analysis in Python (intermediate): map algebra, reclassification, zonal statistics, dasymetric estimation | `02a`, `02b` | Foundations `data/` (Tippecanoe elevation, NLCD 2021 land cover, tracts with ACS 2024) and CaseStudies `data/` |
-| `raster-qgis.md` | Raster Analysis in QGIS (intermediate, same data and results) | none | as above |
-| `networkanalysis.md` | Network analysis | `03a` to `03c` | OpenStreetMap |
-| `pysal.md` | Spatial autocorrelation with PySAL | `04a` to `04c` | Census API and boundary files (learner's own API key) |
-| `cluster.md` | Spatial clustering | `05a` to `05c` | `data/CrimesChicago20220225.csv` |
-| `ndvi.md` | NDVI analysis | `06a` to `06c` | `data/landsat/band2.TIF` to `band5.TIF` |
+| `networkanalysis.md` | Network analysis | `01a` to `01c` | OpenStreetMap |
+| `pysal.md` | Spatial autocorrelation with PySAL | `02a` to `02c` | Census API and boundary files (learner's own API key) |
+| `cluster.md` | Spatial clustering | `03a` to `03c` | `data/CrimesChicago20220225.csv` |
+| `ndvi.md` | NDVI analysis | `04a` to `04c` | `data/landsat/band2.TIF` to `band5.TIF` |
 
-In October 2026 (Step 8 of
-the rework) the advanced notebooks were renumbered from `01a` to `04c` to `03a` to `06c` to make room for the
-new intermediate episodes.
+In October 2026 (Step 8) intermediate Geoprocessing and Raster Analysis episodes were added here and the
+notebooks below were renumbered `03a` to `06c`. A few days later (Step 9) those intermediate episodes moved to the
+new [Data Processing module](https://github.com/SpatialTurn/DataProcessing), and the notebooks went back to
+`01a` to `04c`.
 
 In October 2026 the geocoding episode (`introduction.md`, notebooks `01a` to `01c` and `data/museums.txt`)
 moved to the [Data Collection module](https://github.com/SpatialTurn/DataCollection), and the remaining
@@ -43,11 +40,5 @@ The Landsat bands are 85 to 95 MB each, under GitHub's 100 MB file limit.
 The diagrams named `da_*.png` in `episodes/` (October 2026) were drawn with Python
 (`SpatialTurn_build_scripts/figure_builders/da_figures.py`); the clustering points are synthetic and the
 spectral curves are illustrative. Each has a `-dark` copy for the site's dark mode.
-`da_geoprocessing_ops.png` comes from `figure_builders/da_geoprocessing_figures.py`. The `gp_qgis_*.png`
-screenshots were taken in QGIS 4.0 (light and dark UI) through the QGIS MCP plugin; `gp_qgis_result.png` is a
-QGIS render composed by `figure_builders/gp_result_fig.py`. Notebooks `01a` to `01c` are written by
-`notebook_builders/da_geoprocessing.py`, and `02a`, `02b` by `notebook_builders/da_raster.py`. `da_raster_ops.png`
-comes from `figure_builders/da_raster_figures.py`; `rs_qgis_*.png` are QGIS 4.0 screenshots (light and dark UI) and
-`rs_qgis_result.png` is composed by `figure_builders/rs_result_fig.py`.
 
 Contact: ilindsay@purdue.edu
