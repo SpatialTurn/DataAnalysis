@@ -130,6 +130,16 @@ shows how much a conclusion depends on an assumption.
 These steps were checked in QGIS 4.0 (QGIS 3.34 and later are nearly identical). Save a new project in its own
 folder first; raster results are written there.
 
+::::::::::::::::::::::::::::::::::::: callout
+
+### If QGIS asks you to choose a transformation
+
+When layers in latitude and longitude (EPSG:4326) are drawn in a project in UTM (EPSG:26916), QGIS may open a
+window that begins "Multiple operations are possible for converting coordinates". For this county any of the
+options is accurate to a few meters: keep the first (highlighted) one and click **OK**.
+
+::::::::::::::::::::::::::::::::::::::::::::::::
+
 ### Part 1: Load the rasters from the web
 
 1. **Layer > Add Layer > Add Raster Layer**. **Source Type:** Protocol: HTTP(S), cloud, etc. **Type:**
