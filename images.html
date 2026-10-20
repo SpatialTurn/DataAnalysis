@@ -268,7 +268,7 @@
 <div class="accordion accordion-flush" id="accordionFlush4">
   <div class="accordion-item">
     <div class="accordion-header" id="flush-heading4">
-        <a href="networkanalysis.html">3. Network Analysis</a>
+        <a href="raster-python.html">3. Raster Analysis in Python</a>
     </div>
 <!--/div.accordion-header-->
 
@@ -280,7 +280,7 @@
 <div class="accordion accordion-flush" id="accordionFlush5">
   <div class="accordion-item">
     <div class="accordion-header" id="flush-heading5">
-        <a href="pysal.html">4. Spatial Autocorrelation with PySAL</a>
+        <a href="raster-qgis.html">4. Raster Analysis in QGIS</a>
     </div>
 <!--/div.accordion-header-->
 
@@ -292,7 +292,7 @@
 <div class="accordion accordion-flush" id="accordionFlush6">
   <div class="accordion-item">
     <div class="accordion-header" id="flush-heading6">
-        <a href="cluster.html">5. Spatial Clustering</a>
+        <a href="networkanalysis.html">5. Network Analysis</a>
     </div>
 <!--/div.accordion-header-->
 
@@ -304,7 +304,31 @@
 <div class="accordion accordion-flush" id="accordionFlush7">
   <div class="accordion-item">
     <div class="accordion-header" id="flush-heading7">
-        <a href="ndvi.html">6. NDVI Analysis</a>
+        <a href="pysal.html">6. Spatial Autocorrelation with PySAL</a>
+    </div>
+<!--/div.accordion-header-->
+
+  </div>
+<!--/div.accordion-item-->
+</div>
+<!--/div.accordion-flush-->
+
+<div class="accordion accordion-flush" id="accordionFlush8">
+  <div class="accordion-item">
+    <div class="accordion-header" id="flush-heading8">
+        <a href="cluster.html">7. Spatial Clustering</a>
+    </div>
+<!--/div.accordion-header-->
+
+  </div>
+<!--/div.accordion-item-->
+</div>
+<!--/div.accordion-flush-->
+
+<div class="accordion accordion-flush" id="accordionFlush9">
+  <div class="accordion-item">
+    <div class="accordion-header" id="flush-heading9">
+        <a href="ndvi.html">8. NDVI Analysis</a>
     </div>
 <!--/div.accordion-header-->
 
@@ -425,6 +449,36 @@ tracts.</div>
 <h3 id="geoprocessing-qgis-figure-7">Figure 7</h3>
 <p aria-hidden="true">Image 1 of 1: ‘Screenshot of the QGIS Join attributes by nearest tool. Input layer is centers_city, Input layer 2 is supermarkets, Layer 2 fields to copy is store_name, Discard records which could not be joined is unchecked, Joined field prefix is empty and Maximum nearest neighbors is 1. The help panel explains that attributes are taken from the closest feature in the second layer.’</p>
 <figure><img src="gp_qgis_nearest.png" alt="Screenshot of the QGIS Join attributes by nearest tool. Input layer is centers_city, Input layer 2 is supermarkets, Layer 2 fields to copy is store_name, Discard records which could not be joined is unchecked, Joined field prefix is empty and Maximum nearest neighbors is 1. The help panel explains that attributes are taken from the closest feature in the second layer." class="figure mx-auto d-block"><div class="figcaption">The Join attributes by nearest dialog.</div>
+</figure><hr></section><section id="raster-python"><h2 class="section-heading"><a href="raster-python.html">Raster Analysis in Python</a></h2>
+<hr class="half-width">
+<h3 id="raster-python-figure-1">Figure 1</h3>
+<p aria-hidden="true">Image 1 of 1: ‘Diagram of eight panels. Top row: a 4 by 4 grid of elevations from 162 to 182 meters; the same grid after the comparison elevation less than 170, showing 1 in seven cells on the lower, right side and 0 elsewhere; a grid of NLCD land cover codes such as 82, 22, 23, 11, 41 and 90; and the same grid reclassified into groups 1 to 5, with group 2 (developed) in red. Bottom row: the cells that are both low and developed, five cells marked 1, with the note 5 cells times 900 square meters equals 4,500 square meters; the reclassified grid with a tract polygon drawn over it and a dot at the center of each cell, black where the center falls inside the polygon; a summary saying that of 8 cells whose centers are inside, 5 are developed, 1 forest and 2 agriculture, a developed share of 62 percent, and that the mean elevation of the same cells is 171.8 meters; and a short note that map algebra works cell by cell on rasters that share a grid while zonal statistics summarize the cells inside each polygon.’</p>
+<figure><img src="da_raster_ops.png" alt="Diagram of eight panels. Top row: a 4 by 4 grid of elevations from 162 to 182 meters; the same grid after the comparison elevation less than 170, showing 1 in seven cells on the lower, right side and 0 elsewhere; a grid of NLCD land cover codes such as 82, 22, 23, 11, 41 and 90; and the same grid reclassified into groups 1 to 5, with group 2 (developed) in red. Bottom row: the cells that are both low and developed, five cells marked 1, with the note 5 cells times 900 square meters equals 4,500 square meters; the reclassified grid with a tract polygon drawn over it and a dot at the center of each cell, black where the center falls inside the polygon; a summary saying that of 8 cells whose centers are inside, 5 are developed, 1 forest and 2 agriculture, a developed share of 62 percent, and that the mean elevation of the same cells is 171.8 meters; and a short note that map algebra works cell by cell on rasters that share a grid while zonal statistics summarize the cells inside each polygon." class="figure mx-auto d-block"><div class="figcaption">Map algebra and zonal statistics on a 4 by 4
+grid.</div>
+</figure><hr></section><section id="raster-qgis"><h2 class="section-heading"><a href="raster-qgis.html">Raster Analysis in QGIS</a></h2>
+<hr class="half-width">
+<h3 id="raster-qgis-figure-1">Figure 1</h3>
+<p aria-hidden="true">Image 1 of 1: ‘Diagram of eight panels. Top row: a 4 by 4 grid of elevations from 162 to 182 meters; the same grid after the comparison elevation less than 170, showing 1 in seven cells on the lower, right side and 0 elsewhere; a grid of NLCD land cover codes such as 82, 22, 23, 11, 41 and 90; and the same grid reclassified into groups 1 to 5, with group 2 (developed) in red. Bottom row: the cells that are both low and developed, five cells marked 1, with the note 5 cells times 900 square meters equals 4,500 square meters; the reclassified grid with a tract polygon drawn over it and a dot at the center of each cell, black where the center falls inside the polygon; a summary saying that of 8 cells whose centers are inside, 5 are developed, 1 forest and 2 agriculture, a developed share of 62 percent, and that the mean elevation of the same cells is 171.8 meters; and a short note that map algebra works cell by cell on rasters that share a grid while zonal statistics summarize the cells inside each polygon.’</p>
+<figure><img src="da_raster_ops.png" alt="Diagram of eight panels. Top row: a 4 by 4 grid of elevations from 162 to 182 meters; the same grid after the comparison elevation less than 170, showing 1 in seven cells on the lower, right side and 0 elsewhere; a grid of NLCD land cover codes such as 82, 22, 23, 11, 41 and 90; and the same grid reclassified into groups 1 to 5, with group 2 (developed) in red. Bottom row: the cells that are both low and developed, five cells marked 1, with the note 5 cells times 900 square meters equals 4,500 square meters; the reclassified grid with a tract polygon drawn over it and a dot at the center of each cell, black where the center falls inside the polygon; a summary saying that of 8 cells whose centers are inside, 5 are developed, 1 forest and 2 agriculture, a developed share of 62 percent, and that the mean elevation of the same cells is 171.8 meters; and a short note that map algebra works cell by cell on rasters that share a grid while zonal statistics summarize the cells inside each polygon." class="figure mx-auto d-block"><div class="figcaption">Map algebra and zonal statistics on a 4 by 4
+grid.</div>
+</figure><hr>
+<h3 id="raster-qgis-figure-2">Figure 2</h3>
+<p aria-hidden="true">Image 1 of 1: ‘Screenshot of the QGIS Raster Calculator. The Raster Bands list shows tippecanoe_dem@1 and tippecanoe_landcover_2021@1 (and a landcover_groups@1 layer from a later step). The Result Layer section has an empty Output layer box with a browse button, Output format GeoTIFF, and the extent of the layer. Operator buttons include plus, minus, less than, AND, OR, IF, min, max and math functions. The expression box reads tippecanoe_dem@1 in double quotes, less than 170, and the message below says Expression valid.’</p>
+<figure><img src="rs_qgis_raster_calculator.png" alt="Screenshot of the QGIS Raster Calculator. The Raster Bands list shows tippecanoe_dem@1 and tippecanoe_landcover_2021@1 (and a landcover_groups@1 layer from a later step). The Result Layer section has an empty Output layer box with a browse button, Output format GeoTIFF, and the extent of the layer. Operator buttons include plus, minus, less than, AND, OR, IF, min, max and math functions. The expression box reads tippecanoe_dem@1 in double quotes, less than 170, and the message below says Expression valid." class="figure mx-auto d-block"><div class="figcaption">The Raster Calculator with the comparison
+expression.</div>
+</figure><hr>
+<h3 id="raster-qgis-figure-3">Figure 3</h3>
+<p aria-hidden="true">Image 1 of 1: ‘Screenshot of the QGIS Reclassify by table tool showing the Reclassification table panel. Eight rows list Minimum, Maximum and Value: 11, 12, 1; 21, 24, 2; 31, 31, 3; 41, 43, 3; 52, 52, 3; 71, 71, 3; 81, 82, 4; 90, 95, 5. Buttons on the right are Add Row, Remove Row(s), Remove All, OK and Cancel.’</p>
+<figure><img src="rs_qgis_reclass_table.png" alt="Screenshot of the QGIS Reclassify by table tool showing the Reclassification table panel. Eight rows list Minimum, Maximum and Value: 11, 12, 1; 21, 24, 2; 31, 31, 3; 41, 43, 3; 52, 52, 3; 71, 71, 3; 81, 82, 4; 90, 95, 5. Buttons on the right are Add Row, Remove Row(s), Remove All, OK and Cancel." class="figure mx-auto d-block"><div class="figcaption">The reclassification table in Reclassify by
+table.</div>
+</figure><hr>
+<h3 id="raster-qgis-figure-4">Figure 4</h3>
+<p aria-hidden="true">Image 1 of 1: ‘Screenshot of the QGIS Zonal histogram tool. Raster layer is landcover_groups in EPSG:26916, Band number is Band 1, Vector layer containing zones is tracts_utm in EPSG:26916, Output column prefix is HISTO_, and the output is a temporary layer. The help panel says the algorithm appends fields with counts of each unique value from a raster layer within zones defined as polygons.’</p>
+<figure><img src="rs_qgis_zonal_histogram.png" alt="Screenshot of the QGIS Zonal histogram tool. Raster layer is landcover_groups in EPSG:26916, Band number is Band 1, Vector layer containing zones is tracts_utm in EPSG:26916, Output column prefix is HISTO_, and the output is a temporary layer. The help panel says the algorithm appends fields with counts of each unique value from a raster layer within zones defined as polygons." class="figure mx-auto d-block"><div class="figcaption">The Zonal histogram tool.</div>
+</figure><hr>
+<h3 id="raster-qgis-figure-5">Figure 5</h3>
+<p aria-hidden="true">Image 1 of 1: ‘Choropleth map of Tippecanoe County census tracts titled Developed land by census tract. Five classes in shades of red from 4.8 to 17.1 percent (palest) to 83.5 to 100 percent (darkest). The large rural tracts that fill most of the county are palest; the tracts of Lafayette and West Lafayette in the center are darkest, and a ring of tracts around them is in the middle classes.’</p>
+<figure><img src="rs_qgis_result.png" alt="Choropleth map of Tippecanoe County census tracts titled Developed land by census tract. Five classes in shades of red from 4.8 to 17.1 percent (palest) to 83.5 to 100 percent (darkest). The large rural tracts that fill most of the county are palest; the tracts of Lafayette and West Lafayette in the center are darkest, and a ring of tracts around them is in the middle classes." class="figure mx-auto d-block"><div class="figcaption">Percent developed land by tract.</div>
 </figure><hr></section><section id="networkanalysis"><h2 class="section-heading"><a href="networkanalysis.html">Network Analysis</a></h2>
 <hr class="half-width">
 <h3 id="networkanalysis-figure-1">Figure 1</h3>
@@ -490,7 +544,7 @@ water.</div>
   "inLanguage": "en",
   "dct:conformsTo": "https://bioschemas.org/profiles/LearningResource/1.0-RELEASE",
   "description": "A Carpentries Lesson teaching foundational data and coding skills to researchers worldwide",
-  "keywords": "GIS, Python, QGIS, spatial analysis, geoprocessing, buffer, overlay, network analysis, PySAL, clustering, NDVI, social science",
+  "keywords": "GIS, Python, QGIS, spatial analysis, geoprocessing, buffer, overlay, raster analysis, zonal statistics, network analysis, PySAL, clustering, NDVI, social science",
   "name": "All Images",
   "creativeWorkStatus": "active",
   "url": "https://SpatialTurn.github.io/DataAnalysis/images.html",

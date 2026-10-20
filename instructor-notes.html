@@ -268,7 +268,7 @@
 <div class="accordion accordion-flush" id="accordionFlush4">
   <div class="accordion-item">
     <div class="accordion-header" id="flush-heading4">
-        <a href="networkanalysis.html">3. Network Analysis</a>
+        <a href="raster-python.html">3. Raster Analysis in Python</a>
     </div>
 <!--/div.accordion-header-->
 
@@ -280,7 +280,7 @@
 <div class="accordion accordion-flush" id="accordionFlush5">
   <div class="accordion-item">
     <div class="accordion-header" id="flush-heading5">
-        <a href="pysal.html">4. Spatial Autocorrelation with PySAL</a>
+        <a href="raster-qgis.html">4. Raster Analysis in QGIS</a>
     </div>
 <!--/div.accordion-header-->
 
@@ -292,7 +292,7 @@
 <div class="accordion accordion-flush" id="accordionFlush6">
   <div class="accordion-item">
     <div class="accordion-header" id="flush-heading6">
-        <a href="cluster.html">5. Spatial Clustering</a>
+        <a href="networkanalysis.html">5. Network Analysis</a>
     </div>
 <!--/div.accordion-header-->
 
@@ -304,7 +304,31 @@
 <div class="accordion accordion-flush" id="accordionFlush7">
   <div class="accordion-item">
     <div class="accordion-header" id="flush-heading7">
-        <a href="ndvi.html">6. NDVI Analysis</a>
+        <a href="pysal.html">6. Spatial Autocorrelation with PySAL</a>
+    </div>
+<!--/div.accordion-header-->
+
+  </div>
+<!--/div.accordion-item-->
+</div>
+<!--/div.accordion-flush-->
+
+<div class="accordion accordion-flush" id="accordionFlush8">
+  <div class="accordion-item">
+    <div class="accordion-header" id="flush-heading8">
+        <a href="cluster.html">7. Spatial Clustering</a>
+    </div>
+<!--/div.accordion-header-->
+
+  </div>
+<!--/div.accordion-item-->
+</div>
+<!--/div.accordion-flush-->
+
+<div class="accordion accordion-flush" id="accordionFlush9">
+  <div class="accordion-item">
+    <div class="accordion-header" id="flush-heading9">
+        <a href="ndvi.html">8. NDVI Analysis</a>
     </div>
 <!--/div.accordion-header-->
 
@@ -432,6 +456,27 @@ GeoPandas. With 5, sums differ by well under 1%.</li>
 <li>Challenge 3 (areal weighting on the Purdue tract) works well as a
 pair discussion and sets up the Raster Analysis episode (land cover as
 ancillary data).</li>
+</ul>
+</div>
+<div class="section level3">
+<h3 id="raster-analysis-in-python-and-in-qgis">Raster Analysis in Python and in QGIS<a class="anchor" aria-label="anchor" href="#raster-analysis-in-python-and-in-qgis"></a>
+</h3>
+<ul>
+<li>Shared numbers: 86.9 km2 below 170 m; groups 10.8 / 196.8 / 167.1 /
+904.0 / 23.4 km2; developed below 170 m 10.7 km2 (5%); tract 1 mean
+elevation 165.6 m; percent developed min 4.8% (tract 110), median 82%;
+correlation with log density 0.89; dasymetric city population 122,098 vs
+114,345 areal, share within 1 mile 68.3% vs 67.8%.</li>
+<li>QGIS Reclassify by table defaults to
+<code>min &lt; value &lt;= max</code>, which silently drops codes equal
+to the minimum (11, 21, 31…). Make learners set
+<code>min &lt;= value &lt;= max</code> and check with the unique values
+report.</li>
+<li>The Raster Calculator OK button stays gray until an output file is
+set (or on-the-fly is ticked).</li>
+<li>Colab needs <code>pip install rasterstats</code> (in notebook
+2b).</li>
+<li>“Below 170 m” is a teaching stand-in, not a flood map; say so.</li>
 </ul>
 </div>
 <div class="section level3">
@@ -609,7 +654,7 @@ Add reference-style links below as needed.
   "inLanguage": "en",
   "dct:conformsTo": "https://bioschemas.org/profiles/LearningResource/1.0-RELEASE",
   "description": "A Carpentries Lesson teaching foundational data and coding skills to researchers worldwide",
-  "keywords": "GIS, Python, QGIS, spatial analysis, geoprocessing, buffer, overlay, network analysis, PySAL, clustering, NDVI, social science",
+  "keywords": "GIS, Python, QGIS, spatial analysis, geoprocessing, buffer, overlay, raster analysis, zonal statistics, network analysis, PySAL, clustering, NDVI, social science",
   "name": "Instructor Notes",
   "creativeWorkStatus": "active",
   "url": "https://SpatialTurn.github.io/DataAnalysis/instructor-notes.html",

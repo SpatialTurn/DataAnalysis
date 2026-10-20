@@ -268,7 +268,7 @@
 <div class="accordion accordion-flush" id="accordionFlush4">
   <div class="accordion-item">
     <div class="accordion-header" id="flush-heading4">
-        <a href="networkanalysis.html">3. Network Analysis</a>
+        <a href="raster-python.html">3. Raster Analysis in Python</a>
     </div>
 <!--/div.accordion-header-->
 
@@ -280,7 +280,7 @@
 <div class="accordion accordion-flush" id="accordionFlush5">
   <div class="accordion-item">
     <div class="accordion-header" id="flush-heading5">
-        <a href="pysal.html">4. Spatial Autocorrelation with PySAL</a>
+        <a href="raster-qgis.html">4. Raster Analysis in QGIS</a>
     </div>
 <!--/div.accordion-header-->
 
@@ -292,7 +292,7 @@
 <div class="accordion accordion-flush" id="accordionFlush6">
   <div class="accordion-item">
     <div class="accordion-header" id="flush-heading6">
-        <a href="cluster.html">5. Spatial Clustering</a>
+        <a href="networkanalysis.html">5. Network Analysis</a>
     </div>
 <!--/div.accordion-header-->
 
@@ -304,7 +304,31 @@
 <div class="accordion accordion-flush" id="accordionFlush7">
   <div class="accordion-item">
     <div class="accordion-header" id="flush-heading7">
-        <a href="ndvi.html">6. NDVI Analysis</a>
+        <a href="pysal.html">6. Spatial Autocorrelation with PySAL</a>
+    </div>
+<!--/div.accordion-header-->
+
+  </div>
+<!--/div.accordion-item-->
+</div>
+<!--/div.accordion-flush-->
+
+<div class="accordion accordion-flush" id="accordionFlush8">
+  <div class="accordion-item">
+    <div class="accordion-header" id="flush-heading8">
+        <a href="cluster.html">7. Spatial Clustering</a>
+    </div>
+<!--/div.accordion-header-->
+
+  </div>
+<!--/div.accordion-item-->
+</div>
+<!--/div.accordion-flush-->
+
+<div class="accordion accordion-flush" id="accordionFlush9">
+  <div class="accordion-item">
+    <div class="accordion-header" id="flush-heading9">
+        <a href="ndvi.html">8. NDVI Analysis</a>
     </div>
 <!--/div.accordion-header-->
 
@@ -416,6 +440,32 @@ within) changes the answer; report it</li>
 weighting</li>
 <li>Sum counts, never rates or medians; processing results are temporary
 until you make them permanent</li>
+</ul></section><section id="raster-python"><h2 class="section-heading"><a href="raster-python.html">Raster Analysis in Python</a></h2>
+<hr class="half-width">
+<ul>
+<li>Map algebra works cell by cell on rasters that share CRS, cell size
+and extent; resample categories with nearest neighbor</li>
+<li>Comparisons make Boolean rasters, lookup tables reclassify codes,
+and <code>&amp;</code> combines conditions</li>
+<li>Zonal statistics summarize cells inside polygons: means for
+measurements, class counts for categories</li>
+<li>Cell counts times cell area give areas, in a CRS measured in
+meters</li>
+<li>Dasymetric estimation uses land cover to place people; compare it
+with areal weighting</li>
+</ul></section><section id="raster-qgis"><h2 class="section-heading"><a href="raster-qgis.html">Raster Analysis in QGIS</a></h2>
+<hr class="half-width">
+<ul>
+<li>Rasters combined cell by cell must share CRS, cell size and extent;
+resample categories with nearest neighbor</li>
+<li>The Raster Calculator makes comparisons and combines conditions
+(<code>AND</code>, <code>OR</code>); results are 1 and 0</li>
+<li>Reclassify by table groups codes; set the range boundaries to
+<code>min &lt;= value &lt;= max</code> for whole-number codes</li>
+<li>Zonal statistics summarize measurements per polygon; Zonal histogram
+counts categories per polygon</li>
+<li>Check results with the unique values report: cells times 900 m²
+gives areas</li>
 </ul></section><section id="networkanalysis"><h2 class="section-heading"><a href="networkanalysis.html">Network Analysis</a></h2>
 <hr class="half-width">
 <ul>
@@ -529,7 +579,7 @@ pixels mix, and clouds and seasons change the values</li>
   "inLanguage": "en",
   "dct:conformsTo": "https://bioschemas.org/profiles/LearningResource/1.0-RELEASE",
   "description": "A Carpentries Lesson teaching foundational data and coding skills to researchers worldwide",
-  "keywords": "GIS, Python, QGIS, spatial analysis, geoprocessing, buffer, overlay, network analysis, PySAL, clustering, NDVI, social science",
+  "keywords": "GIS, Python, QGIS, spatial analysis, geoprocessing, buffer, overlay, raster analysis, zonal statistics, network analysis, PySAL, clustering, NDVI, social science",
   "name": "Key Points",
   "creativeWorkStatus": "active",
   "url": "https://SpatialTurn.github.io/DataAnalysis/key-points.html",

@@ -123,7 +123,7 @@
     <a id="search-button-nav" class="btn btn-primary" href="aio.html" role="button" aria-label="Search the All In One page">Search the All In One page</a>
   </div><!--/div.container-fluid -->
 </nav><aside class="col-md-12 lesson-progress"><div class="progress incubator">
-    <div class="progress-bar incubator" role="progressbar" style="width: 84%" aria-valuenow="84" aria-valuemin="0" aria-valuemax="100" aria-label="Lesson Progress">84%</div>
+    <div class="progress-bar incubator" role="progressbar" style="width: 88%" aria-valuenow="88" aria-valuemin="0" aria-valuemax="100" aria-label="Lesson Progress">88%</div>
   </div>
 </aside><div class="container">
       <div class="row">
@@ -226,7 +226,7 @@
 <div class="accordion accordion-flush" id="accordionFlush4">
   <div class="accordion-item">
     <div class="accordion-header" id="flush-heading4">
-        <a href="networkanalysis.html">3. Network Analysis</a>
+        <a href="raster-python.html">3. Raster Analysis in Python</a>
     </div><!--/div.accordion-header-->
 
   </div><!--/div.accordion-item-->
@@ -235,7 +235,7 @@
 <div class="accordion accordion-flush" id="accordionFlush5">
   <div class="accordion-item">
     <div class="accordion-header" id="flush-heading5">
-        <a href="pysal.html">4. Spatial Autocorrelation with PySAL</a>
+        <a href="raster-qgis.html">4. Raster Analysis in QGIS</a>
     </div><!--/div.accordion-header-->
 
   </div><!--/div.accordion-item-->
@@ -244,7 +244,25 @@
 <div class="accordion accordion-flush" id="accordionFlush6">
   <div class="accordion-item">
     <div class="accordion-header" id="flush-heading6">
-        <a href="cluster.html">5. Spatial Clustering</a>
+        <a href="networkanalysis.html">5. Network Analysis</a>
+    </div><!--/div.accordion-header-->
+
+  </div><!--/div.accordion-item-->
+</div><!--/div.accordion-flush-->
+
+<div class="accordion accordion-flush" id="accordionFlush7">
+  <div class="accordion-item">
+    <div class="accordion-header" id="flush-heading7">
+        <a href="pysal.html">6. Spatial Autocorrelation with PySAL</a>
+    </div><!--/div.accordion-header-->
+
+  </div><!--/div.accordion-item-->
+</div><!--/div.accordion-flush-->
+
+<div class="accordion accordion-flush" id="accordionFlush8">
+  <div class="accordion-item">
+    <div class="accordion-header" id="flush-heading8">
+        <a href="cluster.html">7. Spatial Clustering</a>
     </div><!--/div.accordion-header-->
 
   </div><!--/div.accordion-item-->
@@ -256,7 +274,7 @@
       <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapsecurrent" aria-expanded="true" aria-controls="flush-collapsecurrent">
         <span class="visually-hidden">Current Chapter</span>
         <span class="current-chapter">
-        6. NDVI Analysis
+        8. NDVI Analysis
         </span>
       </button>
     </div><!--/div.accordion-header-->
@@ -567,7 +585,7 @@ so we need four colors.</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution1" aria-expanded="false" aria-controls="collapseSolution1">
   <h4 class="accordion-header" id="headingSolution1"> Show me the solution </h4>
 </button>
-<div id="collapseSolution1" class="accordion-collapse collapse" data-bs-parent="#accordionSolution1" aria-labelledby="headingSolution1">
+<div id="collapseSolution1" class="accordion-collapse collapse" aria-labelledby="headingSolution1" data-bs-parent="#accordionSolution1">
 <div class="accordion-body">
 <p>Four breaks make five classes, so you need five colors and
 <code>vmax=4</code>.</p>
@@ -603,7 +621,7 @@ result. What is the mean NDVI of land only?</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution2" aria-expanded="false" aria-controls="collapseSolution2">
   <h4 class="accordion-header" id="headingSolution2"> Show me the solution </h4>
 </button>
-<div id="collapseSolution2" class="accordion-collapse collapse" data-bs-parent="#accordionSolution2" aria-labelledby="headingSolution2">
+<div id="collapseSolution2" class="accordion-collapse collapse" aria-labelledby="headingSolution2" data-bs-parent="#accordionSolution2">
 <div class="accordion-body">
 <div class="codewrapper sourceCode" id="cb6">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -683,7 +701,7 @@ summarize the agreement in a confusion matrix.</li>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution3" aria-expanded="false" aria-controls="collapseSolution3">
   <h4 class="accordion-header" id="headingSolution3"> Show me the solution </h4>
 </button>
-<div id="collapseSolution3" class="accordion-collapse collapse" data-bs-parent="#accordionSolution3" aria-labelledby="headingSolution3">
+<div id="collapseSolution3" class="accordion-collapse collapse" aria-labelledby="headingSolution3" data-bs-parent="#accordionSolution3">
 <div class="accordion-body">
 <ol style="list-style-type: decimal"><li>(0.40 - 0.08) / (0.40 + 0.08) = 0.32 / 0.48 = <strong>0.67</strong>:
 dense, healthy vegetation</li>
@@ -812,7 +830,7 @@ Add reference-style links below as needed.
   "inLanguage": "en",
   "dct:conformsTo": "https://bioschemas.org/profiles/LearningResource/1.0-RELEASE",
   "description": "A Carpentries Lesson teaching foundational data and coding skills to researchers worldwide",
-  "keywords": "GIS, Python, QGIS, spatial analysis, geoprocessing, buffer, overlay, network analysis, PySAL, clustering, NDVI, social science",
+  "keywords": "GIS, Python, QGIS, spatial analysis, geoprocessing, buffer, overlay, raster analysis, zonal statistics, network analysis, PySAL, clustering, NDVI, social science",
   "name": "NDVI Analysis",
   "creativeWorkStatus": "active",
   "url": "https://SpatialTurn.github.io/DataAnalysis/ndvi.html",

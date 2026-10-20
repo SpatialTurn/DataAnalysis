@@ -227,7 +227,7 @@
 <div class="accordion accordion-flush" id="accordionFlush4">
   <div class="accordion-item">
     <div class="accordion-header" id="flush-heading4">
-        <a href="networkanalysis.html">3. Network Analysis</a>
+        <a href="raster-python.html">3. Raster Analysis in Python</a>
     </div><!--/div.accordion-header-->
 
   </div><!--/div.accordion-item-->
@@ -236,7 +236,7 @@
 <div class="accordion accordion-flush" id="accordionFlush5">
   <div class="accordion-item">
     <div class="accordion-header" id="flush-heading5">
-        <a href="pysal.html">4. Spatial Autocorrelation with PySAL</a>
+        <a href="raster-qgis.html">4. Raster Analysis in QGIS</a>
     </div><!--/div.accordion-header-->
 
   </div><!--/div.accordion-item-->
@@ -245,7 +245,7 @@
 <div class="accordion accordion-flush" id="accordionFlush6">
   <div class="accordion-item">
     <div class="accordion-header" id="flush-heading6">
-        <a href="cluster.html">5. Spatial Clustering</a>
+        <a href="networkanalysis.html">5. Network Analysis</a>
     </div><!--/div.accordion-header-->
 
   </div><!--/div.accordion-item-->
@@ -254,7 +254,25 @@
 <div class="accordion accordion-flush" id="accordionFlush7">
   <div class="accordion-item">
     <div class="accordion-header" id="flush-heading7">
-        <a href="ndvi.html">6. NDVI Analysis</a>
+        <a href="pysal.html">6. Spatial Autocorrelation with PySAL</a>
+    </div><!--/div.accordion-header-->
+
+  </div><!--/div.accordion-item-->
+</div><!--/div.accordion-flush-->
+
+<div class="accordion accordion-flush" id="accordionFlush8">
+  <div class="accordion-item">
+    <div class="accordion-header" id="flush-heading8">
+        <a href="cluster.html">7. Spatial Clustering</a>
+    </div><!--/div.accordion-header-->
+
+  </div><!--/div.accordion-item-->
+</div><!--/div.accordion-flush-->
+
+<div class="accordion accordion-flush" id="accordionFlush9">
+  <div class="accordion-item">
+    <div class="accordion-header" id="flush-heading9">
+        <a href="ndvi.html">8. NDVI Analysis</a>
     </div><!--/div.accordion-header-->
 
   </div><!--/div.accordion-item-->
@@ -329,10 +347,10 @@
 written for social scientists and other beginners, and it climbs from
 everyday operations to advanced methods.</p>
 <ul><li>The first episodes (<strong>intermediate</strong>) teach the
-everyday operations, buffers, overlays and distances, twice: once in
-<strong>QGIS</strong> (point and click) and once in
-<strong>Python</strong> (Google Colab), with the same data and the same
-results. Follow either one, or both.</li>
+everyday operations, buffers, overlays, distances, map algebra and zonal
+statistics, twice: once in <strong>QGIS</strong> (point and click) and
+once in <strong>Python</strong> (Google Colab), with the same data and
+the same results. Follow either one, or both.</li>
 <li>The later episodes (<strong>advanced</strong>) are Python only. Each
 explains one method on this site, then links to three short Colab
 notebooks (Beginner, Intermediate and Advanced), each about 20 to 30
@@ -344,6 +362,11 @@ minutes.</li>
 <td>What lies within a distance, inside a boundary, or nearest?</td>
 <td>
 <code>geopandas</code> / QGIS Vector menu</td>
+</tr><tr><td>Raster Analysis in Python / in QGIS</td>
+<td>How do rasters combine, and what do they say about each tract?</td>
+<td>
+<code>rasterio</code>, <code>rasterstats</code> / Raster Calculator,
+Zonal statistics</td>
 </tr><tr><td>Network Analysis</td>
 <td>How far is it by road, and how long does it take?</td>
 <td>
@@ -365,10 +388,10 @@ minutes.</li>
 <code>rasterio</code>, <code>numpy</code>,
 <code>scikit-learn</code>
 </td>
-</tr></tbody></table><p>Start with Geoprocessing. The advanced episodes can then be taken in
-any order, though Spatial Clustering builds lightly on ideas from PySAL.
-Geocoding (turning addresses into points and downloading OpenStreetMap
-features) is taught in the <a href="https://spatialturn.github.io/DataCollection/geocoding.html" class="external-link">Data
+</tr></tbody></table><p>Start with Geoprocessing, then Raster Analysis. The advanced episodes
+can then be taken in any order, though Spatial Clustering builds lightly
+on ideas from PySAL. Geocoding (turning addresses into points and
+downloading OpenStreetMap features) is taught in the <a href="https://spatialturn.github.io/DataCollection/geocoding.html" class="external-link">Data
 Collection module</a> and is good preparation for Network Analysis.</p>
 <div id="prerequisites" class="callout prereq">
 <div class="callout-square">
@@ -428,7 +451,29 @@ cuts across census tracts?<br>Where are these tools in QGIS?
 <span class="visually-hidden">Duration: </span>03h 05m
 </td>
 <td>
- 3. <a href="networkanalysis.html">Network Analysis</a>
+ 3. <a href="raster-python.html">Raster Analysis in Python</a>
+</td>
+<td>
+How do I combine and reclassify rasters cell by cell?<br>How do I
+summarize a raster inside polygons such as census tracts?<br>How can
+land cover improve population estimates?
+</td>
+</tr><tr><td>
+<span class="visually-hidden">Duration: </span>04h 30m
+</td>
+<td>
+ 4. <a href="raster-qgis.html">Raster Analysis in QGIS</a>
+</td>
+<td>
+How do I combine and reclassify rasters cell by cell?<br>How do I
+summarize a raster inside polygons such as census tracts?<br>How can
+land cover improve population estimates?
+</td>
+</tr><tr><td>
+<span class="visually-hidden">Duration: </span>06h 00m
+</td>
+<td>
+ 5. <a href="networkanalysis.html">Network Analysis</a>
 </td>
 <td>
 How can a road map be represented as a graph?<br>How do we download and
@@ -437,10 +482,10 @@ shortest route and measure travel time?<br>How do routes turn into
 measures of access, and what can go wrong?
 </td>
 </tr><tr><td>
-<span class="visually-hidden">Duration: </span>04h 30m
+<span class="visually-hidden">Duration: </span>07h 25m
 </td>
 <td>
- 4. <a href="pysal.html">Spatial Autocorrelation with PySAL</a>
+ 6. <a href="pysal.html">Spatial Autocorrelation with PySAL</a>
 </td>
 <td>
 What does it mean for data to be spatially autocorrelated?<br>How do we
@@ -449,10 +494,10 @@ Local Moran’s I measure and locate clustering?<br>What choices and
 pitfalls affect the results?
 </td>
 </tr><tr><td>
-<span class="visually-hidden">Duration: </span>05h 55m
+<span class="visually-hidden">Duration: </span>08h 50m
 </td>
 <td>
- 5. <a href="cluster.html">Spatial Clustering</a>
+ 7. <a href="cluster.html">Spatial Clustering</a>
 </td>
 <td>
 What is spatial clustering and when is it useful?<br>Why must
@@ -461,10 +506,10 @@ hierarchical clustering, DBSCAN and HDBSCAN differ?<br>When is a
 cluster of points really a hotspot?
 </td>
 </tr><tr><td>
-<span class="visually-hidden">Duration: </span>07h 20m
+<span class="visually-hidden">Duration: </span>10h 15m
 </td>
 <td>
- 6. <a href="ndvi.html">NDVI Analysis</a>
+ 8. <a href="ndvi.html">NDVI Analysis</a>
 </td>
 <td>
 What is NDVI and why is it useful?<br>How do we read Landsat bands and
@@ -473,7 +518,7 @@ groups?<br>What affects NDVI values, and how should they be
 interpreted?
 </td>
 </tr><tr><td>
-<span class="visually-hidden">Duration: </span>08h 45m
+<span class="visually-hidden">Duration: </span>11h 40m
 </td>
 <td>
 Finish
@@ -488,8 +533,8 @@ Add reference-style links below as needed.
       </p>
       </section><section id="setup"><p>The Python episodes run in <strong>Google Colab</strong>, a free
 online notebook service, so you do not need to install Python. The
-<strong>Geoprocessing in QGIS</strong> episode needs QGIS on your
-computer; follow the <a href="https://spatialturn.github.io/Foundations/index.html#part-2-install-qgis" class="external-link">Foundations
+<strong>Geoprocessing in QGIS</strong> and <strong>Raster Analysis in
+QGIS</strong> episodes need QGIS on your computer; follow the <a href="https://spatialturn.github.io/Foundations/index.html#part-2-install-qgis" class="external-link">Foundations
 setup</a> to install it.</p>
 <section><h2 class="section-heading" id="what-you-need">What you need<a class="anchor" aria-label="anchor" href="#what-you-need"></a></h2>
 <hr class="half-width"><ul><li>A Google account</li>
@@ -542,7 +587,12 @@ same way.</p>
 <table class="table"><colgroup><col width="33%"><col width="33%"><col width="33%"></colgroup><thead><tr><th>Episode</th>
 <th>Data</th>
 <th>Source</th>
-</tr></thead><tbody><tr><td>Geoprocessing (Python and QGIS)</td>
+</tr></thead><tbody><tr><td>Raster Analysis (Python and QGIS)</td>
+<td>Tippecanoe County elevation (USGS 3DEP, 30 m) and land cover (NLCD
+2021), with tracts and 2024 ACS estimates</td>
+<td>USGS; Multi-Resolution Land Characteristics Consortium; U.S. Census
+Bureau (pre-fetched)</td>
+</tr><tr><td>Geoprocessing (Python and QGIS)</td>
 <td>Lafayette food stores and city limits; Tippecanoe County tracts with
 2024 ACS estimates</td>
 <td>OpenStreetMap; U.S. Census Bureau (pre-fetched, no key needed)</td>
@@ -625,7 +675,7 @@ Add reference-style links below as needed.
   "inLanguage": "en",
   "dct:conformsTo": "https://bioschemas.org/profiles/LearningResource/1.0-RELEASE",
   "description": "A Carpentries Lesson teaching foundational data and coding skills to researchers worldwide",
-  "keywords": "GIS, Python, QGIS, spatial analysis, geoprocessing, buffer, overlay, network analysis, PySAL, clustering, NDVI, social science",
+  "keywords": "GIS, Python, QGIS, spatial analysis, geoprocessing, buffer, overlay, raster analysis, zonal statistics, network analysis, PySAL, clustering, NDVI, social science",
   "name": "GIS Data Analysis for Social Scientists",
   "creativeWorkStatus": "active",
   "url": "https://SpatialTurn.github.io/DataAnalysis/instructor/index.html",
