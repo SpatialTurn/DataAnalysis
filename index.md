@@ -5,7 +5,8 @@ site: sandpaper::sandpaper_site
 This module teaches the core methods of spatial analysis. It is written for social scientists and
 other beginners, and it climbs from everyday operations to advanced methods.
 
-- The first episodes (**intermediate**) teach the everyday operations, buffers, overlays and distances,
+- The first episodes (**intermediate**) teach the everyday operations, buffers, overlays, distances,
+  map algebra and zonal statistics,
   twice: once in **QGIS** (point and click) and once in **Python** (Google Colab), with the same data and
   the same results. Follow either one, or both.
 - The later episodes (**advanced**) are Python only. Each explains one method on this site, then links to
@@ -14,12 +15,13 @@ other beginners, and it climbs from everyday operations to advanced methods.
 | Episode | Question it answers | Tools |
 |---|---|---|
 | Geoprocessing in Python / in QGIS | What lies within a distance, inside a boundary, or nearest? | `geopandas` / QGIS Vector menu |
+| Raster Analysis in Python / in QGIS | How do rasters combine, and what do they say about each tract? | `rasterio`, `rasterstats` / Raster Calculator, Zonal statistics |
 | Network Analysis | How far is it by road, and how long does it take? | `osmnx`, `networkx` |
 | Spatial Autocorrelation with PySAL | Are similar values clustered, and where? | `libpysal`, `esda`, `splot` |
 | Spatial Clustering | Where do points concentrate into hotspots? | `scikit-learn`, `scipy` |
 | NDVI Analysis | How green is the landscape in a satellite image? | `rasterio`, `numpy`, `scikit-learn` |
 
-Start with Geoprocessing. The advanced episodes can then be taken in any order, though Spatial Clustering
+Start with Geoprocessing, then Raster Analysis. The advanced episodes can then be taken in any order, though Spatial Clustering
 builds lightly on ideas from PySAL.
 Geocoding (turning addresses into points and downloading OpenStreetMap features) is taught in the
 [Data Collection module](https://spatialturn.github.io/DataCollection/geocoding.html) and is good preparation for Network Analysis.
