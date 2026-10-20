@@ -193,7 +193,7 @@ easily can people reach the things they need?** Network analysis supports severa
 | **Service area (isochrone)** | Which streets or areas lie within 10 minutes of a facility? | Travel times outward from the facility (Challenge 2 is the start of one) |
 | **Origin-destination matrix** | What is the travel time between every origin and every destination? | Paths for every pair; the basis of the measures above and of gravity models |
 
-Notebook 1c builds a nearest facility measure for grocery stores.
+Notebook 3c builds a nearest facility measure for grocery stores.
 
 ## Getting on and off the network
 
@@ -280,6 +280,6 @@ positive, which is true for lengths and travel times.
 
 | Level | Notebook | What you will do |
 |---|---|---|
-| Beginner | <a href="https://colab.research.google.com/github/SpatialTurn/DataAnalysis/blob/main/notebooks/01a_Road_Networks_Basics.ipynb" target="_blank">1a. Road Networks: Nodes and Edges</a> | Download, plot, inspect and save a road network |
-| Intermediate | <a href="https://colab.research.google.com/github/SpatialTurn/DataAnalysis/blob/main/notebooks/01b_Shortest_Paths_and_Travel_Time.ipynb" target="_blank">1b. Shortest Paths and Travel Time</a> | Route between two points and map travel time across the city |
-| Advanced | <a href="https://colab.research.google.com/github/SpatialTurn/DataAnalysis/blob/main/notebooks/01c_Travel_Time_to_Stores.ipynb" target="_blank">1c. Travel Time to Grocery Stores</a> | Route from every OSM grocery store to the town center |
+| Beginner | <a href="https://colab.research.google.com/github/SpatialTurn/DataAnalysis/blob/main/notebooks/03a_Road_Networks_Basics.ipynb" target="_blank">3a. Road Networks: Nodes and Edges</a> | Download, plot, inspect and save a road network |
+| Intermediate | <a href="https://colab.research.google.com/github/SpatialTurn/DataAnalysis/blob/main/notebooks/03b_Shortest_Paths_and_Travel_Time.ipynb" target="_blank">3b. Shortest Paths and Travel Time</a> | Route between two points and map travel time across the city |
+| Advanced | <a href="https://colab.research.google.com/github/SpatialTurn/DataAnalysis/blob/main/notebooks/03c_Travel_Time_to_Stores.ipynb" target="_blank">3c. Travel Time to Grocery Stores</a> | Route from every OSM grocery store to the town center |

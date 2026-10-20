@@ -100,7 +100,7 @@ robbery["dbscan"] = db.labels_                       # -1 means noise
 ```
 
 A point with at least `min_samples` neighbors within `eps` meters is a core point; nearby core
-points form a cluster. Choose `eps` with a k-distance plot (see notebook 3b).
+points form a cluster. Choose `eps` with a k-distance plot (see notebook 5b).
 
 ## 3. HDBSCAN: no radius needed
 
@@ -302,6 +302,6 @@ This total is the **inertia** used in the elbow plot.
 
 | Level | Notebook | What you will do |
 |---|---|---|
-| Beginner | <a href="https://colab.research.google.com/github/SpatialTurn/DataAnalysis/blob/main/notebooks/03a_Exploring_Crime_Points.ipynb" target="_blank">3a. Exploring Crime Points</a> | Summarize Chicago crimes and turn them into points in meters |
-| Intermediate | <a href="https://colab.research.google.com/github/SpatialTurn/DataAnalysis/blob/main/notebooks/03b_DBSCAN_and_HDBSCAN.ipynb" target="_blank">3b. DBSCAN and HDBSCAN</a> | Choose `eps`, find robbery hotspots and compare with HDBSCAN |
-| Advanced | <a href="https://colab.research.google.com/github/SpatialTurn/DataAnalysis/blob/main/notebooks/03c_KMeans_and_Comparing_Methods.ipynb" target="_blank">3c. K-Means and Comparing Methods</a> | Use the elbow method, a dendrogram and a side by side comparison |
+| Beginner | <a href="https://colab.research.google.com/github/SpatialTurn/DataAnalysis/blob/main/notebooks/05a_Exploring_Crime_Points.ipynb" target="_blank">5a. Exploring Crime Points</a> | Summarize Chicago crimes and turn them into points in meters |
+| Intermediate | <a href="https://colab.research.google.com/github/SpatialTurn/DataAnalysis/blob/main/notebooks/05b_DBSCAN_and_HDBSCAN.ipynb" target="_blank">5b. DBSCAN and HDBSCAN</a> | Choose `eps`, find robbery hotspots and compare with HDBSCAN |
+| Advanced | <a href="https://colab.research.google.com/github/SpatialTurn/DataAnalysis/blob/main/notebooks/05c_KMeans_and_Comparing_Methods.ipynb" target="_blank">5c. K-Means and Comparing Methods</a> | Use the elbow method, a dendrogram and a side by side comparison |
