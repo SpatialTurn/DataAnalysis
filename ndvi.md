@@ -225,7 +225,7 @@ differences of a few hundredths are within the noise; look for large, coherent c
 
 ## From thresholds to classification
 
-Thresholding NDVI (Section 4) is the simplest way to classify land cover. Notebook 4c goes further:
+Thresholding NDVI (Section 4) is the simplest way to classify land cover. Notebook 6c goes further:
 
 - **Unsupervised classification** (K-Means) groups pixels with similar values across several bands; you
   name the groups afterwards.
@@ -286,6 +286,6 @@ toward +1. Water reflects more red than NIR, so its NDVI is negative.
 
 | Level | Notebook | What you will do |
 |---|---|---|
-| Beginner | <a href="https://colab.research.google.com/github/SpatialTurn/DataAnalysis/blob/main/notebooks/04a_Computing_NDVI.ipynb" target="_blank">4a. Computing NDVI from Landsat</a> | Read bands, convert to reflectance, map NDVI and save a GeoTIFF |
-| Intermediate | <a href="https://colab.research.google.com/github/SpatialTurn/DataAnalysis/blob/main/notebooks/04b_Classifying_NDVI.ipynb" target="_blank">4b. Classifying NDVI</a> | Group NDVI into classes, map them and measure area per class |
-| Advanced | <a href="https://colab.research.google.com/github/SpatialTurn/DataAnalysis/blob/main/notebooks/04c_Image_Classification_Advanced.ipynb" target="_blank">4c. Image Classification with Machine Learning</a> | True color image, K-Means and Random Forest classification |
+| Beginner | <a href="https://colab.research.google.com/github/SpatialTurn/DataAnalysis/blob/main/notebooks/06a_Computing_NDVI.ipynb" target="_blank">6a. Computing NDVI from Landsat</a> | Read bands, convert to reflectance, map NDVI and save a GeoTIFF |
+| Intermediate | <a href="https://colab.research.google.com/github/SpatialTurn/DataAnalysis/blob/main/notebooks/06b_Classifying_NDVI.ipynb" target="_blank">6b. Classifying NDVI</a> | Group NDVI into classes, map them and measure area per class |
+| Advanced | <a href="https://colab.research.google.com/github/SpatialTurn/DataAnalysis/blob/main/notebooks/06c_Image_Classification_Advanced.ipynb" target="_blank">6c. Image Classification with Machine Learning</a> | True color image, K-Means and Random Forest classification |

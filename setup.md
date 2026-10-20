@@ -2,8 +2,9 @@
 title: Setup
 ---
 
-Everything in this module runs in **Google Colab**, a free online notebook service. You do not need
-to install Python or any GIS software on your computer.
+The Python episodes run in **Google Colab**, a free online notebook service, so you do not need to install
+Python. The **Geoprocessing in QGIS** episode needs QGIS on your computer; follow the
+[Foundations setup](https://spatialturn.github.io/Foundations/index.html#part-2-install-qgis) to install it.
 
 ## What you need
 
@@ -44,6 +45,7 @@ You never need to download data. Every notebook reads its data straight from the
 
 | Episode | Data | Source |
 |---|---|---|
+| Geoprocessing (Python and QGIS) | Lafayette food stores and city limits; Tippecanoe County tracts with 2024 ACS estimates | OpenStreetMap; U.S. Census Bureau (pre-fetched, no key needed) |
 | Network Analysis | Road network of West Lafayette, Indiana | OpenStreetMap, through OSMnx |
 | PySAL | Indiana counties and Marion County tracts, ACS 2023 5-year estimates | U.S. Census Bureau API and cartographic boundary files |
 | Spatial Clustering | One year of Chicago crime reports (`CrimesChicago20220225.csv`) | Chicago Data Portal |
