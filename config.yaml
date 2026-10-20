@@ -24,7 +24,7 @@ title: 'GIS Data Analysis for Social Scientists'
 created: '2025-07-23'
 
 # Comma-separated list of keywords for the lesson
-keywords: 'GIS, Python, QGIS, spatial analysis, geoprocessing, buffer, overlay, raster analysis, zonal statistics, network analysis, PySAL, clustering, NDVI, social science'
+keywords: 'GIS, Python, spatial analysis, network analysis, OSMnx, spatial autocorrelation, PySAL, clustering, DBSCAN, NDVI, remote sensing, social science'
 
 # Life cycle stage of the lesson
 # possible values: pre-alpha, alpha, beta, stable
@@ -66,10 +66,6 @@ contact: 'ilindsay@purdue.edu'
 
 # Order of episodes in your lesson
 episodes: 
-- geoprocessing-python.md
-- geoprocessing-qgis.md
-- raster-python.md
-- raster-qgis.md
 - networkanalysis.md
 - pysal.md
 - cluster.md

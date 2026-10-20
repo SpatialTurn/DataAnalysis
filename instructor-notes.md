@@ -19,32 +19,6 @@ title: 'Instructor Notes'
 
 ## Episode by episode
 
-### Geoprocessing in Python and in QGIS
-
-- The two episodes share their theory sections and use the same data, so a mixed group can split by tool
-  after the theory and compare numbers at the end (17 supermarkets; tracts selected by intersect / within /
-  centroid: 35 / 6 / 24; about 114,000 city residents by areal weighting, about 77,500 or 68% within 1 mile).
-- The commonest failure is buffering a layer still in EPSG:4326. In QGIS the Buffer dialog then shows
-  "degrees" and a warning sign; in Python GeoPandas prints a geographic CRS warning. Show both on purpose.
-- QGIS: processing results are temporary layers. Learners who close QGIS lose them; remind them to use
-  **Make Permanent** or save outputs to a GeoPackage if the session has a break.
-- QGIS Buffer defaults to 5 segments; the episode uses 16 to match GeoPandas. With 5, sums differ by well
-  under 1%.
-- Challenge 3 (areal weighting on the Purdue tract) works well as a pair discussion and sets up the Raster
-  Analysis episode (land cover as ancillary data).
-
-### Raster Analysis in Python and in QGIS
-
-- Shared numbers: 86.9 km2 below 170 m; groups 10.8 / 196.8 / 167.1 / 904.0 / 23.4 km2; developed below 170 m
-  10.7 km2 (5%); tract 1 mean elevation 165.6 m; percent developed min 4.8% (tract 110), median 82%;
-  correlation with log density 0.89; dasymetric city population 122,098 vs 114,345 areal, share within 1 mile
-  68.3% vs 67.8%.
-- QGIS Reclassify by table defaults to `min < value <= max`, which silently drops codes equal to the minimum
-  (11, 21, 31...). Make learners set `min <= value <= max` and check with the unique values report.
-- The Raster Calculator OK button stays gray until an output file is set (or on-the-fly is ticked).
-- Colab needs `pip install rasterstats` (in notebook 2b).
-- "Below 170 m" is a teaching stand-in, not a flood map; say so.
-
 ### Network Analysis
 
 - Draw a small graph (four intersections, five roads) before any code.

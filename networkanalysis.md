@@ -280,6 +280,6 @@ positive, which is true for lengths and travel times.
 
 | Level | Notebook | What you will do |
 |---|---|---|
-| Beginner | <a href="https://colab.research.google.com/github/SpatialTurn/DataAnalysis/blob/main/notebooks/03a_Road_Networks_Basics.ipynb" target="_blank">3a. Road Networks: Nodes and Edges</a> | Download, plot, inspect and save a road network |
-| Intermediate | <a href="https://colab.research.google.com/github/SpatialTurn/DataAnalysis/blob/main/notebooks/03b_Shortest_Paths_and_Travel_Time.ipynb" target="_blank">3b. Shortest Paths and Travel Time</a> | Route between two points and map travel time across the city |
-| Advanced | <a href="https://colab.research.google.com/github/SpatialTurn/DataAnalysis/blob/main/notebooks/03c_Travel_Time_to_Stores.ipynb" target="_blank">3c. Travel Time to Grocery Stores</a> | Route from every OSM grocery store to the town center |
+| Beginner | <a href="https://colab.research.google.com/github/SpatialTurn/DataAnalysis/blob/main/notebooks/01a_Road_Networks_Basics.ipynb" target="_blank">3a. Road Networks: Nodes and Edges</a> | Download, plot, inspect and save a road network |
+| Intermediate | <a href="https://colab.research.google.com/github/SpatialTurn/DataAnalysis/blob/main/notebooks/01b_Shortest_Paths_and_Travel_Time.ipynb" target="_blank">3b. Shortest Paths and Travel Time</a> | Route between two points and map travel time across the city |
+| Advanced | <a href="https://colab.research.google.com/github/SpatialTurn/DataAnalysis/blob/main/notebooks/01c_Travel_Time_to_Stores.ipynb" target="_blank">3c. Travel Time to Grocery Stores</a> | Route from every OSM grocery store to the town center |
