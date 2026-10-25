@@ -336,7 +336,7 @@
       </div>
     </nav><main id="main-content" class="main-content"><div class="container lesson-content">
         <h1>NDVI Analysis</h1>
-        <p>Last updated on 2026-10-20 |
+        <p>Last updated on 2026-10-25 |
 
         <a href="https://github.com/SpatialTurn/DataAnalysis/edit/main/episodes/ndvi.md" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
 
@@ -474,7 +474,7 @@ holds:</p>
 <button class="accordion-button instructor-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseInstructor1" aria-expanded="false" aria-controls="collapseInstructor1">
   <h3 class="accordion-header" id="headingInstructor1">  <div class="note-square"><i aria-hidden="true" class="callout-icon" data-feather="edit-2"></i></div> Instructor Note </h3>
 </button>
-<div id="collapseInstructor1" class="accordion-collapse collapse" aria-labelledby="headingInstructor1" data-bs-parent="#accordionInstructor1">
+<div id="collapseInstructor1" class="accordion-collapse collapse" data-bs-parent="#accordionInstructor1" aria-labelledby="headingInstructor1">
 <div class="accordion-body">
 <p>Pause after the formula and make sure learners know which band is
 which. Each band is about 90 MB and is read from GitHub into memory, so
@@ -565,7 +565,7 @@ so we need four colors.</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution1" aria-expanded="false" aria-controls="collapseSolution1">
   <h4 class="accordion-header" id="headingSolution1"> Show me the solution </h4>
 </button>
-<div id="collapseSolution1" class="accordion-collapse collapse" aria-labelledby="headingSolution1" data-bs-parent="#accordionSolution1">
+<div id="collapseSolution1" class="accordion-collapse collapse" data-bs-parent="#accordionSolution1" aria-labelledby="headingSolution1">
 <div class="accordion-body">
 <p>Four breaks make five classes, so you need five colors and
 <code>vmax=4</code>.</p>
@@ -601,7 +601,7 @@ result. What is the mean NDVI of land only?</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution2" aria-expanded="false" aria-controls="collapseSolution2">
   <h4 class="accordion-header" id="headingSolution2"> Show me the solution </h4>
 </button>
-<div id="collapseSolution2" class="accordion-collapse collapse" aria-labelledby="headingSolution2" data-bs-parent="#accordionSolution2">
+<div id="collapseSolution2" class="accordion-collapse collapse" data-bs-parent="#accordionSolution2" aria-labelledby="headingSolution2">
 <div class="accordion-body">
 <div class="codewrapper sourceCode" id="cb6">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -649,7 +649,7 @@ from the same or a cross-calibrated sensor. Small differences of a few
 hundredths are within the noise; look for large, coherent changes.</p>
 </section><section><h2 class="section-heading" id="from-thresholds-to-classification">From thresholds to classification<a class="anchor" aria-label="anchor" href="#from-thresholds-to-classification"></a></h2>
 <hr class="half-width"><p>Thresholding NDVI (Section 4) is the simplest way to classify land
-cover. Notebook 6c goes further:</p>
+cover. Notebook 4c goes further:</p>
 <ul><li>
 <strong>Unsupervised classification</strong> (K-Means) groups pixels
 with similar values across several bands; you name the groups
@@ -681,7 +681,7 @@ summarize the agreement in a confusion matrix.</li>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution3" aria-expanded="false" aria-controls="collapseSolution3">
   <h4 class="accordion-header" id="headingSolution3"> Show me the solution </h4>
 </button>
-<div id="collapseSolution3" class="accordion-collapse collapse" aria-labelledby="headingSolution3" data-bs-parent="#accordionSolution3">
+<div id="collapseSolution3" class="accordion-collapse collapse" data-bs-parent="#accordionSolution3" aria-labelledby="headingSolution3">
 <div class="accordion-body">
 <ol style="list-style-type: decimal"><li>(0.40 - 0.08) / (0.40 + 0.08) = 0.32 / 0.48 = <strong>0.67</strong>:
 dense, healthy vegetation</li>
@@ -742,15 +742,15 @@ pixels mix, and clouds and seasons change the values</li>
 <th>Notebook</th>
 <th>What you will do</th>
 </tr></thead><tbody><tr><td>Beginner</td>
-<td><a href="https://colab.research.google.com/github/SpatialTurn/DataAnalysis/blob/main/notebooks/04a_Computing_NDVI.ipynb" target="_blank" class="external-link">6a.
+<td><a href="https://colab.research.google.com/github/SpatialTurn/DataAnalysis/blob/main/notebooks/04a_Computing_NDVI.ipynb" target="_blank" class="external-link">4a.
 Computing NDVI from Landsat</a></td>
 <td>Read bands, convert to reflectance, map NDVI and save a GeoTIFF</td>
 </tr><tr><td>Intermediate</td>
-<td><a href="https://colab.research.google.com/github/SpatialTurn/DataAnalysis/blob/main/notebooks/04b_Classifying_NDVI.ipynb" target="_blank" class="external-link">6b.
+<td><a href="https://colab.research.google.com/github/SpatialTurn/DataAnalysis/blob/main/notebooks/04b_Classifying_NDVI.ipynb" target="_blank" class="external-link">4b.
 Classifying NDVI</a></td>
 <td>Group NDVI into classes, map them and measure area per class</td>
 </tr><tr><td>Advanced</td>
-<td><a href="https://colab.research.google.com/github/SpatialTurn/DataAnalysis/blob/main/notebooks/04c_Image_Classification_Advanced.ipynb" target="_blank" class="external-link">6c.
+<td><a href="https://colab.research.google.com/github/SpatialTurn/DataAnalysis/blob/main/notebooks/04c_Image_Classification_Advanced.ipynb" target="_blank" class="external-link">4c.
 Image Classification with Machine Learning</a></td>
 <td>True color image, K-Means and Random Forest classification</td>
 </tr></tbody></table><!--
@@ -816,8 +816,8 @@ Add reference-style links below as needed.
   "url": "https://SpatialTurn.github.io/DataAnalysis/instructor/ndvi.html",
   "identifier": "https://SpatialTurn.github.io/DataAnalysis/instructor/ndvi.html",
   "dateCreated": "2025-07-23",
-  "dateModified": "2026-10-20",
-  "datePublished": "2026-10-20"
+  "dateModified": "2026-10-25",
+  "datePublished": "2026-10-25"
 }
 
   </script><script>
